@@ -1,0 +1,1372 @@
+[
+  {
+    "proCateSlug": "lap_top",
+    "proName": "Laptop Asus Zenbook",
+    "proTag": "laptop, asus, zenbook",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "laptop-asus-zenbook",
+    "proPrice": 25000000,
+    "proSale": 10,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Laptop Asus Zenbook mỏng nhẹ, hiệu năng cao cho dân văn phòng.",
+    "proAttributes": [
+      {
+        "attrName": "CPU",
+        "items": [
+          {
+            "itemValue": "Intel i5",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Intel i7",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Ryzen 5",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "RAM",
+        "items": [
+          {
+            "itemValue": "8GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "16GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "32GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Bạc",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xám",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "lap_top",
+    "proName": "Laptop Dell Inspiron",
+    "proTag": "laptop, dell, inspiron",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "laptop-dell-inspiron",
+    "proPrice": 22000000,
+    "proSale": 5,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Laptop Dell Inspiron bền bỉ, phù hợp học sinh sinh viên.",
+    "proAttributes": [
+      {
+        "attrName": "CPU",
+        "items": [
+          {
+            "itemValue": "i3 Gen12",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "i5 Gen13",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Ryzen 7",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Ổ cứng",
+        "items": [
+          {
+            "itemValue": "256GB SSD",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "512GB SSD",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "1TB SSD",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Bạc",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Đen",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "lap_top",
+    "proName": "Laptop MacBook Air M2",
+    "proTag": "laptop, apple, macbook",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "laptop-macbook-air-m2",
+    "proPrice": 32000000,
+    "proSale": 0,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "MacBook Air M2 thiết kế sang trọng, hiệu năng mạnh mẽ với chip M2.",
+    "proAttributes": [
+      {
+        "attrName": "SSD",
+        "items": [
+          {
+            "itemValue": "256GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "512GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "1TB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "RAM",
+        "items": [
+          {
+            "itemValue": "8GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "16GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "24GB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Bạc",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xám",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Vàng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "thoi_trang_nam",
+    "proName": "Áo sơ mi nam tay dài",
+    "proTag": "áo sơ mi, nam, thời trang",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "ao-so-mi-nam-tay-dai",
+    "proPrice": 350000,
+    "proSale": 20,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Áo sơ mi nam thanh lịch, chất vải cotton thoáng mát.",
+    "proAttributes": [
+      {
+        "attrName": "Kích thước",
+        "items": [
+          {
+            "itemValue": "S",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "M",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "L",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Trắng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Đen",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Chất liệu",
+        "items": [
+          {
+            "itemValue": "Cotton",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Lụa",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Kaki",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "thoi_trang_nam",
+    "proName": "Quần jeans nam",
+    "proTag": "quần jeans, nam, denim",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "quan-jeans-nam",
+    "proPrice": 550000,
+    "proSale": 15,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Quần jeans nam co giãn, phù hợp phong cách năng động.",
+    "proAttributes": [
+      {
+        "attrName": "Size",
+        "items": [
+          {
+            "itemValue": "28",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "30",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "32",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Xanh đậm",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh nhạt",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Đen",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Kiểu dáng",
+        "items": [
+          {
+            "itemValue": "Slim Fit",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Regular Fit",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Skinny",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "thoi_trang_nam",
+    "proName": "Áo thun nam cotton",
+    "proTag": "áo thun, nam, cotton",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "ao-thun-nam-cotton",
+    "proPrice": 250000,
+    "proSale": 10,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Áo thun cotton thoáng mát, dễ phối đồ.",
+    "proAttributes": [
+      {
+        "attrName": "Kích thước",
+        "items": [
+          {
+            "itemValue": "S",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "M",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "L",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Trắng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Đen",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh navy",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Chất liệu",
+        "items": [
+          {
+            "itemValue": "Cotton 100%",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Cotton pha",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Polyester",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "do_gia_dung",
+    "proName": "Ấm siêu tốc Inox",
+    "proTag": "ấm siêu tốc, gia dụng",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "am-sieu-toc-inox",
+    "proPrice": 350000,
+    "proSale": 5,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Ấm siêu tốc Inox dung tích 1.8L, đun nước nhanh chóng.",
+    "proAttributes": [
+      {
+        "attrName": "Dung tích",
+        "items": [
+          {
+            "itemValue": "1.2L",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "1.5L",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "1.8L",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Công suất",
+        "items": [
+          {
+            "itemValue": "1500W",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "1800W",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "2000W",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Chất liệu",
+        "items": [
+          {
+            "itemValue": "Inox",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Thủy tinh",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Nhựa",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "do_gia_dung",
+    "proName": "Máy xay sinh tố mini",
+    "proTag": "máy xay, gia dụng, mini",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "may-xay-sinh-to-mini",
+    "proPrice": 420000,
+    "proSale": 8,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Máy xay sinh tố mini tiện lợi, dễ mang theo.",
+    "proAttributes": [
+      {
+        "attrName": "Dung tích",
+        "items": [
+          {
+            "itemValue": "300ml",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "500ml",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "700ml",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Trắng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Hồng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Nguồn điện",
+        "items": [
+          {
+            "itemValue": "Sạc USB",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Điện 220V",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Pin sạc",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  {
+    "proCateSlug": "do_gia_dung",
+    "proName": "Quạt điện để bàn",
+    "proTag": "quạt điện, gia dụng",
+    "storeId": "29c90ac7-34af-4116-8de2-4a18ebad81ba",
+    "sellerId": "40a925fa-dab6-43f3-b81b-d0a93e9a2346",
+    "proSlug": "quat-dien-de-ban",
+    "proPrice": 290000,
+    "proSale": 10,
+    "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+    "proDescription": "Quạt điện để bàn nhỏ gọn, hoạt động êm ái.",
+    "proAttributes": [
+      {
+        "attrName": "Công suất",
+        "items": [
+          {
+            "itemValue": "25W",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "35W",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "45W",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Kích thước",
+        "items": [
+          {
+            "itemValue": "20cm",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "25cm",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "30cm",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      },
+      {
+        "attrName": "Màu sắc",
+        "items": [
+          {
+            "itemValue": "Trắng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Xanh",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          },
+          {
+            "itemValue": "Hồng",
+            "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+          }
+        ]
+      }
+    ],
+    "proImgDetails": [
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      },
+      {
+        "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+      }
+    ]
+  },
+  [
+    {
+      "proCateSlug": "lap_top",
+      "proName": "Laptop Asus Zenbook",
+      "proTag": "laptop, asus, zenbook",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "laptop-asus-zenbook",
+      "proPrice": 25000000,
+      "proSale": 10,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Laptop Asus Zenbook mỏng nhẹ, hiệu năng cao cho dân văn phòng.",
+      "proAttributes": [
+        {
+          "attrName": "CPU",
+          "items": [
+            {
+              "itemValue": "Intel i5",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Intel i7",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Ryzen 5",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "RAM",
+          "items": [
+            {
+              "itemValue": "8GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "16GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "32GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Bạc",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xám",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "lap_top",
+      "proName": "Laptop Dell Inspiron",
+      "proTag": "laptop, dell, inspiron",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "laptop-dell-inspiron",
+      "proPrice": 22000000,
+      "proSale": 5,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Laptop Dell Inspiron bền bỉ, phù hợp học sinh sinh viên.",
+      "proAttributes": [
+        {
+          "attrName": "CPU",
+          "items": [
+            {
+              "itemValue": "i3 Gen12",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "i5 Gen13",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Ryzen 7",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Ổ cứng",
+          "items": [
+            {
+              "itemValue": "256GB SSD",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "512GB SSD",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "1TB SSD",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Bạc",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Đen",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "lap_top",
+      "proName": "Laptop MacBook Air M2",
+      "proTag": "laptop, apple, macbook",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "laptop-macbook-air-m2",
+      "proPrice": 32000000,
+      "proSale": 0,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "MacBook Air M2 thiết kế sang trọng, hiệu năng mạnh mẽ với chip M2.",
+      "proAttributes": [
+        {
+          "attrName": "SSD",
+          "items": [
+            {
+              "itemValue": "256GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "512GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "1TB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "RAM",
+          "items": [
+            {
+              "itemValue": "8GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "16GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "24GB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Bạc",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xám",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Vàng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "thoi_trang_nam",
+      "proName": "Áo sơ mi nam tay dài",
+      "proTag": "áo sơ mi, nam, thời trang",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "ao-so-mi-nam-tay-dai",
+      "proPrice": 350000,
+      "proSale": 20,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Áo sơ mi nam thanh lịch, chất vải cotton thoáng mát.",
+      "proAttributes": [
+        {
+          "attrName": "Kích thước",
+          "items": [
+            {
+              "itemValue": "S",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "M",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "L",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Trắng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Đen",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Chất liệu",
+          "items": [
+            {
+              "itemValue": "Cotton",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Lụa",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Kaki",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "thoi_trang_nam",
+      "proName": "Quần jeans nam",
+      "proTag": "quần jeans, nam, denim",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "quan-jeans-nam",
+      "proPrice": 550000,
+      "proSale": 15,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Quần jeans nam co giãn, phù hợp phong cách năng động.",
+      "proAttributes": [
+        {
+          "attrName": "Size",
+          "items": [
+            {
+              "itemValue": "28",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "30",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "32",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Xanh đậm",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh nhạt",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Đen",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Kiểu dáng",
+          "items": [
+            {
+              "itemValue": "Slim Fit",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Regular Fit",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Skinny",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "thoi_trang_nam",
+      "proName": "Áo thun nam cotton",
+      "proTag": "áo thun, nam, cotton",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "ao-thun-nam-cotton",
+      "proPrice": 250000,
+      "proSale": 10,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Áo thun cotton thoáng mát, dễ phối đồ.",
+      "proAttributes": [
+        {
+          "attrName": "Kích thước",
+          "items": [
+            {
+              "itemValue": "S",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "M",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "L",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Trắng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Đen",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh navy",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Chất liệu",
+          "items": [
+            {
+              "itemValue": "Cotton 100%",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Cotton pha",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Polyester",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "do_gia_dung",
+      "proName": "Ấm siêu tốc Inox",
+      "proTag": "ấm siêu tốc, gia dụng",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "am-sieu-toc-inox",
+      "proPrice": 350000,
+      "proSale": 5,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Ấm siêu tốc Inox dung tích 1.8L, đun nước nhanh chóng.",
+      "proAttributes": [
+        {
+          "attrName": "Dung tích",
+          "items": [
+            {
+              "itemValue": "1.2L",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "1.5L",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "1.8L",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Công suất",
+          "items": [
+            {
+              "itemValue": "1500W",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "1800W",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "2000W",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Chất liệu",
+          "items": [
+            {
+              "itemValue": "Inox",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Thủy tinh",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Nhựa",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "do_gia_dung",
+      "proName": "Máy xay sinh tố mini",
+      "proTag": "máy xay, gia dụng, mini",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "may-xay-sinh-to-mini",
+      "proPrice": 420000,
+      "proSale": 8,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Máy xay sinh tố mini tiện lợi, dễ mang theo.",
+      "proAttributes": [
+        {
+          "attrName": "Dung tích",
+          "items": [
+            {
+              "itemValue": "300ml",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "500ml",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "700ml",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Trắng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Hồng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Nguồn điện",
+          "items": [
+            {
+              "itemValue": "Sạc USB",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Điện 220V",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Pin sạc",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    },
+    {
+      "proCateSlug": "do_gia_dung",
+      "proName": "Quạt điện để bàn",
+      "proTag": "quạt điện, gia dụng",
+      "storeId": "ee154159-1510-4c75-8cfb-0f576dd0d657",
+      "sellerId": "85b470cd-609d-4d7e-b5d1-1c31787103bd",
+      "proSlug": "quat-dien-de-ban",
+      "proPrice": 290000,
+      "proSale": 10,
+      "proImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg",
+      "proDescription": "Quạt điện để bàn nhỏ gọn, hoạt động êm ái.",
+      "proAttributes": [
+        {
+          "attrName": "Công suất",
+          "items": [
+            {
+              "itemValue": "25W",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "35W",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "45W",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Kích thước",
+          "items": [
+            {
+              "itemValue": "20cm",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "25cm",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "30cm",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        },
+        {
+          "attrName": "Màu sắc",
+          "items": [
+            {
+              "itemValue": "Trắng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Xanh",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            },
+            {
+              "itemValue": "Hồng",
+              "itemImg": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+            }
+          ]
+        }
+      ],
+      "proImgDetails": [
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        },
+        {
+          "imgUrl": "https://limelightmarketing.com/wp-content/uploads/2024/06/guide-paid-media-limelight-marketing-scaled.jpeg"
+        }
+      ]
+    }
+  ]
+]

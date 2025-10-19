@@ -1,0 +1,20 @@
+# Ignore node_modules and build folders everywhere
+**/node_modules/
+**/dist/
+**/.next/
+**/.nuxt/
+**/build/
+
+# Ignore environment files
+**/.env
+**/.env.*
+
+# Logs
+**/npm-debug.log*
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE configs
+.vscode/
+.idea/

@@ -1,0 +1,5 @@
+.product_img_custom {
+    inline-size: 100%;
+    block-size: 250px;
+    object-fit: cover;
+}
