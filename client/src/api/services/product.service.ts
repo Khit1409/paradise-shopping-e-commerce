@@ -34,7 +34,8 @@ export async function getHomeProductService({
   const res = await axios.get(
     `${PRODUCT_API_URL}/get_home_product?page=${page}`
   );
-  return res.data as Product[];
+  const api: Product[] = res.data.api;
+  return api;
 }
 
 /**
@@ -56,7 +57,9 @@ export async function getProductShopService(
   const res = await axios.get(
     `${PRODUCT_API_URL}/get_product_shop?${params.toString()}`
   );
-  return res.data as ProductShopPage[];
+
+  const api: ProductShopPage[] = res.data.api;
+  return api;
 }
 
 /**
@@ -70,5 +73,6 @@ export async function getSingleProductService(
 ): Promise<SingelProductDataResponse> {
   const param = query.id ? `id=${query.id}` : `slug=${query.slug}`;
   const res = await axios.get(`${PRODUCT_API_URL}/get_single_product?${param}`);
-  return res.data as SingelProductDataResponse;
+  const api: SingelProductDataResponse = res.data.api;
+  return api;
 }

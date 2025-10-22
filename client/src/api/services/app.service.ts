@@ -19,7 +19,7 @@ export async function getNavigationService(): Promise<NavigationDataType[]> {
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/app/navigation`
   );
-  const api: NavigationDataType[] = res.data;
+  const api: NavigationDataType[] = res.data.api;
   return api;
 }
 /**

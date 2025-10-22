@@ -12,7 +12,13 @@ import { useSelector } from "react-redux";
  * @returns
  */
 export default function NavigationBar() {
+  /**
+   * 
+   */
   const { nav } = useSelector((state: RootState) => state.app);
+  /**
+   * 
+   */
   return (
     <div className="mt-0 bg-gray-700 text-white lg:block hidden">
       <div className="p-2 flex gap-5 w-full justify-center">

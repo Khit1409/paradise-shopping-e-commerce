@@ -15,7 +15,7 @@ import {
 } from "./dto/product.dto";
 
 /**
- * Remember** lean()
+ * Remember** lean<Type>()
  */
 
 import { createSlug } from "src/feature/feature";
@@ -23,6 +23,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { StoreEntity } from "src/store/entity/store.entity";
 import { Repository } from "typeorm";
 import { UserEntity } from "src/users/entity/user.entity";
+import {
+  ProductHomeDataType,
+  ProductHomePageResponse,
+  ProductPreviewDataType,
+  ProductShopPageResponse,
+  SingleProductDataType,
+  SingleProductResponse,
+} from "src/interfaces/response.interface";
 
 @Injectable()
 export class ProductsService {
@@ -34,7 +42,7 @@ export class ProductsService {
     @InjectRepository(StoreEntity)
     private readonly storeRepo: Repository<StoreEntity>,
     @InjectRepository(UserEntity)
-    private readonly userRepo: Repository<UserEntity>,
+    private readonly userRepo: Repository<UserEntity>
   ) {}
   /**
    * Get product for home page
@@ -42,28 +50,31 @@ export class ProductsService {
    * @param dto
    * @returns
    */
-  async getHomeProductService(dto: { page: number }) {
+  async getHomeProductService(dto: {
+    page: number;
+  }): Promise<ProductHomePageResponse> {
     try {
       const api = await this.productModel
         .find()
         .select("proName proPrice proSlug proCateSlug proImg")
         .limit(50)
         .skip(
-          Number(dto.page) * 50 - 50, //page * limit - limit
+          Number(dto.page) * 50 - 50 //page * limit - limit
         )
-        //chuyển sang js object
-        .lean();
-      return api;
+        .lean<ProductHomeDataType[]>();
+      return { resultCode: 1, api, message: "successfull", statusCode: 200 };
     } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
+      return { resultCode: 0, api: [], message: `${error}`, statusCode: 500 };
     }
   }
   /**
-   * get product with query category
+   * get product for shop page
    * @param dto
    * @returns
    */
-  async getProductShopService(dto: GetProductDto) {
+  async getProductShopService(
+    dto: GetProductDto
+  ): Promise<ProductShopPageResponse> {
     try {
       const storeQuery: { storeAreaSlug?: string } = {};
 
@@ -75,7 +86,7 @@ export class ProductsService {
       if (dto.cate_slug) proQuery.proCateSlug = dto.cate_slug;
       const store = await this.storeRepo.find({ where: storeQuery });
 
-      const api = await Promise.all(
+      const data = await Promise.all(
         store.map(async (s) => {
           const pro = await this.productModel
             .find({
@@ -88,18 +99,18 @@ export class ProductsService {
                 ? { $lte: Number(dto.pro_sale) }
                 : { $gte: 0 },
             })
-            .lean();
+            .lean<ProductPreviewDataType[]>();
           return {
             storeId: s.storeId,
             storeName: s.storeName,
             storeArea: s.storeArea,
             products: pro,
           };
-        }),
+        })
       );
-      return api;
+      return { message: "Got!", api: data, resultCode: 1, statusCode: 200 };
     } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
+      return { message: `${error}`, api: [], resultCode: 0, statusCode: 500 };
     }
   }
   /**
@@ -109,17 +120,21 @@ export class ProductsService {
   /**
    * get single products
    */
-  async getSingleProductService(dto: getSingleProductDto) {
+  async getSingleProductService(
+    dto: getSingleProductDto
+  ): Promise<SingleProductResponse> {
     try {
       if (!dto.id && !dto.slug) {
         throw new BadRequestException(`Vui lòng truyền tham số query`);
       }
-      const product = await this.productModel.findOne({
-        ...(dto &&
-          (dto.id
-            ? { _id: new mongoose.Types.ObjectId(dto.id) }
-            : { proSlug: dto.slug })),
-      });
+      const product = await this.productModel
+        .findOne({
+          ...(dto &&
+            (dto.id
+              ? { _id: new mongoose.Types.ObjectId(dto.id) }
+              : { proSlug: dto.slug })),
+        })
+        .lean<SingleProductDataType>();
       if (!product) {
         throw new BadRequestException("Product not define!");
       }
@@ -127,10 +142,15 @@ export class ProductsService {
         .find({ _id: { $ne: product._id }, proCateSlug: product.proCateSlug })
         .select("proName proPrice proSlug proCateSlug proImg")
         .limit(12) // loại luôn product hiện tại
-        .lean();
+        .lean<ProductPreviewDataType[]>();
       return {
-        product: product,
-        related: relatedProduct,
+        message: "successfull!",
+        resultCode: 1,
+        statusCode: 200,
+        api: {
+          product: product,
+          related: relatedProduct,
+        },
       };
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
@@ -143,7 +163,7 @@ export class ProductsService {
   async updateSingleProductService(
     dto: UpdateSingleProductDto,
     storeId: string,
-    sellerId: string,
+    sellerId: string
   ) {
     try {
       if (!storeId || !dto.product_id) {
@@ -163,7 +183,7 @@ export class ProductsService {
 
       if (!foundProduct) {
         throw new BadRequestException(
-          "Product with this id not found in this store!",
+          "Product with this id not found in this store!"
         );
       }
 
@@ -199,7 +219,7 @@ export class ProductsService {
                   if (isValidObjectId(item._id)) {
                     const existingItem =
                       existingAttr.items.find(
-                        (f) => f._id.toString() === item._id.toString(),
+                        (f) => f._id.toString() === item._id.toString()
                       ) ?? existingAttr.items[indexOfItem];
 
                     if (existingItem && item.itemValue) {
@@ -251,7 +271,7 @@ export class ProductsService {
         dto.imgDetail.forEach((img) => {
           if (isValidObjectId(img._id)) {
             const thisImg = oldImgDetails.find(
-              (fImg) => fImg._id.toString() === img._id?.toString(),
+              (fImg) => fImg._id.toString() === img._id?.toString()
             );
             if (thisImg) {
               thisImg.imgUrl = img.imgUrl ?? "";
@@ -281,7 +301,7 @@ export class ProductsService {
    */
   async deleteActionSingleProductService(
     dto: DeleteActionSingleProductDto,
-    sellerId: string,
+    sellerId: string
   ) {
     try {
       const proId = new mongoose.Types.ObjectId(dto.proId);
@@ -303,7 +323,7 @@ export class ProductsService {
             throw new Error("attribute not existed this id!");
           }
           const updatedProductAttribute = thisProduct.proAttributes.filter(
-            (ft) => !ft._id.equals(attributeId),
+            (ft) => !ft._id.equals(attributeId)
           );
           thisProduct.proAttributes = updatedProductAttribute;
         });
@@ -312,13 +332,13 @@ export class ProductsService {
       if (dto.attributeItem) {
         dto.attributeItem.forEach((attrItem) => {
           const thisParent = thisProduct.proAttributes.find((f) =>
-            f._id.equals(new mongoose.Types.ObjectId(attrItem.attrId)),
+            f._id.equals(new mongoose.Types.ObjectId(attrItem.attrId))
           );
           if (!thisParent) {
             throw new Error("Not found this attribute!");
           }
           const updatedItem = thisParent.items.filter(
-            (fti) => !fti._id.equals(new mongoose.Types.ObjectId(attrItem._id)),
+            (fti) => !fti._id.equals(new mongoose.Types.ObjectId(attrItem._id))
           );
           thisParent.items = updatedItem;
         });
@@ -327,7 +347,7 @@ export class ProductsService {
       if (dto.imgDetail) {
         dto.imgDetail.forEach((img) => {
           const thisImgDetail = thisProduct.proImgDetails.filter(
-            (f) => !f._id.equals(new mongoose.Types.ObjectId(img._id)),
+            (f) => !f._id.equals(new mongoose.Types.ObjectId(img._id))
           );
           if (!thisImgDetail) {
             throw new Error("Not found this img detail");
@@ -366,7 +386,7 @@ export class ProductsService {
       }[];
     }[],
     sellerId: string,
-    storeId: string,
+    storeId: string
   ) {
     for (const d of data) {
       await this.productModel.create({

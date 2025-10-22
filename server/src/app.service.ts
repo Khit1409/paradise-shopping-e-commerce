@@ -4,11 +4,15 @@ import {
   OnModuleInit,
 } from "@nestjs/common";
 import { DataSource } from "typeorm";
-import mongoose, { Connection, Model } from "mongoose";
+import { Connection, Model } from "mongoose";
 import { InjectConnection, InjectModel } from "@nestjs/mongoose";
 import { NavigationDoc } from "./app.model";
 import { createNavigationDto } from "./appDto/app.dto";
 import { createUrlNav } from "./feature/feature";
+import {
+  NavigationDataType,
+  NavigationReponse,
+} from "./interfaces/response.interface";
 
 @Injectable()
 export class ServerLoaded implements OnModuleInit {
@@ -16,7 +20,7 @@ export class ServerLoaded implements OnModuleInit {
     private dataSource: DataSource,
     @InjectModel("navigations")
     private readonly navigationModel: Model<NavigationDoc>,
-    @InjectConnection() private readonly mongooseConnection: Connection, // inject Mongoose connection
+    @InjectConnection() private readonly mongooseConnection: Connection // inject Mongoose connection
   ) {}
 
   onModuleInit() {
@@ -36,23 +40,23 @@ export class ServerLoaded implements OnModuleInit {
   }
 
   //navigation
-  async getNavigtionService() {
+  async getNavigtionService(): Promise<NavigationReponse> {
     try {
-      const nav: {
-        _id: mongoose.Types.ObjectId | string;
-        navIcon: string;
-        navName: string;
-        navUrl: string;
-      }[] = await this.navigationModel
+      const nav = await this.navigationModel
         .find()
         .select("_id navIcon navName navUrl")
-        .lean();
+        .lean<NavigationDataType[]>();
       if (nav.length == 0) {
-        return { message: "navigation []", nav: [] };
+        return {
+          message: "navigation []",
+          nav: [],
+          resultCode: 0,
+          statusCode: 401,
+        };
       }
-      return nav;
+      return { message: "successfull", nav, resultCode: 1, statusCode: 200 };
     } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
+      return { message: `${error}`, nav: [], resultCode: 0, statusCode: 500 };
     }
   }
   //create navigation
@@ -66,7 +70,7 @@ export class ServerLoaded implements OnModuleInit {
         });
         if (!newNav) {
           throw new InternalServerErrorException(
-            "error when create navigation",
+            "error when create navigation"
           );
         }
       }

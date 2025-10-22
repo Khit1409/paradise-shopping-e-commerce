@@ -14,11 +14,12 @@ import {
 import { updateUserAccount } from "@/api/services/auth.service";
 import UserUpdateBasicInput from "../form/UserUpdateBasicInput";
 import UserUpdateContact from "../form/UserUpdateContact";
-import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
-import { useRouter } from "next/navigation";
-
+/**
+ * 
+ * @returns 
+ */
 export default function UserUpdateAccountPage() {
-  const router = useRouter();
+
   /**
    * Props state
    */

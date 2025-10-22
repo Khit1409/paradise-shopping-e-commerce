@@ -10,6 +10,7 @@ import {
   Post,
   Query,
   Req,
+  Res,
 } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import {
@@ -22,19 +23,23 @@ import mongoose, { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { Product } from "./models/product.model";
 import { UsersService } from "src/users/users.service";
+import type { Response } from "express";
 
 @Controller("products")
 export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,
     private readonly userService: UsersService,
-    @InjectModel("Product") private readonly productModel: Model<Product>,
+    @InjectModel("Product") private readonly productModel: Model<Product>
   ) {}
   @Get("get_home_product")
-  @HttpCode(200)
-  async getHomeProductController(@Query() dto: { page: number }) {
-    const result = await this.productsService.getHomeProductService(dto);
-    return result;
+  async getHomeProductController(
+    @Query() dto: { page: number },
+    @Res() res: Response
+  ) {
+    const data = await this.productsService.getHomeProductService(dto);
+    const { api, message, resultCode, statusCode } = data;
+    return res.status(statusCode).json({ message, api, resultCode });
   }
   @Get("get_product_shop")
   @HttpCode(200)
@@ -51,7 +56,7 @@ export class ProductsController {
   @HttpCode(200)
   async updateSingleProductController(
     @Body() dto: UpdateSingleProductDto,
-    @Req() req: { cookies: { seller_token: string } },
+    @Req() req: { cookies: { seller_token: string } }
   ) {
     const token = req.cookies.seller_token;
     const user = await this.userService.authenticationUser(token);
@@ -60,13 +65,13 @@ export class ProductsController {
     const storeId = user.userStore;
     if (!storeId) {
       throw new BadRequestException(
-        "Error when authentication get user store id!",
+        "Error when authentication get user store id!"
       );
     }
     return this.productsService.updateSingleProductService(
       dto,
       storeId,
-      sellerId,
+      sellerId
     );
   }
   //
@@ -74,7 +79,7 @@ export class ProductsController {
   @HttpCode(200)
   async deleteActionSingleProductController(
     @Body() dto: DeleteActionSingleProductDto,
-    @Req() req: { cookies: { seller_token: string } },
+    @Req() req: { cookies: { seller_token: string } }
   ) {
     const token = req.cookies.seller_token;
     const user = await this.userService.authenticationUser(token);
@@ -88,7 +93,7 @@ export class ProductsController {
   @HttpCode(200)
   async deleteSingleProductController(
     @Param("id") id: string,
-    @Req() req: { cookies: { seller_token: string } },
+    @Req() req: { cookies: { seller_token: string } }
   ) {
     try {
       const token = req.cookies.seller_token;
@@ -125,14 +130,14 @@ export class ProductsController {
       proImgDetails: {
         imgUrl: string;
       }[];
-    }[],
+    }[]
   ) {
     const sellerId = "40a925fa-dab6-43f3-b81b-d0a93e9a2346";
 
     const storeId = "29c90ac7-34af-4116-8de2-4a18ebad81ba";
     if (!storeId) {
       throw new BadRequestException(
-        "Error when authentication get user store id!",
+        "Error when authentication get user store id!"
       );
     }
     return this.productsService.tesfunction(data, sellerId, storeId);

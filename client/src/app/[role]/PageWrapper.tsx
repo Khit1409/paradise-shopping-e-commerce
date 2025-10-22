@@ -1,6 +1,9 @@
 "use client";
 
-import { onErrorModel, onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
+import {
+  onErrorModel,
+  onLoadingAction,
+} from "@/api/redux/slice/app_slice/app.slice";
 import { AppDispatch, RootState } from "@/api/redux/store";
 import { getNavigationThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
@@ -50,10 +53,7 @@ export default function PageWrapper({
          * if use null => replace page is login
          * if successfull => set appMouted is true and render app
          */
-        if (
-          authenticationThunk.fulfilled.match(check) &&
-          getNavigationThunk.fulfilled.match(getNav)
-        ) {
+        if (authenticationThunk.fulfilled.match(check)) {
           dispatch(onLoadingAction(false));
           setAppMounted(true);
           /**

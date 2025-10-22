@@ -1,0 +1,141 @@
+/**
+ * normal response
+ */
+export type NormalHandleResponse = {
+  message: string;
+  resultCode: number;
+  statusCode: number;
+};
+/**
+ * ========================
+ * TYPE OF APP API RESPONSE
+ * ========================
+ */
+/**
+ * type of Navigation api response
+ */
+export interface NavigationDataType {
+  _id: string;
+  navName: string;
+  navIcon?: string;
+  navUrl: string;
+}
+/**
+ * final type of navigation response
+ */
+export type NavigationReponse = {
+  nav: NavigationDataType[];
+  message: string;
+  resultCode: number;
+  statusCode: number;
+};
+/**
+ * =============================
+ * TYPE OF PRODUCT API RESPONSE
+ * ============================
+ */
+/**
+ * product preview data type
+ */
+export type ProductPreviewDataType = {
+  _id: string;
+  cateId: string;
+  proName: string;
+  proPrice: number;
+  proSale: number;
+  proTag: string;
+  proSlug: string;
+  proImg: string;
+};
+/**
+ * Product home page api
+ */
+export type ProductHomeDataType = {
+  _id: string;
+  cateId: string;
+  proName: string;
+  proPrice: number;
+  proSale: number;
+  proTag: string;
+  proSlug: string;
+  proImg: string;
+};
+/**
+ * final type of product home page response
+ */
+export type ProductHomePageResponse = {
+  message: string;
+  resultCode: number;
+  statusCode: number;
+  api: ProductPreviewDataType[];
+};
+/**
+ * product shop page type
+ */
+export type ProductShopPageDataType = {
+  storeId: string;
+  storeName: string;
+  storeArea: string;
+  products: ProductPreviewDataType[];
+};
+/**
+ * final type product shop page response
+ */
+
+export type ProductShopPageResponse = {
+  message: string;
+  resultCode: number;
+  statusCode: number;
+  api: ProductShopPageDataType[];
+};
+/**
+ * single product type
+ */
+
+//attribute item type
+export type AttributeItem = {
+  _id: string;
+  attrId: string;
+  itemValue: string;
+  itemImg?: string;
+};
+//attribute type
+export type Attribute = {
+  _id: string;
+  proId: string;
+  attrName: string;
+  items: AttributeItem[];
+};
+//img detail type
+export type ImgDetail = {
+  _id: string;
+  proId: string;
+  imgUrl: string;
+};
+// api type
+export type SingleProductDataType = {
+  _id: string;
+  cateId: string;
+  proName: string;
+  proSale: number;
+  proPrice: number;
+  proTag: string;
+  proSlug: string;
+  proCateSlug: string;
+  proImg: string;
+  proDescription: string;
+  proImgDetails: ImgDetail[];
+  proAttributes: Attribute[];
+};
+/**
+ * final product single api response
+ */
+export type SingleProductResponse = {
+  message: string;
+  resultCode: number;
+  statusCode: number;
+  api: {
+    product: SingleProductDataType;
+    related: ProductPreviewDataType[];
+  };
+};
