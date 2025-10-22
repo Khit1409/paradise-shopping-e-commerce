@@ -1,10 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import {
-  getHomeProductThunk,
-  getProductShopThunk,
-} from "@/api/Redux/Thunk/Product/product.thunk";
+import { AppDispatch, RootState } from "@/api/redux/store";
 
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,8 +10,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ProductFilter from "./ProductFilter";
-import { onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
+import ProductFilter from "../page_parts/ProductFilter";
+import { onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
+import { getProductShopThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
 
 export default function ProductShopPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -49,7 +46,7 @@ export default function ProductShopPage() {
           cate_slug: cateSlug ?? "",
         })
       );
-      if (getHomeProductThunk.fulfilled.match(pr)) {
+      if (getProductShopThunk.fulfilled.match(pr)) {
         dispatch(onLoadingAction(false));
       } else {
         dispatch(onLoadingAction(false));
@@ -136,7 +133,7 @@ export default function ProductShopPage() {
                 </div> */}
                 {store.products.length ? (
                   <section className="flex flex-col gap-5 ">
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
                       {store.products.map((pro) => (
                         <Link
                           href={`/user/single_product?_info=${pro.proSlug}_${pro._id}`}
@@ -176,18 +173,7 @@ export default function ProductShopPage() {
                       ))}
                     </div>
                   </section>
-                ) : (
-                  <div>
-                    <section
-                      className="h-[400px] flex items-center justify-center p-4"
-                      id="no_product"
-                    >
-                      <div>
-                        <h3>KHO SẢN PHẨM TRỐNG</h3>
-                      </div>
-                    </section>
-                  </div>
-                )}
+                ) : null}
               </section>
             ))}
         </section>

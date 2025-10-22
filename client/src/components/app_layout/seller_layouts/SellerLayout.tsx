@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/api/Redux/store";
+import { RootState } from "@/api/redux/store";
 import { useRouter } from "next/navigation";
 import SellerNavigationBar from "@/components/seller/seller_navigationbar/index";
 import SellerHeader from "@/components/seller/header";

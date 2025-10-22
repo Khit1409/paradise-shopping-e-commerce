@@ -92,3 +92,7 @@ img,
 a {
     cursor: pointer;
 }
+
+.user_layout{
+    display: flex;
+}

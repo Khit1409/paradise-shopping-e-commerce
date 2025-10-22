@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import TopBar from "../../web_body/Header/TopBar";
 import NavigationBar from "../../web_body/header/sections/NavigationBar";
+import TopBar from "@/components/web_body/header/sections/TopBar";
 
 /**
  * Component dùng  để duy trì trạng thái user
  * @param param0
- * @returns
+ * @returns 
  */
 export default function UserLayout({
   children,
@@ -15,6 +15,7 @@ export default function UserLayout({
 }) {
   return (
     <main>
+      {/* left */}
       <TopBar />
       <NavigationBar />
       {/* <Banner /> */}

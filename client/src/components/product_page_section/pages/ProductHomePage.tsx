@@ -1,15 +1,16 @@
 "use client";
 
-import { getHomeProductThunk } from "@/api/Redux/Thunk/Product/product.thunk";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
-import NavigationProduct from "./NavigationProduct";
+
+import NavigationProduct from "../page_parts/NavigationProduct";
+import { onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
+import { getHomeProductThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import { AppDispatch, RootState } from "@/api/redux/store";
 
 export default function ProductHomePage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,7 +47,7 @@ export default function ProductHomePage() {
       <div className="flex flex-col gap-3">
         <section className="flex flex-col gap-5">
           {productApi.length !== 0 ? (
-            <div className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-2">
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
               {productApi.map((pro) => (
                 <Link
                   href={`/user/single_product?_info=${pro.proSlug}_${pro._id}`}

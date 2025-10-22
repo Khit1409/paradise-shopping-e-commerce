@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authenticationThunk, signInThunk } from "../../Thunk/Auth/auth.thunk";
+import { authenticationThunk, signInThunk } from "../../thunk/auth_thunk/auth.thunk";
 import { UserResponse } from "@/api/services/auth.service";
 interface AuthenticateInitialState {
   pendingRequest: boolean;

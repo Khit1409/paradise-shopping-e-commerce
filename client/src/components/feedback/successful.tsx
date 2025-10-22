@@ -1,7 +1,7 @@
 "use client";
 
-import { onSuccessfulModel } from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
+import { onSuccessfulModel } from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";

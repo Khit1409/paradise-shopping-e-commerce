@@ -1,5 +1,5 @@
-import { onErrorModel, onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch } from "@/api/Redux/store";
+import { onErrorModel, onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch } from "@/api/redux/store";
 import { uploadImageToCloud } from "@/feature/upload";
 import Image from "next/image";
 import React, { SetStateAction } from "react";

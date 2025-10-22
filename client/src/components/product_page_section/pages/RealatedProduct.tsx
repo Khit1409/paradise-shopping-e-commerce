@@ -5,18 +5,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
-export default function RealatedProduct({
-  related,
-}: {
-  related: Product[] | undefined;
-}) {
+/**
+ * Component props
+ */
+type ComponentProps = {
+  related: Product[];
+};
+/**
+ * Component function
+ * @param param0
+ * @returns
+ */
+export default function RealatedProduct({ ...props }: ComponentProps) {
   return (
-    related && (
+    props.related && (
       <div>
-        {related.length !== 0 && (
+        {props.related.length !== 0 && (
           <div className="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2">
-            {related.map((pro) => (
+            {props.related.map((pro) => (
               <Link
                 href={`/user/single_product?_info=${createSlug(pro.proName)}_${
                   pro._id

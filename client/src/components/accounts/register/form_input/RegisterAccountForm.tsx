@@ -5,9 +5,9 @@ import { registerList } from "./form_list";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import RegisterAddressForm from "./RegisterAddressForm";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/api/Redux/store";
+import { AppDispatch } from "@/api/redux/store";
 import { uploadImageToCloud } from "@/feature/upload";
-import { onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
+import { onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
 
 type PostType = {
   user_firtname: string;

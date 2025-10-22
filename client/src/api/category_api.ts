@@ -1,4 +1,4 @@
-export const categories = [
+export const CATEGORY_SELECT_LIST = [
   { id: 1, name: "Thời trang nam", slug: "thoi_trang_nam" },
   { id: 2, name: "Thời trang nữ", slug: "thoi_trang_nu" },
   { id: 3, name: "Giày dép", slug: "giay_dep" },

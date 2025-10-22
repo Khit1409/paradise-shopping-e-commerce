@@ -3,9 +3,9 @@ import {
   onSuccessfulModel,
   onLoadingAction,
   onErrorModel,
-} from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { upNewProductThunk } from "@/api/Redux/Thunk/Seller/seller.thunk";
+} from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
+import { upNewProductThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
 import { uploadImageToCloud } from "@/feature/upload";
 import { faDatabase, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

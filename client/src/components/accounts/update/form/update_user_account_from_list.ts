@@ -1,4 +1,4 @@
-export const update_basicInput_list = [
+export const UPDATE_BASIC_INPUT_LIST = [
   {
     name: "firtName",
     id: "firtName",

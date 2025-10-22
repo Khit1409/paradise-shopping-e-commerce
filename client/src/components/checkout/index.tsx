@@ -1,12 +1,30 @@
 "use client";
 import QRCode from "react-qr-code";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import { RootState } from "@/api/Redux/store";
-
+import { AppDispatch, RootState } from "@/api/redux/store";
+import {
+  onErrorModel,
+  onLoadingAction,
+  onSuccessfulModel,
+} from "@/api/redux/slice/app_slice/app.slice";
+import axios from "axios";
+import { checkoutAction } from "@/api/redux/slice/order_slice/order.slice";
+/**
+ * Checkout modal with QR code
+ * or click button for using payos page
+ * or cancel payment
+ * @returns
+ */
 export default function CheckoutModal() {
+  /**
+   * redux root state
+   */
   const { checkoutState } = useSelector((state: RootState) => state.order);
-
+  const dispatch = useDispatch<AppDispatch>();
+  /**
+   * check checkoutstate from checkout slice
+   */
   if (!checkoutState.openModal || !checkoutState.value) return null;
 
   const {
@@ -17,8 +35,48 @@ export default function CheckoutModal() {
     amount,
     currency,
     checkoutUrl,
+    paymentLinkId,
   } = checkoutState.value;
 
+  /**
+   * cancel checkout
+   */
+  console.log(paymentLinkId);
+  async function cancelCheckout() {
+    try {
+      if (!paymentLinkId) {
+        dispatch(
+          onErrorModel({
+            onError: true,
+            mess: "Hủy thanh toán thất bại đợi 5p để hệ thống tự động hủy!",
+          })
+        );
+        return;
+      }
+      dispatch(onLoadingAction(true));
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/payments/cancel-payment`,
+        { paymentLinkId, cancellationReason: "user cancel" }
+      );
+      const data = res.data;
+      if (data) {
+        dispatch(onLoadingAction(false));
+        if (data.resultCode === 1) {
+          dispatch(onSuccessfulModel(true));
+          dispatch(checkoutAction({ openModal: false, value: null }));
+          return;
+        } else {
+          dispatch(onErrorModel({ mess: "Server error", onError: true }));
+          dispatch(checkoutAction({ openModal: false, value: null }));
+          return;
+        }
+      }
+    } catch (error) {
+      dispatch(onLoadingAction(false));
+      dispatch(onErrorModel({ mess: `${error}`, onError: true }));
+    }
+  }
+  //render
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm bg-opacity-50 p-5">
       <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md flex flex-col items-center gap-5 relative ">
@@ -45,6 +103,13 @@ export default function CheckoutModal() {
         >
           Thanh toán bằng PayOS
         </Link>
+        <button
+          onClick={() => cancelCheckout()}
+          role="button"
+          className="mt-3 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+        >
+          Hủy thanh toán
+        </button>
       </div>
     </div>
   );

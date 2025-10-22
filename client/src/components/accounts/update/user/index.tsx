@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/api/Redux/store";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useState } from "react";
@@ -10,7 +10,7 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/api/Redux/Slice/App/app.slice";
+} from "@/api/redux/slice/app_slice/app.slice";
 import { updateUserAccount } from "@/api/services/auth.service";
 import UserUpdateBasicInput from "../form/UserUpdateBasicInput";
 import UserUpdateContact from "../form/UserUpdateContact";

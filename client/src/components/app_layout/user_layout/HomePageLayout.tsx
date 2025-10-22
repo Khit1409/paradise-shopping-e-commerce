@@ -1,8 +1,8 @@
 "use client";
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { getUserCartThunk } from "@/api/Redux/Thunk/Product/product.thunk";
-import ProductHomePage from "@/components/Products/ProductHomePage";
-import BannerSection from "@/components/web_body/Carousel/Banner";
+import { AppDispatch, RootState } from "@/api/redux/store";
+import { getUserCartThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import ProductHomePage from "@/components/product_page_section/pages/ProductHomePage";
+import BannerSection from "@/components/web_body/carousel/Banner";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

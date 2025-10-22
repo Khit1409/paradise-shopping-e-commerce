@@ -5,11 +5,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-
+/**
+ * Function component
+ * @returns 
+ */
 export default function SellerHeader() {
   return (
     <section className="h-[60px] max-h-[60px] border border-gray-300 min-w-[1115px] p-2">
       <div className="flex justify-between items-center w-full">
+        {/* logo */}
         <div>Logo</div>
         <div className="flex gap-2">
           <div className="flex gap-5 px-2 ">

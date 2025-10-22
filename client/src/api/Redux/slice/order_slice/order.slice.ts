@@ -50,13 +50,16 @@ const orderSlice = createSlice({
       action: {
         payload: {
           openModal: boolean;
-          value: CreatePaymentLinkResponse;
+          value: CreatePaymentLinkResponse | null;
         };
       }
     ) => {
+      //tắt order modal trước khi mở checkout modal
       if (state.orderState) {
         state.orderState.open = false;
+        state.orderState.items = null;
       }
+      //set state
       state.checkoutState = action.payload;
     },
     /**

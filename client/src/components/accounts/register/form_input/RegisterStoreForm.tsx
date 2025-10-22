@@ -2,7 +2,7 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { registerStoreList } from "./form_list";
-import { RootState } from "@/api/Redux/store";
+import { RootState } from "@/api/redux/store";
 import { useSelector } from "react-redux";
 
 type ComponentProp = {

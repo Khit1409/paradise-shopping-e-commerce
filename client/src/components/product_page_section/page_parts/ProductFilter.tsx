@@ -1,9 +1,10 @@
 "use client";
 
-import { categories } from "@/api/category_api";
+import { CATEGORY_SELECT_LIST } from "@/api/category_api";
 import { ProvinceApiType } from "@/api/interfaces/app.interface";
-import { AppDispatch } from "@/api/Redux/store";
-import { getAddressThunk } from "@/api/Redux/Thunk/App/app.thunk";
+import { AppDispatch } from "@/api/redux/store";
+import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
+
 import {
   faCancel,
   faList,
@@ -173,7 +174,7 @@ export default function ProductFilter({
             <p className="font-semibold text-gray-700">
               <FontAwesomeIcon icon={faList} /> DANH MỤC
             </p>
-            {categories.map((cate) => (
+            {CATEGORY_SELECT_LIST.map((cate) => (
               <button
                 className="text-start hover:underline hover:text-blue-500"
                 onClick={() => setCateSlug(cate.slug)}

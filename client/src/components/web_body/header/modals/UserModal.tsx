@@ -1,10 +1,10 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/api/Redux/store";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import {
   authenticationThunk,
   clientLogout,
-} from "@/api/Redux/Thunk/Auth/auth.thunk";
+} from "@/api/redux/thunk/auth_thunk/auth.thunk";
 import {
   faRightFromBracket,
   faShoppingBag,

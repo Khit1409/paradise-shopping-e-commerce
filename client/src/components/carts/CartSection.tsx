@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/api/Redux/store";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,12 +16,12 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/api/Redux/Slice/App/app.slice";
-import { getUserCartThunk } from "@/api/Redux/Thunk/Product/product.thunk";
+} from "@/api/redux/slice/app_slice/app.slice";
+import { getUserCartThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { onOpenOrderModal } from "@/api/Redux/Slice/Order/order.slice";
+import { onOpenOrderModal } from "@/api/redux/slice/order_slice/order.slice";
 
 export default function CartSection() {
   /**

@@ -31,7 +31,7 @@ export class PaymentsService {
     @InjectRepository(OrderItems)
     private readonly orderItemRepo: Repository<OrderItems>,
     @InjectRepository(OrderPersonContacts)
-    private readonly orderContactRepo: Repository<OrderPersonContacts>,
+    private readonly orderContactRepo: Repository<OrderPersonContacts>
   ) {
     this.payosApiUrl = this.configService.get("PAYOS_CANCEL_URL")!;
     this.clientId = this.configService.get("PAYOS_CLIENT_ID")!;
@@ -74,7 +74,7 @@ export class PaymentsService {
           },
           {
             orderPayStatus: "PAID",
-          },
+          }
         );
         /**
          * Uncheckout or failed delete order with orderCode
@@ -157,13 +157,19 @@ export class PaymentsService {
             "x-api-key": this.apiKey,
             "Content-Type": "application/json",
           },
-        },
+        }
       );
       const result: CancelPaymentResponse = response.data;
-      return result;
+      const orderCode = result.data.orderCode;
+      const deleteResult = await this.orderRepo.delete({
+        orderCode: Number(orderCode),
+      });
+      if (!deleteResult.affected)
+        return { message: "Can not delete order", resultCode: 0 };
+      return { message: "successfull!", resultCode: 1 };
     } catch (error) {
       throw new InternalServerErrorException(
-        `Failed to cancel payment link, error:${error}`,
+        `Failed to cancel payment link, error:${error}`
       );
     }
   }

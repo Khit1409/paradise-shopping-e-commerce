@@ -4,13 +4,13 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
+} from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import {
   deleteActionSingleProductThunk,
   getSingleProductSellerThunk,
   updateProductThunk,
-} from "@/api/Redux/Thunk/Seller/seller.thunk";
+} from "@/api/redux/thunk/seller_thunk/seller.thunk";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

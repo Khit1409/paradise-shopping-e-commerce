@@ -6,7 +6,7 @@ type FormCreateProductType = {
   note: string;
 };
 
-export const basicInput: FormCreateProductType[] = [
+export const CREATE_PRODUCT_BASIC_INPUT_LIST: FormCreateProductType[] = [
   {
     name: "name",
     require: true,

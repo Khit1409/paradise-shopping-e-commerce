@@ -1,7 +1,7 @@
 "use client";
 
-import { onErrorModel } from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
+import { onErrorModel } from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";

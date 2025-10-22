@@ -1,5 +1,5 @@
 import { UserResponse } from "@/api/services/auth.service";
-import { update_basicInput_list } from "./update_user_account_from_list";
+import { UPDATE_BASIC_INPUT_LIST } from "./update_user_account_from_list";
 
 type ComponentProps = {
   user: UserResponse;
@@ -16,11 +16,13 @@ export default function UserUpdateBasicInput({ ...props }: ComponentProps) {
     userEmail: props.user.userEmail,
   };
 
+  //render
   return (
     <section className="text-gray-700 p-4 rounded bg-white shadow-md">
       <h3 className="uppercase border-b">Thông tin cơ bản</h3>
       <div className="flex flex-col p-2 gap-4 mt-4">
-        {update_basicInput_list.map((elm, index) => (
+        {/* form */}
+        {UPDATE_BASIC_INPUT_LIST.map((elm, index) => (
           <div key={index} className="flex flex-col gap-2">
             <label htmlFor={elm.id} className="font-semibold">
               {elm.lable}

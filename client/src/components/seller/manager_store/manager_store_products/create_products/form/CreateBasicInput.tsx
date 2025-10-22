@@ -1,8 +1,7 @@
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Dispatch, SetStateAction } from "react";
-import { basicInput } from "./create_product_form_list";
-
+import { CREATE_PRODUCT_BASIC_INPUT_LIST } from "./create_product_form_list";
 
 interface BasicInputRequest {
   name: string;
@@ -21,7 +20,7 @@ export default function UpNewProductBasicInput({
 }: ComponentProps) {
   return (
     <section className="p-3 bg-white rounded shadow-md">
-      {basicInput.map((item, idx) => (
+      {CREATE_PRODUCT_BASIC_INPUT_LIST.map((item, idx) => (
         <div key={idx} className="flex flex-col gap-1 p-1 text-gray-700">
           <label htmlFor="" className="font-semibold ">
             {item.title}

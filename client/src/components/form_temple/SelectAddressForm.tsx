@@ -1,6 +1,6 @@
 import { ProvinceApiType, WradApiType } from "@/api/interfaces/app.interface";
-import { AppDispatch } from "@/api/Redux/store";
-import { getAddressThunk } from "@/api/Redux/Thunk/App/app.thunk";
+import { AppDispatch } from "@/api/redux/store";
+import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import React, { SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 

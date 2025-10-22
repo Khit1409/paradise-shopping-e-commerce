@@ -1,6 +1,6 @@
 import { SingleProductSeller } from "@/api/services/seller.service";
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleProductSellerThunk } from "../../Thunk/Seller/seller.thunk";
+import { getSingleProductSellerThunk } from "../../thunk/seller_thunk/seller.thunk";
 
 type SellerSliceInitialState = {
   spSeller: SingleProductSeller | null;

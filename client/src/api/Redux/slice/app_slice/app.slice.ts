@@ -3,7 +3,7 @@ import {
   WradApiType,
 } from "@/api/interfaces/app.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { getNavigationThunk } from "../../Thunk/App/app.thunk";
+import { getNavigationThunk } from "../../thunk/app_thunk/app.thunk";
 
 interface AppInitialState {
   nav: NavigationDataType[];
@@ -12,6 +12,7 @@ interface AppInitialState {
   onLoading: boolean;
   message: string | null;
   wardApi: WradApiType[];
+  openResponsive: boolean;
 }
 
 const appInitialState: AppInitialState = {
@@ -21,6 +22,7 @@ const appInitialState: AppInitialState = {
   onSuccess: false,
   onLoading: false,
   wardApi: [],
+  openResponsive: false,
 };
 
 const appSlice = createSlice({
@@ -43,6 +45,10 @@ const appSlice = createSlice({
     onSuccessfulModel: (state, action) => {
       state.onSuccess = action.payload;
     },
+    //open responsive mode
+    openResponsiveMode: (state) => {
+      state.openResponsive = !state.openResponsive;
+    },
   },
   //extra
   extraReducers: (builder) => {
@@ -61,6 +67,10 @@ const appSlice = createSlice({
   },
 });
 
-export const { onLoadingAction, onErrorModel, onSuccessfulModel } =
-  appSlice.actions;
+export const {
+  onLoadingAction,
+  onErrorModel,
+  onSuccessfulModel,
+  openResponsiveMode,
+} = appSlice.actions;
 export const appReducer = appSlice.reducer;

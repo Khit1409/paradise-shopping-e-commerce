@@ -4,11 +4,12 @@ import "./product.css";
 import "./animation.css";
 import "../lib/fontawesome";
 import ReduxProvider from "./ReduxProvider";
-import OrderModal from "@/components/Order/OrderModal";
-import CheckoutModal from "@/components/Checkout";
+import OrderModal from "@/components/order_modal/OrderModal";
+import CheckoutModal from "@/components/checkout/index";
 import LoadingAnimation from "@/components/feedback/LoadingAnimation";
 import SuccessfullModal from "@/components/feedback/successful";
 import ErrorModal from "@/components/feedback/ErrorModal";
+import NavigationBarMobileMode from "@/components/web_body/header/sections/NavigationBarMobileMode";
 /**
  * Meta data
  */
@@ -29,6 +30,11 @@ export const metadata: Metadata = {
 type RootLayoutProps = {
   children: React.ReactNode;
 };
+/**
+ * render app
+ * @param param0
+ * @returns
+ */
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -38,6 +44,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           {/* modal */}
           <LoadingAnimation />
           <SuccessfullModal />
+          <NavigationBarMobileMode />
           <ErrorModal />
           <CheckoutModal />
           <OrderModal />

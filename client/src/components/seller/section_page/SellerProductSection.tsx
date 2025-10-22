@@ -1,7 +1,10 @@
 "use client";
-import { onErrorModel, onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { getProductSellerThunk } from "@/api/Redux/Thunk/Product/product.thunk";
+import {
+  onErrorModel,
+  onLoadingAction,
+} from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
+import { getProductSellerThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";

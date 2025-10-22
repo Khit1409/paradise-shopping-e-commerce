@@ -5,7 +5,7 @@ import {
   getProductShopThunk,
   getSingleProductThunk,
   getUserCartThunk,
-} from "../../Thunk/Product/product.thunk";
+} from "../../thunk/product_thunk/product.thunk";
 import {
   Product,
   ProductShopPage,

@@ -1,11 +1,11 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/api/Redux/store";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import {
   addToCartThunk,
   getSingleProductThunk,
   getUserCartThunk,
-} from "@/api/Redux/Thunk/Product/product.thunk";
+} from "@/api/redux/thunk/product_thunk/product.thunk";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,8 +21,8 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/api/Redux/Slice/App/app.slice";
-import { onOpenOrderModal } from "@/api/Redux/Slice/Order/order.slice";
+} from "@/api/redux/slice/app_slice/app.slice";
+import { onOpenOrderModal } from "@/api/redux/slice/order_slice/order.slice";
 
 export default function SingleProduct() {
   const params = useSearchParams();

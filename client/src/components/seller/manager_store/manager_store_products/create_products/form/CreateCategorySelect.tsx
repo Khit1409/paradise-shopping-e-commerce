@@ -1,4 +1,4 @@
-import { categories } from "@/api/category_api";
+import { CATEGORY_SELECT_LIST } from "@/api/category_api";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Dispatch, SetStateAction } from "react";
@@ -25,7 +25,7 @@ export default function CategoryInput({setCateSlug}:ComponentProps) {
         className="border border-gray-300 p-2 w-full"
       >
         <option value="">Chọn danh mục</option>
-        {categories.map((c) => (
+        {CATEGORY_SELECT_LIST.map((c) => (
           <option value={c.slug} key={c.id}>
             {c.name}
           </option>

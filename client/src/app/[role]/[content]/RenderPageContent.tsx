@@ -1,8 +1,8 @@
 "use client";
 
 import UserUpdateAccountPage from "@/components/accounts/update/user";
-import CartPage from "@/components/Cart";
-import ProductShopPage from "@/components/Products/ProductShopPage";
+import CartPage from "@/components/carts";
+import ProductShopPage from "@/components/product_page_section/pages/ProductShopPage";
 import UpNewProductPage from "@/components/seller/manager_store/manager_store_products/create_products";
 import UpdateProductSinglePage from "@/components/seller/manager_store/manager_store_products/update_products";
 import SellerProductSection from "@/components/seller/section_page/SellerProductSection";

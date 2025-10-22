@@ -1,4 +1,5 @@
 import {
+  faBars,
   faBell,
   faCartShopping,
   faMessage,
@@ -8,12 +9,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { getUserCartThunk } from "@/api/Redux/Thunk/Product/product.thunk";
+import { AppDispatch, RootState } from "@/api/redux/store";
+import { getUserCartThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
 import CartModal from "../modals/CartModal";
 import NotificateModal from "../modals/NotificateModal";
 import MessageModal from "../modals/MessageModal";
 import UserModal from "../modals/UserModal";
+import { openResponsiveMode } from "@/api/redux/slice/app_slice/app.slice";
 
 export default function TopBar() {
   /**
@@ -32,6 +34,7 @@ export default function TopBar() {
    */
   const { user, isLoggedIn } = useSelector((state: RootState) => state.auth);
   const { carts } = useSelector((state: RootState) => state.product);
+  // const { openResponsive } = useSelector((state: RootState) => state.app);
   /**
    * UseEffect
    */
@@ -67,15 +70,28 @@ export default function TopBar() {
     }
   }, [dispatch, user]);
 
+
   return (
     <section className="bg-gray-800 text-white">
-      <div className="flex px-5 py-3 items-center">
-        <div className="flex-1 flex justify-center">
+      <div className="flex px-5 py-3 items-center lg:justify-around justify-between lg:gap-0 gap-5">
+        <div className="flex lg:flex-1 justify-center items-center">
           {/* logo */}
           <div>
-            <p className="text-2xl font-extrabold">Logo</p>
+            <span className="text-2xl font-extrabold hidden lg:block">
+              Logo
+            </span>
+            {/* bar toggle */}
+            <button
+              className="block lg:hidden p-2 border border-white rounded"
+              onClick={() => {
+                dispatch(openResponsiveMode());
+              }}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </button>
           </div>
         </div>
+        {/* search */}
         <div className="flex-2 flex justify-center relative">
           <input
             type="text"
@@ -85,7 +101,8 @@ export default function TopBar() {
             <FontAwesomeIcon icon={faSearch} className="text-2xl" />
           </button>
         </div>
-        <div className="flex-1 flex gap-4 justify-end">
+        {/* toggle */}
+        <div className="flex-1 lg:flex gap-4 justify-end hidden">
           {/* carts */}
           <div className="p-1 relative">
             <button

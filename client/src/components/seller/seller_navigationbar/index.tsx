@@ -15,7 +15,7 @@ export default function SellerNavigationBar() {
    */
   const [showNavName, setShowNavName] = useState<boolean>(true);
   /**
-   *
+   * render
    */
   return (
     <div className="text-gray-700 h-screen border-gray-300 border p-2 w-[350px]">

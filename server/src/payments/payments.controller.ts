@@ -12,7 +12,7 @@ export class PaymentsController {
     private readonly paymentsService: PaymentsService,
     @InjectRepository(Orders) private readonly orderRepo: Repository<Orders>,
     @InjectRepository(OrderItems)
-    private readonly orderItemRepo: Repository<OrderItems>,
+    private readonly orderItemRepo: Repository<OrderItems>
   ) {}
 
   /**
@@ -28,5 +28,21 @@ export class PaymentsController {
     const result = await this.paymentsService.webHookOfPayos(body);
     const { message, resultCode, statusCode } = result;
     return res.status(statusCode).json({ message, resultCode });
+  }
+  /**
+   * Delete cancel payment
+   * @param body
+   * @returns
+   */
+  @Post("cancel-payment")
+  async cancelPaymentController(
+    @Body() body: { paymentLinkId: string; cancellationReason?: string }
+  ) {
+    const { paymentLinkId, cancellationReason } = body;
+    const result = await this.paymentsService.cancelPaymentLink(
+      paymentLinkId,
+      cancellationReason
+    );
+    return result;
   }
 }

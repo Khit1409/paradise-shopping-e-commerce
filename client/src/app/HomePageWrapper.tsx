@@ -1,5 +1,5 @@
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { authenticationThunk } from "@/api/Redux/Thunk/Auth/auth.thunk";
+import { AppDispatch, RootState } from "@/api/redux/store";
+import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,7 +38,7 @@ export default function HomePageWrapper({
         const checkAgain = await dispatch(
           authenticationThunk({ role: "seller" })
         );
-        // check state 
+        // check state
         if (authenticationThunk.fulfilled.match(checkAgain)) {
           router.replace(`/${checkAgain.payload.role}`);
         }
@@ -50,6 +50,6 @@ export default function HomePageWrapper({
     })();
   }, [router, dispatch]);
 
-  //render 
+  //render
   return <>{children}</>;
 }

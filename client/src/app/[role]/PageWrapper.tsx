@@ -1,9 +1,9 @@
 "use client";
 
-import { onErrorModel, onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
-import { getNavigationThunk } from "@/api/Redux/Thunk/App/app.thunk";
-import { authenticationThunk } from "@/api/Redux/Thunk/Auth/auth.thunk";
+import { onErrorModel, onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
+import { getNavigationThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
+import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
 import SellerLayout from "@/components/app_layout/seller_layouts/SellerLayout";
 import UserLayout from "@/components/app_layout/user_layout/UserLayout";
 import { useRouter } from "next/navigation";

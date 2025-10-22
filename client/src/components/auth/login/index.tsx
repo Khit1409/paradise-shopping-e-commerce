@@ -1,14 +1,17 @@
 "use client";
 import { useDispatch } from "react-redux";
 import UserLoginForm from "../form/UserLoginFrom";
-import { AppDispatch } from "@/api/Redux/store";
+import { AppDispatch } from "@/api/redux/store";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { onErrorModel, onLoadingAction } from "@/api/Redux/Slice/App/app.slice";
+import {
+  onErrorModel,
+  onLoadingAction,
+} from "@/api/redux/slice/app_slice/app.slice";
 import {
   authenticationThunk,
   signInThunk,
-} from "@/api/Redux/Thunk/Auth/auth.thunk";
+} from "@/api/redux/thunk/auth_thunk/auth.thunk";
 
 export default function UserLoginPage() {
   const dispatch = useDispatch<AppDispatch>();

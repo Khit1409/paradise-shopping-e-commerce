@@ -4,21 +4,21 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch, RootState } from "@/api/Redux/store";
+} from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch, RootState } from "@/api/redux/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
-import { payMethod, shippingMethod } from "./feature/order_form";
 import { getIconByName } from "@/ultis/ultis";
 import { useEffect, useState } from "react";
-import { getAddressThunk } from "@/api/Redux/Thunk/App/app.thunk";
-import SelectAddressForm from "@/components/Form/SelectAddressForm";
+import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
+import SelectAddressForm from "@/components/form_temple/SelectAddressForm";
 import { addNewOrder } from "@/api/services/order.service";
 import {
   checkoutAction,
   onOpenOrderModal,
-} from "@/api/Redux/Slice/Order/order.slice";
+} from "@/api/redux/slice/order_slice/order.slice";
+import { payMethod, shippingMethod } from "./form/list";
 
 export default function OrderModal() {
   /** Redux setup */
@@ -286,7 +286,6 @@ export default function OrderModal() {
           {/* email section */}
           <div className="py-3 border-t border-gray-300 flex flex-col gap-3">
             <h3 className="font-semibold">Email nhận hàng</h3>
-            {orderEmail}
             <div className="flex flex-col gap-2">
               {user.userOtherEmail.map((email) => (
                 <div className="flex items-center gap-2" key={email._id}>
@@ -329,7 +328,6 @@ export default function OrderModal() {
           {/* phone section */}
           <div className="py-3 border-t border-gray-300 flex flex-col gap-3">
             <h3 className="font-semibold">Số điện thoại nhận hàng</h3>
-            {orderEmail}
             <div className="flex flex-col gap-2">
               {user.userOtherPhone.map((phone) => (
                 <div className="flex items-center gap-2" key={phone._id}>
