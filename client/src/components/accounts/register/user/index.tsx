@@ -4,9 +4,9 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/api/Redux/Slice/App/app.slice";
-import { AppDispatch } from "@/api/Redux/store";
-import { clietnRegisterThunk } from "@/api/Redux/Thunk/User/user.thunk";
+} from "@/api/redux/slice/app_slice/app.slice";
+import { AppDispatch } from "@/api/redux/store";
+import { clietnRegisterThunk } from "@/api/redux/thunk/user_thunk/user.thunk";
 import {
   faHome,
   faPaperPlane,

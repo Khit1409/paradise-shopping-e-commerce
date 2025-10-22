@@ -1,45 +1,48 @@
 import axios from "axios";
-
-export interface RegisterType {
-  user_firtname: string;
-  user_avatar?: string;
-  user_email: string;
-  user_phone: string;
-  user_lastname: string;
-  user_password: string;
-  user_address?: string;
-}
-
+import {
+  RegisterType,
+  UserServiceGeneralErrorType,
+} from "../interfaces/user.interface";
 /**
- *
- * @param param0
+ * =================
+ * API CONFIGURATION
+ * =================
+ */
+const USER_API_URL = process.env.NEXT_PUBLIC_USER_API_URL;
+/**
+ * Helper: Standardized error response
+ */
+const handleApiError = (
+  error: unknown
+): { message: string; resultCode: number } => {
+  const msg =
+    axios.isAxiosError(error) && error.response?.data?.message
+      ? error.response.data.message
+      : String(error);
+  return { message: msg, resultCode: 0 };
+};
+/**
+ * ======================
+ * SERVICE FOR HANDLE USER API
+ * ======================
+ */
+/**
+ * function register new account for user
+ * @body REGISTERTYPE
  * @returns
  */
 export async function clietnRegisterService({
-  user_firtname,
-  user_avatar,
-  user_email,
-  user_phone,
-  user_lastname,
-  user_address,
-  user_password,
-}: RegisterType) {
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
-    {
-      user_avatar,
-      user_email,
-      user_firtname,
-      user_lastname,
-      user_password,
-      user_phone,
-      user_address,
-    }
-  );
-  const result: {
-    resultCode: number;
-    message: string;
-  } = res.data.resultCode;
+  ...body
+}: RegisterType): Promise<UserServiceGeneralErrorType> {
+  try {
+    const res = await axios.post(`${USER_API_URL}/register`, {
+      ...body,
+    });
+    //result from api data
+    const result: UserServiceGeneralErrorType = res.data;
 
-  return result;
+    return result;
+  } catch (error) {
+    return handleApiError(error);
+  }
 }

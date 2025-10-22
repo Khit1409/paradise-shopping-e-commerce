@@ -1,6 +1,6 @@
 "use client";
 
-import { ProvinceApiType, WradApiType } from "@/api/interfaces/app.interface";
+import { ProvinceApiType, WardApiType } from "@/api/interfaces/app.interface";
 import { AppDispatch } from "@/api/redux/store";
 import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import { faCity } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ export default function RegisterAddressForm({ ...props }: ComponentProps) {
    * Component state
    */
   const [provinceApi, setProvinceApi] = useState<ProvinceApiType[]>([]);
-  const [wardApi, setWardApi] = useState<WradApiType[]>([]);
+  const [wardApi, setWardApi] = useState<WardApiType[]>([]);
   const [selectedWard, setSelectedWard] = useState<string>("");
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [specificAddress, setSpecificAddress] = useState<string>("");

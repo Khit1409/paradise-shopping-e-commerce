@@ -1,193 +1,180 @@
 import axios from "axios";
 import {
   GetProductByCategoryRequest,
-  Categories,
   SingelProductDataResponse,
   ProductShopPage,
   Product,
+  GetProductShopRequest,
+  AddToCartType,
+  UserCart,
+  GetSingleProductRequest,
+  UpdateCartType,
 } from "../interfaces/product.interface";
+
 /**
- * Function get all product in database
- * query _id category , keyword, limit and page
- * @param param0
+ * =====================================
+ * API CONFIGURATION
+ * =====================================
+ */
+
+const PRODUCT_API_URL = process.env.NEXT_PUBLIC_PRODUCT_API_URL!;
+
+/**
+ * Helper: Standardized error response
+ */
+const handleApiError = (
+  error: unknown
+): { message: string; resultCode: number } => {
+  const msg =
+    axios.isAxiosError(error) && error.response?.data?.message
+      ? error.response.data.message
+      : String(error);
+  return { message: msg, resultCode: 0 };
+};
+
+/**
+ * ================
+ * PRODUCT SERVICES
+ * ================
+ */
+
+/**
+ * Get all products for home page.
+ *
+ * @param {GetProductByCategoryRequest} param0
+ * @returns {Promise<Product[]>}
  */
 export async function getHomeProductService({
   page,
-}: GetProductByCategoryRequest) {
+}: GetProductByCategoryRequest): Promise<Product[]> {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/get_home_product?page=${page}
-    `
+    `${PRODUCT_API_URL}/get_home_product?page=${page}`
   );
-  const api: Product[] = res.data;
-  return api;
-}
-/**
- * Function get all product in database
- * query _id category , keyword, limit and page
- * @param param0
- */
-export async function getProductShopService({
-  pro_price,
-  cate_slug,
-  area,
-  pro_sale,
-}: {
-  pro_sale?: number | string;
-  cate_slug?: string;
-  pro_price?: number | string;
-  area?: string;
-}) {
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/get_product_shop?pro_price=${pro_price}&cate_slug=${cate_slug}&area=${area}&pro_sale=${pro_sale}`
-  );
-  const api: ProductShopPage[] = res.data;
-  return api;
+  return res.data as Product[];
 }
 
 /**
- * Get categories service
+ * Get all products for shop page with filters.
+ *
+ * @param {GetProductShopRequest} query - Filtering query.
+ * @returns {Promise<ProductShopPage[]>}
  */
-export async function getCategoriesFilterService() {
+export async function getProductShopService(
+  query: GetProductShopRequest
+): Promise<ProductShopPage[]> {
+  const params = new URLSearchParams({
+    pro_price: String(query.pro_price ?? ""),
+    cate_slug: String(query.cate_slug ?? ""),
+    area: String(query.area ?? ""),
+    pro_sale: String(query.pro_sale ?? ""),
+  });
+
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/get_categories_filter`
+    `${PRODUCT_API_URL}/get_product_shop?${params.toString()}`
   );
-  const api: Categories[] = res.data;
-  return api;
+  return res.data as ProductShopPage[];
 }
+
 /**
- * Get product single
- * @param2
+ * Get single product by ID or slug.
+ *
+ * @param {GetSingleProductRequest} query
+ * @returns {Promise<SingelProductDataResponse>}
  */
-export async function getSingleProductService({
-  id,
-  slug,
-}: {
-  id: string;
-  slug?: string;
-}) {
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/get_single_product?${
-      id ? `id=${id}` : `slug=${slug}`
-    }`
-  );
-  const api: SingelProductDataResponse = res.data;
-  return api;
+export async function getSingleProductService(
+  query: GetSingleProductRequest
+): Promise<SingelProductDataResponse> {
+  const param = query.id ? `id=${query.id}` : `slug=${query.slug}`;
+  const res = await axios.get(`${PRODUCT_API_URL}/get_single_product?${param}`);
+  return res.data as SingelProductDataResponse;
 }
-//type add to cart request
-export type AddToCartType = {
-  proId: string;
-  name: string;
-  quantity: number;
-  price: number;
-  img: string;
-  choose: {
-    attrName: string;
-    itemValue: string;
-  }[];
-};
+
 /**
- * Add to cart service
- * @param param0
- * @returns
+ * =====================================
+ * CART SERVICES
+ * =====================================
  */
-export async function addToCartServicer({
-  img,
-  name,
-  price,
-  proId,
-  quantity,
-  choose,
-}: AddToCartType) {
+
+/**
+ * Add product to cart.
+ *
+ * @param {AddToCartType} body
+ * @returns {Promise<{ message: string; resultCode: number }>}
+ */
+export async function addToCartServicer(
+  body: AddToCartType
+): Promise<{ message: string; resultCode: number }> {
   try {
-    if (!proId) {
-      return { message: "Lỗi tham số nhận vào", resultCode: 0 };
+    if (!body.proId) {
+      return { message: "Thiếu tham số 'proId'", resultCode: 0 };
     }
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/carts/add_to_cart`,
-      { name, img, proId, price, quantity, choose },
-      { withCredentials: true }
-    );
+    const res = await axios.post(`${PRODUCT_API_URL}/carts/add_to_cart`, body, {
+      withCredentials: true,
+    });
     return res.data as { message: string; resultCode: number };
   } catch (error) {
-    return { message: `${error}`, resultCode: 0 };
+    return handleApiError(error);
   }
 }
+
 /**
- * Get cart by user id
- * @param param0
- * @returns
+ * Get user's cart.
+ *
+ * @returns {Promise<UserCart[]>}
  */
-export interface UserCart {
-  _id: string;
-  cartImg: string;
-  cartName: string;
-  cartPrice: number;
-  proId: string;
-  cartQuantity: number;
-  cartTotalPrice: number;
-  cartAttributes: CartAttribute[];
-}
-
-export interface CartAttribute {
-  _id: string;
-  attrName: string;
-  itemValue: string;
-  otherValue: { value: string; _id: string }[];
-}
-
-export async function getUserCartService() {
+export async function getUserCartService(): Promise<UserCart[]> {
   try {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/carts/get_user_cart`,
-      { withCredentials: true }
-    );
-    const api: UserCart[] = res.data;
-    return api;
+    const res = await axios.get(`${PRODUCT_API_URL}/carts/get_user_cart`, {
+      withCredentials: true,
+    });
+    return res.data as UserCart[];
   } catch (error) {
-    console.error(error);
+    console.error("getUserCartService error:", error);
     return [];
   }
 }
+
 /**
- * delete user cart
- * @param cartId
- * @returns
+ * Delete cart item by ID.
+ *
+ * @param {string} cartId - Cart item ID.
+ * @returns {Promise<{ message: string; resultCode: number }>}
  */
 export async function deleteUserCartService(
   cartId: string
 ): Promise<{ message: string; resultCode: number }> {
   try {
     const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_API_URL}/carts/delete_user_cart/${cartId}`,
-      { withCredentials: true }
+      `${PRODUCT_API_URL}/carts/delete_user_cart/${cartId}`,
+      {
+        withCredentials: true,
+      }
     );
-    const result: { resultCode: number; message: string } = res.data;
-    return result;
+    return res.data as { message: string; resultCode: number };
   } catch (error) {
-    return { message: `${error}`, resultCode: 0 };
+    return handleApiError(error);
   }
 }
 
 /**
- * update user cart
+ * Update user's cart item.
+ *
+ * @param {UpdateCartType} body - Updated cart data.
+ * @returns {Promise<{ message: string; resultCode: number }>}
  */
-export type UpdateCartType = {
-  newQuantity?: number;
-  cartId: string;
-  newAttributes?: { _id: string; attrName?: string; itemValue?: string }[];
-};
-export async function updateUserCart({ ...req }: UpdateCartType) {
+export async function updateUserCart(
+  body: UpdateCartType
+): Promise<{ message: string; resultCode: number }> {
   try {
     const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_API_URL}/carts/update_user_cart`,
+      `${PRODUCT_API_URL}/carts/update_user_cart`,
+      body,
       {
-        ...req,
-      },
-      { withCredentials: true }
+        withCredentials: true,
+      }
     );
-    const result: { message: string; resultCode: number } = res.data;
-    return result;
+    return res.data as { message: string; resultCode: number };
   } catch (error) {
-    return { message: `${error}`, resultCode: 0 };
+    return handleApiError(error);
   }
 }

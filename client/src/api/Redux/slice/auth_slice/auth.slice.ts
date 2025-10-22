@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authenticationThunk, signInThunk } from "../../thunk/auth_thunk/auth.thunk";
+import {
+  authenticationThunk,
+  signInThunk,
+} from "../../thunk/auth_thunk/auth.thunk";
 import { UserResponse } from "@/api/services/auth.service";
+/**
+ * type of authentication using for authInitialState of auth slice
+ */
 interface AuthenticateInitialState {
   pendingRequest: boolean;
   isLoggedIn: boolean;
@@ -8,7 +14,9 @@ interface AuthenticateInitialState {
   message: string | null;
   user: UserResponse | null;
 }
-
+/**
+ * intitalstate of authSlice with type of AuthenticatInitialState
+ */
 const authInitialState: AuthenticateInitialState = {
   pendingRequest: false,
   resultCode: 0,
@@ -16,14 +24,19 @@ const authInitialState: AuthenticateInitialState = {
   message: null,
   user: null,
 };
+/**
+ * authSlice using for local componet authentication user
+ * @name Authentication
+ * @initialState AuthenticateInitialState
+ * @reducer now is {}
+ */
 const authSlice = createSlice({
   name: "Authenticate",
   initialState: authInitialState,
   reducers: {},
   extraReducers: (builder) => {
-    //sign in
+    // authentication user
     builder
-      ///
       .addCase(authenticationThunk.pending, (state) => {
         state.pendingRequest = true;
       })
@@ -37,7 +50,7 @@ const authSlice = createSlice({
         state.user = null;
         state.isLoggedIn = false;
       })
-      ///
+      ///sign in
       .addCase(signInThunk.pending, (state) => {
         state.pendingRequest = true;
       })
@@ -50,5 +63,7 @@ const authSlice = createSlice({
       });
   },
 });
-
+/**
+ * export reducer here
+ */
 export const authReducer = authSlice.reducer;

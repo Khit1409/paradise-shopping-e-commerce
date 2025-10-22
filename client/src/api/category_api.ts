@@ -1,3 +1,6 @@
+/**
+ * list of category using for select register store or add new product
+ */
 export const CATEGORY_SELECT_LIST = [
   { id: 1, name: "Thời trang nam", slug: "thoi_trang_nam" },
   { id: 2, name: "Thời trang nữ", slug: "thoi_trang_nu" },

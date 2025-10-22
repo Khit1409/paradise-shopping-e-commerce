@@ -2,23 +2,33 @@ import { SingleProductSeller } from "@/api/services/seller.service";
 import { createSlice } from "@reduxjs/toolkit";
 import { getSingleProductSellerThunk } from "../../thunk/seller_thunk/seller.thunk";
 
-type SellerSliceInitialState = {
+// interface of sellerInitialState of seller slice
+interface SellerSliceInitialState {
   spSeller: SingleProductSeller | null;
   sellerOnloading: boolean;
   sellerErrMess: string;
-};
-
+}
+/**
+ * initial state of seller slice
+ */
 const sellerInitialState: SellerSliceInitialState = {
   spSeller: null,
   sellerOnloading: false,
   sellerErrMess: "",
 };
+/**
+ * seller slice
+ * @name seller
+ * @reducer now is {}
+ * @initialState sellerInititalState
+ */
 const sellerSlice = createSlice({
   name: "seller",
   reducers: {},
   initialState: sellerInitialState,
   extraReducers: (builder) => {
     builder
+      //get single product for update
       .addCase(getSingleProductSellerThunk.pending, (state) => {
         state.sellerOnloading = true;
       })
@@ -32,5 +42,7 @@ const sellerSlice = createSlice({
       });
   },
 });
-
+/**
+ * export reducer here
+ */
 export const sellerReducer = sellerSlice.reducer;

@@ -1,20 +1,24 @@
 import {
   NavigationDataType,
-  WradApiType,
+  WardApiType,
 } from "@/api/interfaces/app.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import { getNavigationThunk } from "../../thunk/app_thunk/app.thunk";
-
+/**
+ * Type of app slice initial state
+ */
 interface AppInitialState {
   nav: NavigationDataType[];
   onError: boolean;
   onSuccess: boolean;
   onLoading: boolean;
   message: string | null;
-  wardApi: WradApiType[];
+  wardApi: WardApiType[];
   openResponsive: boolean;
 }
-
+/**
+ * appInitialState extends type of AppInitialState
+ */
 const appInitialState: AppInitialState = {
   nav: [],
   message: null,
@@ -24,7 +28,12 @@ const appInitialState: AppInitialState = {
   wardApi: [],
   openResponsive: false,
 };
-
+/**
+ * Slice config and functions
+ * @name app
+ * @initialState appInitalState
+ * @reducer acction using in local component
+ */
 const appSlice = createSlice({
   name: "app",
   initialState: appInitialState,
@@ -50,7 +59,10 @@ const appSlice = createSlice({
       state.openResponsive = !state.openResponsive;
     },
   },
-  //extra
+  /**
+   * thunk for handle caching api data to slice state
+   * @param builder
+   */
   extraReducers: (builder) => {
     builder
       .addCase(getNavigationThunk.pending, (state) => {
@@ -66,11 +78,16 @@ const appSlice = createSlice({
       });
   },
 });
-
+/**
+ * export action
+ */
 export const {
   onLoadingAction,
   onErrorModel,
   onSuccessfulModel,
   openResponsiveMode,
 } = appSlice.actions;
+/**
+ * export slice
+ */
 export const appReducer = appSlice.reducer;

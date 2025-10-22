@@ -1,3 +1,7 @@
+/**
+ * navbar list using for seller dashboard routing page
+ * 
+ */
 export const SELLER_NAV = [
   {
     id: 1,

@@ -1,29 +1,32 @@
 /**
- * Inteface get all product
- */
-export interface GetProductByCategoryRequest {
-  page: number;
-}
-/**
- *
- */
-/**
- * Interface api product when server response data
- *
- *
+ * =====================================
+ * PRODUCT TYPES DEFINITION
+ * =====================================
  */
 
-export interface Categories {
-  _id: string;
-  storeId: number;
-  cateName: string;
-  cateSlug: string;
-  cateImg: string;
-}
 /**
- * Product global type
+ * Request: Filter product and get limited products by page.
+ *
+ * @property {number} page - Current page number.
  */
-export interface Product {
+export type GetProductByCategoryRequest = {
+  page: number;
+};
+
+/**
+ * Product global type — used for preview or product list display.
+ *
+ * @property {_id} _id - Unique product ID.
+ * @property {string} cateId - Category ID of the product.
+ * @property {string} proName - Product name.
+ * @property {number} proPrice - Original price.
+ * @property {number} proSale - Sale price or discount percentage.
+ * @property {string} proTag - Tag or label for the product.
+ * @property {string} proSlug - SEO-friendly product slug.
+ * @property {string} proImg - Main product image URL.
+ * @property {string} proDescription - Short product description.
+ */
+export type Product = {
   _id: string;
   cateId: string;
   proName: string;
@@ -33,40 +36,80 @@ export interface Product {
   proSlug: string;
   proImg: string;
   proDescription: string;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface ImgDetail {
+};
+
+/**
+ * Product image detail type — for additional product images.
+ *
+ * @property {_id} _id - Unique image ID.
+ * @property {string} proId - Related product ID.
+ * @property {string} imgUrl - Image URL.
+ */
+export type ImgDetail = {
   _id: string;
   proId: string;
   imgUrl: string;
-  __v: number;
-}
-export interface Attribute {
+};
+
+/**
+ * Product attribute type — e.g. Size, Color, Material, etc.
+ *
+ * @property {_id} _id - Unique attribute ID.
+ * @property {string} proId - Related product ID.
+ * @property {string} attrName - Attribute name (e.g. "Color").
+ * @property {AttributeItem[]} items - List of attribute items.
+ */
+export type Attribute = {
   _id: string;
   proId: string;
   attrName: string;
-  __v: number;
   items: AttributeItem[];
-}
-export interface AttributeItem {
+};
+
+/**
+ * Item inside product attributes type — e.g. Size: M, Color: Red, etc.
+ *
+ * @property {_id} _id - Unique attribute item ID.
+ * @property {string} attrId - Related attribute ID.
+ * @property {string} itemValue - Value of the attribute (e.g. "Red").
+ * @property {string} [itemImg] - Optional image for this attribute item.
+ */
+export type AttributeItem = {
   _id: string;
   attrId: string;
   itemValue: string;
   itemImg?: string;
-  __v: number;
-}
+};
+
 /**
- * Single product type when api response
+ * API response type for single product details page.
+ *
+ * @property {SingleProduct} product - The main product details.
+ * @property {Product[]} related - List of related products.
  */
-export interface SingelProductDataResponse {
+export type SingelProductDataResponse = {
   product: SingleProduct;
   related: Product[];
-}
+};
+
 /**
- * Product for single product
+ * Single product full data — used when fetching one product by slug or id.
+ *
+ * @property {_id} _id - Product ID.
+ * @property {string} cateId - Category ID.
+ * @property {string} proName - Product name.
+ * @property {number} proSale - Discount or sale value.
+ * @property {number} proPrice - Original product price.
+ * @property {string} proTag - Tag or label for the product.
+ * @property {string} proSlug - SEO-friendly slug.
+ * @property {string} proImg - Main image.
+ * @property {string} proDescription - Product description.
+ * @property {ImgDetail[]} proImgDetails - List of additional images.
+ * @property {Attribute[]} proAttributes - List of attributes.
+ * @property {string} createdAt - Creation date (ISO string).
+ * @property {string} updatedAt - Last updated date (ISO string).
  */
-export interface SingleProduct {
+export type SingleProduct = {
   _id: string;
   cateId: string;
   proName: string;
@@ -80,35 +123,154 @@ export interface SingleProduct {
   proAttributes: Attribute[];
   createdAt: string;
   updatedAt: string;
-}
+};
+
 /**
- * Product for shop page
+ * =====================================
+ * SHOP PAGE PRODUCT FILTER
+ * =====================================
  */
-export interface ProductShopPage {
+
+/**
+ * Query request type for filtering products on shop page.
+ *
+ * @property {number|string} [pro_sale] - Sale filter value.
+ * @property {string} [cate_slug] - Category slug filter.
+ * @property {number|string} [pro_price] - Price filter value.
+ * @property {string} [area] - Area filter.
+ */
+export type GetProductShopRequest = {
+  pro_sale?: number | string;
+  cate_slug?: string;
+  pro_price?: number | string;
+  area?: string;
+};
+
+/**
+ * API response type for shop page — each shop includes product list.
+ *
+ * @property {number} storeId - Store ID.
+ * @property {string} storeName - Store name.
+ * @property {string} storeArea - Store area.
+ * @property {string} storeAreaSlug - Store area slug.
+ * @property {string} storeAvatar - Store avatar URL.
+ * @property {string} storeAddress - Store address.
+ * @property {Product[]} products - List of products in the store.
+ */
+export type ProductShopPage = {
   storeId: number;
   storeName: string;
   storeArea: string;
   storeAreaSlug: string;
   storeAvatar: string;
   storeAddress: string;
-  products: {
-    _id: string;
-    cateId: string;
-    proName: string;
-    proPrice: number;
-    proSale: number;
-    proTag: string;
-    proSlug: string;
-    proImg: string;
-  }[];
-}
+  products: Product[];
+};
+
 /**
- * cart api response
+ * =====================================
+ * CART TYPES DEFINITION
+ * =====================================
+ */
+
+/**
+ * Chosen attribute in "Add to Cart" action.
+ *
+ * @property {string} attrName - Attribute name.
+ * @property {string} itemValue - Chosen attribute value.
+ */
+export type AddToCartChooseType = {
+  attrName: string;
+  itemValue: string;
+};
+
+/**
+ * Request type for adding a product to cart.
+ *
+ * @property {string} proId - Product ID.
+ * @property {string} name - Product name.
+ * @property {number} quantity - Quantity added.
+ * @property {number} price - Price per unit.
+ * @property {string} img - Product image.
+ * @property {AddToCartChooseType[]} choose - Chosen attributes.
+ */
+export type AddToCartType = {
+  proId: string;
+  name: string;
+  quantity: number;
+  price: number;
+  img: string;
+  choose: AddToCartChooseType[];
+};
+
+/**
+ * Type of product attributes displayed inside the cart.
+ *
+ * @property {_id} _id - Attribute ID.
+ * @property {string} attrName - Attribute name.
+ * @property {string} itemValue - Selected attribute value.
+ * @property {{ value: string; _id: string }[]} otherValue - Options for attribute changes.
+ */
+export type CartAttribute = {
+  _id: string;
+  attrName: string;
+  itemValue: string;
+  otherValue: { value: string; _id: string }[];
+};
+
+/**
+ * Type for user's cart item or list of cart items.
+ *
+ * @property {_id} _id - Cart item ID.
+ * @property {string} cartImg - Product image.
+ * @property {string} cartName - Product name.
+ * @property {number} cartPrice - Price per unit.
+ * @property {string} proId - Related product ID.
+ * @property {number} cartQuantity - Quantity selected.
+ * @property {number} cartTotalPrice - Total price for this cart item.
+ * @property {CartAttribute[]} cartAttributes - Attributes of product in cart.
  */
 export type UserCart = {
   _id: string;
+  cartImg: string;
   cartName: string;
   cartPrice: number;
+  proId: string;
   cartQuantity: number;
-  cartImg: string;
-}[];
+  cartTotalPrice: number;
+  cartAttributes: CartAttribute[];
+};
+
+/**
+ * =====================================
+ * PRODUCT / CART OPERATIONS
+ * =====================================
+ */
+
+/**
+ * Request type to get single product by ID or slug.
+ *
+ * @property {string} id - Product ID.
+ * @property {string} [slug] - Optional product slug.
+ */
+export type GetSingleProductRequest = {
+  id: string;
+  slug?: string;
+};
+
+/**
+ * Request type to update cart item.
+ *
+ * @property {string} cartId - Cart item ID.
+ * @property {number} [newQuantity] - Updated quantity.
+ * @property {{ _id: string; attrName?: string; itemValue?: string }[]} [newAttributes] - Updated attributes.
+ */
+export type UpdateCartType = {
+  cartId: string;
+  newQuantity?: number;
+  newAttributes?: {
+    _id: string;
+    attrName?: string;
+    itemValue?: string;
+  }[];
+};

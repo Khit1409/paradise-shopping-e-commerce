@@ -1,4 +1,4 @@
-import { ProvinceApiType, WradApiType } from "@/api/interfaces/app.interface";
+import { ProvinceApiType, WardApiType } from "@/api/interfaces/app.interface";
 import { AppDispatch } from "@/api/redux/store";
 import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import React, { SetStateAction, useEffect, useState } from "react";
@@ -12,7 +12,7 @@ type ComponentProps = {
 export default function SelectAddressForm({ getValue }: ComponentProps) {
   /** Local state */
   const [provinceApi, setProvinceApi] = useState<ProvinceApiType[]>([]);
-  const [wardApi, setWardApi] = useState<WradApiType[]>([]);
+  const [wardApi, setWardApi] = useState<WardApiType[]>([]);
   const [selectedWard, setSelectedWard] = useState<string>("");
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [specificAddress, setSpecificAddress] = useState<string>("");

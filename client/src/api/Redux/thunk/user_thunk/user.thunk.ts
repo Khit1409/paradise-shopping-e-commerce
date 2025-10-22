@@ -1,11 +1,9 @@
+import { RegisterType } from "@/api/interfaces/user.interface";
 import {
   CreateNewStoreRequest,
   createNewStoreService,
 } from "@/api/services/seller.service";
-import {
-  clietnRegisterService,
-  RegisterType,
-} from "@/api/services/user.service";
+import { clietnRegisterService } from "@/api/services/user.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 /**
  * client login function

@@ -1,17 +1,17 @@
 import {
+  AddToCartType,
   GetProductByCategoryRequest,
   Product,
   ProductShopPage,
   SingelProductDataResponse,
+  UserCart,
 } from "@/api/interfaces/product.interface";
 import {
   addToCartServicer,
-  AddToCartType,
   getHomeProductService,
   getProductShopService,
   getSingleProductService,
   getUserCartService,
-  UserCart,
 } from "@/api/services/product.service";
 import {
   getProductSellerService,

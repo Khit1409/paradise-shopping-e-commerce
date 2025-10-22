@@ -10,13 +10,15 @@ import {
   Product,
   ProductShopPage,
   SingelProductDataResponse,
+  UserCart,
 } from "@/api/interfaces/product.interface";
 import {
   ProductSeller,
   SingleProductSeller,
 } from "@/api/services/seller.service";
-import { UserCart } from "@/api/services/product.service";
-
+/**
+ * interface of productInitialState of product slice
+ */
 interface ProductInitialState {
   errorMessage: string | null;
   productShop: ProductShopPage[];
@@ -28,6 +30,9 @@ interface ProductInitialState {
   carts: UserCart[];
 }
 
+/**
+ * inital state of product slice
+ */
 const productInitialState: ProductInitialState = {
   errorMessage: null,
   productApi: [],
@@ -39,7 +44,10 @@ const productInitialState: ProductInitialState = {
   singleProduct: null,
 };
 /**
- *
+ * product slice
+ * @name Product
+ * @reducer now is {}
+ * @intitalState productInitialState
  */
 const productSlice = createSlice({
   name: "Product",
@@ -109,5 +117,7 @@ const productSlice = createSlice({
       });
   },
 });
-
+/**
+ * export reducer header
+ */
 export const productReducer = productSlice.reducer;

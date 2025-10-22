@@ -22,7 +22,7 @@ export interface ProvinceApiType {
 /**
  * Wrad api type
  */
-export interface WradApiType {
+export interface WardApiType {
   name: string;
   code: number;
   division_type: string;
