@@ -10,7 +10,7 @@ type ComponentProps = {
 };
 
 export default function CartModal({ ...props }: ComponentProps) {
-  const { carts } = useSelector((state: RootState) => state.product);
+  const { carts } = useSelector((state: RootState) => state.cart);
 
   const totalPrice = carts.reduce((acc, item) => acc + item.cartTotalPrice, 0);
 

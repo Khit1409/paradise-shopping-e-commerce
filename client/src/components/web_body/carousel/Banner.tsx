@@ -8,8 +8,9 @@ export default function BannerSection() {
         src={"/imgs/food.jpg"}
         width={1260}
         height={300}
-        className="w-[1260px] h-[300px]"
+        className="w-full h-full"
         alt="banner"
+        priority
       />
     </div>
   );

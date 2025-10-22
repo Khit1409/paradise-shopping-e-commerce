@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/api/redux/store";
-import { getUserCartThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import { getUserCartThunk } from "@/api/redux/thunk/cart_thunk/cart.thunk";
 import CartModal from "../modals/CartModal";
 import NotificateModal from "../modals/NotificateModal";
 import MessageModal from "../modals/MessageModal";
@@ -33,7 +33,7 @@ export default function TopBar() {
    *
    */
   const { user, isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const { carts } = useSelector((state: RootState) => state.product);
+  const { carts } = useSelector((state: RootState) => state.cart);
   // const { openResponsive } = useSelector((state: RootState) => state.app);
   /**
    * UseEffect

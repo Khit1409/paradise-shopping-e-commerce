@@ -4,13 +4,11 @@ import {
   getProductSellerThunk,
   getProductShopThunk,
   getSingleProductThunk,
-  getUserCartThunk,
 } from "../../thunk/product_thunk/product.thunk";
 import {
   Product,
   ProductShopPage,
   SingelProductDataResponse,
-  UserCart,
 } from "@/api/interfaces/product.interface";
 import {
   ProductSeller,
@@ -27,7 +25,6 @@ interface ProductInitialState {
   productSellerApi: ProductSeller[];
   productApi: Product[];
   singleProduct: SingelProductDataResponse | null;
-  carts: UserCart[];
 }
 
 /**
@@ -40,7 +37,6 @@ const productInitialState: ProductInitialState = {
   productSellerApi: [],
   spSeller: null,
   productShop: [],
-  carts: [],
   singleProduct: null,
 };
 /**
@@ -100,18 +96,6 @@ const productSlice = createSlice({
         state.sendRequest = false;
       })
       .addCase(getProductSellerThunk.rejected, (state, action) => {
-        state.errorMessage = action.payload ?? "Error";
-        state.sendRequest = false;
-      })
-      //get cart for user
-      .addCase(getUserCartThunk.pending, (state) => {
-        state.sendRequest = true;
-      })
-      .addCase(getUserCartThunk.fulfilled, (state, action) => {
-        state.carts = action.payload;
-        state.sendRequest = false;
-      })
-      .addCase(getUserCartThunk.rejected, (state, action) => {
         state.errorMessage = action.payload ?? "Error";
         state.sendRequest = false;
       });

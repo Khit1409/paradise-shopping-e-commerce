@@ -1,5 +1,5 @@
 import { UserResponse } from "@/api/services/auth.service";
-import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { SetStateAction, useEffect, useState } from "react";
 
@@ -14,6 +14,8 @@ type ComponentProps = {
   getEmailValue: React.Dispatch<
     SetStateAction<{ _id: string; emailAddress: string }[]>
   >;
+  submitChange: React.Dispatch<SetStateAction<boolean>>;
+  isSubmit: boolean;
 };
 
 export default function UserUpdateContact({ ...props }: ComponentProps) {
@@ -172,17 +174,27 @@ export default function UserUpdateContact({ ...props }: ComponentProps) {
             ))}
           </div>
           <h5 className="border-b uppercase">Xác nhận thay đổi</h5>
-          <div className="">
+          <div className="flex gap-2 items-center">
             <button
               onClick={() => {
                 props.getEmailValue(updateEmail);
                 props.getAddressValue(updateAddress);
                 props.getPhoneValue(updatePhone);
+                props.submitChange(true);
               }}
               className="text-white bg-green-500 hover:bg-green-600 px-2 py-1 rounded"
             >
-              Xác nhận <FontAwesomeIcon icon={faSave} />
+              Xác nhận{" "}
+              {props.isSubmit ? (
+                <FontAwesomeIcon icon={faCheck} />
+              ) : (
+                <FontAwesomeIcon icon={faSave} />
+              )}
             </button>
+            <span className="text-yellow-500">
+              *Lưu ý khi bạn thay đổi thông tin liên lạc phải nhấn nút xác nhận
+              để lưu thay đổi ( Không áp dụng cho thay đổi khác ) !
+            </span>
           </div>
         </div>
       </div>

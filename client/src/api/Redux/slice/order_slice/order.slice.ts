@@ -13,7 +13,7 @@ type orderInitialStateType = {
 /**
  * Type of state on initial state
  */
-type OrderState = {
+export type OrderState = {
   open: boolean;
   items: {
     productId: string;

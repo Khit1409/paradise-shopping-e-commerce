@@ -11,17 +11,20 @@ import {
 import {
   deleteUserCartService,
   updateUserCart,
-} from "@/api/services/product.service";
+} from "@/api/services/cart.service";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
 } from "@/api/redux/slice/app_slice/app.slice";
-import { getUserCartThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import { getUserCartThunk } from "@/api/redux/thunk/cart_thunk/cart.thunk";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { onOpenOrderModal } from "@/api/redux/slice/order_slice/order.slice";
+import {
+  onOpenOrderModal,
+  OrderState,
+} from "@/api/redux/slice/order_slice/order.slice";
 
 export default function CartSection() {
   /**
@@ -32,7 +35,7 @@ export default function CartSection() {
     useState<{ _id: string; attrName: string; itemValue: string }[]>();
   const [selectedCart, setSelectedCart] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
-  const { carts } = useSelector((state: RootState) => state.product);
+  const { carts } = useSelector((state: RootState) => state.cart);
   const { user } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
   /**
@@ -119,6 +122,31 @@ export default function CartSection() {
         dispatch(onErrorModel({ mess: `${error}`, onError: true }));
       }
     }
+  }
+  /**
+   * handle add cart to order
+   */
+  function addToOrder({
+    ...value
+  }: {
+    productId: string;
+    productImg: string;
+    attribute: { attrName: string; itemValue: string; itemImg?: string }[];
+    totalPrice: number;
+    quantity: number;
+  }) {
+    dispatch(
+      onOpenOrderModal({
+        open: true,
+        items: {
+          productId: value.productId,
+          attribute: value.attribute,
+          productImg: value.productImg,
+          quantity: value.quantity,
+          totalPrice: value.totalPrice,
+        },
+      })
+    );
   }
 
   return carts && carts.length !== 0 ? (
@@ -237,18 +265,13 @@ export default function CartSection() {
             <div className="flex items-center justify-center gap-3 flex-wrap">
               <button
                 onClick={() => {
-                  dispatch(
-                    onOpenOrderModal({
-                      open: true,
-                      items: {
-                        productId: cart._id,
-                        productImg: cart.cartImg,
-                        attribute: cart.cartAttributes,
-                        totalPrice: cart.cartTotalPrice,
-                        quantity: cart.cartQuantity,
-                      },
-                    })
-                  );
+                  addToOrder({
+                    productId: cart.proId,
+                    attribute: cart.cartAttributes,
+                    productImg: cart.cartImg,
+                    quantity: cart.cartQuantity,
+                    totalPrice: cart.cartTotalPrice,
+                  });
                 }}
                 className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm rounded transition-all"
               >

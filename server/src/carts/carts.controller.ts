@@ -19,7 +19,7 @@ import { UpdateUserCartDto } from "./dto/cart-update.dto";
 export class CartsController {
   constructor(
     private readonly cartsService: CartsService,
-    private readonly userService: UsersService,
+    private readonly userService: UsersService
   ) {}
 
   /**
@@ -31,7 +31,7 @@ export class CartsController {
   @HttpCode(200)
   async addToCartController(
     @Body() dto: AddToCartDto,
-    @Req() req: { cookies: { user_token: string } },
+    @Req() req: { cookies: { user_token: string } }
   ) {
     try {
       const token = req.cookies.user_token;
@@ -51,7 +51,7 @@ export class CartsController {
   @Get("get_user_cart")
   @HttpCode(200)
   async getCartByUserIdController(
-    @Req() req: { cookies: { user_token: string } },
+    @Req() req: { cookies: { user_token: string } }
   ) {
     try {
       const token = req.cookies.user_token;
@@ -69,14 +69,14 @@ export class CartsController {
   @Delete("delete_user_cart/:id")
   @HttpCode(200)
   async deleteUserCartController(
-    @Param("id") id: string,
+    @Param("id") id: string ,
     @Req()
     req: {
       cookies: {
         user_token: string;
         seller_token: string;
       };
-    },
+    }
   ) {
     const token = req.cookies.user_token;
     const user = await this.userService.authenticationUser(token);
@@ -85,7 +85,7 @@ export class CartsController {
     }
     const result = await this.cartsService.deleteCartUserService(
       id,
-      user.userId,
+      user.userId
     );
     return result;
   }
@@ -96,7 +96,7 @@ export class CartsController {
   @HttpCode(200)
   async updateUserCartController(
     @Body() dto: UpdateUserCartDto,
-    @Req() req: { cookies: { user_token: string } },
+    @Req() req: { cookies: { user_token: string } }
   ) {
     try {
       const token = req.cookies.user_token;

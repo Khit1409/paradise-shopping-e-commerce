@@ -1,6 +1,6 @@
 "use client";
 import { AppDispatch, RootState } from "@/api/redux/store";
-import { getUserCartThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import { getUserCartThunk } from "@/api/redux/thunk/cart_thunk/cart.thunk";
 import ProductHomePage from "@/components/product_page_section/pages/ProductHomePage";
 import BannerSection from "@/components/web_body/carousel/Banner";
 import { useEffect } from "react";

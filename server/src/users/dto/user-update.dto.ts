@@ -28,6 +28,15 @@ export class UpdateAuth {
 }
 export class UpdateUserAccountDto {
   @IsOptional()
+  @IsString()
+  newFirtName: string;
+  @IsOptional()
+  @IsString()
+  newAvatar: string;
+  @IsOptional()
+  @IsString()
+  newLastName: string;
+  @IsOptional()
   @IsArray()
   @Type(() => UpdatePhone)
   phone: UpdatePhone[];

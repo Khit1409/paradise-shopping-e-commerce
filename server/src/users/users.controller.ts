@@ -15,11 +15,17 @@ import { RegisterDto } from "./dto/register.dto";
 import { SignInDto } from "./dto/signin.dto";
 import type { Request, Response } from "express";
 import { UpdateUserAccountDto } from "./dto/user-update.dto";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
 // import { CreateStoreDto } from "src/store/dto/store.dto"/\;
 
 @Controller("users")
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwt: JwtService,
+    private readonly config: ConfigService
+  ) {}
 
   /**
    * register account
@@ -44,7 +50,7 @@ export class UsersController {
   @Post("login")
   async userLogin(
     @Res({ passthrough: true }) res: Response,
-    @Body() credentials: SignInDto,
+    @Body() credentials: SignInDto
   ) {
     try {
       const tokenName = `${credentials.role}_token`;
@@ -76,7 +82,7 @@ export class UsersController {
       params: {
         role: "user" | "seller";
       };
-    },
+    }
   ) {
     try {
       const role = req.params.role;
@@ -104,11 +110,17 @@ export class UsersController {
     @Body() dto: UpdateUserAccountDto,
     @Req() req: { cookies: { user_token: string } },
   ) {
-    const token = req.cookies.user_token;
-    const user = await this.usersService.authenticationUser(token);
-    const userId = user.userId.toLowerCase();
-    const result = await this.usersService.updateUserAccount(dto, userId);
-    return result;
+    try {
+      //lấy tojken cũ
+      const token = req.cookies.user_token;
+      const user = await this.usersService.authenticationUser(token);
+      const userId = user.userId.toLowerCase();
+      //service
+      const result = await this.usersService.updateUserAccount(dto, userId);
+      return result;
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
   }
   /**
    * test

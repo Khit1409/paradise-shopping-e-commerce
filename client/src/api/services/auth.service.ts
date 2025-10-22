@@ -79,6 +79,9 @@ export type UpdateAccountRequest = {
   phone?: { _id: string; phoneNum: string }[];
   address?: { _id: string; addressName: string }[];
   email?: { _id: string; emailAddress: string }[];
+  newLastName?: string;
+  newFirtName?: string;
+  newAvatar?: string;
 };
 /**
  * withCredential: auto true

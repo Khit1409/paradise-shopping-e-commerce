@@ -14,12 +14,18 @@ import {
 import { updateUserAccount } from "@/api/services/auth.service";
 import UserUpdateBasicInput from "../form/UserUpdateBasicInput";
 import UserUpdateContact from "../form/UserUpdateContact";
+import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
+import { useRouter } from "next/navigation";
 
 export default function UserUpdateAccountPage() {
+  const router = useRouter();
   /**
    * Props state
    */
   const [newAvatar, setNewAvatar] = useState<string>("");
+  const [newFirtName, setNewFirtName] = useState<string>("");
+  const [newLastName, setNewLastName] = useState<string>("");
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [newAddress, setNewAddress] = useState<
     { _id: string; addressName: string }[]
   >([]);
@@ -40,16 +46,19 @@ export default function UserUpdateAccountPage() {
    */
   async function updateAccount(): Promise<void> {
     try {
+      dispatch(onLoadingAction(true));
       const result = await updateUserAccount({
         address: newAddress,
         phone: newPhone,
         email: newEmail,
+        newFirtName,
+        newLastName,
+        newAvatar,
       });
       if (result.resultCode == 1) {
         dispatch(onLoadingAction(false));
         dispatch(onSuccessfulModel(true));
-        return;
-      } else if (result.resultCode !== 1) {
+      } else {
         dispatch(onLoadingAction(false));
         dispatch(
           onErrorModel({
@@ -57,19 +66,26 @@ export default function UserUpdateAccountPage() {
             mess: "Error ,cập nhật thông tin tài khoản thất bại",
           })
         );
-        return;
-      }
+      } 
     } catch (error) {
       dispatch(onLoadingAction(false));
       dispatch(onErrorModel({ onError: true, mess: `${error}` }));
-      return;
     }
   }
   return (
     user && (
       <div className="flex flex-col gap-3 p-2 text-gray-700">
-        <UserUpdateBasicInput user={user} />
+        <UserUpdateBasicInput
+          newAvatarValue={newAvatar}
+          user={user}
+          dispatch={dispatch}
+          getNewAvatar={setNewAvatar}
+          getNewFirtName={setNewFirtName}
+          getNewLastName={setNewLastName}
+        />
         <UserUpdateContact
+          submitChange={setIsSubmit}
+          isSubmit={isSubmit}
           user={user}
           getAddressValue={setNewAddress}
           getEmailValue={setNewEmail}

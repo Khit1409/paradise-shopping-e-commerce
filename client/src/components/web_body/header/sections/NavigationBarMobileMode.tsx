@@ -22,7 +22,7 @@ export default function NavigationBarMobileMode() {
    */
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const { nav, openResponsive } = useSelector((state: RootState) => state.app);
-  const { carts } = useSelector((state: RootState) => state.product);
+  const { carts } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<AppDispatch>();
   /**
    * component state

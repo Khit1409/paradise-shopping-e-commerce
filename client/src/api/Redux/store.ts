@@ -4,6 +4,7 @@ import { authReducer } from "./slice/auth_slice/auth.slice";
 import { appReducer } from "./slice/app_slice/app.slice";
 import { sellerReducer } from "./slice/seller_slice/seller.slice";
 import { orderReducer } from "./slice/order_slice/order.slice";
+import { cartReducer } from "./slice/cart_slice/cart.slice";
 
 export const globalStore = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const globalStore = configureStore({
     app: appReducer,
     seller: sellerReducer,
     order: orderReducer,
+    cart: cartReducer,
   },
 });
 

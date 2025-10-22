@@ -59,7 +59,6 @@ export default function ProductHomePage() {
                     width={180}
                     height={200}
                     alt={pro.proName}
-                    objectFit="cover"
                     className="object-cover w-full h-[200px]"
                   />
                   <div className="flex flex-col gap-1 p-2">

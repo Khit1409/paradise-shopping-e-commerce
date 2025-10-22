@@ -56,23 +56,13 @@ export default function UserModal({ ...props }: ComponentProps) {
       {/* ===== Header Section ===== */}
       <div className="flex items-center gap-3 p-2">
         {/* User avatar */}
-        <label htmlFor="avatar">
-          <Image
-            src={user?.userAvatar ?? `/imgs/food.jpg`}
-            width={70}
-            height={70}
-            alt="avatar"
-            className="rounded-full object-cover border shadow-sm"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            hidden
-            id="avatar"
-            name="avatar"
-          />
-        </label>
-
+        <Image
+          src={user?.userAvatar ?? `/imgs/food.jpg`}
+          width={70}
+          height={70}
+          alt="avatar"
+          className="rounded-full object-cover border shadow-sm"
+        />
         {/* User information */}
         <div className="flex flex-col">
           <p className="font-semibold text-gray-800">

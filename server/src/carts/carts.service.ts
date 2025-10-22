@@ -19,7 +19,7 @@ import { ProductDoc } from "src/products/models/product.model";
 export class CartsService {
   constructor(
     @InjectModel("Cart") private readonly cartModel: Model<cartDoc>,
-    @InjectModel("Product") private readonly productModel: Model<ProductDoc>,
+    @InjectModel("Product") private readonly productModel: Model<ProductDoc>
   ) {}
 
   /**
@@ -55,7 +55,7 @@ export class CartsService {
             cartTotalPrice: +Number(dto.price * dto.quantity),
           }, //update quantity
         },
-        { new: true },
+        { new: true }
       );
       //create if new
       if (!updatedCart) {
@@ -76,11 +76,11 @@ export class CartsService {
                 itemValue: attr.itemValue,
                 otherValue: (() => {
                   const neededAttr = productAttribute.find(
-                    (f) => f.attrName === attr.attrName, //other value,
+                    (f) => f.attrName === attr.attrName //other value,
                   );
                   if (neededAttr) {
                     const neededItem = neededAttr.items.filter(
-                      (ft) => ft.itemValue !== attr.itemValue,
+                      (ft) => ft.itemValue !== attr.itemValue
                     );
                     return neededItem.map((r) => ({ value: r.itemValue }));
                   } else {
@@ -114,7 +114,7 @@ export class CartsService {
       }
 
       const existedCart = await this.cartModel.findById(
-        new mongoose.Types.ObjectId(dto.cartId),
+        new mongoose.Types.ObjectId(dto.cartId)
       );
       if (!existedCart) {
         throw new BadRequestException("Error when update user cart!");
@@ -125,7 +125,7 @@ export class CartsService {
         console.log(dto.newAttributes);
         dto.newAttributes.forEach((attr) => {
           const thisAttr = existedCart.cartAttributes.find(
-            (f) => f._id.toString() === attr._id,
+            (f) => f._id.toString() === attr._id
           );
           if (thisAttr) {
             thisAttr.attrName = attr.attrName ?? thisAttr.attrName;
@@ -153,7 +153,7 @@ export class CartsService {
       const cart = await this.cartModel
         .find({ userId })
         .select(
-          "cartName cartImg cartAttributes cartPrice cartTotalPrice proId cartQuantity",
+          "cartName cartImg cartAttributes cartPrice cartTotalPrice proId cartQuantity"
         )
         .lean();
 
@@ -167,6 +167,10 @@ export class CartsService {
    */
   async deleteCartUserService(id: string, userId: string) {
     try {
+      if (id === "all") {
+        await this.cartModel.deleteMany({ userId });
+        return { message: "Xóa giỏ hàng thành công!", resultCode: 1 };
+      }
       const cartId = new mongoose.Types.ObjectId(id);
       if (!cartId || !userId) {
         throw new BadRequestException("Lỗi request thiếu field");
