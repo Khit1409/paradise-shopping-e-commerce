@@ -2,8 +2,8 @@ import {
   deleteActionSingleProductService,
   DeleteReq,
   getSingleProductSellerService,
-  SellerUpdateProductRequest,
-  sellerUpdateProductService,
+  // SellerUpdateProductRequest,
+  // sellerUpdateProductService,
   SingleProductSeller,
   upNewProductService,
   UpProductReq,
@@ -75,68 +75,68 @@ export const upNewProductThunk = createAsyncThunk<
     }
   }
 );
-/***
- * update product
- */
-export const updateProductThunk = createAsyncThunk<
-  /**
-   * response type
-   */
-  { message: string; resultCode: number },
-  /**
-   * req type
-   */
-  SellerUpdateProductRequest,
-  /**
-   * error res
-   */
-  { rejectValue: string }
->(
-  "update product",
-  /**
-   * thunk func
-   * @param param0
-   * @param thunkAPI
-   * @returns
-   */
-  async (
-    {
-      attribute,
-      product_id,
-      imgDetail,
-      proCateSlug,
-      proDescription,
-      proImg,
-      proName,
-      proPrice,
-      proSale,
-    },
-    thunkAPI
-  ) => {
-    try {
-      /**
-       * use service
-       */
-      const result = await sellerUpdateProductService({
-        attribute,
-        product_id,
-        imgDetail,
-        proCateSlug,
-        proDescription,
-        proImg,
-        proName,
-        proPrice,
-        proSale,
-      });
-      return result;
-    } catch (error) {
-      /**
-       * return err
-       */
-      return thunkAPI.rejectWithValue(`${error}`);
-    }
-  }
-);
+// /***
+//  * update product
+//  */
+// export const updateProductThunk = createAsyncThunk<
+//   /**
+//    * response type
+//    */
+//   { message: string; resultCode: number },
+//   /**
+//    * req type
+//    */
+//   SellerUpdateProductRequest,
+//   /**
+//    * error res
+//    */
+//   { rejectValue: string }
+// >(
+//   "update product",
+//   /**
+//    * thunk func
+//    * @param param0
+//    * @param thunkAPI
+//    * @returns
+//    */
+//   async (
+//     {
+//       attribute,
+//       product_id,
+//       imgDetail,
+//       proCateSlug,
+//       proDescription,
+//       proImg,
+//       proName,
+//       proPrice,
+//       proSale,
+//     },
+//     thunkAPI
+//   ) => {
+//     try {
+//       /**
+//        * use service
+//        */
+//       const result = await sellerUpdateProductService({
+//         attribute,
+//         product_id,
+//         imgDetail,
+//         proCateSlug,
+//         proDescription,
+//         proImg,
+//         proName,
+//         proPrice,
+//         proSale,
+//       });
+//       return result;
+//     } catch (error) {
+//       /**
+//        * return err
+//        */
+//       return thunkAPI.rejectWithValue(`${error}`);
+//     }
+//   }
+// );
 /**
  * get single product for seller manager
  */

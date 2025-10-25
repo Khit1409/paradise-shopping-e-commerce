@@ -6,11 +6,7 @@ import {
   onSuccessfulModel,
 } from "@/api/redux/slice/app_slice/app.slice";
 import { AppDispatch, RootState } from "@/api/redux/store";
-import {
-  deleteActionSingleProductThunk,
-  getSingleProductSellerThunk,
-  updateProductThunk,
-} from "@/api/redux/thunk/seller_thunk/seller.thunk";
+import { getSingleProductSellerThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -30,7 +26,11 @@ import {
   faSave,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { deleteSingleProduct } from "@/api/services/seller.service";
+import {
+  deleteActionSingleProductService,
+  deleteSingleProduct,
+  sellerUpdateProductService,
+} from "@/api/services/seller.service";
 
 /**
  * Type definitions for local state
@@ -122,50 +122,51 @@ export default function UpdateProductSinglePage() {
 
     // handle update with promise all
     const [resultUp, resultDelete] = await Promise.all([
-      dispatch(
-        //update
-        updateProductThunk({
-          attribute: attributeInput,
-          product_id: product_id,
-          imgDetail: imgDetail,
-          proCateSlug: newCate,
-          proDescription: basicInput?.proDescription,
-          proImg: imgInput,
-          proName: basicInput?.proName,
-          proPrice: basicInput?.proPrice,
-          proSale: basicInput?.proSale,
-        })
-      ),
+      //update
+      sellerUpdateProductService({
+        attribute: attributeInput,
+        product_id: product_id,
+        imgDetail: imgDetail,
+        proCateSlug: newCate,
+        proDescription: basicInput?.proDescription,
+        proImg: imgInput,
+        proName: basicInput?.proName,
+        proPrice: basicInput?.proPrice,
+        proSale: basicInput?.proSale,
+      }),
       //delete choseen
-      dispatch(
-        deleteActionSingleProductThunk({
-          proId: product_id,
-          attribute: attrIdRemove ?? [],
-          attributeItem: attrItemIdRemove ?? [],
-          imgDetail: imgIdRemove ?? [],
-        })
-      ),
+      deleteActionSingleProductService({
+        proId: product_id,
+        attribute: attrIdRemove ?? [],
+        attributeItem: attrItemIdRemove ?? [],
+        imgDetail: imgIdRemove ?? [],
+      }),
     ]);
 
     //check result
-    if (
-      updateProductThunk.fulfilled.match(resultUp) &&
-      deleteActionSingleProductThunk.fulfilled.match(resultDelete)
-    ) {
+    if (resultUp.resultCode == 1 && resultDelete.resultCode == 1) {
       dispatch(onLoadingAction(false));
       dispatch(onSuccessfulModel(true));
       setReloadFlag(true);
       //call again product api for set new product data
       await dispatch(
         getSingleProductSellerThunk({
-          product_id: product_id ?? "",
+          product_id: product_id,
         })
       );
       //error action
     } else {
+      const errorUp = resultUp.message;
+      const errorDelete = resultDelete.message;
       dispatch(onLoadingAction(false));
       dispatch(
-        onErrorModel({ mess: "Cập nhật sản phẩm bị lỗi", onError: true })
+        onErrorModel({
+          mess: `
+          ${errorUp ?? ""}
+          ${errorDelete ?? ""}
+          `,
+          onError: true,
+        })
       );
     }
   }
@@ -208,7 +209,10 @@ export default function UpdateProductSinglePage() {
   return spSeller ? (
     <section className="flex flex-col gap-3">
       {/* Category selector */}
-      <UpdateCategory setCateSlug={setNewCate} />
+      <UpdateCategory
+        setCateSlug={setNewCate}
+        defaultValue={spSeller.proCateSlug}
+      />
       {/* Basic inputs (name, price, description, etc.) */}
       <BasicInput basicInputValue={basicInput} setBasicInput={setBasicInput} />
       {/* Image upload + gallery */}

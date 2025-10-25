@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, Post, Res } from "@nestjs/common";
 import { ServerLoaded } from "./app.service";
-import { createNavigationDto } from "./appDto/app.dto";
+import { createNavigationDto } from "./app-dto/app.dto";
 import type { Response } from "express";
 
 @Controller("app")

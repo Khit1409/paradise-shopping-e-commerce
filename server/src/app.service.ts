@@ -7,12 +7,12 @@ import { DataSource } from "typeorm";
 import { Connection, Model } from "mongoose";
 import { InjectConnection, InjectModel } from "@nestjs/mongoose";
 import { NavigationDoc } from "./app.model";
-import { createNavigationDto } from "./appDto/app.dto";
+import { createNavigationDto } from "./app-dto/app.dto";
 import { createUrlNav } from "./feature/feature";
 import {
   NavigationDataType,
   NavigationReponse,
-} from "./interfaces/response.interface";
+} from "./interfaces/server.types";
 
 @Injectable()
 export class ServerLoaded implements OnModuleInit {
@@ -48,7 +48,7 @@ export class ServerLoaded implements OnModuleInit {
         .lean<NavigationDataType[]>();
       if (nav.length == 0) {
         return {
-          message: "navigation []",
+          message: "navigation is not define",
           nav: [],
           resultCode: 0,
           statusCode: 401,

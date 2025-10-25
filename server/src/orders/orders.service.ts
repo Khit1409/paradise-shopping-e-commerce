@@ -19,15 +19,19 @@ import { CreatePaymentLinkResponse } from "@payos/node";
 import { InjectModel } from "@nestjs/mongoose";
 import { Product } from "src/products/models/product.model";
 import { Model } from "mongoose";
-/**
- * 1. add new order
- * 2. update order when corder modal open
- * 3. update order state, pay state
- */
+import { EmailsService } from "src/emails/emails.service";
+import {
+  AddNewOrderResponse,
+  SingleProductDataType,
+} from "src/interfaces/server.types";
+
 @Injectable()
 export class OrdersService {
   constructor(
+    //other service
+    private readonly emailService: EmailsService,
     private readonly paymentService: PaymentsService,
+    //
     @InjectModel("Product") private readonly productModel: Model<Product>,
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
@@ -38,67 +42,227 @@ export class OrdersService {
     @InjectRepository(OrderPersonContacts)
     private readonly orderContactRepo: Repository<OrderPersonContacts>,
     @InjectRepository(OrderItems)
-    private readonly orderItemRepo: Repository<OrderItems>,
+    private readonly orderItemRepo: Repository<OrderItems>
   ) {}
-  async addNewOrderService(dto: CreateOrderDto, userId: string) {
+  /**
+   * auto delete order if created day is greeter than 100 day
+   */
+  async autoDeleteTimeOutOfOrder() {
     try {
+      await this.orderRepo
+        .createQueryBuilder()
+        .delete()
+        .from(Orders)
+        .where("DATEDIFF(DAY, createdAt, GETDATE()) >= :maxDays", {
+          maxDays: 1000,
+        })
+        .execute();
+      console.log("Old orders cleaned up at", new Date());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  /**
+   * create new order and create payment link if req from client have paymethod is online
+   * @param dto
+   * @param userId
+   * @returns {AddNewOrderResponse}
+   */
+  async addNewOrderService(
+    dto: CreateOrderDto,
+    userId: string
+  ): Promise<AddNewOrderResponse> {
+    try {
+      const start = Date.now();
+      /**
+       * check validate from request and
+       * user id from token verified
+       */
       if (!userId) {
-        throw new BadRequestException(
-          "User is not login check again token or loggin state!",
-        );
+        return {
+          message: "User id is invalid!",
+          payment: null,
+          resultCode: 0,
+          statusCode: 401,
+        };
       }
-      const storeId = await this.productModel
-        .findById(dto.item.proId)
-        .then((data) => {
-          if (data) {
-            return data.storeId;
-          }
-        });
+      if (!dto || !dto.contact || !dto.item) {
+        return {
+          message: "Request is not enoungh!",
+          payment: null,
+          resultCode: 0,
+          statusCode: 401,
+        };
+      }
+      /**
+       * leak all filed from dto
+       */
+      const { contact, item } = dto;
+      const { address, email, phone, userName } = contact;
+      const { kindOfPay, kindOfShip, orderName, proId, quantity, totalPrice } =
+        item;
+      /**
+       * get storeId from product id in
+       */
+      const product = await this.productModel
+        .findById(proId)
+        .lean<SingleProductDataType>();
+
+      if (!product) {
+        return {
+          message: "Product id is not define in database, could deleted!",
+          resultCode: 0,
+          statusCode: 401,
+          payment: null,
+        };
+      }
+      const { storeId } = product;
+      /**
+       * check validate storeId
+       */
       if (!storeId) {
-        throw new BadRequestException("Do not know who is seller!");
+        return {
+          message: "Do not know who is seller!",
+          resultCode: 0,
+          statusCode: 401,
+          payment: null,
+        };
       }
+      /**
+       * get store value
+       */
+      const store = await this.storeRepo.findOne({ where: { storeId } });
+      /**
+       * check validate store
+       */
+      if (!store) {
+        return {
+          message: "Store is not found",
+          resultCode: 0,
+          statusCode: 401,
+          payment: null,
+        };
+      }
+      /**
+       * get store column
+       */
+      const { storeName } = store;
+      /**
+       * create new order
+       */
       const newOrder = await this.orderRepo.save({
         ofUserId: userId,
         ofStoreId: storeId,
       });
-      if (!newOrder) {
-        throw new BadRequestException("Can not create new order!");
+      /**
+       * check result create new order row
+       */
+      const order = await this.orderRepo.findOne({
+        where: { orderId: newOrder.orderId },
+      });
+      if (!order) {
+        return {
+          message: "New order failed created! ",
+          resultCode: 0,
+          statusCode: 404,
+          payment: null,
+        };
       }
-      const neworderId = newOrder.orderId;
+      /**
+       * get new order column
+       */
+      const { orderId, orderCode } = order;
+      /**
+       * create new orderItem by orderId was create
+       */
+      const [newOrderItem, newOrderContact] = await Promise.all([
+        //item
+        this.orderItemRepo.save({
+          ofOrderId: orderId,
+          orderKindOfPay: kindOfPay,
+          orderKindOfShipping: kindOfShip,
+          orderPayStatus: "UNPAID",
+          orderName: orderName,
+          orderStatus: "PENDING",
+          orderQuantity: quantity,
+          orderTotalPrice: totalPrice,
+          proId: proId,
+        }),
+        //contact
+        this.orderContactRepo.save({
+          ofOrderId: orderId,
+          orderAddress: address,
+          orderPhone: phone,
+          orderEmail: email,
+          userOrder: userName,
+        }),
+      ]);
 
-      const newOrderItem = await this.orderItemRepo.insert({
-        ofOrderId: neworderId,
-        orderKindOfPay: dto.item.kindOfPay,
-        orderKindOfShipping: dto.item.kindOfShip,
-        orderPayStatus: "UNPAID",
-        orderName: dto.item.orderName,
-        orderStatus: "PENDING",
-        orderQuantity: dto.item.quantity,
-        orderTotalPrice: dto.item.totalPrice,
-        proId: dto.item.proId,
-      });
-      if (!newOrderItem) {
-        throw new BadRequestException("Order item can not create!");
+      /**
+       * check result create orderitem and order contact
+       */
+      if (!newOrderItem || !newOrderContact) {
+        return {
+          message: "New order item or contact is failed create!",
+          resultCode: 0,
+          statusCode: 404,
+          payment: null,
+        };
       }
-      const newOrderContact = await this.orderContactRepo.insert({
-        ofOrderId: neworderId,
-        orderAddress: dto.contact.address,
-        orderPhone: dto.contact.phone,
-        orderEmail: dto.contact.email,
-        userOrder: dto.contact.userName,
-      });
-      if (!newOrderContact) {
-        throw new BadRequestException("Can not create new order contact!");
-      }
+      /**
+       * set variable for get payment data
+       */
       let payment: CreatePaymentLinkResponse | null = null;
-      if (dto.item.kindOfPay === "ONLINE") {
-        const getPayment =
-          await this.paymentService.createPayMentLink(neworderId);
+      /**
+       * check method pay
+       */
+      if (kindOfPay === "ONLINE") {
+        const getPayment = await this.paymentService.createPayMentLink(
+          orderId,
+          orderCode,
+          newOrderItem,
+          newOrderContact
+        );
         payment = getPayment;
       }
-      return { message: "Successfull", resultCode: 1, payment };
+      /**
+       * auto send email when successfull create order data
+       */
+      const sendMailResult = await this.emailService.sendOrderMail(
+        email,
+        userName,
+        storeName,
+        orderCode,
+        totalPrice
+      );
+      /**
+       * check error when send email
+       */
+
+      if (sendMailResult.resultCode !== 1) {
+        return { ...sendMailResult, payment: null };
+      }
+      const end = Date.now();
+      console.log(end - start, "ms");
+      /**
+       * response
+       */
+      return {
+        message: "Successfull",
+        resultCode: 1,
+        payment,
+        statusCode: 200,
+      };
+      /**
+       * other error
+       */
     } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
+      return {
+        message: `${error}`,
+        resultCode: 0,
+        payment: null,
+        statusCode: 500,
+      };
     }
   }
 

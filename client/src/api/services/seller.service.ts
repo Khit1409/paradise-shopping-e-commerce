@@ -25,7 +25,7 @@ export async function getProductSellerService({
    * send req
    */
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/store/get_product_seller?cate_slug=${cate_slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/seller/get_product_seller?cate_slug=${cate_slug}`,
     { withCredentials: true }
   );
   const api: ProductSeller[] = res.data;
@@ -69,7 +69,7 @@ export async function getSingleProductSellerService({
   product_id: string;
 }) {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/store/get_single_product_seller?product_id=${product_id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/seller/get_single_product_seller?product_id=${product_id}`,
     { withCredentials: true }
   );
   const api: SingleProductSeller = res.data;
@@ -113,7 +113,7 @@ export async function upNewProductService({
   imgDetail,
 }: UpProductReq) {
   const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/store/up_new_product`,
+    `${process.env.NEXT_PUBLIC_API_URL}/seller/up_new_product`,
     {
       cate_slug,
       description,
@@ -172,7 +172,8 @@ export async function createNewStoreService({
         store_area_slug,
         store_password,
         store_phone,
-      }
+      },
+      { withCredentials: true }
     );
     const api: { message: string; resultCode: number } = res.data;
     return api;

@@ -1,3 +1,5 @@
+import { CreatePaymentLinkResponse } from "@payos/node";
+import mongoose from "mongoose";
 /**
  * normal response
  */
@@ -119,6 +121,8 @@ export type SingleProductDataType = {
   proName: string;
   proSale: number;
   proPrice: number;
+  storeId: string;
+  sellerId: string;
   proTag: string;
   proSlug: string;
   proCateSlug: string;
@@ -138,4 +142,66 @@ export type SingleProductResponse = {
     product: SingleProductDataType;
     related: ProductPreviewDataType[];
   };
+};
+/**
+ * =========================
+ * TYPE OF USER API RESPONSE
+ * =========================
+ */
+//=== user address type ===//
+export type UserAddressDataType = {
+  _id: mongoose.Types.ObjectId;
+  addressName: string;
+};
+//=== user email type ===//
+export type UserEmailDataType = {
+  _id: mongoose.Types.ObjectId;
+  emailAddress: string;
+};
+//===user phone type ===//
+export type UserPhoneDataType = {
+  _id: mongoose.Types.ObjectId;
+  phoneNum: string;
+};
+/**
+ * User data response form authentication service
+ */
+export type UserDataType = {
+  /**
+   * user information form SQL server
+   */
+  userId: string;
+  userFirtName: string;
+  userLastName: string;
+  userEmail: string;
+  userPhone: string;
+  userStore: string | null;
+  userRole: "user" | "seller";
+  userAvatar: string | null;
+  /**
+   * User information from mongooDB
+   */
+  userAddress: UserAddressDataType[] | null;
+  userOtherPhone: UserPhoneDataType[] | null;
+  userOtherEmail: UserEmailDataType[] | null;
+};
+/**
+ * Authentication response type
+ */
+export type AuthenticationReponse = {
+  message: string;
+  resultCode: number;
+  api: UserDataType;
+  statusCode: number;
+};
+/**
+ * =======================
+ * TYPE OF ORDER RESPONSE
+ * =======================
+ */
+export type AddNewOrderResponse = {
+  message: string;
+  resultCode: number;
+  payment: CreatePaymentLinkResponse | null;
+  statusCode: number;
 };

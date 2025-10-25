@@ -84,7 +84,7 @@ export default function ProductHomePage() {
             </section>
           )}
           <div>
-            <hr className="text-gray-300 border-1" />
+            <hr className="text-gray-300 border" />
           </div>
         </section>
 

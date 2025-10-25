@@ -1,27 +1,16 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from "@nestjs/common";
-import { RegisterDto } from "./dto/register.dto";
-import * as bcrypt from "bcrypt";
-import { SignInDto } from "./dto/signin.dto";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
-// import { InjectModel } from "@nestjs/mongoose";
-// import { Model } from "mongoose";
-import { CloudinaryService } from "src/cloudinaray/cloudinary.service";
-// import { CreateStoreDto } from "src/store/dto/store.dto";
 import { UserEntity } from "./entity/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { StoreEntity } from "src/store/entity/store.entity";
-import { CreateStoreDto } from "src/store/dto/store.dto";
+import { CreateStoreDto } from "src/store/dto/store-get-product.dto";
 import { InjectModel } from "@nestjs/mongoose";
 import mongoose, { isValidObjectId, Model } from "mongoose";
 import { UserAddress, UserEmail, UserPhone } from "./model/user.model";
 import { UpdateUserAccountDto } from "./dto/user-update.dto";
+import { NormalHandleResponse } from "src/interfaces/server.types";
 
 @Injectable()
 export class UsersService {
@@ -33,168 +22,14 @@ export class UsersService {
     private readonly phoneModel: Model<UserPhone>,
     @InjectModel("userEmail")
     private readonly emailModel: Model<UserEmail>,
-    //
-    private readonly jwt: JwtService,
-    private readonly config: ConfigService,
-    private readonly cloudinaryService: CloudinaryService,
+    //entity
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
     @InjectRepository(StoreEntity)
     private readonly storeRepo: Repository<StoreEntity>
   ) {}
   /**
-   * Register
-   * @param dto
-   * @returns
-   */
-  async registerUser(dto: RegisterDto) {
-    try {
-      if (!dto) {
-        throw new BadRequestException("Request not found!");
-      }
-      const existed = await this.userRepo.findOne({
-        where: { emailAddress: dto.user_email },
-      });
-      if (existed) {
-        throw new BadRequestException("Email exited!");
-      }
-      const hashpass = await bcrypt.hash(dto.user_password, 10);
-
-      if (!hashpass) {
-        throw new BadRequestException("Can not hash password");
-      }
-      /**
-       * create new user
-       */
-      const newUser = await this.userRepo.save({
-        firtName: dto.user_firtname,
-        lastName: dto.user_lastname,
-        userRole: "user",
-        emailAddress: dto.user_email,
-        phoneNumber: dto.user_phone,
-        passwordHashed: hashpass,
-        avatarUrl: dto.user_avatar ?? "",
-      });
-      if (dto.user_address) {
-        await this.addressModel.create({
-          userId: newUser.userId,
-          address: [
-            {
-              _id: new mongoose.Types.ObjectId(),
-              addressName: dto.user_address,
-            },
-          ],
-        });
-      }
-      return { message: "Successfull", resultCode: 1 };
-    } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
-    }
-  }
-  /**
-   * client login service
-   * @param dto
-   * @returns
-   */
-  async userSignIn(dto: SignInDto) {
-    try {
-      //check email
-      if (!dto.email) {
-        throw new BadRequestException("email not  found");
-      }
-      const user = await this.userRepo.findOne({
-        where: { emailAddress: dto.email },
-      });
-
-      if (!user) {
-        throw new BadRequestException("Email not matched!");
-      }
-      // check pass
-      const checkPass = await bcrypt.compare(dto.password, user.passwordHashed);
-      if (!checkPass) {
-        throw new BadRequestException("Password wrong!");
-      }
-
-      //create token
-      const payload = {
-        userId: user.userId.toLowerCase(),
-        userEmail: user.emailAddress,
-        userPhone: user.phoneNumber,
-        userRole: user.userRole,
-        userStore: user.userStore?.toLowerCase(),
-        userAvatar: user.avatarUrl ?? null,
-        userFirtName: user.firtName,
-        userLastName: user.lastName,
-      };
-      const token = this.jwt.sign(payload);
-      return token;
-      // send token to cookie
-    } catch (error) {
-      throw new InternalServerErrorException(`${error} :${dto.email}`);
-    }
-  }
-  /**
-   * Authentication user
-   */
-  async authenticationUser(token: string) {
-    try {
-      if (!token) {
-        throw new UnauthorizedException(
-          "Token not found or your is not logged in"
-        );
-      }
-      //verify token
-      const user: {
-        userId: string;
-        userEmail: string;
-        userPhone: string;
-        userAvatar: string | null;
-        userRole: "user" | "seller";
-        userStore: string | null;
-        userFirtName: string;
-        userLastName: string;
-      } = await this.jwt.verify(token, {
-        secret: this.config.get<string>("JWT_SECRET"),
-      });
-      if (!user) {
-        throw new BadRequestException("Handle verify token failed!");
-      }
-      //get address user
-      const address = await this.addressModel
-        .findOne({ userId: user.userId.toLowerCase() })
-        .select("address")
-        .lean()
-        .then((data) => {
-          return data ? data.address : null;
-        });
-      //get address user
-      const phone = await this.phoneModel
-        .findOne({ userId: user.userId.toLowerCase() })
-        .select("phone")
-        .lean()
-        .then((data) => {
-          return data ? data.phone : null;
-        });
-      //get address user
-      const email = await this.emailModel
-        .findOne({ userId: user.userId.toLowerCase() })
-        .select("email")
-        .lean()
-        .then((data) => {
-          return data ? data.email : null;
-        });
-      return {
-        ...user,
-        userAddress: address,
-        userOtherPhone: phone,
-        userOtherEmail: email,
-      };
-    } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
-    }
-  }
-  /**
-   *
+   * Seller create new store
    * @param dto
    * @returns
    */
@@ -225,8 +60,12 @@ export class UsersService {
    * @param userId
    * @returns
    */
-  async updateUserAccount(dto: UpdateUserAccountDto, userId: string) {
+  async updateUserAccount(
+    dto: UpdateUserAccountDto,
+    userId: string
+  ): Promise<NormalHandleResponse> {
     try {
+      //check validate
       if (!userId) {
         throw new BadRequestException("User id is not define on cookies!");
       }
@@ -238,23 +77,19 @@ export class UsersService {
       if (dto.newFirtName) {
         thisUser.firtName = dto.newFirtName;
         await this.userRepo.save(thisUser);
-        console.log("Tới fn rồi");
       }
       //update last name
       if (dto.newLastName) {
-        console.log("Tới last rồi");
         thisUser.lastName = dto.newLastName;
         await this.userRepo.save(thisUser);
       }
       //update avatart
       if (dto.newAvatar) {
-        console.log("Tới avatar rồi");
         thisUser.avatarUrl = dto.newAvatar;
         await this.userRepo.save(thisUser);
       }
       // update address if is valid
       if (dto.address.length > 0) {
-         console.log("Tới đây rồi address");
         for (const address of dto.address) {
           if (!address.addressName) continue;
           const addressModel = await this.addressModel.findOne({ userId });
@@ -286,7 +121,6 @@ export class UsersService {
       }
       //update phone if is valid
       if (dto.phone.length > 0) {
-         console.log("Tới đây rồi phone");
         for (const phoneDto of dto.phone) {
           if (!phoneDto.phoneNum) continue;
           const phoneModel = await this.phoneModel.findOne({ userId });
@@ -319,7 +153,7 @@ export class UsersService {
       }
       //update email if is valid
       if (dto.email.length > 0) {
-         console.log("Tới đây rồi emaik");
+        console.log("Tới đây rồi emaik");
         for (const emailDto of dto.email) {
           if (!emailDto.emailAddress) continue;
           const emailModel = await this.emailModel.findOne({ userId });
@@ -351,10 +185,9 @@ export class UsersService {
         }
       }
       // return result
-       console.log("Tới đây rồi return trong service");
-      return { message: "updated", resultCode: 1 };
+      return { message: "updated", resultCode: 1, statusCode: 200 };
     } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
+      return { message: `${error}`, statusCode: 500, resultCode: 0 };
     }
   }
   /**

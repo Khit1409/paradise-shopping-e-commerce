@@ -18,7 +18,7 @@ export default function SellerNavigationBar() {
    * render
    */
   return (
-    <div className="text-gray-700 h-screen border-gray-300 border p-2 w-[350px]">
+    <div className="text-gray-700 h-screen border-gray-300 border p-2 min-w-[200px]">
       <div className="flex flex-col gap-5">
         <div>
           <button
@@ -30,10 +30,10 @@ export default function SellerNavigationBar() {
         </div>
         {SELLER_NAV.map((nav) => (
           <div key={nav.id} className="flex flex-col gap-3 text-sm">
-            <p className="font-semibold uppercase">{nav.category}</p>
+            <p className="font-semibold uppercase truncate">{nav.category}</p>
             {nav.items.map((item) => (
               <div key={item.id}>
-                <Link href={item.url}>
+                <Link href={item.url} className="truncate">
                   <FontAwesomeIcon icon={getIconByName(item.icon)} />
                   {showNavName && item.name}
                 </Link>

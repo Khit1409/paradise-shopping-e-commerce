@@ -11,26 +11,29 @@ import {
 import { OrdersService } from "./orders.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
-import { UsersService } from "src/users/users.service";
+import { Cron, CronExpression } from "@nestjs/schedule";
 
 @Controller("orders")
 export class OrdersController {
-  constructor(
-    private readonly ordersService: OrdersService,
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly ordersService: OrdersService) {}
 
+  /**
+   * auto delete order have day >=100
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async autoDeleteItemOutOfOrder() {
+    await this.ordersService.autoDeleteTimeOutOfOrder();
+  }
+  /**
+   *
+   * @param dto
+   * @param req
+   * @returns
+   */
   @Post("new_order")
-  async createNewOderController(
-    @Body() dto: CreateOrderDto,
-    @Req() req: { cookies: { user_token: string } },
-  ) {
-    const token = req.cookies.user_token;
-    const user = await this.userService.authenticationUser(token);
-    const result = await this.ordersService.addNewOrderService(
-      dto,
-      user.userId,
-    );
+  async createNewOderController(@Body() dto: CreateOrderDto, @Req() req) {
+    const { userId } = req.user;
+    const result = await this.ordersService.addNewOrderService(dto, userId);
     return result;
   }
 

@@ -4,7 +4,7 @@ import "./product.css";
 import "./animation.css";
 import "../lib/fontawesome";
 import ReduxProvider from "./ReduxProvider";
-import OrderModal from "@/components/order_modal/OrderModal";
+import OrderModal from "@/components/order_modal";
 import CheckoutModal from "@/components/checkout/index";
 import LoadingAnimation from "@/components/feedback/LoadingAnimation";
 import SuccessfullModal from "@/components/feedback/successful";

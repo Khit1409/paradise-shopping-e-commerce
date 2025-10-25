@@ -17,7 +17,8 @@ const WARD_API_URL = process.env.NEXT_PUBLIC_WARD_API_URL!;
  */
 export async function getNavigationService(): Promise<NavigationDataType[]> {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/app/navigation`
+    `${process.env.NEXT_PUBLIC_API_URL}/app/navigation`,
+    { withCredentials: true }
   );
   const api: NavigationDataType[] = res.data.api;
   return api;

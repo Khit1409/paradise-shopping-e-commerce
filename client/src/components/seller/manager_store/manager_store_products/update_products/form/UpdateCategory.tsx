@@ -5,9 +5,10 @@ import React, { Dispatch, SetStateAction } from "react";
 
 type ComponentProps = {
   setCateSlug: Dispatch<SetStateAction<string>>;
+  defaultValue: string;
 };
 
-export default function UpdateCategory({ setCateSlug }: ComponentProps) {
+export default function UpdateCategory({ ...props }: ComponentProps) {
   return (
     <section className="w-full flex flex-col gap-2 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm text-gray-800">
       {/* Label */}
@@ -26,10 +27,19 @@ export default function UpdateCategory({ setCateSlug }: ComponentProps) {
         name="category"
         required
         id="category"
-        onChange={(e) => setCateSlug(e.target.value)}
+        onChange={(e) => props.setCateSlug(e.target.value)}
         className="border border-gray-300 rounded-xl p-2.5 w-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
       >
-        <option value="">-- Chọn danh mục --</option>
+        <option value={props.defaultValue ?? ""}>
+          {props.defaultValue
+            ? (() => {
+                const defaultValue = CATEGORY_SELECT_LIST.find(
+                  (f) => f.slug === props.defaultValue
+                )!;
+                return defaultValue.name;
+              })()
+            : ""}
+        </option>
         {CATEGORY_SELECT_LIST.map((c) => (
           <option value={c.slug} key={c.id}>
             {c.name}

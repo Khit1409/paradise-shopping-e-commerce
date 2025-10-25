@@ -32,7 +32,8 @@ export async function getHomeProductService({
   page,
 }: GetProductByCategoryRequest): Promise<Product[]> {
   const res = await axios.get(
-    `${PRODUCT_API_URL}/get_home_product?page=${page}`
+    `${PRODUCT_API_URL}/get_home_product?page=${page}`,
+    { withCredentials: true }
   );
   const api: Product[] = res.data.api;
   return api;
@@ -55,7 +56,8 @@ export async function getProductShopService(
   });
 
   const res = await axios.get(
-    `${PRODUCT_API_URL}/get_product_shop?${params.toString()}`
+    `${PRODUCT_API_URL}/get_product_shop?${params.toString()}`,
+    { withCredentials: true }
   );
 
   const api: ProductShopPage[] = res.data.api;
@@ -72,7 +74,10 @@ export async function getSingleProductService(
   query: GetSingleProductRequest
 ): Promise<SingelProductDataResponse> {
   const param = query.id ? `id=${query.id}` : `slug=${query.slug}`;
-  const res = await axios.get(`${PRODUCT_API_URL}/get_single_product?${param}`);
+  const res = await axios.get(
+    `${PRODUCT_API_URL}/get_single_product?${param}`,
+    { withCredentials: true }
+  );
   const api: SingelProductDataResponse = res.data.api;
   return api;
 }

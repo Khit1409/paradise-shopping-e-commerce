@@ -1,7 +1,9 @@
 import axios from "axios";
 /**
  * Login from client
- * @param param2
+ * @param role
+ * @param password
+ * @param email
  * @returns
  */
 export async function signIn({
@@ -20,7 +22,7 @@ export async function signIn({
         resultCode: number;
       };
     } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
       {
         role,
         email,
@@ -48,12 +50,12 @@ export type UserResponse = {
   userStore: number | null;
   userRole: "user";
   userAvatar: string | null;
-  userAddress: { _id: string; addressName: string }[];
-  userOtherPhone: { _id: string; phoneNum: string }[];
-  userOtherEmail: { _id: string; emailAddress: string }[];
+  userAddress: { _id: string; addressName: string }[] | null;
+  userOtherPhone: { _id: string; phoneNum: string }[] | null;
+  userOtherEmail: { _id: string; emailAddress: string }[] | null;
 };
 /**
- *
+ * authentication user => send cookie and get user data
  * @param role
  * @returns
  */
@@ -61,12 +63,12 @@ export async function Authentication(
   role: "seller" | "user"
 ): Promise<UserResponse | null> {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/users/auth/${role}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
     {
       withCredentials: true,
     }
   );
-  const data: UserResponse | null = res.data.auth;
+  const data: UserResponse | null = res.data.api;
   if (!data) {
     return null;
   }

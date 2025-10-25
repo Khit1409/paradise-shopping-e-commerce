@@ -13,11 +13,14 @@ import { UserEntity } from "src/users/entity/user.entity";
 import { StoreEntity } from "src/store/entity/store.entity";
 import { UsersModule } from "src/users/users.module";
 import { PaymentsModule } from "src/payments/payments.module";
+import { EmailsModule } from "src/emails/emails.module";
 
 @Module({
   imports: [
     //module
     UsersModule,
+    EmailsModule,
+    //
     MongooseModule.forFeature([
       {
         name: "Product",

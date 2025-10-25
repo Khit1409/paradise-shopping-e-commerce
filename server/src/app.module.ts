@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { ServerLoaded } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
@@ -14,6 +14,14 @@ import { CloudinaryModule } from "./cloudinaray/cloudinary.module";
 import { CartsModule } from "./carts/carts.module";
 import { OrdersModule } from "./orders/orders.module";
 import { PaymentsModule } from "./payments/payments.module";
+import { EmailsModule } from "./emails/emails.module";
+import { SellerModule } from "./seller/seller.module";
+import { AuthMiddleWare } from "./middleware/auth.middleware";
+import { AuthMiddlewareService } from "./middleware/service/auth-middleware.service";
+import { AuthModule } from "./auth/auth.module";
+import { APP_GUARD } from "@nestjs/core";
+import { JwtAuthGuard } from "./auth/jwt-auth.guard";
+import { JwtModule } from "@nestjs/jwt";
 dotenv.config();
 
 @Module({
@@ -21,6 +29,15 @@ dotenv.config();
     //multer
     MulterModule.register({
       dest: "./uploads",
+    }),
+    //jwt module
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>("JWT_SECRET"),
+        signOptions: { expiresIn: "24h" },
+      }),
     }),
     //root config
     ConfigModule.forRoot({
@@ -66,8 +83,16 @@ dotenv.config();
     CartsModule,
     OrdersModule,
     PaymentsModule,
+    EmailsModule,
+    SellerModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [ServerLoaded],
+  providers: [
+    ServerLoaded,
+    AuthMiddleWare,
+    AuthMiddlewareService,
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+  ],
 })
 export class AppModule {}

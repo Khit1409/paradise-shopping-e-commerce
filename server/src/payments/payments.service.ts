@@ -49,7 +49,6 @@ export class PaymentsService {
     resultCode: number;
   }> {
     try {
-      console.log("Raw webhook body:", body);
       const data = body.data;
       const orderCode = data.orderCode;
       /**
@@ -97,46 +96,58 @@ export class PaymentsService {
     }
   }
   /**
-   *
+   * create payment link if user choosen paymethod is online
    * @param orderId
+   * @param orderCode
+   * @param orderContact
+   * @param orderItem
    * @returns
    */
-  async createPayMentLink(orderId: string) {
+  async createPayMentLink(
+    orderId: string,
+    orderCode: number,
+    orderItem: {
+      orderTotalPrice: number;
+      orderName: string;
+      orderQuantity: number;
+    },
+    orderContact: {
+      orderEmail: string;
+      orderPhone: string;
+      orderAddress: string;
+    }
+  ) {
     try {
-      const order = await this.orderRepo.findOne({ where: { orderId } });
-      if (!order) throw new BadRequestException("Order not found");
-
-      const orderItem = await this.orderItemRepo.findOne({
-        where: { ofOrderId: orderId },
-      });
-      if (!orderItem) throw new BadRequestException("Order item not found");
-      const orderContact = await this.orderContactRepo.findOne({
-        where: { ofOrderId: orderId },
-      });
-      if (!orderContact) {
-        throw new BadRequestException("Order contact not found");
-      }
-
+      /**
+       * leak all pavalue from parameter
+       */
+      const { orderName, orderQuantity, orderTotalPrice } = orderItem;
+      const { orderAddress, orderEmail, orderPhone } = orderContact;
+      /**
+       * create expire for payment
+       */
       const expiredAt = Math.floor(Date.now() / 1000) + 5 * 60;
-
+      /**
+       * set payload data
+       */
       const payload: CreatePaymentLinkRequest = {
-        orderCode: Number(order.orderCode),
-        amount: Number(orderItem.orderTotalPrice),
+        orderCode: Number(orderCode),
+        amount: Number(orderTotalPrice),
         description: `Thanh toán đơn hàng`,
         returnUrl: `http://localhost:3000/user`,
         cancelUrl: `http://localhost:3000/user`,
         items: [
           {
-            name: orderItem.orderName,
-            price: orderItem.orderTotalPrice,
-            quantity: orderItem.orderQuantity,
+            name: orderName,
+            price: orderTotalPrice,
+            quantity: orderQuantity,
           },
         ],
         expiredAt,
-        buyerEmail: orderContact.orderEmail,
-        buyerPhone: orderContact.orderPhone,
-        buyerAddress: orderContact.orderAddress,
-        signature: order.orderId,
+        buyerEmail: orderEmail,
+        buyerPhone: orderPhone,
+        buyerAddress: orderAddress,
+        signature: orderId,
       };
       const payment = await this.payosClient.paymentRequests.create(payload);
       return payment;

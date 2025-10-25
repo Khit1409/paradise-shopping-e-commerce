@@ -35,9 +35,13 @@ export async function clietnRegisterService({
   ...body
 }: RegisterType): Promise<UserServiceGeneralErrorType> {
   try {
-    const res = await axios.post(`${USER_API_URL}/register`, {
-      ...body,
-    });
+    const res = await axios.post(
+      `${USER_API_URL}/register`,
+      {
+        ...body,
+      },
+      { withCredentials: true }
+    );
     //result from api data
     const result: UserServiceGeneralErrorType = res.data;
 

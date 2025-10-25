@@ -23,7 +23,7 @@ export default function SellerLayout({
       <SellerNavigationBar />
       <div className="flex flex-col gap-1">
         <SellerHeader />
-        <section className="border border-gray-300 h-[530px] overflow-y-auto p-2">
+        <section className="border border-gray-300 h-screen overflow-y-auto p-2 ">
           {children}
         </section>
       </div>

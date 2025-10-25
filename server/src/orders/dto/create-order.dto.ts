@@ -6,13 +6,6 @@ export class CreateOrderItemsDto {
   proId: string;
   @IsString()
   orderName: string;
-  @IsString()
-  orderStatus:
-    | "PENDING"
-    | "ACCEPTED"
-    | "SHIPPING"
-    | "RECEIVED"
-    | "SHIPPINGFAILED";
   @IsNumber()
   totalPrice: number;
   @IsString()
@@ -21,8 +14,6 @@ export class CreateOrderItemsDto {
   kindOfShip: "COD" | "FLASH";
   @IsNumber()
   quantity: number;
-  @IsString()
-  payStatus: "PAID" | "UNPAID";
 }
 
 export class CreateOrderContactDto {

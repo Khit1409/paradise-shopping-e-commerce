@@ -4,17 +4,17 @@ import {
   onLoadingAction,
   onErrorModel,
 } from "@/api/redux/slice/app_slice/app.slice";
-import { AppDispatch, RootState } from "@/api/redux/store";
-import { upNewProductThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
+import { AppDispatch } from "@/api/redux/store";
 import { uploadImageToCloud } from "@/feature/upload";
 import { faDatabase, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import UpNewProductBasicInput from "./form/CreateBasicInput";
 import UpNewProductImg from "./form/CreateImg";
 import UpNewProductAttribute from "./form/CreateAttribute";
 import CategoryInput from "./form/CreateCategorySelect";
+import { upNewProductService } from "@/api/services/seller.service";
 
 interface SavedAttributeValue {
   value: string;
@@ -31,7 +31,9 @@ interface BasicInputRequest {
 
 export default function UpNewProductPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
+  /**
+   * component state
+   */
   /**
    * input state
    * các input dạng text và number đơn giản
@@ -105,6 +107,27 @@ export default function UpNewProductPage() {
    */
   const handleUpNewProduct = async () => {
     try {
+      if (
+        !basicReq ||
+        !cateSlug ||
+        !savedImg ||
+        savedImgDetail.length == 0 ||
+        attribute.length == 0
+      ) {
+        dispatch(
+          onErrorModel({
+            mess: `
+            Vui lòng nhập đầy đủ thông tin cần thiết:
+            - Thông tin sản phẩm  
+            - 1 ảnh bìa 
+            - 1 ảnh mô tả 
+            - 1 thuộc tính lựa chọn
+             `,
+            onError: true,
+          })
+        );
+        return;
+      }
       //loading effect for wait up function successful
       dispatch(onLoadingAction(true));
       //
@@ -131,46 +154,45 @@ export default function UpNewProductPage() {
         newAttribute.push({ name: attr.name, item: items });
       }
 
-      // failed when two flied mixiss
-      if (!user?.userStore || !user.userId) {
-        dispatch(onLoadingAction(false));
-        return;
-      }
-      if (!basicReq) {
-        dispatch(onLoadingAction(false));
-        return;
-      }
       //gửi dispatch
-      const result = await dispatch(
-        upNewProductThunk({
-          cate_slug: cateSlug,
-          description: basicReq.description,
-          name: basicReq.name,
-          price: basicReq.price,
-          sale: basicReq.sale,
-          hashtag: basicReq.hashtag,
-          img: mainImgUrl,
-          imgDetail: imgDetailUrl,
-          attribute: newAttribute,
-        })
-      );
-      if (upNewProductThunk.fulfilled.match(result)) {
+      const result = await upNewProductService({
+        cate_slug: cateSlug,
+        description: basicReq.description,
+        name: basicReq.name,
+        price: basicReq.price,
+        sale: basicReq.sale,
+        hashtag: basicReq.hashtag,
+        img: mainImgUrl,
+        imgDetail: imgDetailUrl,
+        attribute: newAttribute,
+      });
+      if (result.resultCode == 1) {
         dispatch(onLoadingAction(false));
         dispatch(onSuccessfulModel(true));
+        return;
       } else {
         dispatch(onLoadingAction(false));
         dispatch(
-          onErrorModel({ onError: true, mess: result.payload as string })
+          onErrorModel({
+            mess: result.message,
+            onError: true,
+          })
         );
+        return;
       }
     } catch (error) {
       dispatch(onLoadingAction(false));
-      console.error(error);
+      dispatch(
+        onErrorModel({
+          mess: `${error}`,
+          onError: true,
+        })
+      );
     }
   };
 
   return (
-    <form className="flex flex-col gap-5" onSubmit={handleUpNewProduct}>
+    <section className="flex flex-col gap-5">
       {/* select category */}
       <CategoryInput setCateSlug={setCateSlug} />
       {/* basic input */}
@@ -194,15 +216,14 @@ export default function UpNewProductPage() {
       {/* button */}
       <section className="p-3 shadow-md bg-white rounded">
         <button
-          type="submit"
-          role="button"
           className="px-2 py-1 bg-green-500 text-white"
+          onClick={() => handleUpNewProduct()}
         >
           <FontAwesomeIcon icon={faPaperPlane} />
           <FontAwesomeIcon icon={faDatabase} />
           Thêm sản phẩm
         </button>
       </section>
-    </form>
+    </section>
   );
 }
