@@ -8,11 +8,14 @@ import {
   onOpenOrderModal,
 } from "@/api/redux/slice/order_slice/order.slice";
 import { AppDispatch, RootState } from "@/api/redux/store";
-import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import { addNewOrder } from "@/api/services/order.service";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+/**
+ * 
+ * @returns 
+ */
 export const useOrderModal = () => {
   /** Redux setup */
   const dispatch = useDispatch<AppDispatch>();
@@ -31,11 +34,6 @@ export const useOrderModal = () => {
    * Props state
    */
   const [otherAddress, setOtherAddress] = useState<string>("");
-
-  /** Fetch address data when modal open */
-  useEffect(() => {
-    dispatch(getAddressThunk());
-  }, [dispatch, orderState]);
 
   /**
    * function reset component state when finished a handle

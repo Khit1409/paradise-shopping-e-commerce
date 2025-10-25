@@ -24,7 +24,6 @@ import { Product } from "src/products/models/product.model";
 export class SellerController {
   constructor(
     @InjectModel("Product") private readonly productModel: Model<Product>,
-    private readonly sellerService: SellerService,
     private readonly storeService: StoreService
   ) {}
 
@@ -34,7 +33,7 @@ export class SellerController {
    * ===============
    */
   /**
-   * get all product in store for seller or manager store
+   * @description get all product in store for seller or manager store
    * @param query
    * @param req
    * @return {ProductSellerDataType}
@@ -49,7 +48,7 @@ export class SellerController {
     return result;
   }
   /**
-   * get single product for update product information
+   * @description get single product for update product information
    * @param query product_id
    */
   @Get("get_single_product_seller")
@@ -64,15 +63,14 @@ export class SellerController {
     return result;
   }
   /**
-   * up new product to store
+   * @description up new product to store
    * @param dto
    * @param req
    * @returns
    */
   @Post("up_new_product")
   async upNewProduct(@Body() body: UpNewProductDto, @Req() req) {
-    const { userId, userInfo } = req.user;
-    const { userStore } = userInfo;
+    const { userId, userStore } = req.user;
     const result = await this.storeService.upNewProduct(
       body,
       userId,
@@ -81,7 +79,7 @@ export class SellerController {
     return result;
   }
   /**
-   * update single product for seller manager product
+   * @description update single product for seller manager product
    * @param dto
    * @param req
    * @returns
@@ -108,7 +106,7 @@ export class SellerController {
     return res.status(statusCode).json({ message, resultCode });
   }
   /**
-   * delete product part (attribute, imgDetail, attribute items)
+   * @description delete product part (attribute, imgDetail, attribute items)
    * @param dto
    * @param req
    */
@@ -127,7 +125,7 @@ export class SellerController {
     return res.status(statusCode).json({ message, resultCode });
   }
   /**
-   * Delete single product by id from request
+   * @description Delete single product by id from request
    * @param id
    * @param req
    * @returns

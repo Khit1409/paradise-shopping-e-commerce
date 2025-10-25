@@ -3,7 +3,14 @@ import { AppModule } from "./app.module";
 import { ConfigService } from "@nestjs/config";
 import cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
+import { DataSource } from "typeorm";
+import { Connection } from "mongoose";
 
+/**
+ * Bootstrap the NestJS application.
+ * @description Initializes and starts the server with necessary configurations.
+ * @returns
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
@@ -12,7 +19,6 @@ async function bootstrap() {
     console.error("Can not get port in the .env");
     return;
   }
-  /*@typescript-eslint/no-unsafe-call*/
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
   app.enableCors({
@@ -22,11 +28,26 @@ async function bootstrap() {
   app.setGlobalPrefix("v1");
   await app.listen(port);
 }
+/**
+ * Start the application and log the service status.
+ */
 bootstrap()
   .then(() => {
-    console.log(
-      "Server is running on local: http://localhost:8000 and ngrok: https://perspiry-promisingly-bethany.ngrok-free.dev",
-    );
+    console.log("======== Service Status ========");
+    console.table([
+      {
+        Service: "API Server",
+        Status: "Running",
+        Domain: 8000,
+        Url: "http://localhost:8000",
+      },
+      {
+        Service: "Ngrok Server",
+        Status: "Running",
+        Domain: "perspiry-promisingly-bethany.ngrok-free",
+        Url: "https://perspiry-promisingly-bethany.ngrok-free.dev",
+      },
+    ]);
   })
   .catch((error) => {
     console.error(`Can not running server ${error}`);

@@ -37,14 +37,9 @@ export class OrdersController {
     return result;
   }
 
-  @Get()
-  findAll() {
-    return this.ordersService.findAll();
-  }
-
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.ordersService.findOne(+id);
+  @Get('get_user_order')
+  findOne(@Req() req) {
+    return this.ordersService.getOrdersByUserId(req.user.userId);
   }
 
   @Patch(":id")

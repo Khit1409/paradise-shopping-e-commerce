@@ -1,3 +1,4 @@
+import { apiAction } from "@/config/axios";
 import axios from "axios";
 
 /**
@@ -65,11 +66,7 @@ export async function addNewOrder({ ...req }: OrderRequest): Promise<{
   payment: CreatePaymentLinkResponse | null;
 }> {
   try {
-    const result = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/orders/new_order`,
-      { ...req },
-      { withCredentials: true }
-    );
+    const result = await apiAction.post(`orders/new_order`, { ...req });
     const api: {
       message: string;
       resultCode: number;

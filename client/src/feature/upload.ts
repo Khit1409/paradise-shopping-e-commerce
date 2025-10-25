@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const CLOUD_API_URL = process.env.NEXT_PUBLIC_API_CLOUD_URL!;
+import { apiAction } from "@/config/axios";
 /**
  * upload file for get url file
  * @param file
@@ -12,7 +10,7 @@ export async function uploadImageToCloud(file: File | undefined) {
   }
   const data = new FormData();
   data.append("image", file);
-  const res = await axios.post(`${CLOUD_API_URL}/upload`, data, {
+  const res = await apiAction.post(`images/upload`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 

@@ -4,6 +4,7 @@ import {
   ProvinceApiType,
   WardApiType,
 } from "../interfaces/app.interface";
+import { apiAction } from "@/config/axios";
 
 /**
  * api configuration
@@ -16,10 +17,7 @@ const WARD_API_URL = process.env.NEXT_PUBLIC_WARD_API_URL!;
  * @returns
  */
 export async function getNavigationService(): Promise<NavigationDataType[]> {
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/app/navigation`,
-    { withCredentials: true }
-  );
+  const res = await apiAction.get(`app/navigation`);
   const api: NavigationDataType[] = res.data.api;
   return api;
 }

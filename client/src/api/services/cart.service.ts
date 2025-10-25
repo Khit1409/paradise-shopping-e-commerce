@@ -4,12 +4,12 @@ import {
   UpdateCartType,
   UserCart,
 } from "../interfaces/cart.interface";
+import { apiAction } from "@/config/axios";
 /**
- * =====================================
+ * =============
  * CART SERVICES
- * =====================================
+ * =============
  */
-const CART_API_URL = process.env.NEXT_PUBLIC_CART_API_URL!;
 /**
  * Helper: Standardized error response
  */
@@ -35,9 +35,7 @@ export async function addToCartServicer(
     if (!body.proId) {
       return { message: "Thiếu tham số 'proId'", resultCode: 0 };
     }
-    const res = await axios.post(`${CART_API_URL}/add_to_cart`, body, {
-      withCredentials: true,
-    });
+    const res = await apiAction.post(`carts/add_to_cart`, body);
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);
@@ -51,9 +49,7 @@ export async function addToCartServicer(
  */
 export async function getUserCartService(): Promise<UserCart[]> {
   try {
-    const res = await axios.get(`${CART_API_URL}/get_user_cart`, {
-      withCredentials: true,
-    });
+    const res = await apiAction.get(`carts/get_user_cart`);
     return res.data as UserCart[];
   } catch (error) {
     console.error("getUserCartService error:", error);
@@ -71,12 +67,7 @@ export async function deleteUserCartService(
   cartId: string
 ): Promise<{ message: string; resultCode: number }> {
   try {
-    const res = await axios.delete(
-      `${CART_API_URL}/delete_user_cart/${cartId}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await apiAction.delete(`carts/delete_user_cart/${cartId}`);
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);
@@ -93,13 +84,7 @@ export async function updateUserCart(
   body: UpdateCartType
 ): Promise<{ message: string; resultCode: number }> {
   try {
-    const res = await axios.put(
-      `${CART_API_URL}/update_user_cart`,
-      body,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await apiAction.put(`carts/update_user_cart`, body);
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);

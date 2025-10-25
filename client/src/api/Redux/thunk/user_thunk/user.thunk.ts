@@ -3,8 +3,9 @@ import {
   CreateNewStoreRequest,
   createNewStoreService,
 } from "@/api/services/seller.service";
-import { clietnRegisterService } from "@/api/services/user.service";
+import { clietnRegisterService } from "@/api/services/auth.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 /**
  * client login function
  * get password and email

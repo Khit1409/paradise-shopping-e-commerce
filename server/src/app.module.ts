@@ -1,6 +1,6 @@
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
-import { ServerLoaded } from "./app.service";
+import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersModule } from "./users/users.module";
@@ -16,8 +16,6 @@ import { OrdersModule } from "./orders/orders.module";
 import { PaymentsModule } from "./payments/payments.module";
 import { EmailsModule } from "./emails/emails.module";
 import { SellerModule } from "./seller/seller.module";
-import { AuthMiddleWare } from "./middleware/auth.middleware";
-import { AuthMiddlewareService } from "./middleware/service/auth-middleware.service";
 import { AuthModule } from "./auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
@@ -88,11 +86,6 @@ dotenv.config();
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [
-    ServerLoaded,
-    AuthMiddleWare,
-    AuthMiddlewareService,
-    { provide: APP_GUARD, useClass: JwtAuthGuard },
-  ],
+  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}

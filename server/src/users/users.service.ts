@@ -1,11 +1,8 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { ConfigService } from "@nestjs/config";
 import { UserEntity } from "./entity/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { StoreEntity } from "src/store/entity/store.entity";
-import { CreateStoreDto } from "src/store/dto/store-get-product.dto";
 import { InjectModel } from "@nestjs/mongoose";
 import mongoose, { isValidObjectId, Model } from "mongoose";
 import { UserAddress, UserEmail, UserPhone } from "./model/user.model";
@@ -28,32 +25,6 @@ export class UsersService {
     @InjectRepository(StoreEntity)
     private readonly storeRepo: Repository<StoreEntity>
   ) {}
-  /**
-   * Seller create new store
-   * @param dto
-   * @returns
-   */
-  async createNewStore(dto: CreateStoreDto) {
-    if (!dto) {
-      throw new BadRequestException("Can not get request");
-    }
-    if (!dto.owner_id) {
-      throw new BadRequestException("Can not get user id!");
-    }
-    const newStore = await this.storeRepo.save({
-      ownerId: dto.owner_id,
-      storeName: dto.store_name,
-      storeAddress: dto.store_address,
-      storeArea: dto.store_area,
-      storeAreaSlug: dto.store_area_slug,
-    });
-
-    await this.userRepo.update(
-      { userId: dto.owner_id },
-      { userRole: "seller", userStore: newStore.storeId }
-    );
-    return { message: "Successfull!", resultCode: 1 };
-  }
   /**
    *update user account
    * @param dto
@@ -189,19 +160,5 @@ export class UsersService {
     } catch (error) {
       return { message: `${error}`, statusCode: 500, resultCode: 0 };
     }
-  }
-  /**
-   * test
-   */
-
-  async testUser() {
-    const useraddress = await this.addressModel
-      .findOne({ userId: 2 })
-      .select("address")
-      .then((data) => {
-        return data?.address;
-      });
-
-    return useraddress;
   }
 }

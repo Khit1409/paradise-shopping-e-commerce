@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   GetProductByCategoryRequest,
   SingelProductDataResponse,
@@ -7,14 +6,7 @@ import {
   GetProductShopRequest,
   GetSingleProductRequest,
 } from "../interfaces/product.interface";
-
-/**
- * =====================================
- * API CONFIGURATION
- * =====================================
- */
-
-const PRODUCT_API_URL = process.env.NEXT_PUBLIC_PRODUCT_API_URL!;
+import { apiAction } from "@/config/axios";
 
 /**
  * ================
@@ -31,10 +23,7 @@ const PRODUCT_API_URL = process.env.NEXT_PUBLIC_PRODUCT_API_URL!;
 export async function getHomeProductService({
   page,
 }: GetProductByCategoryRequest): Promise<Product[]> {
-  const res = await axios.get(
-    `${PRODUCT_API_URL}/get_home_product?page=${page}`,
-    { withCredentials: true }
-  );
+  const res = await apiAction.get(`products/get_home_product?page=${page}`);
   const api: Product[] = res.data.api;
   return api;
 }
@@ -55,18 +44,13 @@ export async function getProductShopService(
     pro_sale: String(query.pro_sale ?? ""),
   });
 
-  const res = await axios.get(
-    `${PRODUCT_API_URL}/get_product_shop?${params.toString()}`,
-    { withCredentials: true }
-  );
+  const res = await apiAction.get(`products/get_product_shop?${params.toString()}`);
 
   const api: ProductShopPage[] = res.data.api;
   return api;
 }
-
 /**
  * Get single product by ID or slug.
- *
  * @param {GetSingleProductRequest} query
  * @returns {Promise<SingelProductDataResponse>}
  */
@@ -74,10 +58,7 @@ export async function getSingleProductService(
   query: GetSingleProductRequest
 ): Promise<SingelProductDataResponse> {
   const param = query.id ? `id=${query.id}` : `slug=${query.slug}`;
-  const res = await axios.get(
-    `${PRODUCT_API_URL}/get_single_product?${param}`,
-    { withCredentials: true }
-  );
+  const res = await apiAction.get(`products/get_single_product?${param}`);
   const api: SingelProductDataResponse = res.data.api;
   return api;
 }

@@ -16,7 +16,7 @@ import * as bcryt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import type { Response } from "express";
 import { InjectModel } from "@nestjs/mongoose";
-import mongoose, { isValidObjectId, Model } from "mongoose";
+import { Model } from "mongoose";
 import { UserAddress, UserEmail, UserPhone } from "src/users/model/user.model";
 @Injectable()
 export class AuthService {

@@ -266,6 +266,17 @@ export class OrdersService {
     }
   }
 
+  async getOrdersByUserId(userId: string) {
+    try {
+      const orders = await this.orderRepo.find({
+        where: { ofUserId: userId },
+        relations: ["orderItems", "orderContacts"],
+      });
+      return orders;
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  }
   findAll() {
     return `This action returns all orders`;
   }

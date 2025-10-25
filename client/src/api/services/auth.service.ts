@@ -1,4 +1,43 @@
+import { apiAction } from "@/config/axios";
+import {
+  RegisterType,
+  UserServiceGeneralErrorType,
+} from "../interfaces/user.interface";
 import axios from "axios";
+
+/**
+ * Helper: Standardized error response
+ */
+const handleApiError = (
+  error: unknown
+): { message: string; resultCode: number } => {
+  const msg =
+    axios.isAxiosError(error) && error.response?.data?.message
+      ? error.response.data.message
+      : String(error);
+  return { message: msg, resultCode: 0 };
+};
+/**
+ * function register new account for user
+ * @body REGISTERTYPE
+ * @returns
+ */
+export async function clietnRegisterService({
+  ...body
+}: RegisterType): Promise<UserServiceGeneralErrorType> {
+  try {
+    const res = await apiAction.post(`auth/register`, {
+      ...body,
+    });
+    //result from api data
+    const result: UserServiceGeneralErrorType = res.data;
+
+    return result;
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
 /**
  * Login from client
  * @param role
@@ -21,15 +60,11 @@ export async function signIn({
         message: string;
         resultCode: number;
       };
-    } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-      {
-        role,
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
+    } = await apiAction.post(`auth/login`, {
+      role,
+      email,
+      password,
+    });
     const payload = res.data;
     return payload;
   } catch (error) {
@@ -59,15 +94,8 @@ export type UserResponse = {
  * @param role
  * @returns
  */
-export async function Authentication(
-  role: "seller" | "user"
-): Promise<UserResponse | null> {
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
-    {
-      withCredentials: true,
-    }
-  );
+export async function Authentication(): Promise<UserResponse | null> {
+  const res = await apiAction.get(`auth/me`);
   const data: UserResponse | null = res.data.api;
   if (!data) {
     return null;
@@ -92,16 +120,9 @@ export type UpdateAccountRequest = {
  */
 export async function updateUserAccount({ ...params }: UpdateAccountRequest) {
   try {
-    const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/update_user_account`,
-      {
-        ...params,
-      },
-      {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        withCredentials: true,
-      }
-    );
+    const res = await apiAction.put(`users/update_user_account`, {
+      ...params,
+    });
     const api: { message: string; resultCode: number } = res.data;
     return { message: api.message, resultCode: api.resultCode };
   } catch (error) {

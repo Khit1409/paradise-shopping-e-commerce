@@ -7,7 +7,6 @@ import { DataSource } from "typeorm";
 import { Connection, Model } from "mongoose";
 import { InjectConnection, InjectModel } from "@nestjs/mongoose";
 import { NavigationDoc } from "./app.model";
-import { createNavigationDto } from "./app-dto/app.dto";
 import { createUrlNav } from "./feature/feature";
 import {
   NavigationDataType,
@@ -15,28 +14,24 @@ import {
 } from "./interfaces/server.types";
 
 @Injectable()
-export class ServerLoaded implements OnModuleInit {
+export class AppService implements OnModuleInit {
   constructor(
     private dataSource: DataSource,
     @InjectModel("navigations")
     private readonly navigationModel: Model<NavigationDoc>,
-    @InjectConnection() private readonly mongooseConnection: Connection // inject Mongoose connection
+    @InjectConnection() private readonly mongooseConnection: Connection
   ) {}
 
   onModuleInit() {
-    // Kiểm tra TypeORM
-    if (this.dataSource.isInitialized) {
-      console.log("Server kết nối Database SQL thành công");
-    } else {
-      console.log("Kết nối SQL bị lỗi");
-    }
-    // Kiểm tra Mongoose
-    if (Number(this.mongooseConnection.readyState) === 1) {
-      // 1 = connected
-      console.log("Server kết nối MongoDB thành công");
-    } else {
-      console.log("Kết nối MongoDB bị lỗi");
-    }
+    const sqlStatus = this.dataSource.isInitialized ? "Connected" : "Failed";
+    const mongoStatus =
+      Number(this.mongooseConnection.readyState) === 1 ? "Connected" : "Failed";
+
+    console.log("======== Database Connection Status ========");
+    console.table([
+      { Database: "PostgreSQL / MySQL (TypeORM)", Status: sqlStatus },
+      { Database: "MongoDB (Mongoose)", Status: mongoStatus },
+    ]);
   }
 
   //navigation
@@ -57,26 +52,6 @@ export class ServerLoaded implements OnModuleInit {
       return { message: "successfull", nav, resultCode: 1, statusCode: 200 };
     } catch (error) {
       return { message: `${error}`, nav: [], resultCode: 0, statusCode: 500 };
-    }
-  }
-  //create navigation
-  async createNavigationService(dto: createNavigationDto[]) {
-    try {
-      for (const nav of dto) {
-        const newNav = await this.navigationModel.create({
-          navIcon: nav.nav_icon,
-          navName: nav.nav_name,
-          navUrl: nav.nav_url ?? createUrlNav(nav.nav_name),
-        });
-        if (!newNav) {
-          throw new InternalServerErrorException(
-            "error when create navigation"
-          );
-        }
-      }
-      return { message: "successfull", resultCode: 1 };
-    } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
     }
   }
 }

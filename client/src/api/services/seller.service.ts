@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiAction } from "@/config/axios";
 /**
  * Function get products & category by seller_id for
  * manager product of seller page
@@ -24,9 +24,8 @@ export async function getProductSellerService({
   /**
    * send req
    */
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/seller/get_product_seller?cate_slug=${cate_slug}`,
-    { withCredentials: true }
+  const res = await apiAction.get(
+    `seller/get_product_seller?cate_slug=${cate_slug}`
   );
   const api: ProductSeller[] = res.data;
   return api;
@@ -68,9 +67,8 @@ export async function getSingleProductSellerService({
 }: {
   product_id: string;
 }) {
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/seller/get_single_product_seller?product_id=${product_id}`,
-    { withCredentials: true }
+  const res = await apiAction.get(
+    `seller/get_single_product_seller?product_id=${product_id}`
   );
   const api: SingleProductSeller = res.data;
   return api;
@@ -78,7 +76,6 @@ export async function getSingleProductSellerService({
 /**
  * Up new product
  */
-
 export interface UpProductReq {
   name: string;
   cate_slug: string;
@@ -112,26 +109,21 @@ export async function upNewProductService({
   img,
   imgDetail,
 }: UpProductReq) {
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/seller/up_new_product`,
-    {
-      cate_slug,
-      description,
-      hashtag,
-      name,
-      price,
-      sale,
+  const res = await apiAction.post(`seller/up_new_product`, {
+    cate_slug,
+    description,
+    hashtag,
+    name,
+    price,
+    sale,
 
-      attribute,
-      img,
-      imgDetail,
-    },
-    { withCredentials: true }
-  );
+    attribute,
+    img,
+    imgDetail,
+  });
   const api: { message: string; resultCode: number } = res.data;
   return api;
 }
-
 /**
  * Create new store
  */
@@ -161,20 +153,16 @@ export async function createNewStoreService({
   store_phone,
 }: CreateNewStoreRequest) {
   try {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/create_store`,
-      {
-        store_address,
-        owner_id,
-        store_email,
-        store_area,
-        store_name,
-        store_area_slug,
-        store_password,
-        store_phone,
-      },
-      { withCredentials: true }
-    );
+    const res = await apiAction.post(`users/create_store`, {
+      store_address,
+      owner_id,
+      store_email,
+      store_area,
+      store_name,
+      store_area_slug,
+      store_password,
+      store_phone,
+    });
     const api: { message: string; resultCode: number } = res.data;
     return api;
   } catch (error) {
@@ -221,21 +209,17 @@ export async function sellerUpdateProductService({
   proPrice,
   proSale,
 }: SellerUpdateProductRequest) {
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/update_product_single`,
-    {
-      attribute,
-      product_id,
-      imgDetail,
-      proCateSlug,
-      proDescription,
-      proImg,
-      proName,
-      proPrice,
-      proSale,
-    },
-    { withCredentials: true }
-  );
+  const res = await apiAction.post(`seller/update_product_single`, {
+    attribute,
+    product_id,
+    imgDetail,
+    proCateSlug,
+    proDescription,
+    proImg,
+    proName,
+    proPrice,
+    proSale,
+  });
   const api: { resultCode: number; message: string } = res.data;
   return api;
 }
@@ -254,11 +238,12 @@ export async function deleteActionSingleProductService({
   imgDetail,
   proId,
 }: DeleteReq) {
-  const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/products/delete_action_single_product`,
-    { attribute, proId, imgDetail, attributeItem },
-    { withCredentials: true }
-  );
+  const res = await apiAction.post(`seller/delete_action_single_product`, {
+    attribute,
+    proId,
+    imgDetail,
+    attributeItem,
+  });
   const api: { message: string; resultCode: number } = res.data;
   return api;
 }
@@ -267,10 +252,7 @@ export async function deleteActionSingleProductService({
  */
 export async function deleteSingleProduct(id: string) {
   try {
-    const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_API_URL}/products/delete_single_product/${id}`,
-      { withCredentials: true }
-    );
+    const res = await apiAction.delete(`seller/delete_single_product/${id}`);
     const result: { message: string; resultCode: number } = res.data;
     return result;
   } catch (error) {

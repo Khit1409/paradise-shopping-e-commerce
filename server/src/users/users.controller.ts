@@ -9,8 +9,6 @@ import { JwtService } from "@nestjs/jwt";
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwt: JwtService,
-    private readonly config: ConfigService
   ) {}
   /**
    * update user accounts
@@ -34,12 +32,5 @@ export class UsersController {
     } catch (error) {
       return res.status(500).json({ message: `${error}`, resultCode: 0 });
     }
-  }
-  /**
-   * test
-   */
-  @Get("test")
-  test() {
-    return this.usersService.testUser();
   }
 }
