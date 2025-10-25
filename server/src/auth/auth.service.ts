@@ -19,6 +19,12 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserAddress, UserEmail, UserPhone } from "src/users/model/user.model";
 @Injectable()
+  /**
+  * Handle relation to authenticate information
+  * @func register
+  * @func login
+  * @func authentication
+  */
 export class AuthService {
   constructor(
     /**
@@ -106,10 +112,14 @@ export class AuthService {
     }
   }
   /**
-   * login server
-   * authentication role from baseUrl and get token name by it when
+   * login handle 
+   * client send email pass and role, this func compare and send token
+   * to cookie for authentication
    * finished login handle
    * @param dto
+   * @param email
+   * @param password
+   * @param role
    * @return {NormalHandleResponse}
    */
   async signInService(
