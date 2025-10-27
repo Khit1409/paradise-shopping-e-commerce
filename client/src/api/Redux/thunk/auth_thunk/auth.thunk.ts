@@ -4,7 +4,6 @@ import {
   UserResponse,
 } from "@/api/services/auth.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 /**
  * check Client login state (user/admin/employee)
  * this function help the website manager sign in state
@@ -14,15 +13,13 @@ import axios from "axios";
  */
 export const authenticationThunk = createAsyncThunk<
   //response
-  { api: UserResponse| null; role: "user" | "seller" },
-  //request
-  { role: "user" | "seller" },
-  //error
+  { api: UserResponse | null},
+  void,
   { rejectValue: string }
->("authentication", async ({ role }, thunkAPI) => {
+>("authentication", async (_, thunkAPI) => {
   try {
-    const payload = await Authentication(role);
-    return { api: payload, role: role };
+    const payload = await Authentication();
+    return { api: payload };
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);
   }
@@ -40,26 +37,6 @@ export const signInThunk = createAsyncThunk<
   try {
     const result = await signIn({ email, password, role });
     return result;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(`${error}`);
-  }
-});
-/**
- * Logout, clear cookie
- * cleaer session sigin for client
- */
-export const clientLogout = createAsyncThunk<
-  { message: string; resultCode: number },
-  void,
-  { rejectValue: string }
->("logout", async (_, thunkAPI) => {
-  try {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/client_logout`,
-      {},
-      { withCredentials: true }
-    );
-    return res.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);
   }

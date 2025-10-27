@@ -2,9 +2,6 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
 
 /**
- * Category
- */
-/**
  * Product
  */
 @Schema({ collection: "products", timestamps: true })

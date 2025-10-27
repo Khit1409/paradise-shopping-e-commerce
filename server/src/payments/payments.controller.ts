@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { PaymentsService } from "./payments.service";
 import type { Response, Request } from "express";
 import { InjectRepository } from "@nestjs/typeorm";
-import { OrderItems, Orders } from "src/orders/entities/order.entity";
+import { Orders } from "src/orders/entities/order.entity";
 import { Repository } from "typeorm";
 import type { Webhook } from "@payos/node";
 
@@ -10,9 +10,7 @@ import type { Webhook } from "@payos/node";
 export class PaymentsController {
   constructor(
     private readonly paymentsService: PaymentsService,
-    @InjectRepository(Orders) private readonly orderRepo: Repository<Orders>,
-    @InjectRepository(OrderItems)
-    private readonly orderItemRepo: Repository<OrderItems>
+    @InjectRepository(Orders) private readonly orderRepo: Repository<Orders>
   ) {}
 
   /**

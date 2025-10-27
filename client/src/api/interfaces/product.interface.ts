@@ -37,6 +37,17 @@ export type Product = {
   proImg: string;
   proDescription: string;
 };
+export type ProductPreviewDataType = {
+  _id: string;
+  cateId: string;
+  proName: string;
+  proPrice: number;
+  proSale: number;
+  proTag: string;
+  proSlug: string;
+  proImg: string;
+  proDescription: string;
+};
 
 /**
  * Product image detail type — for additional product images.
@@ -140,9 +151,11 @@ export type SingleProduct = {
  * @property {string} [area] - Area filter.
  */
 export type GetProductShopRequest = {
-  pro_sale?: number | string;
   cate_slug?: string;
-  pro_price?: number | string;
+  max_price?: number | string;
+  min_price?: number | string;
+  min_sale?: number | string;
+  max_sale?: number | string;
   area?: string;
 };
 

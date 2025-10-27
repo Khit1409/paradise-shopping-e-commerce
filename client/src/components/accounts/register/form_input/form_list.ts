@@ -3,42 +3,43 @@
  */
 export const registerList = [
   {
-    name: "user_firtname",
+    name: "firtname",
     label: "Họ của bạn",
     type: "text",
     icon: "faUserPen",
     title: "Nhập họ của bạn",
   },
   {
-    name: "user_lastname",
+    name: "lastname",
     label: "Tên của bạn",
     type: "text",
     icon: "faUserPen",
     title: "Nhập tên của bạn",
   },
   {
-    name: "user_password",
-    label: "Mật khẩu",
-    type: "password",
-    icon: "faLock",
-    title: "Nhập mật khẩu của bạn",
-  },
-  {
-    name: "user_email",
+    name: "email",
     label: "Email",
     type: "email",
     icon: "faEnvelope",
     title: "Nhập email của bạn",
   },
   {
-    name: "user_repassword",
+    name: "password",
+    label: "Mật khẩu",
+    type: "password",
+    icon: "faLock",
+    title: "Nhập mật khẩu của bạn",
+  },
+
+  {
+    name: "repassword",
     label: "Nhập lại mật khẩu",
     type: "password",
     icon: "faLock",
     title: "Nhập lại mật khẩu của bạn",
   },
   {
-    name: "user_phone",
+    name: "phone",
     label: "Số điện thoại",
     type: "tel",
     icon: "faPhone",

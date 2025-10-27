@@ -6,7 +6,6 @@ import {
   onSuccessfulModel,
 } from "@/api/redux/slice/app_slice/app.slice";
 import { AppDispatch } from "@/api/redux/store";
-import { clietnRegisterThunk } from "@/api/redux/thunk/user_thunk/user.thunk";
 import {
   faHome,
   faPaperPlane,
@@ -17,14 +16,15 @@ import Link from "next/link";
 import React, { FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import RegisterAccountForm from "../form_input/RegisterAccountForm";
+import { clietnRegisterService } from "@/api/services/auth.service";
 
 type PostType = {
-  user_firtname: string;
-  user_email: string;
-  user_phone: string;
-  user_lastname: string;
-  user_password: string;
-  user_repassword: string;
+  firtname: string;
+  email: string;
+  phone: string;
+  lastname: string;
+  password: string;
+  repassword: string;
 };
 
 export default function UserRegisterAccountPage() {
@@ -37,14 +37,13 @@ export default function UserRegisterAccountPage() {
    */
   const [avt, setAvt] = useState<string>("");
   const [registerInput, setRegisterInput] = useState<PostType>({
-    user_firtname: "",
-    user_email: "",
-    user_phone: "",
-    user_lastname: "",
-    user_password: "",
-    user_repassword: "",
+    firtname: "",
+    email: "",
+    phone: "",
+    lastname: "",
+    password: "",
+    repassword: "",
   });
-  const [userAddress, setUserAddress] = useState<string>("");
   /**
    * Register onchange
    * @param e
@@ -53,7 +52,7 @@ export default function UserRegisterAccountPage() {
     try {
       e.preventDefault();
 
-      if (registerInput.user_password !== registerInput.user_repassword) {
+      if (registerInput.password !== registerInput.repassword) {
         dispatch(
           onErrorModel({
             mess: "Hai mật khẩu bạn nhập không trùng khớp",
@@ -65,21 +64,18 @@ export default function UserRegisterAccountPage() {
 
       dispatch(onLoadingAction(true));
 
-      const result = await dispatch(
-        clietnRegisterThunk({
-          user_email: registerInput.user_email,
-          user_firtname: registerInput.user_firtname,
-          user_lastname: registerInput.user_lastname,
-          user_password: registerInput.user_password,
-          user_phone: registerInput.user_phone,
-          user_avatar: avt ?? "",
-          user_address: userAddress,
-        })
-      );
-      if (clietnRegisterThunk.fulfilled.match(result)) {
+      const result = await clietnRegisterService({
+        email: registerInput.email,
+        firtname: registerInput.firtname,
+        lastname: registerInput.lastname,
+        password: registerInput.password,
+        phone: registerInput.phone,
+        avatar: avt ?? "",
+      });
+      if (result.resultCode == 1) {
         dispatch(onLoadingAction(false));
         dispatch(onSuccessfulModel(true));
-      } else if (clietnRegisterThunk.rejected.match(result)) {
+      } else {
         const error = new Error();
         dispatch(onLoadingAction(false));
         dispatch(
@@ -108,7 +104,6 @@ export default function UserRegisterAccountPage() {
             <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
           </div>
           <RegisterAccountForm
-            getAddress={setUserAddress}
             setAvt={setAvt}
             setRegisterInput={setRegisterInput}
           />

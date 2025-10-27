@@ -6,8 +6,7 @@ import {
 import { DataSource } from "typeorm";
 import { Connection, Model } from "mongoose";
 import { InjectConnection, InjectModel } from "@nestjs/mongoose";
-import { NavigationDoc } from "./app.model";
-import { createUrlNav } from "./feature/feature";
+import { CarouselDoc, NavigationDoc } from "./app.model";
 import {
   NavigationDataType,
   NavigationReponse,
@@ -19,6 +18,8 @@ export class AppService implements OnModuleInit {
     private dataSource: DataSource,
     @InjectModel("navigations")
     private readonly navigationModel: Model<NavigationDoc>,
+    @InjectModel("carousel")
+    private readonly carouselModel: Model<CarouselDoc>,
     @InjectConnection() private readonly mongooseConnection: Connection
   ) {}
 
@@ -53,5 +54,10 @@ export class AppService implements OnModuleInit {
     } catch (error) {
       return { message: `${error}`, nav: [], resultCode: 0, statusCode: 500 };
     }
+  }
+  //
+  async getCarousel() {
+    const data = await this.carouselModel.find();
+    return data;
   }
 }

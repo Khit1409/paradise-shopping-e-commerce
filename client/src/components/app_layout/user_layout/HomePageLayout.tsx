@@ -2,7 +2,7 @@
 import { AppDispatch, RootState } from "@/api/redux/store";
 import { getUserCartThunk } from "@/api/redux/thunk/cart_thunk/cart.thunk";
 import ProductHomePage from "@/components/product_page_section/pages/ProductHomePage";
-import BannerSection from "@/components/web_body/carousel/Banner";
+import CarouselHeader from "@/components/web_body/carousel/index";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -27,7 +27,7 @@ export default function UserHomePageLayout() {
   //render
   return (
     <>
-      <BannerSection />
+      <CarouselHeader />
       <ProductHomePage />
     </>
   );

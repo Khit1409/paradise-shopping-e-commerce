@@ -1,11 +1,8 @@
 import {
-  faBars,
   faBell,
-  faCartShopping,
   faMessage,
-  faSearch,
   faUserCircle,
-} from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +13,13 @@ import NotificateModal from "../modals/NotificateModal";
 import MessageModal from "../modals/MessageModal";
 import UserModal from "../modals/UserModal";
 import { openResponsiveMode } from "@/api/redux/slice/app_slice/app.slice";
+import { getUserOrderThunk } from "@/api/redux/thunk/order_thunk/order.thunk";
+import {
+  faBars,
+  faCartShopping,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
+import { getCarouselThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 
 export default function TopBar() {
   /**
@@ -66,23 +70,24 @@ export default function TopBar() {
     if (user) {
       (async () => {
         await dispatch(getUserCartThunk());
+        await dispatch(getUserOrderThunk());
+        await dispatch(getCarouselThunk());
       })();
     }
   }, [dispatch, user]);
 
-
   return (
-    <section className="bg-gray-800 text-white">
-      <div className="flex px-5 py-3 items-center lg:justify-around justify-between lg:gap-0 gap-5">
+    <section className="bg-white text-gray-700 p-5">
+      <div className="flex items-center lg:justify-around justify-between lg:gap-0 gap-5">
         <div className="flex lg:flex-1 justify-center items-center">
           {/* logo */}
           <div>
-            <span className="text-2xl font-extrabold hidden lg:block">
-              Logo
+            <span className="text-2xl font-bold hidden lg:block">
+              Paradise Store
             </span>
             {/* bar toggle */}
             <button
-              className="block lg:hidden p-2 border border-white rounded"
+              className="block lg:hidden p-2 border rounded"
               onClick={() => {
                 dispatch(openResponsiveMode());
               }}
@@ -95,10 +100,10 @@ export default function TopBar() {
         <div className="flex-2 flex justify-center relative">
           <input
             type="text"
-            className="bg-white text-gray-700 w-full border-0 p-2 rounded-[3px] outline-[orangered]"
+            className="border-gray-700 border text-gray-700 w-full p-2 rounded-[3px] outline-none text-center"
           />
           <button className="absolute z-20 text-gray-700 right-0 h-full px-3">
-            <FontAwesomeIcon icon={faSearch} className="text-2xl" />
+            <FontAwesomeIcon icon={faSearch} className="text-xl" />
           </button>
         </div>
         {/* toggle */}
@@ -114,7 +119,7 @@ export default function TopBar() {
               }}
               className=""
             >
-              <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
+              <FontAwesomeIcon icon={faCartShopping} className="text-xl" />
               {isLoggedIn && (
                 <span className="text-red-500 text-sm">{carts.length}</span>
               )}
@@ -124,7 +129,7 @@ export default function TopBar() {
           {/* notification */}
           <div className="relative">
             <button
-              className="text-2xl"
+              className="text-xl"
               onClick={() => {
                 setOpenMessage(false);
                 setOpenNotificate(!openNotificate);
@@ -140,7 +145,7 @@ export default function TopBar() {
           {/* message */}
           <div className="relative">
             <button
-              className="text-2xl"
+              className="text-xl"
               onClick={() => {
                 setOpenMessage(!openMessage);
                 setOpenNotificate(false);
@@ -162,7 +167,7 @@ export default function TopBar() {
                 setOpenUserModal(!openUserModal);
                 setOpenCartModal(false);
               }}
-              className="text-2xl"
+              className="text-xl"
             >
               <FontAwesomeIcon icon={faUserCircle} />
             </button>

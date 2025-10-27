@@ -1,7 +1,7 @@
 import {
   GetProductByCategoryRequest,
   Product,
-  ProductShopPage,
+  ProductPreviewDataType,
   SingelProductDataResponse,
 } from "@/api/interfaces/product.interface";
 import {
@@ -104,14 +104,16 @@ export const getProductShopThunk = createAsyncThunk<
   /**
    * response type
    */
-  ProductShopPage[],
+  ProductPreviewDataType[],
   /**
    * request type
    */
   {
-    pro_sale?: number | string;
+    max_sale?: number | string;
+    min_sale?: number | string;
     cate_slug?: string;
-    pro_price?: number | string;
+    max_price?: number | string;
+    min_price?: number | string;
     area?: string;
   },
   /**
@@ -126,7 +128,10 @@ export const getProductShopThunk = createAsyncThunk<
    * @param thunkAPI
    * @returns
    */
-  async ({ cate_slug, area, pro_price, pro_sale }, thunkAPI) => {
+  async (
+    { cate_slug, area, max_price, max_sale, min_price, min_sale },
+    thunkAPI
+  ) => {
     try {
       /**
        * service
@@ -134,8 +139,10 @@ export const getProductShopThunk = createAsyncThunk<
       const payload = await getProductShopService({
         area,
         cate_slug,
-        pro_sale,
-        pro_price,
+        max_price,
+        max_sale,
+        min_price,
+        min_sale,
       });
       return payload;
     } catch (error) {

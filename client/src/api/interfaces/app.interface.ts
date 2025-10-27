@@ -29,3 +29,11 @@ export interface WardApiType {
   codename: string;
   province_code: number;
 }
+/**
+ * carousel api
+ */
+export interface CarouselApiDataType {
+  _id: string;
+  imgUrl: string;
+  title: string;
+}

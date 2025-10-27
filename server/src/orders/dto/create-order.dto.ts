@@ -1,7 +1,9 @@
 import { Type } from "class-transformer";
-import { IsNumber, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsNumber, IsString, ValidateNested } from "class-validator";
 
 export class CreateOrderItemsDto {
+  @IsString()
+  orderImg: string;
   @IsString()
   proId: string;
   @IsString()
@@ -26,6 +28,12 @@ export class CreateOrderContactDto {
   @IsString()
   email: string;
 }
+export class CreateOrderAttribute {
+  @IsString()
+  attributeName: string;
+  @IsString()
+  attributeValue: string;
+}
 
 export class CreateOrderDto {
   @IsString()
@@ -36,4 +44,8 @@ export class CreateOrderDto {
   @ValidateNested()
   @Type(() => CreateOrderContactDto)
   contact: CreateOrderContactDto;
+  @IsArray()
+  @ValidateNested()
+  @Type(() => CreateOrderAttribute)
+  attribute: CreateOrderAttribute[];
 }

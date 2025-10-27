@@ -7,16 +7,13 @@ import Image from "next/image";
  */
 interface ComponentProps {
   orderItem: {
+    productName: string;
     productId: string;
     productImg: string;
-    attribute: {
-      attrName: string;
-      itemValue: string;
-      itemImg?: string | undefined;
-    }[];
+    attribute: { attributeName: string; attributeValue: string }[];
     totalPrice: number;
     quantity: number;
-  };
+  } | null;
 }
 /**
  * function component
@@ -43,17 +40,9 @@ export default function OrderAttributePreview(props: ComponentProps) {
                 key={idx}
                 className="text-gray-700 flex flex-col gap-2 items-center text-center border border-gray-300 p-2"
               >
-                <span className="font-semibold">{attr.attrName}</span>
-                {attr.itemImg && (
-                  <Image
-                    src={attr.itemImg}
-                    alt=""
-                    width={80}
-                    height={80}
-                    className="object-cover"
-                  />
-                )}
-                {attr.itemValue}
+                <span className="font-semibold">{attr.attributeName}</span>
+
+                {attr.attributeValue}
               </li>
             ))}
           </ul>

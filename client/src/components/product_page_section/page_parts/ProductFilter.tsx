@@ -4,70 +4,31 @@ import { CATEGORY_SELECT_LIST } from "@/api/category_api";
 import { ProvinceApiType } from "@/api/interfaces/app.interface";
 import { AppDispatch } from "@/api/redux/store";
 import { getAddressThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
-
 import {
-  faCancel,
   faList,
   faLocationDot,
   faWallet,
+  faPercent,
+  faDeleteLeft,
+  faTable,
+  faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, ReactHTMLElement, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-const filterList = [
-  {
-    id: 1,
-    title: "Giá tiền",
-    name: "price",
-    content: [
-      {
-        name: "0 - 100.000 vnd",
-        value: 100000,
-      },
-      {
-        name: "100.000 vnd - 500.000",
-        value: 500000,
-      },
-      {
-        name: "500.000 trở lên",
-        value: 600000,
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Khuyến mại",
-    name: "sale",
-    content: [
-      {
-        name: "0 - 20%",
-        value: 20,
-      },
-      {
-        name: "20 - 50%",
-        value: 50,
-      },
-      {
-        name: "50% trở lên",
-        value: 99,
-      },
-    ],
-  },
-];
-
 export default function ProductFilter({
-  location,
   setLocation,
   setCostFilter,
   setCateSlug,
+  clear,
 }: {
+  clear: () => void;
   setCateSlug: React.Dispatch<React.SetStateAction<string>>;
-  location?: string;
   setCostFilter: (
     value: React.SetStateAction<{
-      price?: number;
-      sale?: number;
+      price?: { max_price?: number; min_price?: number };
+      sale?: { max_sale?: number; min_sale?: number };
     }>
   ) => void;
   setLocation: React.Dispatch<React.SetStateAction<string>>;
@@ -75,19 +36,45 @@ export default function ProductFilter({
   /**
    * component state
    */
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [provinceApi, setProvinceApi] = useState<ProvinceApiType[]>([]);
-  const [showMore, setShowMore] = useState<number>(10);
-  const onChangeCostFilter = (e: ChangeEvent<HTMLSelectElement>) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * onchange price filter
+   * @param e
+   */
+  const onchangePrice = (e: ChangeEvent<HTMLInputElement>) => {
     setCostFilter((prev) => ({
       ...prev,
-      [e.target.name]: Number(e.target.value),
+      price: { ...prev.price, [e.target.name]: Number(e.target.value) },
     }));
   };
   /**
-   *
+   * onchange sale filter
+   * @param e
    */
-  const dispatch = useDispatch<AppDispatch>();
-
+  const onchangeSale = (e: ChangeEvent<HTMLInputElement>) => {
+    setCostFilter((prev) => ({
+      ...prev,
+      sale: { ...prev.sale, [e.target.name]: Number(e.target.value) },
+    }));
+  };
+  /**
+   * onchange location select
+   */
+  const onchangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.value;
+    const thisProvince = provinceApi.find((f) => f.name === selected);
+    if (thisProvince) {
+      setLocation(thisProvince.codename);
+    } else {
+      setLocation("");
+    }
+  };
+  /**
+   * call api when start mount
+   */
   useEffect(() => {
     (async () => {
       const address = await dispatch(getAddressThunk());
@@ -96,96 +83,133 @@ export default function ProductFilter({
       }
     })();
   }, [dispatch]);
+  /**
+   * render
+   */
   return (
-    <section className="w-[300px] flex-1 p-3 bg-white text-gray-700 h-screen overflow-y-auto">
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-5">
-          <div>
-            <button
-              className="px-2 py-1 border border-yellow-500"
-              onClick={() => {
-                setCateSlug("");
-                setLocation("");
-                setCostFilter({});
-              }}
-            >
-              Hủy <FontAwesomeIcon icon={faCancel} className="text-red-500" />
-            </button>
-          </div>
-          {/* khu vực */}
-          <div className="flex flex-col gap-3 mt-2">
-            <p className="text-gray-700 font-semibold">
-              <FontAwesomeIcon icon={faLocationDot} />
-              KHU VỰC
-            </p>
-            {provinceApi.slice(0, showMore).map((prov) => (
-              <div key={prov.code} className="">
+    <section className="bg-white p-2 justify-center border border-gray-200 text-gray-700 flex flex-col gap-3">
+      <div>
+        <button
+          className="text font-bold text-gray-800"
+          onClick={() => setOpenModal(true)}
+        >
+          <FontAwesomeIcon icon={faTable} className="me-2" />
+          Tìm kiếm
+        </button>
+      </div>
+      {openModal && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* KHU VỰC */}
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold text-gray-700 flex items-center gap-2">
+                <FontAwesomeIcon icon={faLocationDot} />
+                Khu vực
+              </label>
+              <input
+                type="text"
+                onChange={(e) => {
+                  onchangeLocation(e);
+                }}
+                list="area_list"
+                placeholder="Chọn tỉnh/thành phố..."
+                className="border border-gray-300  p-2 outline-none "
+              />
+              <datalist id="area_list">
+                {provinceApi.map((prov) => (
+                  <option key={prov.code} value={prov.name} />
+                ))}
+              </datalist>
+            </div>
+
+            {/* GIÁ SẢN PHẨM */}
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold text-gray-700 flex items-center gap-2">
+                <FontAwesomeIcon icon={faWallet} />
+                Giá sản phẩm
+              </label>
+              <div className="flex gap-3">
                 <input
-                  type="checkbox"
-                  className="me-1"
-                  onDoubleClick={() => setLocation("")}
-                  value={prov.codename}
-                  checked={location === prov.codename}
-                  onChange={(e) => setLocation(e.target.value)}
+                  type="number"
+                  name="min_price"
+                  onChange={onchangePrice}
+                  placeholder="Từ"
+                  className="w-1/2 border border-gray-300  p-2 outline-none "
                 />
-                {prov.name}
+                <input
+                  type="number"
+                  name="max_price"
+                  onChange={onchangePrice}
+                  placeholder="Đến"
+                  className="w-1/2 border border-gray-300  p-2 outline-none "
+                />
               </div>
-            ))}
-            {showMore == 10 ? (
-              <button
-                className="text-start text-gray-700 opacity-50"
-                onClick={() => setShowMore(provinceApi.length)}
-              >
-                Xem thêm {">"}
-              </button>
-            ) : (
-              <button
-                className="text-start text-gray-700 opacity-50"
-                onClick={() => setShowMore(10)}
-              >
-                {"<"} Ẩn
-              </button>
-            )}
-          </div>
-          {/* giá sản phẩm */}
-          <div className="flex flex-col gap-3">
-            <p className="font-semibold text-gray-700">
-              <FontAwesomeIcon icon={faWallet} />
-              Giá tiền
-            </p>
-            {filterList.map((ft) => (
+            </div>
+
+            {/* KHUYẾN MÃI */}
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold text-gray-700 flex items-center gap-2">
+                <FontAwesomeIcon icon={faPercent} />
+                Khuyến mãi (%)
+              </label>
+              <div className="flex gap-3">
+                <input
+                  type="number"
+                  name="min_sale"
+                  onChange={onchangeSale}
+                  placeholder="Từ"
+                  className="w-1/2 border border-gray-300  p-2 outline-none "
+                />
+                <input
+                  type="number"
+                  name="max_sale"
+                  onChange={onchangeSale}
+                  placeholder="Đến"
+                  className="w-1/2 border border-gray-300  p-2 outline-none "
+                />
+              </div>
+            </div>
+
+            {/* DANH MỤC */}
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold text-gray-700 flex items-center gap-2">
+                <FontAwesomeIcon icon={faList} />
+                Danh mục
+              </label>
               <select
-                className="border border-gray-300 p-1"
-                name={ft.name}
-                onChange={onChangeCostFilter}
-                key={ft.id}
+                id="category_select"
+                onChange={(e) => setCateSlug(e.target.value)}
+                className="border border-gray-300  p-2 outline-none "
               >
-                <option value={0}>{ft.title}</option>
-                {ft.content.map((c, idx) => (
-                  <option value={c.value} key={idx}>
-                    {c.name}
+                {CATEGORY_SELECT_LIST.map((cate) => (
+                  <option value={cate.slug} key={cate.id}>
+                    {cate.name.toUpperCase()}
                   </option>
                 ))}
               </select>
-            ))}
+            </div>
           </div>
-          {/* Danh mục */}
-          <div className="flex flex-col gap-3">
-            <p className="font-semibold text-gray-700">
-              <FontAwesomeIcon icon={faList} /> DANH MỤC
-            </p>
-            {CATEGORY_SELECT_LIST.map((cate) => (
-              <button
-                className="text-start hover:underline hover:text-blue-500"
-                onClick={() => setCateSlug(cate.slug)}
-                key={cate.id}
-              >
-                {cate.name.toLocaleUpperCase()}
-              </button>
-            ))}
+          <div className="flex gap-3 items-center justify-end">
+            <button
+              className="border border-gray-300 py-1 px-2"
+              onClick={() => clear()}
+            >
+              Mặc định
+              <FontAwesomeIcon icon={faDeleteLeft} className="ms-2" />
+            </button>
+            <button
+              className="border text-red-500 border-red-500 py-1 px-2"
+              onClick={() => {
+                clear();
+                setOpenModal(!openModal);
+              }}
+            >
+              Ẩn
+              <FontAwesomeIcon icon={faEyeSlash} className=" ms-2" />
+            </button>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </section>
   );
 }

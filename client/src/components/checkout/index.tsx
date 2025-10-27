@@ -10,6 +10,7 @@ import {
 } from "@/api/redux/slice/app_slice/app.slice";
 import axios from "axios";
 import { checkoutAction } from "@/api/redux/slice/order_slice/order.slice";
+import { apiAction } from "@/config/axios";
 /**
  * Checkout modal with QR code
  * or click button for using payos page
@@ -54,10 +55,10 @@ export default function CheckoutModal() {
         return;
       }
       dispatch(onLoadingAction(true));
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payments/cancel-payment`,
-        { paymentLinkId, cancellationReason: "user cancel" }
-      );
+      const res = await apiAction.post(`payments/cancel-payment`, {
+        paymentLinkId,
+        cancellationReason: "user cancel",
+      });
       const data = res.data;
       if (data) {
         dispatch(onLoadingAction(false));
@@ -79,9 +80,13 @@ export default function CheckoutModal() {
   //render
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm bg-opacity-50 p-5">
-      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md flex flex-col items-center gap-5 relative ">
+      <div className="bg-white rounded-2xl shadow-xl p-6 w-full flex gap-5 relative ">
         {/* QR Code */}
-        <QRCode value={qrCode} size={220} />
+
+        <div className="flex flex-col">
+          <QRCode value={qrCode} size={220} />
+          {/* PayOS button */}
+        </div>
 
         {/* Order Info */}
         <div className="flex flex-col gap-2 text-center">
@@ -91,25 +96,22 @@ export default function CheckoutModal() {
           <p>
             Số tiền: {amount} {currency}
           </p>
+          <p className="text-sm text-gray-600">Quét mã QR để thanh toán</p>
+          <Link
+            href={checkoutUrl}
+            target="_blank"
+            className="mt-3 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Thanh toán bằng PayOS
+          </Link>
+          <button
+            onClick={() => cancelCheckout()}
+            role="button"
+            className="mt-3 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+          >
+            Hủy thanh toán
+          </button>
         </div>
-
-        <p className="text-sm text-gray-600">Quét mã QR để thanh toán</p>
-
-        {/* PayOS button */}
-        <Link
-          href={checkoutUrl}
-          target="_blank"
-          className="mt-3 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Thanh toán bằng PayOS
-        </Link>
-        <button
-          onClick={() => cancelCheckout()}
-          role="button"
-          className="mt-3 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
-        >
-          Hủy thanh toán
-        </button>
       </div>
     </div>
   );

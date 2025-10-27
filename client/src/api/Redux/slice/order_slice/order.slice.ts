@@ -1,5 +1,9 @@
-import { CreatePaymentLinkResponse } from "@/api/services/order.service";
+import {
+  CreatePaymentLinkResponse,
+  UserOrderAPIDataType,
+} from "@/api/services/order.service";
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserOrderThunk } from "../../thunk/order_thunk/order.thunk";
 /**
  * type of slice
  */
@@ -9,6 +13,9 @@ type orderInitialStateType = {
     value: CreatePaymentLinkResponse | null;
   };
   orderState: OrderState | null;
+  orders: UserOrderAPIDataType[];
+  pending: boolean;
+  orderError: string | null;
 };
 /**
  * Type of state on initial state
@@ -16,13 +23,15 @@ type orderInitialStateType = {
 export type OrderState = {
   open: boolean;
   items: {
+    productName: string;
     productId: string;
     productImg: string;
-    attribute: { attrName: string; itemValue: string; itemImg?: string }[];
+    attribute: { attributeName: string; attributeValue: string; }[];
     totalPrice: number;
     quantity: number;
   } | null;
 };
+
 /**
  * Order initialstate
  */
@@ -32,6 +41,9 @@ const orderInitialState: orderInitialStateType = {
     value: null,
   },
   orderState: { open: false, items: null },
+  orders: [],
+  pending: false,
+  orderError: null,
 };
 /**
  * Order slice
@@ -70,6 +82,21 @@ const orderSlice = createSlice({
     onOpenOrderModal: (state, action: { payload: OrderState }) => {
       state.orderState = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    //get user order
+    builder
+      .addCase(getUserOrderThunk.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(getUserOrderThunk.fulfilled, (state, action) => {
+        state.pending = false;
+        state.orders = action.payload;
+      })
+      .addCase(getUserOrderThunk.rejected, (state, action) => {
+        state.pending = false;
+        state.orderError = action.payload as string;
+      });
   },
 });
 /**

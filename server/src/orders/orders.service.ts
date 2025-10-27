@@ -2,28 +2,31 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  UnauthorizedException,
 } from "@nestjs/common";
-import { CreateOrderDto } from "./dto/create-order.dto";
+import { CreateOrderAttribute, CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "src/users/entity/user.entity";
 import { Repository } from "typeorm";
 import { StoreEntity } from "src/store/entity/store.entity";
-import {
-  OrderItems,
-  OrderPersonContacts,
-  Orders,
-} from "./entities/order.entity";
+import { Orders } from "./entities/order.entity";
 import { PaymentsService } from "src/payments/payments.service";
 import { CreatePaymentLinkResponse } from "@payos/node";
 import { InjectModel } from "@nestjs/mongoose";
 import { Product } from "src/products/models/product.model";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { EmailsService } from "src/emails/emails.service";
 import {
   AddNewOrderResponse,
   SingleProductDataType,
 } from "src/interfaces/server.types";
+import { OrderPersonContacts } from "./entities/order-contact.entity";
+import { OrderItems } from "./entities/order-item.entity";
+import {
+  OrderAttributeDoc,
+  OrderAttributes,
+} from "./models/order-attribute.model";
 
 @Injectable()
 export class OrdersService {
@@ -33,8 +36,8 @@ export class OrdersService {
     private readonly paymentService: PaymentsService,
     //
     @InjectModel("Product") private readonly productModel: Model<Product>,
-    @InjectRepository(UserEntity)
-    private readonly userRepo: Repository<UserEntity>,
+    @InjectModel("OrderAttribute")
+    private readonly orderAttrModel: Model<OrderAttributeDoc>,
     @InjectRepository(StoreEntity)
     private readonly storeRepo: Repository<StoreEntity>,
     @InjectRepository(Orders)
@@ -73,7 +76,6 @@ export class OrdersService {
     userId: string
   ): Promise<AddNewOrderResponse> {
     try {
-      const start = Date.now();
       /**
        * check validate from request and
        * user id from token verified
@@ -99,8 +101,16 @@ export class OrdersService {
        */
       const { contact, item } = dto;
       const { address, email, phone, userName } = contact;
-      const { kindOfPay, kindOfShip, orderName, proId, quantity, totalPrice } =
-        item;
+      const {
+        kindOfPay,
+        kindOfShip,
+        orderName,
+        proId,
+        quantity,
+        totalPrice,
+        orderImg,
+      } = item;
+      const attribute = dto.attribute;
       /**
        * get storeId from product id in
        */
@@ -173,42 +183,23 @@ export class OrdersService {
        */
       const { orderId, orderCode } = order;
       /**
-       * create new orderItem by orderId was create
+       * create order parts
        */
-      const [newOrderItem, newOrderContact] = await Promise.all([
-        //item
-        this.orderItemRepo.save({
-          ofOrderId: orderId,
-          orderKindOfPay: kindOfPay,
-          orderKindOfShipping: kindOfShip,
-          orderPayStatus: "UNPAID",
-          orderName: orderName,
-          orderStatus: "PENDING",
-          orderQuantity: quantity,
-          orderTotalPrice: totalPrice,
-          proId: proId,
-        }),
-        //contact
-        this.orderContactRepo.save({
-          ofOrderId: orderId,
-          orderAddress: address,
-          orderPhone: phone,
-          orderEmail: email,
-          userOrder: userName,
-        }),
-      ]);
-
-      /**
-       * check result create orderitem and order contact
-       */
-      if (!newOrderItem || !newOrderContact) {
-        return {
-          message: "New order item or contact is failed create!",
-          resultCode: 0,
-          statusCode: 404,
-          payment: null,
-        };
-      }
+      const { newOrderContact, newOrderItem } = await this.createOrderParts(
+        orderId,
+        kindOfPay,
+        kindOfShip,
+        orderName,
+        quantity,
+        totalPrice,
+        proId,
+        orderImg,
+        address,
+        phone,
+        email,
+        userName,
+        attribute
+      );
       /**
        * set variable for get payment data
        */
@@ -242,8 +233,6 @@ export class OrdersService {
       if (sendMailResult.resultCode !== 1) {
         return { ...sendMailResult, payment: null };
       }
-      const end = Date.now();
-      console.log(end - start, "ms");
       /**
        * response
        */
@@ -266,21 +255,115 @@ export class OrdersService {
     }
   }
 
+  /**
+   * @description get user order by id from cookie
+   * @param userId
+   * @returns
+   */
   async getOrdersByUserId(userId: string) {
+    if (!userId) {
+      throw new BadRequestException("User id is invalid!");
+    }
     try {
       const orders = await this.orderRepo.find({
         where: { ofUserId: userId },
         relations: ["orderItems", "orderContacts"],
       });
-      return orders;
+      const api = await Promise.all(
+        orders.map(async (order) => {
+          const data = await this.getOrderAttribute(order.orderId);
+          return {
+            ...order,
+            orderAttribute: data,
+          };
+        })
+      );
+      return {
+        message: "successfull",
+        api,
+        resultCode: 1,
+        statusCode: 200,
+      };
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }
   }
-  findAll() {
-    return `This action returns all orders`;
+
+  async getOrderAttribute(orderId: string) {
+    try {
+      const api = await this.orderAttrModel
+        .findOne({
+          ofOrderId: orderId,
+        })
+        .then((data) => {
+          if (data) {
+            return data.attribute;
+          }
+        });
+      return api;
+    } catch (error) {
+      return null;
+    }
   }
 
+  async createOrderParts(
+    orderId: string,
+    kindOfPay: "COD" | "ONLINE",
+    kindOfShip: "COD" | "FLASH",
+    orderName: string,
+    quantity: number,
+    totalPrice: number,
+    proId: string,
+    orderImg: string,
+    orderAddress: string,
+    orderPhone: string,
+    orderEmail: string,
+    userName: string,
+    attribute: CreateOrderAttribute[]
+  ) {
+    try {
+      /**
+       * create new orderItem by orderId was create
+       */
+      const [newOrderItem, newOrderContact, newAttribute] = await Promise.all([
+        //item
+        this.orderItemRepo.save({
+          ofOrderId: orderId,
+          orderKindOfPay: kindOfPay,
+          orderKindOfShipping: kindOfShip,
+          orderPayStatus: "UNPAID",
+          orderName: orderName,
+          orderStatus: "PENDING",
+          orderQuantity: quantity,
+          orderTotalPrice: totalPrice,
+          proId: proId,
+          orderImg,
+        }),
+        //contact
+        this.orderContactRepo.save({
+          ofOrderId: orderId,
+          orderAddress,
+          orderPhone,
+          orderEmail,
+          userOrder: userName,
+        }),
+        //attribute
+        this.orderAttrModel.create({
+          ofOrderId: orderId,
+          attribute,
+        }),
+      ]);
+      /**
+       * check result create orderitem and order contact
+       */
+      if (!newOrderItem || !newOrderContact || !newAttribute) {
+        throw new BadRequestException("Erro when create new order parts");
+      }
+      return { newOrderItem, newOrderContact, newAttribute };
+    } catch (error) {
+      throw new UnauthorizedException(`${error}`);
+    }
+  }
   findOne(id: number) {
     return `This action returns a #${id} order`;
   }

@@ -20,7 +20,7 @@ export default function NavigationBar() {
    * 
    */
   return (
-    <div className="mt-0 bg-gray-700 text-white lg:block hidden">
+    <div className="p-5 text-gray-700 bg-white lg:block hidden border-gray-300 border-t">
       <div className="p-2 flex gap-5 w-full justify-center">
         {nav.map((n) => (
           <Link key={n._id} href={`/user${n.navUrl}`} className="uppercase text-sm">

@@ -13,4 +13,10 @@ export class AppController {
     const { message, resultCode, statusCode, nav } = result;
     return res.status(statusCode).json({ message, resultCode, api: nav });
   }
+
+  @Get("carousel")
+  async getCarousel() {
+    const data = await this.appService.getCarousel();
+    return data;
+  }
 }

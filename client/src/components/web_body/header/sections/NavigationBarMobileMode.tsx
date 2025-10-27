@@ -14,9 +14,12 @@ import Link from "next/link";
 import { NAV_TOGGLE_LIST } from "./feature_list";
 import { getIconByName } from "@/ultis/ultis";
 import { openResponsiveMode } from "@/api/redux/slice/app_slice/app.slice";
-import { clientLogout } from "@/api/redux/thunk/auth_thunk/auth.thunk";
+import { logout } from "@/api/services/auth.service";
+import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
+import { useRouter } from "next/navigation";
 
 export default function NavigationBarMobileMode() {
+  const router = useRouter();
   /**
    * redux state
    */
@@ -35,7 +38,20 @@ export default function NavigationBarMobileMode() {
   const closeResponesive = () => {
     dispatch(openResponsiveMode());
   };
-
+  /**
+   * logout
+   */
+  /** Handle user logout and redirect to homepage if logout succeeds */
+  const handleLogout = async () => {
+    closeResponesive();
+    const rs = await logout();
+    if (rs.resultCode == 1) {
+      const check = await dispatch(authenticationThunk());
+      if (authenticationThunk.rejected.match(check)) {
+        router.replace("/");
+      }
+    }
+  };
   return openResponsive ? (
     <section className="lg:hidden p-3 text-gray-700 bg-white fixed left-0 h-screen max-h-screen border-r border-gray-300 z-9999 overflow-y-auto overflow-x-hidden">
       {/* logo */}
@@ -60,7 +76,7 @@ export default function NavigationBarMobileMode() {
               key={index}
               href={toggle.toggleUrl}
               onClick={() => {
-                closeResponesive();
+                handleLogout();
               }}
             >
               <FontAwesomeIcon icon={getIconByName(toggle.toggleIcon)} />
@@ -106,7 +122,6 @@ export default function NavigationBarMobileMode() {
             <button
               onClick={() => {
                 closeResponesive();
-                dispatch(clientLogout());
               }}
               className="text-red-500 hover:text-red-600 hover:underline"
             >

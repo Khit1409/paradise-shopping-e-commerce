@@ -2,6 +2,7 @@
 
 import UserUpdateAccountPage from "@/components/accounts/update/user";
 import CartPage from "@/components/carts";
+import OrderPage from "@/components/order_page";
 import ProductShopPage from "@/components/product_page_section/pages/ProductShopPage";
 import UpNewProductPage from "@/components/seller/manager_store/manager_store_products/create_products";
 import UpdateProductSinglePage from "@/components/seller/manager_store/manager_store_products/update_products";
@@ -18,6 +19,7 @@ const PAGE_CONTENT: Record<string, React.ReactNode> = {
   add_new_product: <UpNewProductPage />,
   my_cart: <CartPage />,
   setting_account: <UserUpdateAccountPage />,
+  my_order: <OrderPage />,
 };
 /**
  *

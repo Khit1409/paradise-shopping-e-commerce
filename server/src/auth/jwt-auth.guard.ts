@@ -15,6 +15,13 @@ export class JwtAuthGuard implements CanActivate {
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
+    /**
+     * plublic path
+     */
+    const publictPath = ["/v1/auth/login", "/v1/auth/register"];
+    /**
+     * path
+     */
     const path = request.path as string;
     /**
      * true if is unneeded token router
@@ -25,10 +32,13 @@ export class JwtAuthGuard implements CanActivate {
     } else {
       token = request.cookies?.user_token;
     }
-
-    console.log("==============AUTH GUARD==================");
-    console.table([{ path, token: token ? "have" : "null" }]);
-
+    if (
+      path.startsWith("/v1/auth/login") ||
+      path.startsWith("/v1/auth/register") ||
+      path.startsWith("/v1/images")
+    ) {
+      return true;
+    }
     if (!token) {
       throw new UnauthorizedException("Missing auth token!");
     }

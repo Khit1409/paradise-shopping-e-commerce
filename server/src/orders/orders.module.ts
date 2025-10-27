@@ -2,11 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { OrdersService } from "./orders.service";
 import { OrdersController } from "./orders.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import {
-  OrderItems,
-  OrderPersonContacts,
-  Orders,
-} from "./entities/order.entity";
+import { Orders } from "./entities/order.entity";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ProductSchema } from "src/products/models/product.model";
 import { UserEntity } from "src/users/entity/user.entity";
@@ -14,6 +10,9 @@ import { StoreEntity } from "src/store/entity/store.entity";
 import { UsersModule } from "src/users/users.module";
 import { PaymentsModule } from "src/payments/payments.module";
 import { EmailsModule } from "src/emails/emails.module";
+import { OrderItems } from "./entities/order-item.entity";
+import { OrderPersonContacts } from "./entities/order-contact.entity";
+import { orderAttrSchema } from "./models/order-attribute.model";
 
 @Module({
   imports: [
@@ -26,6 +25,7 @@ import { EmailsModule } from "src/emails/emails.module";
         name: "Product",
         schema: ProductSchema,
       },
+      { name: "OrderAttribute", schema: orderAttrSchema },
     ]),
     forwardRef(() => PaymentsModule),
     //typeorm
@@ -36,8 +36,6 @@ import { EmailsModule } from "src/emails/emails.module";
       UserEntity,
       StoreEntity,
     ]),
-    //mongoose
-    MongooseModule.forFeature([{ name: "Product", schema: ProductSchema }]),
   ],
   controllers: [OrdersController],
   providers: [OrdersService],

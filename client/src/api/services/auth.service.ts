@@ -31,13 +31,12 @@ export async function clietnRegisterService({
     });
     //result from api data
     const result: UserServiceGeneralErrorType = res.data;
-
+    // response
     return result;
   } catch (error) {
     return handleApiError(error);
   }
 }
-
 /**
  * Login from client
  * @param role
@@ -127,5 +126,20 @@ export async function updateUserAccount({ ...params }: UpdateAccountRequest) {
     return { message: api.message, resultCode: api.resultCode };
   } catch (error) {
     return { message: `${error}`, resultCode: 0 };
+  }
+}
+/**
+ * logout
+ * @param pram0
+ */
+export async function logout(): Promise<{
+  resultCode: number;
+  message: string;
+}> {
+  try {
+    const res = await apiAction.post(`auth/client_logout`);
+    return res.data;
+  } catch (error) {
+    return { resultCode: 0, message: `${error}` };
   }
 }

@@ -1,10 +1,10 @@
 import {
   GetProductByCategoryRequest,
   SingelProductDataResponse,
-  ProductShopPage,
   Product,
   GetProductShopRequest,
   GetSingleProductRequest,
+  ProductPreviewDataType,
 } from "../interfaces/product.interface";
 import { apiAction } from "@/config/axios";
 
@@ -22,7 +22,7 @@ import { apiAction } from "@/config/axios";
  */
 export async function getHomeProductService({
   page,
-}: GetProductByCategoryRequest): Promise<Product[]> {
+}: GetProductByCategoryRequest): Promise<ProductPreviewDataType[]> {
   const res = await apiAction.get(`products/get_home_product?page=${page}`);
   const api: Product[] = res.data.api;
   return api;
@@ -36,17 +36,21 @@ export async function getHomeProductService({
  */
 export async function getProductShopService(
   query: GetProductShopRequest
-): Promise<ProductShopPage[]> {
+): Promise<ProductPreviewDataType[]> {
   const params = new URLSearchParams({
-    pro_price: String(query.pro_price ?? ""),
-    cate_slug: String(query.cate_slug ?? ""),
+    maxPrice: String(query.max_price ?? ""),
+    minPrice: String(query.min_price ?? ""),
+    category: String(query.cate_slug ?? ""),
     area: String(query.area ?? ""),
-    pro_sale: String(query.pro_sale ?? ""),
+    maxSale: String(query.max_sale ?? ""),
+    minSale: String(query.min_sale ?? ""),
   });
 
-  const res = await apiAction.get(`products/get_product_shop?${params.toString()}`);
+  const res = await apiAction.get(
+    `products/get_product_shop?${params.toString()}`
+  );
 
-  const api: ProductShopPage[] = res.data.api;
+  const api: ProductPreviewDataType[] = res.data.api;
   return api;
 }
 /**

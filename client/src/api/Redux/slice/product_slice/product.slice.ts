@@ -7,7 +7,7 @@ import {
 } from "../../thunk/product_thunk/product.thunk";
 import {
   Product,
-  ProductShopPage,
+  ProductPreviewDataType,
   SingelProductDataResponse,
 } from "@/api/interfaces/product.interface";
 import {
@@ -19,7 +19,7 @@ import {
  */
 interface ProductInitialState {
   errorMessage: string | null;
-  productShop: ProductShopPage[];
+  productShop: ProductPreviewDataType[];
   sendRequest: boolean;
   spSeller: SingleProductSeller | null;
   productSellerApi: ProductSeller[];

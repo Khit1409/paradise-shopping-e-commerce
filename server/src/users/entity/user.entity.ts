@@ -15,7 +15,7 @@ export class UserEntity {
   phoneNumber: string;
   @Column({ type: "nvarchar" })
   emailAddress: string;
-  @Column({})
+  @Column({ type: "varchar", length: 10 })
   userRole: "user" | "seller";
   @Column({ type: "uuid", nullable: true })
   userStore: string;

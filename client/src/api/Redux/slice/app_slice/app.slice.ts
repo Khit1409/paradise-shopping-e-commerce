@@ -1,9 +1,13 @@
 import {
+  CarouselApiDataType,
   NavigationDataType,
   WardApiType,
 } from "@/api/interfaces/app.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { getNavigationThunk } from "../../thunk/app_thunk/app.thunk";
+import {
+  getCarouselThunk,
+  getNavigationThunk,
+} from "../../thunk/app_thunk/app.thunk";
 /**
  * Type of app slice initial state
  */
@@ -15,6 +19,7 @@ interface AppInitialState {
   message: string | null;
   wardApi: WardApiType[];
   openResponsive: boolean;
+  carousel: CarouselApiDataType[];
 }
 /**
  * appInitialState extends type of AppInitialState
@@ -27,6 +32,7 @@ const appInitialState: AppInitialState = {
   onLoading: false,
   wardApi: [],
   openResponsive: false,
+  carousel: [],
 };
 /**
  * Slice config and functions
@@ -75,6 +81,18 @@ const appSlice = createSlice({
       .addCase(getNavigationThunk.rejected, (state, action) => {
         state.onLoading = false;
         state.message = action.payload ?? "error get navigation";
+      })
+      //carousel
+      .addCase(getCarouselThunk.pending, (state) => {
+        state.onLoading = true;
+      })
+      .addCase(getCarouselThunk.fulfilled, (state, action) => {
+        state.onLoading = false;
+        state.carousel = action.payload;
+      })
+      .addCase(getCarouselThunk.rejected, (state, action) => {
+        state.onLoading = false;
+        state.message = action.payload as string;
       });
   },
 });

@@ -1,5 +1,39 @@
 import { apiAction } from "@/config/axios";
-import axios from "axios";
+
+export type OrderKindOfShipping = "FLASH" | "COD";
+export type OrderStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "SHIPPING"
+  | "RECEIVED"
+  | "SHIPPINGFAILED";
+
+export type OrderKindOfPay = "COD" | "ONLINE";
+export type OrderPayStatus = "PAID" | "UNPAID";
+
+type OrderItem = {
+  proId: string;
+  orderName: string;
+  orderImg: string;
+  orderStatus: OrderStatus;
+  totalPrice: number;
+  kindOfShip: OrderKindOfShipping;
+  kindOfPay: OrderKindOfPay;
+  quantity: number;
+  payStatus: OrderPayStatus;
+};
+
+type OrderContact = {
+  userName: string;
+  address: string;
+  phone: string;
+  email: string;
+};
+
+type OrderAttributeRequest = {
+  attributeName: string;
+  attributeValue: string;
+};
 
 /**
  * User order product service
@@ -7,28 +41,9 @@ import axios from "axios";
 export type OrderRequest = {
   item: OrderItem;
   contact: OrderContact;
+  attribute: OrderAttributeRequest[];
 };
-type OrderItem = {
-  proId: string;
-  orderName: string;
-  orderStatus:
-    | "PENDING"
-    | "ACCEPTED"
-    | "SHIPPING"
-    | "RECEIVED"
-    | "SHIPPINGFAILED";
-  totalPrice: number;
-  kindOfShip: "FLASH" | "COD";
-  kindOfPay: "COD" | "ONLINE";
-  quantity: number;
-  payStatus: "PAID" | "UNPAID";
-};
-type OrderContact = {
-  userName: string;
-  address: string;
-  phone: string;
-  email: string;
-};
+
 /**
  * Add new Order
  * @param param0
@@ -76,5 +91,64 @@ export async function addNewOrder({ ...req }: OrderRequest): Promise<{
   } catch (error) {
     console.error(error);
     return { message: `${error}`, resultCode: 0, payment: null };
+  }
+}
+/**
+ * type of user order api
+ */
+export type UserOrderAPIDataType = {
+  orderId: string;
+  orderCode: number | string;
+  ofUserId: string;
+  orderItems: OrderItemAPIDataType;
+  orderContacts: OrderContactAPIDataType;
+  orderAttribute: OrderAttribute[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+export type OrderAttribute = {
+  attributeName: string;
+  attributeValue: string;
+};
+export type OrderItemAPIDataType = {
+  id: string;
+  proId: string;
+  ofOrderId: string;
+  shipperId: string | null;
+  orderName: string;
+  orderImg: string;
+  orderStatus: OrderStatus;
+  orderKindOfShipping: OrderKindOfShipping;
+  orderQuantity: number;
+  orderPayStatus: "PAID" | "UNPAID";
+  orderTotalPrice: number;
+  orderKindOfPay: OrderKindOfPay;
+};
+export type OrderContactAPIDataType = {
+  id: number;
+  userOrder: string;
+  ofOrderId: string;
+  orderAddress: string;
+  orderPhone: string;
+  orderEmail: string;
+};
+/**
+ * @description get user order by id in cookie
+ * @param param0
+ * @returns
+ */
+export async function getUserOrders(): Promise<UserOrderAPIDataType[]> {
+  try {
+    const res = await apiAction.get("orders/get_user_order");
+    const data: {
+      message: string;
+      resultCode: number;
+      api: UserOrderAPIDataType[];
+    } = res.data;
+    const { api } = data;
+    return api;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 }

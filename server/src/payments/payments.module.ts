@@ -5,11 +5,9 @@ import { ConfigService } from "@nestjs/config";
 import { PayOS } from "@payos/node";
 import { OrdersModule } from "src/orders/orders.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import {
-  OrderItems,
-  OrderPersonContacts,
-  Orders,
-} from "src/orders/entities/order.entity";
+import { Orders } from "src/orders/entities/order.entity";
+import { OrderPersonContacts } from "src/orders/entities/order-contact.entity";
+import { OrderItems } from "src/orders/entities/order-item.entity";
 
 @Module({
   imports: [

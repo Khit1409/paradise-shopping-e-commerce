@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  CarouselApiDataType,
   NavigationDataType,
   ProvinceApiType,
   WardApiType,
@@ -41,5 +42,19 @@ export async function getAddressService(): Promise<{
   return api;
 }
 /**
- *
+ * get carousel api for creat slider
  */
+/**
+ * @param param0
+ * @returns {CarouselApiDataType[]}
+ */
+export async function getCarousel(): Promise<CarouselApiDataType[]> {
+  try {
+    const res = await apiAction.get(`app/carousel`);
+    const data:CarouselApiDataType[] = res.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}

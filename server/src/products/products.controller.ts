@@ -14,12 +14,26 @@ export class ProductsController {
    */
   @Get("get_home_product")
   async getHomeProductController(
-    @Query() dto: { page: number },
+    @Query()
+    query: {
+      page: number;
+      minPrice: number;
+      maxPrice?: number;
+      category?: string;
+      area?: string;
+      minSale: number;
+      maxSale?: number;
+    },
     @Res() res: Response
   ) {
-    const data = await this.productsService.getHomeProductService(dto);
-    const { api, message, resultCode, statusCode } = data;
-    return res.status(statusCode).json({ message, api, resultCode });
+    try {
+      const api = await this.productsService.getProductPreview(query);
+      return res
+        .status(200)
+        .json({ message: "successful!", api, resultCode: 1 });
+    } catch (error) {
+      return res.status(500).json({ message: `${error}`, resultCode: 0 });
+    }
   }
   /**
    * get product for shop page preview
@@ -28,12 +42,27 @@ export class ProductsController {
    */
   @Get("get_product_shop")
   async getProductShopController(
-    @Query() dto: GetProductDto,
+    @Query()
+    query: {
+      page: number;
+      minPrice: number;
+      maxPrice?: number;
+      category?: string;
+      area?: string;
+      minSale: number;
+      maxSale?: number;
+    },
     @Res() res: Response
   ) {
-    const result = await this.productsService.getProductShopService(dto);
-    const { message, resultCode, statusCode, api } = result;
-    return res.status(statusCode).json({ message, resultCode, api });
+    try {
+      console.log(query);
+      const api = await this.productsService.getProductPreview(query);
+      return res
+        .status(200)
+        .json({ message: "successful!", api, resultCode: 1 });
+    } catch (error) {
+      return res.status(500).json({ message: `${error}`, resultCode: 0 });
+    }
   }
   /**
    * get single product for single product page

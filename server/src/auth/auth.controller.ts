@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Post, Req, Res } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import type { Request, Response } from "express";
-import { UserDataType } from "src/interfaces/server.types";
 import { RegisterDto } from "./dto/auth-register.dto";
 
 /**
  * router url: http://localhost:8000/v1/auth
  */
+
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -72,7 +72,6 @@ export class AuthController {
   /**
    * logout and clear token on cookie
    * @param req
-   * @returns {void}
    */
   @Post("client_logout")
   logout(
@@ -90,5 +89,12 @@ export class AuthController {
       .clearCookie("seller_token")
       .status(200)
       .json({ message: "user is logout!", resultCode: 1 });
+  }
+  /**
+   * test function
+   */
+  @Get()
+  async getTest(@Req() req) {
+    return this.authService.testVerify();
   }
 }

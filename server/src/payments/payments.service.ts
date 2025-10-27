@@ -10,9 +10,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { CreatePaymentLinkRequest, PayOS, Webhook } from "@payos/node";
 import axios from "axios";
 import { CancelPaymentResponse } from "src/interfaces/payment";
+import { OrderPersonContacts } from "src/orders/entities/order-contact.entity";
+import { OrderItems } from "src/orders/entities/order-item.entity";
 import {
-  OrderItems,
-  OrderPersonContacts,
   Orders,
 } from "src/orders/entities/order.entity";
 import { Repository } from "typeorm";

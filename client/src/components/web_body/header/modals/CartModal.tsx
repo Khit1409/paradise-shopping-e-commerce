@@ -26,7 +26,7 @@ export default function CartModal({ ...props }: ComponentProps) {
       </div>
 
       {/* list */}
-      <div className="flex flex-col gap-3 max-h-[250px]">
+      <div className="flex flex-col gap-3 max-h-[250px] overflow-y-auto">
         {carts.length === 0 ? (
           <p className="text-sm text-center text-gray-500 py-6">
             Giỏ hàng trống
@@ -39,7 +39,7 @@ export default function CartModal({ ...props }: ComponentProps) {
               className="flex items-center gap-3 p-2 rounded-xl border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all duration-200"
             >
               {/* image */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Image
                   src={cart.cartImg}
                   alt={cart.cartName}

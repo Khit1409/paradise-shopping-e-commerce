@@ -8,7 +8,7 @@ import { StoreModule } from "./store/store.module";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ProductsModule } from "./products/products.module";
 import dotenv from "dotenv";
-import { NavigationSchema } from "./app.model";
+import { carouselSchema, NavigationSchema } from "./app.model";
 import { MulterModule } from "@nestjs/platform-express";
 import { CloudinaryModule } from "./cloudinaray/cloudinary.module";
 import { CartsModule } from "./carts/carts.module";
@@ -72,6 +72,7 @@ dotenv.config();
     }),
     MongooseModule.forFeature([
       { name: "navigations", schema: NavigationSchema },
+      { name: "carousel", schema: carouselSchema },
     ]),
     //
     StoreModule,

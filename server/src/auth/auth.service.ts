@@ -8,6 +8,9 @@ import { RegisterDto } from "./dto/auth-register.dto";
 import {
   AuthenticationReponse,
   NormalHandleResponse,
+  UserAddressDataType,
+  UserEmailDataType,
+  UserPhoneDataType,
 } from "src/interfaces/server.types";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEntity } from "src/users/entity/user.entity";
@@ -19,12 +22,12 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserAddress, UserEmail, UserPhone } from "src/users/model/user.model";
 @Injectable()
-  /**
-  * Handle relation to authenticate information
-  * @func register
-  * @func login
-  * @func authentication
-  */
+/**
+ * Handle relation to authenticate information
+ * @func register
+ * @func login
+ * @func authentication
+ */
 export class AuthService {
   constructor(
     /**
@@ -42,6 +45,52 @@ export class AuthService {
     @InjectModel("userEmail")
     private readonly emailModel: Model<UserEmail>
   ) {}
+
+  testVerify(){
+    const v = this.jwt.verify(
+      "$2b$10$6YKyYHpGpASqqwxf6qB47eqxioxDGAdQfn4tw.Tq0Q5PZqMHP/Yte"
+    );
+    return this.jwt;
+  }
+  /**
+   * get user information
+   * email list, phone list, address list
+   * @param id
+   * @returns {UserAddressDataType[]}
+   * @returns {UserPhoneDataType[]}
+   * @returns {UserEmailDataType[]}
+   */
+  async getUserInformation(id: string): Promise<{
+    addressList: UserAddressDataType[];
+    phoneList: UserPhoneDataType[];
+    emailList: UserEmailDataType[];
+  }> {
+    if (!id) {
+      throw new UnauthorizedException("id is not define!");
+    }
+    try {
+      const userId = id.toLowerCase();
+      const emailList: UserEmailDataType[] = await this.emailModel.aggregate([
+        { $match: { userId } },
+        { $unwind: "$email" },
+        { $replaceRoot: { newRoot: "$email" } },
+      ]);
+      const phoneList: UserPhoneDataType[] = await this.phoneModel.aggregate([
+        { $match: { userId } },
+        { $unwind: "$phone" },
+        { $replaceRoot: { newRoot: "$phone" } },
+      ]);
+      const addressList: UserAddressDataType[] =
+        await this.addressModel.aggregate([
+          { $match: { userId } },
+          { $unwind: "$address" },
+          { $replaceRoot: { newRoot: "$address" } },
+        ]);
+      return { addressList, phoneList, emailList };
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  }
   /**
    * user register new account
    * @param dto
@@ -50,9 +99,13 @@ export class AuthService {
   async registerService(dto: RegisterDto): Promise<NormalHandleResponse> {
     try {
       /**
+       * leak value
+       */
+      const { email, firtname, lastname, password, phone, avatar } = dto;
+      /**
        * check validate important request in dto from client
        */
-      if (!dto.user_password || !dto.user_email! || !dto.user_phone) {
+      if (!password || !email! || !phone) {
         return {
           message: "not send important request!",
           resultCode: 0,
@@ -60,44 +113,37 @@ export class AuthService {
         };
       }
       /**
-       * leak value
-       */
-      const {
-        user_email,
-        user_firtname,
-        user_lastname,
-        user_password,
-        user_phone,
-        user_avatar,
-      } = dto;
-      /**
        * check existed email in database
        */
       const exitedEmail = await this.userRepo.findOne({
-        where: { emailAddress: user_email },
+        where: { emailAddress: email },
       });
       /**
        * return if existed email
        */
-      if (!exitedEmail) {
+      if (exitedEmail) {
         return { message: "Email is exited", resultCode: 0, statusCode: 409 };
       }
       /**
        * hash password
        */
-      const hashPassword = await bcryt.hash(user_password, 10);
+      const hashPassword = await bcryt.hash(password, 10);
       /**
        * create new account if have not problem
        */
       const newUser = {
-        avatarUrl: user_avatar ?? "",
-        firtName: user_firtname ?? "",
-        lastName: user_lastname ?? "",
-        fullName: `${user_lastname} ${user_firtname}`, //  create
-        phoneNumber: user_phone,
+        avatarUrl: avatar ?? "",
+        firtName: firtname ?? "",
+        lastName: lastname ?? "",
+        fullName: `${lastname} ${firtname}`,
+        phoneNumber: phone,
         passwordHashed: hashPassword,
-        emailAddress: user_email,
+        emailAddress: email,
+        userRole: "user" as "user",
       };
+      /**
+       * save
+       */
       await this.userRepo.save(newUser);
       /**
        * response result
@@ -112,7 +158,7 @@ export class AuthService {
     }
   }
   /**
-   * login handle 
+   * login handle
    * client send email pass and role, this func compare and send token
    * to cookie for authentication
    * finished login handle
@@ -130,7 +176,7 @@ export class AuthService {
   ): Promise<NormalHandleResponse> {
     try {
       /**
-       * check user
+       * check user and leak data
        */
       const checkExistedUser = await this.userRepo.findOne({
         where: { emailAddress: email },
@@ -166,6 +212,11 @@ export class AuthService {
         };
       }
       /**
+       * get address & phone & email
+       */
+      const { addressList, emailList, phoneList } =
+        await this.getUserInformation(userId);
+      /**
        * create token payload and token
        */
       const payload = {
@@ -178,10 +229,13 @@ export class AuthService {
         userFirtName: firtName,
         userLastName: lastName,
         userFullName: fullName,
+        userAddress: addressList,
+        userOtherEmail: emailList,
+        userOtherPhone: phoneList,
       };
       const token = this.jwt.sign(payload);
       /**
-       * send cookie
+       * send token to cookie
        */
       res.cookie(`${role}_token`, token, {
         maxAge: 3600000 * 24,
@@ -216,51 +270,22 @@ export class AuthService {
         );
       }
       //verify token
-      const user: {
-        userId: string;
-        userEmail: string;
-        userPhone: string;
-        userAvatar: string | null;
-        userRole: "user" | "seller";
-        userStore: string | null;
-        userFirtName: string;
-        userLastName: string;
-      } = await this.jwt.verify(token, {
+      const user = await this.jwt.verify(token, {
         secret: process.env.JWT_SECRET,
       });
       if (!user) {
         throw new BadRequestException("Handle verify token failed!");
       }
-      //get address user
-      const address = await this.addressModel
-        .findOne({ userId: user.userId.toLowerCase() })
-        .select("address")
-        .lean()
-        .then((data) => {
-          return data ? data.address : null;
-        });
-      //get address user
-      const phone = await this.phoneModel
-        .findOne({ userId: user.userId.toLowerCase() })
-        .select("phone")
-        .lean()
-        .then((data) => {
-          return data ? data.phone : null;
-        });
-      //get address user
-      const email = await this.emailModel
-        .findOne({ userId: user.userId.toLowerCase() })
-        .select("email")
-        .lean()
-        .then((data) => {
-          return data ? data.email : null;
-        });
+      const { userId } = user;
+      //get address, phone, email user
+      const { addressList, emailList, phoneList } =
+        await this.getUserInformation(userId);
       //response
       const api = {
         ...user,
-        userAddress: address,
-        userOtherPhone: phone,
-        userOtherEmail: email,
+        userAddress: addressList,
+        userOtherPhone: phoneList,
+        userOtherEmail: emailList,
       };
       return { message: "successfull!", resultCode: 1, statusCode: 200, api };
     } catch (error) {

@@ -1,73 +1,9 @@
-import { RegisterType } from "@/api/interfaces/user.interface";
 import {
   CreateNewStoreRequest,
   createNewStoreService,
 } from "@/api/services/seller.service";
-import { clietnRegisterService } from "@/api/services/auth.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-/**
- * client login function
- * get password and email
- * send request to server , create token send to cookie and
- * response message and resultCode
- */
-export const clietnRegisterThunk = createAsyncThunk<
-  /**
-   * Response type
-   */
-  { message: string; resultCode: number },
-  /**
-   * Request type
-   */
-  RegisterType,
-  /**
-   * thunk error response
-   */
-  { rejectValue: string }
->(
-  "register",
-  /**
-   * Async fucntion
-   * @param param0
-   * @param thunkAPI
-   * @returns
-   */
-  async (
-    {
-      user_email,
-      user_firtname,
-      user_lastname,
-      user_password,
-      user_phone,
-      user_avatar,
-      user_address,
-    },
-    thunkAPI
-  ) => {
-    try {
-      /**
-       * use service for send request to client
-       */
-      const res = await clietnRegisterService({
-        user_email,
-        user_firtname,
-        user_lastname,
-        user_password,
-        user_phone,
-        user_avatar,
-        user_address,
-      });
-      const payload = res;
-      return payload;
-    } catch (error) {
-      /**
-       * return rejectValue
-       */
-      return thunkAPI.rejectWithValue(`${error}`);
-    }
-  }
-);
 /**
  * User register become to seller
  * and create new store

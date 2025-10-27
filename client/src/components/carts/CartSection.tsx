@@ -21,10 +21,7 @@ import { getUserCartThunk } from "@/api/redux/thunk/cart_thunk/cart.thunk";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  onOpenOrderModal,
-  OrderState,
-} from "@/api/redux/slice/order_slice/order.slice";
+import { onOpenOrderModal } from "@/api/redux/slice/order_slice/order.slice";
 
 export default function CartSection() {
   /**
@@ -129,9 +126,10 @@ export default function CartSection() {
   function addToOrder({
     ...value
   }: {
+    proName: string;
     productId: string;
     productImg: string;
-    attribute: { attrName: string; itemValue: string; itemImg?: string }[];
+    attribute: { attributeName: string; attributeValue: string }[];
     totalPrice: number;
     quantity: number;
   }) {
@@ -139,6 +137,7 @@ export default function CartSection() {
       onOpenOrderModal({
         open: true,
         items: {
+          productName: value.proName,
           productId: value.productId,
           attribute: value.attribute,
           productImg: value.productImg,
@@ -267,10 +266,14 @@ export default function CartSection() {
                 onClick={() => {
                   addToOrder({
                     productId: cart.proId,
-                    attribute: cart.cartAttributes,
+                    attribute: cart.cartAttributes.map((cart) => ({
+                      attributeName: cart.attrName,
+                      attributeValue: cart.itemValue,
+                    })),
                     productImg: cart.cartImg,
                     quantity: cart.cartQuantity,
                     totalPrice: cart.cartTotalPrice,
+                    proName: cart.cartName,
                   });
                 }}
                 className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm rounded transition-all"

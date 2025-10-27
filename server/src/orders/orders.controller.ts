@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   Req,
+  Res,
 } from "@nestjs/common";
 import { OrdersService } from "./orders.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import type { Response } from "express";
 
 @Controller("orders")
 export class OrdersController {
@@ -37,9 +39,12 @@ export class OrdersController {
     return result;
   }
 
-  @Get('get_user_order')
-  findOne(@Req() req) {
-    return this.ordersService.getOrdersByUserId(req.user.userId);
+  @Get("get_user_order")
+  async getUserOrder(@Req() req, @Res() res: Response) {
+    const { userId } = req.user;
+    const result = await this.ordersService.getOrdersByUserId(userId);
+    const { api, statusCode, resultCode, message } = result;
+    return res.status(statusCode).json({ message, resultCode, api });
   }
 
   @Patch(":id")

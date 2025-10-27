@@ -13,8 +13,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 export const useOrderModal = () => {
   /** Redux setup */
@@ -96,15 +96,17 @@ export const useOrderModal = () => {
           userName: `${user.userFirtName}-${user.userLastName}`,
         },
         item: {
+          orderImg: orderState.items.productImg,
           proId: orderState.items.productId,
           kindOfShip,
           kindOfPay,
-          orderName: orderState.items.productId,
+          orderName: orderState.items.productName,
           orderStatus: "PENDING",
           payStatus: "PAID",
           quantity: orderState.items.quantity,
           totalPrice: orderState.items.totalPrice,
         },
+        attribute: orderState.items.attribute,
       });
       /**
        * check result order

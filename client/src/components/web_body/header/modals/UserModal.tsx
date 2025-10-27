@@ -3,8 +3,8 @@
 import { AppDispatch, RootState } from "@/api/redux/store";
 import {
   authenticationThunk,
-  clientLogout,
 } from "@/api/redux/thunk/auth_thunk/auth.thunk";
+import { logout } from "@/api/services/auth.service";
 import {
   faRightFromBracket,
   faShoppingBag,
@@ -39,9 +39,9 @@ export default function UserModal({ ...props }: ComponentProps) {
   const { user } = useSelector((state: RootState) => state.auth);
   /** Handle user logout and redirect to homepage if logout succeeds */
   const handleLogout = async () => {
-    const rs = await dispatch(clientLogout());
-    if (clientLogout.fulfilled.match(rs)) {
-      const check = await dispatch(authenticationThunk({ role: "user" }));
+    const rs = await logout();
+    if (rs.resultCode == 1) {
+      const check = await dispatch(authenticationThunk());
       if (authenticationThunk.rejected.match(check)) {
         router.replace("/");
       }
@@ -61,7 +61,7 @@ export default function UserModal({ ...props }: ComponentProps) {
           width={70}
           height={70}
           alt="avatar"
-          className="rounded-full object-cover border shadow-sm"
+          className="rounded-full object-cover border shadow-sm w-[70px] h-[70px]"
         />
         {/* User information */}
         <div className="flex flex-col">
@@ -77,7 +77,7 @@ export default function UserModal({ ...props }: ComponentProps) {
         </div>
       </div>
 
-      <hr className="my-2" />
+      <hr className="my-2 text-gray-300" />
 
       {/* ===== Navigation Links ===== */}
       <div className="flex flex-col gap-2 text-[15px]">
@@ -103,7 +103,7 @@ export default function UserModal({ ...props }: ComponentProps) {
         />
       </div>
 
-      <hr className="my-2" />
+      <hr className="my-2 text-gray-300" />
 
       {/* ===== Footer Section (Login / Logout Button) ===== */}
       <div className="py-2 text-center">
@@ -129,7 +129,12 @@ export default function UserModal({ ...props }: ComponentProps) {
       </div>
     </div>
   ) : (
-    <></>
+    <div
+      ref={props.ref}
+      className="absolute right-0 z-50 mt-2 w-[340px] bg-white rounded-2xl shadow-xl border border-gray-200 p-3 animate-in fade-in slide-in-from-top-3"
+    >
+      Chưa đăng nhập......
+    </div>
   );
 }
 

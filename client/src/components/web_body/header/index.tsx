@@ -7,8 +7,10 @@ import NavigationBarHomePage from "./sections/NavigationBarHome";
 export default function Header() {
   return (
     <>
-      <TopBar />
-      <NavigationBarHomePage />
+      <section className="shadow-md border">
+        <TopBar />
+        <NavigationBarHomePage />
+      </section>
       <BannerSection />
     </>
   );

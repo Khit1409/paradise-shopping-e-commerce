@@ -139,15 +139,13 @@ export default function SingleProduct() {
     }
     const product = singleProduct.product;
     const orderAttribute: {
-      attrName: string;
-      itemValue: string;
-      itemImg?: string;
+      attributeName: string;
+      attributeValue: string;
     }[] = [];
     chooseAttr.map((value) => {
       orderAttribute.push({
-        attrName: value.name,
-        itemValue: value.value,
-        itemImg: value.img,
+        attributeName: value.name,
+        attributeValue: value.value,
       });
     });
     if (orderAttribute.length == 0) {
@@ -159,6 +157,7 @@ export default function SingleProduct() {
           open: true,
           items: {
             attribute: orderAttribute,
+            productName: product.proName,
             productId: product._id,
             productImg: product.proImg,
             quantity,

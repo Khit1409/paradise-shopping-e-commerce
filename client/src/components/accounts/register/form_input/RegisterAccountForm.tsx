@@ -1,27 +1,29 @@
 import { getIconByName } from "@/ultis/ultis";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { SetStateAction } from "react";
+import React from "react";
 import { registerList } from "./form_list";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import RegisterAddressForm from "./RegisterAddressForm";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/api/redux/store";
 import { uploadImageToCloud } from "@/feature/upload";
 import { onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
-
+/**
+ *
+ */
 type PostType = {
-  user_firtname: string;
-  user_email: string;
-  user_phone: string;
-  user_lastname: string;
-  user_password: string;
-  user_repassword: string;
+  firtname: string;
+  email: string;
+  phone: string;
+  lastname: string;
+  password: string;
+  repassword: string;
 };
-
+/**
+ *
+ */
 type ComponentProps = {
   setAvt: React.Dispatch<React.SetStateAction<string>>;
   setRegisterInput: React.Dispatch<React.SetStateAction<PostType>>;
-  getAddress: React.Dispatch<SetStateAction<string>>;
 };
 
 export default function RegisterAccountForm({ ...props }: ComponentProps) {
@@ -52,8 +54,6 @@ export default function RegisterAccountForm({ ...props }: ComponentProps) {
           </div>
         </div>
       ))}
-      {/* address */}
-      <RegisterAddressForm getAddress={props.getAddress} />
       {/* avatar */}
       <div className="flex flex-col">
         <label className="text-xl text-gray-700" htmlFor="avatar">

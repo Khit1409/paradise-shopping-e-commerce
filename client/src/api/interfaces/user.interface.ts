@@ -19,10 +19,10 @@ export type UserServiceGeneralErrorType = {
  */
 export interface UserAuthenticateResponse {
   /** Unique user ID */
-  user_id: string;
+  id: string;
 
   /** User email (unique, used for login) */
-  user_email: string;
+  email: string;
 
   /** User phone number (can also be used for login) */
   user_phone: string;
@@ -49,23 +49,20 @@ export interface UserAuthenticateResponse {
  */
 export type RegisterType = {
   /** First name of the user */
-  user_firtname: string;
+  firtname: string;
 
   /** Avatar image (can be undefined or null) */
-  user_avatar?: string;
+  avatar?: string;
 
   /** Unique email used for login */
-  user_email: string;
+  email: string;
 
   /** User phone number */
-  user_phone: string;
+  phone: string;
 
   /** Last name of the user */
-  user_lastname: string;
+  lastname: string;
 
   /** User password */
-  user_password: string;
-
-  /** User’s primary address (optional) */
-  user_address?: string;
+  password: string;
 };
