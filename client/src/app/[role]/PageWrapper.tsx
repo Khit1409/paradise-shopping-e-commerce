@@ -7,8 +7,8 @@ import {
 import { AppDispatch, RootState } from "@/api/redux/store";
 import { getNavigationThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
-import SellerLayout from "@/components/app_layout/seller_layouts/SellerLayout";
-import UserLayout from "@/components/app_layout/user_layout/UserLayout";
+import SellerLayout from "@/layouts/SellerLayout";
+import UserLayout from "@/layouts/UserLayout";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

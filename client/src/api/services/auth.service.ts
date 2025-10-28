@@ -38,21 +38,21 @@ export async function clietnRegisterService({
   }
 }
 /**
+ * type of login request
+ */
+type LoginRequest = {
+  email: string;
+  role: "user" | "seller";
+  password: string;
+};
+/**
  * Login from client
  * @param role
  * @param password
  * @param email
  * @returns
  */
-export async function signIn({
-  role,
-  email,
-  password,
-}: {
-  role: "user" | "seller";
-  email: string;
-  password: string;
-}) {
+export async function signIn({ role, email, password }: LoginRequest) {
   try {
     const res: {
       data: {
@@ -84,9 +84,9 @@ export type UserResponse = {
   userStore: number | null;
   userRole: "user";
   userAvatar: string | null;
-  userAddress: { _id: string; addressName: string }[] | null;
-  userOtherPhone: { _id: string; phoneNum: string }[] | null;
-  userOtherEmail: { _id: string; emailAddress: string }[] | null;
+  userAddress: { _id: string; addressName: string }[];
+  userOtherPhone: { _id: string; phoneNum: string }[];
+  userOtherEmail: { _id: string; emailAddress: string }[];
 };
 /**
  * authentication user => send cookie and get user data

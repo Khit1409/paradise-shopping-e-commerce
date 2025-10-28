@@ -1,11 +1,11 @@
 import React from "react";
 import Error from "../not-found";
-import UserHomePageLayout from "@/components/app_layout/user_layout/HomePageLayout";
-import SellerDashboard from "@/components/seller/dashboard";
+import SellerDashboard from "@/components/seller/SellerDashboard";
+import UserHomePage from "@/pages/user/HomePage";
 
 const PAGE_ROLE: Record<string, React.ReactNode> = {
   seller: <SellerDashboard />,
-  user: <UserHomePageLayout />,
+  user: <UserHomePage />,
 };
 
 export default function RenderPageRole({ role }: { role: string }) {

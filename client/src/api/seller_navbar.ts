@@ -22,18 +22,6 @@ export const SELLER_NAV = [
     ],
   },
   {
-    id: 2,
-    category: "Quản lý danh mục",
-    items: [
-      {
-        id: 201,
-        name: "Quản lý danh mục",
-        url: "/seller/manager_category",
-        icon: "faList",
-      },
-    ],
-  },
-  {
     id: 3,
     category: "Quản lý sản phẩm",
     items: [

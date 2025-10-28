@@ -18,11 +18,23 @@ export class JwtAuthGuard implements CanActivate {
     /**
      * plublic path
      */
-    const publictPath = ["/v1/auth/login", "/v1/auth/register"];
+    const publictPath = [
+      "/v1/auth/login",
+      "/v1/auth/register",
+      "/v1/auth/login",
+      "/v1/auth/register",
+      "/v1/imgs",
+      "/v1/products",
+      "/v1/app",
+    ];
     /**
      * path
      */
     const path = request.path as string;
+    const foundPublicUrl = publictPath.find((item) => path.startsWith(item));
+    if (foundPublicUrl) {
+      return true;
+    }
     /**
      * true if is unneeded token router
      */
@@ -32,13 +44,7 @@ export class JwtAuthGuard implements CanActivate {
     } else {
       token = request.cookies?.user_token;
     }
-    if (
-      path.startsWith("/v1/auth/login") ||
-      path.startsWith("/v1/auth/register") ||
-      path.startsWith("/v1/images")
-    ) {
-      return true;
-    }
+
     if (!token) {
       throw new UnauthorizedException("Missing auth token!");
     }

@@ -1,4 +1,5 @@
 import { AppDispatch, RootState } from "@/api/redux/store";
+import { getCarouselThunk } from "@/api/redux/thunk/app_thunk/app.thunk";
 import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -24,7 +25,6 @@ export default function HomePageWrapper({
   const {} = useSelector((state: RootState) => state.auth);
   const {} = useSelector((state: RootState) => state.product);
   const {} = useSelector((state: RootState) => state.app);
-
   //dispatch
   const dispatch = useDispatch<AppDispatch>();
   /**
@@ -33,6 +33,7 @@ export default function HomePageWrapper({
   useEffect(() => {
     (async () => {
       //authentication user for navigation if is logged in
+      await dispatch(getCarouselThunk());
       const check = await dispatch(authenticationThunk());
       if (authenticationThunk.fulfilled.match(check) && check.payload.api) {
         const res = check.payload.api;

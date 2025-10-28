@@ -1,5 +1,5 @@
-import UserRegisterAccount from "@/components/accounts/register/user/index";
+import RegisterPage from "@/pages/public/RegisterPage";
 
 export default function page() {
-  return <UserRegisterAccount />;
+  return <RegisterPage />;
 }

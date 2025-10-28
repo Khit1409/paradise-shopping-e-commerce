@@ -4,12 +4,12 @@ import "./product.css";
 import "./animation.css";
 import "../lib/fontawesome";
 import ReduxProvider from "./ReduxProvider";
-import OrderModal from "@/components/order_modal";
-import CheckoutModal from "@/components/checkout/index";
+import OrderModal from "@/components/user/modals/OrderModal";
+import CheckoutModal from "@/components/user/modals/CheckoutModal";
 import LoadingAnimation from "@/components/feedback/LoadingAnimation";
 import SuccessfullModal from "@/components/feedback/successful";
 import ErrorModal from "@/components/feedback/ErrorModal";
-import NavigationBarMobileMode from "@/components/web_body/header/sections/NavigationBarMobileMode";
+import NavigationBarMobileMode from "@/components/web_body/NavigationBarMobileMode";
 /**
  * Meta data
  */

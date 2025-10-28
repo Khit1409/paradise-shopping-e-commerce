@@ -1,4 +1,4 @@
-import RegisterSellerAccountPage from "@/components/accounts/register/seller";
+import RegisterSellerAccountPage from "@/components/auth/SellerRegister";
 import React from "react";
 
 export default function page() {
