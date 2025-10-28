@@ -45,7 +45,7 @@ export default function PageWrapper({
          * Call get user data api and get navigation api for start using web
          */
         const [check, getNav] = await Promise.all([
-          dispatch(authenticationThunk({ role })),
+          dispatch(authenticationThunk()),
           dispatch(getNavigationThunk()),
         ]);
         /**
@@ -62,16 +62,12 @@ export default function PageWrapper({
            */
         } else if (authenticationThunk.rejected.match(check)) {
           dispatch(onLoadingAction(false));
-          if (role === "user") {
-            return router.replace("/login");
-          } else {
-            return router.replace("/");
-          }
+          return router.replace("/login");
         } else {
           dispatch(onLoadingAction(false));
           dispatch(
             onErrorModel({
-              mess: "CAN NOT RENDER THE PAGE, SERVER ERROR!",
+              mess: "CAN NOT RENDER THE PAGE, SERVER ERROR - STATUS:500",
               onError: true,
             })
           );

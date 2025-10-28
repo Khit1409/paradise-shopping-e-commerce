@@ -12,17 +12,16 @@ import {
   faDeleteLeft,
   faTable,
   faEyeSlash,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, ReactHTMLElement, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function ProductFilter({
-  setLocation,
-  setCostFilter,
-  setCateSlug,
-  clear,
-}: {
+/**
+ * props type
+ */
+type ComponentProps = {
   clear: () => void;
   setCateSlug: React.Dispatch<React.SetStateAction<string>>;
   setCostFilter: (
@@ -32,20 +31,38 @@ export default function ProductFilter({
     }>
   ) => void;
   setLocation: React.Dispatch<React.SetStateAction<string>>;
-}) {
+};
+/**
+ * product filter section
+ * @param param0
+ * @returns
+ */
+export default function ProductFilter(props: ComponentProps) {
+  /**
+   * props
+   */
+  const { clear, setCateSlug, setCostFilter, setLocation } = props;
   /**
    * component state
    */
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [savedCostFilter, setSavedCostFilter] = useState<{
+    price?: { max_price?: number; min_price?: number };
+    sale?: { max_sale?: number; min_sale?: number };
+  }>({});
+  const [savedLocation, setSavedLocation] = useState<string>("");
   const [provinceApi, setProvinceApi] = useState<ProvinceApiType[]>([]);
+  const [savedCateSlug, setSavedCateSlug] = useState<string>("");
+  /**
+   * redux dispatch
+   */
   const dispatch = useDispatch<AppDispatch>();
-
   /**
    * onchange price filter
    * @param e
    */
   const onchangePrice = (e: ChangeEvent<HTMLInputElement>) => {
-    setCostFilter((prev) => ({
+    setSavedCostFilter((prev) => ({
       ...prev,
       price: { ...prev.price, [e.target.name]: Number(e.target.value) },
     }));
@@ -55,7 +72,7 @@ export default function ProductFilter({
    * @param e
    */
   const onchangeSale = (e: ChangeEvent<HTMLInputElement>) => {
-    setCostFilter((prev) => ({
+    setSavedCostFilter((prev) => ({
       ...prev,
       sale: { ...prev.sale, [e.target.name]: Number(e.target.value) },
     }));
@@ -67,10 +84,18 @@ export default function ProductFilter({
     const selected = e.target.value;
     const thisProvince = provinceApi.find((f) => f.name === selected);
     if (thisProvince) {
-      setLocation(thisProvince.codename);
+      setSavedLocation(thisProvince.codename);
     } else {
-      setLocation("");
+      setSavedLocation("");
     }
+  };
+  /**
+   * submit filter value
+   */
+  const submitFilter = () => {
+    setCostFilter(savedCostFilter);
+    setLocation(savedLocation);
+    setCateSlug(savedCateSlug);
   };
   /**
    * call api when start mount
@@ -94,7 +119,7 @@ export default function ProductFilter({
           onClick={() => setOpenModal(true)}
         >
           <FontAwesomeIcon icon={faTable} className="me-2" />
-          Tìm kiếm
+          LỌC SẢN PHẨM
         </button>
       </div>
       {openModal && (
@@ -178,7 +203,7 @@ export default function ProductFilter({
               </label>
               <select
                 id="category_select"
-                onChange={(e) => setCateSlug(e.target.value)}
+                onChange={(e) => setSavedCateSlug(e.target.value)}
                 className="border border-gray-300  p-2 outline-none "
               >
                 {CATEGORY_SELECT_LIST.map((cate) => (
@@ -189,19 +214,35 @@ export default function ProductFilter({
               </select>
             </div>
           </div>
+          {/* button action */}
           <div className="flex gap-3 items-center justify-end">
             <button
-              className="border border-gray-300 py-1 px-2"
+              className="border border-green-500 px-2 py-1
+            hover:bg-green-600
+            hover:text-white
+            "
+              onClick={() => {
+                submitFilter();
+              }}
+            >
+              Tìm <FontAwesomeIcon icon={faSearch} />
+            </button>
+            <button
+              className="border border-gray-300 py-1 px-2
+              hover:text-white hover:bg-gray-500
+              "
               onClick={() => clear()}
             >
               Mặc định
               <FontAwesomeIcon icon={faDeleteLeft} className="ms-2" />
             </button>
             <button
-              className="border text-red-500 border-red-500 py-1 px-2"
+              className="border text-red-500 border-red-500 py-1 px-2
+              hover:text-white hover:bg-red-600
+              "
               onClick={() => {
                 clear();
-                setOpenModal(!openModal);
+                setOpenModal(false);
               }}
             >
               Ẩn

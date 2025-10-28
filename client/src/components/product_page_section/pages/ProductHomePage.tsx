@@ -40,7 +40,7 @@ export default function ProductHomePage() {
   }, [dispatch, page]);
 
   return (
-    <section className="p-5">
+    <section className="p-5 bg-white my-1 shadow-md">
       <ProductPreviewSection data={productApi} />
       {/* set page */}
       <NavigationProduct setPage={setPage} page={page} />

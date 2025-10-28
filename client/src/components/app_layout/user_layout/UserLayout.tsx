@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import UserHeader from "@/components/web_body/header/UserHeader";
+import Footer from "@/components/web_body/footer";
 
 /**
  * Component dùng  để duy trì trạng thái user
@@ -18,6 +19,7 @@ export default function UserLayout({
       <UserHeader />
       {/* <Banner /> */}
       {children}
+      <Footer />
     </main>
   );
 }

@@ -33,17 +33,11 @@ export default function HomePageWrapper({
   useEffect(() => {
     (async () => {
       //authentication user for navigation if is logged in
-      const check = await dispatch(authenticationThunk({ role: "user" }));
-      if (authenticationThunk.rejected.match(check)) {
-        const checkAgain = await dispatch(
-          authenticationThunk({ role: "seller" })
-        );
-        // check state
-        if (authenticationThunk.fulfilled.match(checkAgain)) {
-          router.replace(`/${checkAgain.payload.role}`);
-        }
-      } else if (authenticationThunk.fulfilled.match(check)) {
-        router.replace(`/user`);
+      const check = await dispatch(authenticationThunk());
+      if (authenticationThunk.fulfilled.match(check) && check.payload.api) {
+        const res = check.payload.api;
+        const { userRole } = res;
+        return router.push(`/${userRole}`);
       } else {
         return;
       }

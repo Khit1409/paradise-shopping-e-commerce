@@ -9,6 +9,7 @@ import ProductFilter from "../page_parts/ProductFilter";
 import { onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
 import { getProductShopThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
 import ProductPreviewSection from "./ProductPreviewSection";
+import CarouselHeader from "@/components/web_body/carousel";
 
 export default function ProductShopPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -64,7 +65,8 @@ export default function ProductShopPage() {
   };
 
   return (
-    <div className="h-screen">
+    <section className="bg-white p-2 shadow-md my-1">
+      <CarouselHeader />
       <div className="p-2 flex flex-col gap-2">
         <ProductFilter
           clear={clearFilter}
@@ -74,6 +76,6 @@ export default function ProductShopPage() {
         />
         <ProductPreviewSection data={productShop} />
       </div>
-    </div>
+    </section>
   );
 }

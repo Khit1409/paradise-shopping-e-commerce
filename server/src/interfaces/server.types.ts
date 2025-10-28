@@ -164,8 +164,38 @@ export type UserPhoneDataType = {
   phoneNum: string;
 };
 /**
+ * create new account data type
+ */
+export type NewUserDataType = {
+  firtName: string;
+  lastName: string;
+  fullName: string;
+  emailAddress: string;
+  phoneNumber: string;
+  userRole: "user" | "seller";
+  avatarUrl?: string;
+  passwordHashed: string;
+};
+/**
  * User data response form authentication service
  */
+/**
+ * token payload toke
+ */
+export type TokenPayLoadDataType = {
+  userId: string;
+  userEmail: string;
+  userPhone: string;
+  userRole: "user" | "seller";
+  userStore: string;
+  userAvatar: string;
+  userFirtName: string;
+  userLastName: string;
+  userFullName: string;
+  userAddress: UserAddressDataType[];
+  userOtherEmail: UserEmailDataType[];
+  userOtherPhone: UserPhoneDataType[];
+};
 export type UserDataType = {
   /**
    * user information form SQL server

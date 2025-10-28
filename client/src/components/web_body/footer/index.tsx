@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import FooterTop from "./FooterTop";
+import FooterMiddle from "./FooterMiddle";
+import FooterBottom from "./FooterBottom";
 
 export default function Footer() {
   return (
-    <div>
-      
-    </div>
-  )
+    <section className="bg-white p-2 text-gray-700">
+      <FooterTop />
+      <FooterMiddle />
+      <FooterBottom />
+    </section>
+  );
 }

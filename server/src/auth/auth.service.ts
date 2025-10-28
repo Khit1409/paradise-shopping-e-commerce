@@ -7,7 +7,9 @@ import {
 import { RegisterDto } from "./dto/auth-register.dto";
 import {
   AuthenticationReponse,
+  NewUserDataType,
   NormalHandleResponse,
+  TokenPayLoadDataType,
   UserAddressDataType,
   UserEmailDataType,
   UserPhoneDataType,
@@ -46,7 +48,7 @@ export class AuthService {
     private readonly emailModel: Model<UserEmail>
   ) {}
 
-  testVerify(){
+  testVerify() {
     const v = this.jwt.verify(
       "$2b$10$6YKyYHpGpASqqwxf6qB47eqxioxDGAdQfn4tw.Tq0Q5PZqMHP/Yte"
     );
@@ -131,7 +133,7 @@ export class AuthService {
       /**
        * create new account if have not problem
        */
-      const newUser = {
+      const newUser: NewUserDataType = {
         avatarUrl: avatar ?? "",
         firtName: firtname ?? "",
         lastName: lastname ?? "",
@@ -139,7 +141,7 @@ export class AuthService {
         phoneNumber: phone,
         passwordHashed: hashPassword,
         emailAddress: email,
-        userRole: "user" as "user",
+        userRole: "user",
       };
       /**
        * save
@@ -219,7 +221,7 @@ export class AuthService {
       /**
        * create token payload and token
        */
-      const payload = {
+      const payload: TokenPayLoadDataType = {
         userId: userId.toLowerCase(),
         userEmail: emailAddress,
         userPhone: phoneNumber,
@@ -270,24 +272,21 @@ export class AuthService {
         );
       }
       //verify token
-      const user = await this.jwt.verify(token, {
+      const user: TokenPayLoadDataType = await this.jwt.verify(token, {
         secret: process.env.JWT_SECRET,
       });
       if (!user) {
         throw new BadRequestException("Handle verify token failed!");
       }
-      const { userId } = user;
-      //get address, phone, email user
-      const { addressList, emailList, phoneList } =
-        await this.getUserInformation(userId);
-      //response
-      const api = {
-        ...user,
-        userAddress: addressList,
-        userOtherPhone: phoneList,
-        userOtherEmail: emailList,
+      /**
+       * response
+       */
+      return {
+        message: "successfull!",
+        resultCode: 1,
+        statusCode: 200,
+        api: user,
       };
-      return { message: "successfull!", resultCode: 1, statusCode: 200, api };
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }

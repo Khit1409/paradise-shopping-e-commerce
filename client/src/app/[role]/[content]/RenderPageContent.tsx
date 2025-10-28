@@ -20,6 +20,11 @@ const PAGE_CONTENT: Record<string, React.ReactNode> = {
   my_cart: <CartPage />,
   setting_account: <UserUpdateAccountPage />,
   my_order: <OrderPage />,
+  sale: (
+    <div className="h-screen w-screen flex items-center justify-center my-1 bg-white uppercase">
+      <p className="text-center">Hiện chưa có chương trình khuyến mại nào!</p>
+    </div>
+  ),
 };
 /**
  *
