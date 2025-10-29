@@ -6,7 +6,7 @@ import {
   onSuccessfulModel,
 } from "@/api/redux/slice/app_slice/app.slice";
 import { AppDispatch, RootState } from "@/api/redux/store";
-import { getSingleProductSellerThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
+import { getSingleProductThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -55,7 +55,7 @@ type ImageDetailType = {
 export default function UpdateSingleProduct() {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { spSeller } = useSelector((state: RootState) => state.seller);
+  const { product} = useSelector((state: RootState) => state.seller);
   // Get product_id from URL params
   const params = useSearchParams();
   const product_id = params?.get("product_id");
@@ -82,12 +82,12 @@ export default function UpdateSingleProduct() {
         return;
       }
       const rs = await dispatch(
-        getSingleProductSellerThunk({
+        getSingleProductThunk({
           product_id: product_id ?? "",
         })
       );
 
-      if (getSingleProductSellerThunk.fulfilled.match(rs)) {
+      if (getSingleProductThunk.fulfilled.match(rs)) {
         // Prefill local states with old product data
         setBasicInput({
           proDescription: rs.payload.proDescription,
@@ -147,7 +147,7 @@ export default function UpdateSingleProduct() {
       setReloadFlag(true);
       //call again product api for set new product data
       await dispatch(
-        getSingleProductSellerThunk({
+        getSingleProductThunk({
           product_id: product_id,
         })
       );
@@ -200,12 +200,12 @@ export default function UpdateSingleProduct() {
   /**
    * Render
    */
-  return spSeller ? (
+  return product? (
     <section className="flex flex-col gap-3">
       {/* Category selector */}
       <UpdateCategory
         setCateSlug={setNewCate}
-        defaultValue={spSeller.proCateSlug}
+        defaultValue={product.proCateSlug}
       />
       {/* Basic inputs (name, price, description, etc.) */}
       <BasicInput basicInputValue={basicInput} setBasicInput={setBasicInput} />

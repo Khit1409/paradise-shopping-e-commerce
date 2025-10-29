@@ -1,10 +1,14 @@
-import { SingleProductSeller } from "@/api/services/seller.service";
+import { Products, SingleProduct } from "@/api/interfaces/product.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { getSingleProductSellerThunk } from "../../thunk/seller_thunk/seller.thunk";
+import {
+  getProductThunk,
+  getSingleProductThunk,
+} from "../../thunk/seller_thunk/seller.thunk";
 
 // interface of sellerInitialState of seller slice
 interface SellerSliceInitialState {
-  spSeller: SingleProductSeller | null;
+  products: Products[];
+  product: SingleProduct | null;
   sellerOnloading: boolean;
   sellerErrMess: string;
 }
@@ -12,7 +16,8 @@ interface SellerSliceInitialState {
  * initial state of seller slice
  */
 const sellerInitialState: SellerSliceInitialState = {
-  spSeller: null,
+  product: null,
+  products: [],
   sellerOnloading: false,
   sellerErrMess: "",
 };
@@ -28,15 +33,26 @@ const sellerSlice = createSlice({
   initialState: sellerInitialState,
   extraReducers: (builder) => {
     builder
-      //get single product for update
-      .addCase(getSingleProductSellerThunk.pending, (state) => {
+      .addCase(getProductThunk.pending, (state) => {
         state.sellerOnloading = true;
       })
-      .addCase(getSingleProductSellerThunk.fulfilled, (state, action) => {
-        state.spSeller = action.payload;
+      .addCase(getProductThunk.fulfilled, (state, action) => {
+        state.products = action.payload;
         state.sellerOnloading = false;
       })
-      .addCase(getSingleProductSellerThunk.rejected, (state, action) => {
+      .addCase(getProductThunk.rejected, (state, action) => {
+        state.sellerErrMess = action.payload ?? "Error";
+        state.sellerOnloading = false;
+      })
+      //get single product for update
+      .addCase(getSingleProductThunk.pending, (state) => {
+        state.sellerOnloading = true;
+      })
+      .addCase(getSingleProductThunk.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.sellerOnloading = false;
+      })
+      .addCase(getSingleProductThunk.rejected, (state, action) => {
         state.sellerErrMess = action.payload ?? "Error";
         state.sellerOnloading = false;
       });

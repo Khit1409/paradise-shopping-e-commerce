@@ -18,10 +18,8 @@ import {
   onSuccessfulModel,
 } from "@/api/redux/slice/app_slice/app.slice";
 import { onOpenOrderModal } from "@/api/redux/slice/order_slice/order.slice";
-import {
-  addToCartThunk,
-  getUserCartThunk,
-} from "@/api/redux/thunk/cart_thunk/cart.thunk";
+import { getUserCartThunk } from "@/api/redux/thunk/cart_thunk/cart.thunk";
+import { addToCartServicer } from "@/api/services/cart.service";
 
 export default function SingleProduct() {
   const params = useSearchParams();
@@ -102,21 +100,16 @@ export default function SingleProduct() {
         return;
       }
 
-      const result = await dispatch(
-        addToCartThunk({
-          proId: id,
-          img: product.proImg,
-          name: product.proName,
-          quantity,
-          price: product.proPrice,
-          choose: chooseArr,
-        })
-      );
+      const result = await addToCartServicer({
+        proId: id,
+        img: product.proImg,
+        name: product.proName,
+        quantity,
+        price: product.proPrice,
+        choose: chooseArr,
+      });
 
-      if (
-        addToCartThunk.fulfilled.match(result) &&
-        result.payload.resultCode === 1
-      ) {
+      if (result.resultCode == 1) {
         dispatch(onLoadingAction(false));
         dispatch(onSuccessfulModel(true));
         await dispatch(getUserCartThunk());

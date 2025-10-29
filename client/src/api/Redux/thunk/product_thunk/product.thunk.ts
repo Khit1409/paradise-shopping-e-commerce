@@ -4,10 +4,6 @@ import {
   GetProductQueryType,
 } from "@/api/interfaces/product.interface";
 import { getProducts, getSingleProduct } from "@/api/services/product.service";
-import {
-  getProductSellerService,
-  ProductSeller,
-} from "@/api/services/seller.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 /**
@@ -95,48 +91,6 @@ export const getSingleProductThunk = createAsyncThunk<
     } catch (error) {
       /**
        * return reject value
-       */
-      return thunkAPI.rejectWithValue(`${error}`);
-    }
-  }
-);
-/**
- * Get product for seller manager product
- */
-export const getProductSellerThunk = createAsyncThunk<
-  /**
-   * res
-   */
-  ProductSeller[],
-  /***
-   * req
-   */
-  { cate_slug?: string },
-  /**
-   * error
-   */
-  { rejectValue: string }
->(
-  "get product seller",
-  /**
-   * handle func
-   * @param param0
-   * @param thunkAPI
-   * @returns
-   */
-  async ({ cate_slug }, thunkAPI) => {
-    try {
-      /**
-       * service
-       */
-      const payload = await getProductSellerService({
-        cate_slug,
-      });
-
-      return payload;
-    } catch (error) {
-      /**
-       * return err
        */
       return thunkAPI.rejectWithValue(`${error}`);
     }

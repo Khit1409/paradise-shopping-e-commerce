@@ -1,59 +1,17 @@
 import { apiAction } from "@/config/axios";
-/**
- * Function get products & category by seller_id for
- * manager product of seller page
- */
-
-export interface ProductSeller {
-  _id: string;
-  proName: string;
-  proPrice: number;
-  proImg: string;
-  proSlug: string;
-}
+import { Products, SingleProduct } from "../interfaces/product.interface";
 /**
  *
  * @param param0
  * @returns
  */
-export async function getProductSellerService({
-  cate_slug,
-}: {
-  cate_slug?: string;
-}) {
+export async function getProducts() {
   /**
    * send req
    */
-  const res = await apiAction.get(`seller/products?cate_slug=${cate_slug}`);
-  const api: ProductSeller[] = res.data;
+  const res = await apiAction.get(`seller/products`);
+  const api: Products[] = res.data;
   return api;
-}
-/**
- * Get single product for updata for seller type
- */
-export interface SingleProductSeller {
-  _id: string;
-  proName: string;
-  proTag: string;
-  proSlug: string;
-  proCateSlug: string;
-  proPrice: number;
-  proSale: number;
-  proImg: string;
-  proDescription: string;
-  proImgDetails: {
-    _id: string;
-    imgUrl: string;
-  }[];
-  proAttributes: {
-    _id: string;
-    attrName: string;
-    items: {
-      _id: string;
-      itemValue: string;
-      itemImg: string;
-    }[];
-  }[];
 }
 /**
  * get single product func
@@ -66,7 +24,7 @@ export async function getSingleProductSellerService({
   product_id: string;
 }) {
   const res = await apiAction.get(`seller/products/${product_id}`);
-  const api: SingleProductSeller = res.data;
+  const api: SingleProduct = res.data;
   return api;
 }
 /**

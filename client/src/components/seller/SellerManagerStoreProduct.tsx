@@ -4,7 +4,7 @@ import {
   onLoadingAction,
 } from "@/api/redux/slice/app_slice/app.slice";
 import { AppDispatch, RootState } from "@/api/redux/store";
-import { getProductSellerThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import { getProductThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
  */
 export default function SellerManagerStoreProduct() {
   // root state redux && dispatch
-  const { productSellerApi } = useSelector((state: RootState) => state.product);
+  const { products } = useSelector((state: RootState) => state.seller);
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -36,16 +36,9 @@ export default function SellerManagerStoreProduct() {
           return router.replace(`/login`);
         }
         // get product by seller id
-        const rs = await dispatch(
-          getProductSellerThunk({
-            /**
-             * note: change by filter method if have many request when change category
-             */
-            cate_slug: "",
-          })
-        );
+        const rs = await dispatch(getProductThunk());
         //  handle if successful call api
-        if (getProductSellerThunk.fulfilled.match(rs)) {
+        if (getProductThunk.fulfilled.match(rs)) {
           dispatch(onLoadingAction(false));
         } else {
           dispatch(onLoadingAction(false));
@@ -61,8 +54,8 @@ export default function SellerManagerStoreProduct() {
     <section className="flex flex-col gap-2">
       {/* map products */}
       <div className="grid grid-cols-4 gap-3">
-        {productSellerApi &&
-          productSellerApi.map((pro) => (
+        {products &&
+          products.map((pro) => (
             <div key={pro._id} className="flex flex-col gap-3">
               <Link
                 // href single product page

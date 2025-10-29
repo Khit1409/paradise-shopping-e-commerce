@@ -1,6 +1,7 @@
+import { Products, SingleProduct } from "@/api/interfaces/product.interface";
 import {
+  getProducts,
   getSingleProductSellerService,
-  SingleProductSeller,
   upNewProductService,
   UpProductReq,
 } from "@/api/services/seller.service";
@@ -71,11 +72,11 @@ export const upNewProductThunk = createAsyncThunk<
     }
   }
 );
-export const getSingleProductSellerThunk = createAsyncThunk<
+export const getSingleProductThunk = createAsyncThunk<
   /**
    * res
    */
-  SingleProductSeller,
+  SingleProduct,
   /**
    * req
    */
@@ -100,6 +101,46 @@ export const getSingleProductSellerThunk = createAsyncThunk<
       const payload = await getSingleProductSellerService({
         product_id,
       });
+      return payload;
+    } catch (error) {
+      /**
+       * return err
+       */
+      return thunkAPI.rejectWithValue(`${error}`);
+    }
+  }
+);
+/**
+ * Get product for seller manager product
+ */
+export const getProductThunk = createAsyncThunk<
+  /**
+   * res
+   */
+  Products[],
+  /***
+   * req
+   */
+  void,
+  /**
+   * error
+   */
+  { rejectValue: string }
+>(
+  "get product seller",
+  /**
+   * handle func
+   * @param param0
+   * @param thunkAPI
+   * @returns
+   */
+  async (_, thunkAPI) => {
+    try {
+      /**
+       * service
+       */
+      const payload = await getProducts();
+
       return payload;
     } catch (error) {
       /**

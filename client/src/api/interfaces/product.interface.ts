@@ -113,6 +113,7 @@ export type SingleProduct = {
   cateId: string;
   proName: string;
   proSale: number;
+  proCateSlug: string;
   proPrice: number;
   proTag: string;
   proSlug: string;

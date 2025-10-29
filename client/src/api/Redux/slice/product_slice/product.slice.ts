@@ -1,25 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  getProductSellerThunk,
   getProductThunk,
   getSingleProductThunk,
 } from "../../thunk/product_thunk/product.thunk";
-import {
-  Products,
-  SingleProduct,
-} from "@/api/interfaces/product.interface";
-import {
-  ProductSeller,
-  SingleProductSeller,
-} from "@/api/services/seller.service";
+import { Products, SingleProduct } from "@/api/interfaces/product.interface";
 /**
  * interface of productInitialState of product slice
  */
 interface ProductInitialState {
   errorMessage: string | null;
   sendRequest: boolean;
-  spSeller: SingleProductSeller | null;
-  productSellerApi: ProductSeller[];
   products: Products[];
   product: SingleProduct | null;
 }
@@ -31,8 +21,6 @@ const productInitialState: ProductInitialState = {
   errorMessage: null,
   products: [],
   sendRequest: false,
-  productSellerApi: [],
-  spSeller: null,
   product: null,
 };
 /**
@@ -68,18 +56,6 @@ const productSlice = createSlice({
         state.sendRequest = false;
       })
       .addCase(getSingleProductThunk.rejected, (state, action) => {
-        state.errorMessage = action.payload ?? "Error";
-        state.sendRequest = false;
-      })
-      //get product for seller manager product page
-      .addCase(getProductSellerThunk.pending, (state) => {
-        state.sendRequest = true;
-      })
-      .addCase(getProductSellerThunk.fulfilled, (state, action) => {
-        state.productSellerApi = action.payload;
-        state.sendRequest = false;
-      })
-      .addCase(getProductSellerThunk.rejected, (state, action) => {
         state.errorMessage = action.payload ?? "Error";
         state.sendRequest = false;
       });

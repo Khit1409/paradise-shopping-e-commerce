@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   authenticationThunk,
-  signInThunk,
 } from "../../thunk/auth_thunk/auth.thunk";
 import { UserResponse } from "@/api/services/auth.service";
 /**
@@ -50,17 +49,6 @@ const authSlice = createSlice({
         state.user = null;
         state.isLoggedIn = false;
       })
-      ///sign in
-      .addCase(signInThunk.pending, (state) => {
-        state.pendingRequest = true;
-      })
-      .addCase(signInThunk.fulfilled, (state, action) => {
-        state.pendingRequest = false;
-        state.resultCode = action.payload.resultCode;
-      })
-      .addCase(signInThunk.rejected, (state, action) => {
-        state.message = action.payload ?? "Login failed";
-      });
   },
 });
 /**
