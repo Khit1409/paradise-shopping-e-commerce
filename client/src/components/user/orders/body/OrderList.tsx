@@ -101,7 +101,7 @@ export default function OrderList() {
                     <div>
                       <Link
                         href={`/user/single_product?_info=_${order.orderItems.proId}`}
-                        className="font-semibold text-gray-800 hover:underline"
+                        className="uppercase text-gray-800 hover:underline"
                       >
                         {order.orderItems.orderName}
                         {/* phân loại hàng */}

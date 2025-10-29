@@ -24,22 +24,15 @@ import { useRouter } from "next/navigation";
 import { onOpenOrderModal } from "@/api/redux/slice/order_slice/order.slice";
 
 export default function CartSection() {
-  /**
-   * Component sate
-   */
   const [newQuantity, setNewQuantity] = useState<number>();
   const [newAttribute, setNewAttribute] =
     useState<{ _id: string; attrName: string; itemValue: string }[]>();
-  const [selectedCart, setSelectedCart] = useState<string>("");
+
   const dispatch = useDispatch<AppDispatch>();
   const { carts } = useSelector((state: RootState) => state.cart);
   const { user } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-  /**
-   * Handle delete cart by id
-   * @param id
-   * @returns
-   */
+
   const handleDeletCartById = async (id: string) => {
     if (!id) {
       dispatch(onLoadingAction(false));
@@ -64,9 +57,7 @@ export default function CartSection() {
       }
     }
   };
-  /**
-   * Onchange new attribute
-   */
+
   const handleOnchangeNewAttribute = (
     id: string,
     name: string,
@@ -74,35 +65,18 @@ export default function CartSection() {
   ) => {
     setNewAttribute((prev) => {
       const oldData = [...(prev ?? [])];
-      // check validate
       const existed = oldData.find((f) => f._id === id);
       const dif = oldData.filter((ft) => ft._id !== id);
-      // update
       if (existed) {
         return [...dif, { ...existed, itemValue: newValue }];
       }
-      //add new if []
       oldData.push({ _id: id, attrName: name, itemValue: newValue });
-
-      //return
       return oldData;
     });
   };
-  /**
-   * handle update user cart
-   */
+
   async function updateCart(cartId: string) {
     dispatch(onLoadingAction(true));
-    if (!cartId) {
-      dispatch(onLoadingAction(false));
-      dispatch(
-        onErrorModel({
-          mess: "Vui lòng tick vào giỏ hàng cần cập nhật!",
-          onError: true,
-        })
-      );
-      return;
-    }
     const result = await updateUserCart({
       cartId,
       newAttributes: newAttribute,
@@ -120,9 +94,7 @@ export default function CartSection() {
       }
     }
   }
-  /**
-   * handle add cart to order
-   */
+
   function addToOrder({
     ...value
   }: {
@@ -149,174 +121,135 @@ export default function CartSection() {
   }
 
   return carts && carts.length !== 0 ? (
-    <section className="bg-gray-50 px-3 py-4 text-gray-700">
-      <div className="flex flex-col gap-3 mx-auto">
-        {/* Header */}
-        <div className="grid grid-cols-6 bg-white p-3 border border-gray-300 font-semibold uppercase text-center ">
-          <div className="flex items-center justify-center">
-            <input
-              type="checkbox"
-              id="checkAll"
-              checked={selectedCart === "all"}
-              onChange={() => {
-                setSelectedCart(selectedCart === "all" ? "" : "all");
-              }}
-              className="me-2 accent-green-500"
-            />
-            <label htmlFor="checkAll" className="cursor-pointer">
-              Tất cả
-            </label>
-          </div>
-          <p>Sản phẩm</p>
-          <p>Số lượng</p>
-          <p>Đơn giá</p>
-          <p>Tổng</p>
-          <p>Tùy chọn</p>
-        </div>
-
+    <section className="bg-gray-50 px-2 sm:px-4 py-4 text-gray-700">
+      <div className="flex flex-col gap-5 w-full">
         {/* Product List */}
         {carts.map((cart) => (
           <div
             key={cart._id}
-            className="grid grid-cols-6 items-center bg-white p-3 border border-gray-200  transition-all"
+            className="flex justify-between border rouned p-2 border-gray-300"
           >
-            {/* Checkbox + Ảnh */}
-            <div className="flex items-center justify-center gap-2">
-              <input
-                type="checkbox"
-                value={cart._id}
-                checked={selectedCart === "all" || selectedCart === cart._id}
-                className="accent-green-500"
-                onChange={(e) => {
-                  setSelectedCart(
-                    selectedCart === e.target.value ? "" : e.target.value
-                  );
-                }}
-                id={`cart-${cart._id}`}
-              />
-            </div>
-
-            {/* Thông tin sản phẩm */}
-            <div className="flex flex-col text-left gap-1">
+            {/* Product Info */}
+            <div className="flex gap-3">
               <Image
                 src={cart.cartImg}
                 alt={cart.cartName}
-                width={80}
-                height={80}
-                className="rounded-md object-cover border border-gray-200"
+                width={180}
+                height={100}
+                className="object-cover"
               />
-              <Link
-                href={`/user/single_product?_info=_${cart.proId}`}
-                className="font-semibold truncate text-base hover:underline"
-              >
-                {cart.cartName}
-              </Link>
-              <div className="text-sm text-gray-500">
-                {cart.cartAttributes.map((attr) => (
-                  <p key={attr._id}>
-                    <span className="font-medium">{attr.attrName}</span>
-                    {/* select other value */}
-                    <select
-                      name="newItemValue"
-                      id="newItemValue"
-                      className="outline-hidden"
-                      onChange={(e) =>
-                        handleOnchangeNewAttribute(
-                          attr._id,
-                          attr.attrName,
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value={attr.itemValue}>{attr.itemValue}</option>
-                      {attr.otherValue.map((other) => (
-                        <option value={other.value} key={other._id}>
-                          {other.value}
-                        </option>
-                      ))}
-                    </select>
-                  </p>
-                ))}
+              <div className="flex flex-col">
+                <Link
+                  href={`/user/single-product?_info=_${cart.proId}`}
+                  className="uppercase hover:underline"
+                >
+                  {cart.cartName}
+                </Link>
+                <div className="text-gray-500 flex flex-col gap-1">
+                  {cart.cartAttributes.map((attr) => (
+                    <div key={attr._id} className="flex gap-1">
+                      <span>{attr.attrName}:</span>
+                      <select
+                        name="newItemValue"
+                        id="newItemValue"
+                        className=""
+                        onChange={(e) =>
+                          handleOnchangeNewAttribute(
+                            attr._id,
+                            attr.attrName,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value={attr.itemValue}>{attr.itemValue}</option>
+                        {attr.otherValue.map((other) => (
+                          <option value={other.value} key={other._id}>
+                            {other.value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+                </div>
+                <div className="text-gray-500">
+                  x
+                  <input
+                    name="quantity"
+                    id="quantity"
+                    type="number"
+                    className="text-center w-[30px]"
+                    defaultValue={cart.cartQuantity}
+                    onChange={(e) => setNewQuantity(Number(e.target.value))}
+                  />
+                </div>
               </div>
             </div>
-
-            {/* Số lượng */}
-            <div className="flex items-center justify-center font-medium">
-              <input
-                type="number"
-                className="w-[50px] text-center cursor-pointer"
-                defaultValue={cart.cartQuantity}
-                onChange={(e) => setNewQuantity(Number(e.target.value))}
-              />
-            </div>
-
-            {/* Đơn giá */}
-            <div className="text-center font-semibold text-gray-800">
-              {cart.cartPrice.toLocaleString()}₫
-            </div>
-
-            {/* Tổng tiền */}
-            <div className="text-center font-bold text-green-600">
-              {cart.cartTotalPrice.toLocaleString()}₫
-            </div>
-
-            {/* Hành động */}
-            <div className="flex items-center justify-center gap-3 flex-wrap">
-              <button
-                onClick={() => {
-                  addToOrder({
-                    productId: cart.proId,
-                    attribute: cart.cartAttributes.map((cart) => ({
-                      attributeName: cart.attrName,
-                      attributeValue: cart.itemValue,
-                    })),
-                    productImg: cart.cartImg,
-                    quantity: cart.cartQuantity,
-                    totalPrice: cart.cartTotalPrice,
-                    proName: cart.cartName,
-                  });
-                }}
-                className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm transition-all"
-              >
-                <FontAwesomeIcon icon={faCartShopping} />
-              </button>
+            <div className="flex flex-col justify-between items-end">
+              {/* Unit Price */}
+              <div className="block text-xl">
+                <p>{cart.cartTotalPrice.toLocaleString()}₫</p>
+              </div>
+              {/* Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    addToOrder({
+                      productId: cart.proId,
+                      attribute: cart.cartAttributes.map((cart) => ({
+                        attributeName: cart.attrName,
+                        attributeValue: cart.itemValue,
+                      })),
+                      productImg: cart.cartImg,
+                      quantity: cart.cartQuantity,
+                      totalPrice: cart.cartTotalPrice,
+                      proName: cart.cartName,
+                    });
+                  }}
+                  className="border border-gray-300 hover:text-white hover:bg-green-600 px-2 py-1"
+                >
+                  MUA <FontAwesomeIcon icon={faCartShopping} />
+                </button>
+                <button
+                  onClick={() => updateCart(cart._id)}
+                  className=" hover:bg-green-500 border uppercase border-gray-300 hover:text-white px-2 py-1 transition-all"
+                >
+                  Cập nhật
+                </button>
+                <button
+                  onClick={() => handleDeletCartById(cart._id)}
+                  className="hover:bg-red-600 hover:text-white uppercase text-red-500 border border-red-500  px-2 py-1 transition-all"
+                >
+                  Xóa
+                </button>
+              </div>
             </div>
           </div>
         ))}
 
-        {/* Tổng kết */}
-        <div className="flex justify-end items-center mt-4 bg-white border border-gray-200  p-3  gap-3">
-          <FontAwesomeIcon
-            icon={faCircleCheck}
-            className="text-green-500 text-2xl"
-          />
-          <p className="text-gray-700 font-medium">
-            Tổng số sản phẩm:{" "}
-            <span className="font-bold text-green-600">{carts.length}</span>
-          </p>
-          <button
-            onClick={() => updateCart(selectedCart)}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2  transition-all"
-          >
-            Cập nhật
-          </button>
-          <button
-            onClick={() => {
-              handleDeletCartById(selectedCart);
-            }}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2  transition-all"
-          >
-            Xóa
-          </button>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2  transition-all">
-            Thanh toán
-          </button>
+        {/* Summary */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mt-4 bg-white border border-gray-200 p-3 gap-3">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon
+              icon={faCircleCheck}
+              className="text-green-500 text-2xl"
+            />
+            <p className="text-gray-700 font-medium text-sm sm:text-base">
+              Tổng số sản phẩm:{" "}
+              <span className="font-bold text-green-600">{carts.length}</span>
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+            <button className="bg-green-300 hover:bg-green-600 uppercase hover:text-white border border-green-500 px-5 py-2 text-sm transition-all">
+              Thanh toán
+            </button>
+          </div>
         </div>
       </div>
     </section>
   ) : (
-    <section className="min-h-screen flex items-center justify-center">
-      <p>CHƯA CÓ GIỎ HÀNG</p>
+    <section className="min-h-[60vh] flex items-center justify-center text-gray-500 text-center px-4">
+      <p className="text-lg font-medium">CHƯA CÓ GIỎ HÀNG</p>
     </section>
   );
 }
