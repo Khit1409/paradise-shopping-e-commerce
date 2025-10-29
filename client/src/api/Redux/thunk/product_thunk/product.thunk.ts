@@ -1,14 +1,9 @@
 import {
-  GetProductByCategoryRequest,
-  Product,
-  ProductPreviewDataType,
-  SingelProductDataResponse,
+  Products,
+  SingleProduct,
+  GetProductQueryType,
 } from "@/api/interfaces/product.interface";
-import {
-  getHomeProductService,
-  getProductShopService,
-  getSingleProductService,
-} from "@/api/services/product.service";
+import { getProducts, getSingleProduct } from "@/api/services/product.service";
 import {
   getProductSellerService,
   ProductSeller,
@@ -19,15 +14,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
  * Get product api for home page and shop page
  * query _id category , keyword, limit and page
  */
-export const getHomeProductThunk = createAsyncThunk<
+export const getProductThunk = createAsyncThunk<
   /**
    * Response type
    */
-  Product[],
+  Products[],
   /**
    * request type
    */
-  GetProductByCategoryRequest,
+  GetProductQueryType,
   /**
    * rejected type
    */
@@ -40,13 +35,21 @@ export const getHomeProductThunk = createAsyncThunk<
    * @param thunkAPI
    * @returns
    */
-  async ({ page }, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
       /**
        * use service
        */
-      const data = await getHomeProductService({
+      const { page, area, category, maxPrice, maxSale, minPrice, minSale } =
+        query;
+      const data = await getProducts({
         page,
+        area,
+        category,
+        maxPrice,
+        maxSale,
+        minPrice,
+        minSale,
       });
       const payload = data;
       return payload;
@@ -65,11 +68,11 @@ export const getSingleProductThunk = createAsyncThunk<
   /**
    * response type
    */
-  SingelProductDataResponse,
+  SingleProduct,
   /**
    * request type
    */
-  { id: string; slug?: string },
+  string,
   /**
    * reject response
    */
@@ -82,68 +85,12 @@ export const getSingleProductThunk = createAsyncThunk<
    * @param thunkAPI
    * @returns
    */
-  async ({ id, slug }, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
       /**
        * use service
        */
-      const payload = await getSingleProductService({ id, slug });
-      return payload;
-    } catch (error) {
-      /**
-       * return reject value
-       */
-      return thunkAPI.rejectWithValue(`${error}`);
-    }
-  }
-);
-/**
- * get product shop page
- */
-export const getProductShopThunk = createAsyncThunk<
-  /**
-   * response type
-   */
-  ProductPreviewDataType[],
-  /**
-   * request type
-   */
-  {
-    max_sale?: number | string;
-    min_sale?: number | string;
-    cate_slug?: string;
-    max_price?: number | string;
-    min_price?: number | string;
-    area?: string;
-  },
-  /**
-   * thunk error response type
-   */
-  { rejectValue: string }
->(
-  "product shop",
-  /**
-   * thunk handle
-   * @param param0
-   * @param thunkAPI
-   * @returns
-   */
-  async (
-    { cate_slug, area, max_price, max_sale, min_price, min_sale },
-    thunkAPI
-  ) => {
-    try {
-      /**
-       * service
-       */
-      const payload = await getProductShopService({
-        area,
-        cate_slug,
-        max_price,
-        max_sale,
-        min_price,
-        min_sale,
-      });
+      const payload = await getSingleProduct(id);
       return payload;
     } catch (error) {
       /**

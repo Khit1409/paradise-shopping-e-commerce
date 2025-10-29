@@ -108,9 +108,9 @@ export type UpdateAccountRequest = {
   phone?: { _id: string; phoneNum: string }[];
   address?: { _id: string; addressName: string }[];
   email?: { _id: string; emailAddress: string }[];
-  newLastName?: string;
-  newFirtName?: string;
-  newAvatar?: string;
+  lastName?: string;
+  firtName?: string;
+  avatar?: string;
 };
 /**
  * withCredential: auto true
@@ -119,7 +119,7 @@ export type UpdateAccountRequest = {
  */
 export async function updateUserAccount({ ...params }: UpdateAccountRequest) {
   try {
-    const res = await apiAction.put(`users/update_user_account`, {
+    const res = await apiAction.put(`users`, {
       ...params,
     });
     const api: { message: string; resultCode: number } = res.data;
@@ -137,7 +137,7 @@ export async function logout(): Promise<{
   message: string;
 }> {
   try {
-    const res = await apiAction.post(`auth/client_logout`);
+    const res = await apiAction.post(`auth/logout`);
     return res.data;
   } catch (error) {
     return { resultCode: 0, message: `${error}` };

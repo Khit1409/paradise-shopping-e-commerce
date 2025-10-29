@@ -12,6 +12,7 @@ import {
   TokenPayLoadDataType,
   UserAddressDataType,
   UserEmailDataType,
+  UserInformationDataType,
   UserPhoneDataType,
 } from "src/interfaces/server.types";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -22,7 +23,7 @@ import { JwtService } from "@nestjs/jwt";
 import type { Response } from "express";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { UserAddress, UserEmail, UserPhone } from "src/users/model/user.model";
+import { UserInforDoc } from "src/users/model/user.model";
 @Injectable()
 /**
  * Handle relation to authenticate information
@@ -40,12 +41,8 @@ export class AuthService {
     // service in app module
     private readonly jwt: JwtService,
     //mongoose model
-    @InjectModel("userAddress")
-    private readonly addressModel: Model<UserAddress>,
-    @InjectModel("userPhone")
-    private readonly phoneModel: Model<UserPhone>,
-    @InjectModel("userEmail")
-    private readonly emailModel: Model<UserEmail>
+    @InjectModel("userInformations")
+    private readonly infoModel: Model<UserInforDoc>
   ) {}
 
   testVerify() {
@@ -62,33 +59,26 @@ export class AuthService {
    * @returns {UserPhoneDataType[]}
    * @returns {UserEmailDataType[]}
    */
-  async getUserInformation(id: string): Promise<{
-    addressList: UserAddressDataType[];
-    phoneList: UserPhoneDataType[];
-    emailList: UserEmailDataType[];
-  }> {
+  async getUserInformation(id: string): Promise<UserInformationDataType> {
     if (!id) {
       throw new UnauthorizedException("id is not define!");
     }
     try {
       const userId = id.toLowerCase();
-      const emailList: UserEmailDataType[] = await this.emailModel.aggregate([
-        { $match: { userId } },
-        { $unwind: "$email" },
-        { $replaceRoot: { newRoot: "$email" } },
-      ]);
-      const phoneList: UserPhoneDataType[] = await this.phoneModel.aggregate([
-        { $match: { userId } },
-        { $unwind: "$phone" },
-        { $replaceRoot: { newRoot: "$phone" } },
-      ]);
-      const addressList: UserAddressDataType[] =
-        await this.addressModel.aggregate([
-          { $match: { userId } },
-          { $unwind: "$address" },
-          { $replaceRoot: { newRoot: "$address" } },
-        ]);
-      return { addressList, phoneList, emailList };
+      const info = await this.infoModel.findOne({ userId });
+      if (!info) {
+        return {
+          userOtherEmail: [],
+          userOtherPhone: [],
+          userAddress: [],
+        };
+      }
+      const { address, phone, email } = info;
+      return {
+        userOtherEmail: email ?? [],
+        userOtherPhone: phone ?? [],
+        userAddress: address ?? [],
+      };
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }
@@ -216,7 +206,7 @@ export class AuthService {
       /**
        * get address & phone & email
        */
-      const { addressList, emailList, phoneList } =
+      const { userAddress, userOtherEmail, userOtherPhone } =
         await this.getUserInformation(userId);
       /**
        * create token payload and token
@@ -231,9 +221,6 @@ export class AuthService {
         userFirtName: firtName,
         userLastName: lastName,
         userFullName: fullName,
-        userAddress: addressList,
-        userOtherEmail: emailList,
-        userOtherPhone: phoneList,
       };
       const token = this.jwt.sign(payload);
       /**
@@ -278,6 +265,8 @@ export class AuthService {
       if (!user) {
         throw new BadRequestException("Handle verify token failed!");
       }
+      const info = await this.getUserInformation(user.userId);
+      const data = { ...user, ...info };
       /**
        * response
        */
@@ -285,7 +274,7 @@ export class AuthService {
         message: "successfull!",
         resultCode: 1,
         statusCode: 200,
-        api: user,
+        api: data,
       };
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);

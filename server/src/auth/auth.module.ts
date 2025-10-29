@@ -7,9 +7,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import {
-  UserAddressSchema,
-  userEmailSchema,
-  userPhoneSchema,
+  userInforSchema,
 } from "src/users/model/user.model";
 
 @Module({
@@ -27,9 +25,7 @@ import {
     }),
     //mongoodb module
     MongooseModule.forFeature([
-      { name: "userAddress", schema: UserAddressSchema },
-      { name: "userPhone", schema: userPhoneSchema },
-      { name: "userEmail", schema: userEmailSchema },
+      { name: "userInformations", schema: userInforSchema },
     ]),
   ],
   controllers: [AuthController],

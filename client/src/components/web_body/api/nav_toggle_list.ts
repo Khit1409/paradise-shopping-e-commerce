@@ -1,7 +1,7 @@
 export const NAV_TOGGLE_LIST = [
   {
     toggleIcon: "faCartShopping",
-    toggleUrl: "/user/my_cart",
+    toggleUrl: "/user/my-cart",
   },
   {
     toggleIcon: "faMessage",
@@ -9,10 +9,10 @@ export const NAV_TOGGLE_LIST = [
   },
   {
     toggleIcon: "faBell",
-    toggleUrl: "/user/my_notificate",
+    toggleUrl: "/user/my-notificate",
   },
   {
     toggleIcon: "faUser",
-    toggleUrl: "/user/my_profile",
+    toggleUrl: "/user/my-profile",
   },
 ];

@@ -8,7 +8,7 @@ type ComponentProps = {
 };
 export default function NavigationProduct({ setPage, page }: ComponentProps) {
   return (
-    <section className="w-full">
+    <section className="w-full text-gray-700">
       <div className="p-1 flex justify-center items-center gap-5">
         <button
           disabled={page == 1}
@@ -19,7 +19,7 @@ export default function NavigationProduct({ setPage, page }: ComponentProps) {
             className="transform-[scaleX(-1)]"
           />
         </button>
-        <p>{page}</p>
+        <p className="border px-2 rounded-full border-gray-300">{page}</p>
         <button onClick={() => setPage((prev) => prev + 1)}>
           <FontAwesomeIcon icon={faPersonWalkingArrowRight} />
         </button>

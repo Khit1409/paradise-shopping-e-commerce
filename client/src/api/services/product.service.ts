@@ -1,10 +1,7 @@
 import {
-  GetProductByCategoryRequest,
-  SingelProductDataResponse,
-  Product,
-  GetProductShopRequest,
-  GetSingleProductRequest,
-  ProductPreviewDataType,
+  GetProductQueryType,
+  SingleProduct,
+  Products,
 } from "../interfaces/product.interface";
 import { apiAction } from "@/config/axios";
 
@@ -15,54 +12,36 @@ import { apiAction } from "@/config/axios";
  */
 
 /**
- * Get all products for home page.
- *
- * @param {GetProductByCategoryRequest} param0
- * @returns {Promise<Product[]>}
+ * Get products api by query
+ * @param query
+ * @returns
  */
-export async function getHomeProductService({
-  page,
-}: GetProductByCategoryRequest): Promise<ProductPreviewDataType[]> {
-  const res = await apiAction.get(`products/get_home_product?page=${page}`);
-  const api: Product[] = res.data.api;
-  return api;
-}
-
-/**
- * Get all products for shop page with filters.
- *
- * @param {GetProductShopRequest} query - Filtering query.
- * @returns {Promise<ProductShopPage[]>}
- */
-export async function getProductShopService(
-  query: GetProductShopRequest
-): Promise<ProductPreviewDataType[]> {
+export async function getProducts(
+  query: GetProductQueryType
+): Promise<Products[]> {
+  const { page, area, category, maxPrice, maxSale, minPrice, minSale } = query;
   const params = new URLSearchParams({
-    maxPrice: String(query.max_price ?? ""),
-    minPrice: String(query.min_price ?? ""),
-    category: String(query.cate_slug ?? ""),
-    area: String(query.area ?? ""),
-    maxSale: String(query.max_sale ?? ""),
-    minSale: String(query.min_sale ?? ""),
+    page: String(page ?? 1),
+    maxPrice: String(maxPrice ?? ""),
+    minPrice: String(minPrice ?? ""),
+    category: String(category ?? ""),
+    area: String(area ?? ""),
+    maxSale: String(maxSale ?? ""),
+    minSale: String(minSale ?? ""),
   });
-
-  const res = await apiAction.get(
-    `products/get_product_shop?${params.toString()}`
-  );
-
-  const api: ProductPreviewDataType[] = res.data.api;
+  const res = await apiAction.get(`products?${params.toString()}`);
+  const api: Products[] = res.data.api;
   return api;
 }
 /**
  * Get single product by ID or slug.
  * @param {GetSingleProductRequest} query
- * @returns {Promise<SingelProductDataResponse>}
+ * @returns {Promise<SingleProduct>}
  */
-export async function getSingleProductService(
-  query: GetSingleProductRequest
-): Promise<SingelProductDataResponse> {
-  const param = query.id ? `id=${query.id}` : `slug=${query.slug}`;
-  const res = await apiAction.get(`products/get_single_product?${param}`);
-  const api: SingelProductDataResponse = res.data.api;
+export async function getSingleProduct(
+  id: string
+): Promise<SingleProduct> {
+  const res = await apiAction.get(`products/${id}`);
+  const api: SingleProduct = res.data;
   return api;
 }

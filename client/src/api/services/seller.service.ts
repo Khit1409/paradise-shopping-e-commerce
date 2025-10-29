@@ -24,9 +24,7 @@ export async function getProductSellerService({
   /**
    * send req
    */
-  const res = await apiAction.get(
-    `seller/get_product_seller?cate_slug=${cate_slug}`
-  );
+  const res = await apiAction.get(`seller/products?cate_slug=${cate_slug}`);
   const api: ProductSeller[] = res.data;
   return api;
 }
@@ -67,9 +65,7 @@ export async function getSingleProductSellerService({
 }: {
   product_id: string;
 }) {
-  const res = await apiAction.get(
-    `seller/get_single_product_seller?product_id=${product_id}`
-  );
+  const res = await apiAction.get(`seller/products/${product_id}`);
   const api: SingleProductSeller = res.data;
   return api;
 }
@@ -109,7 +105,7 @@ export async function upNewProductService({
   img,
   imgDetail,
 }: UpProductReq) {
-  const res = await apiAction.post(`seller/up_new_product`, {
+  const res = await apiAction.post(`seller/products`, {
     cate_slug,
     description,
     hashtag,
@@ -196,63 +192,39 @@ export type SellerUpdateProductRequest = {
   }[];
 };
 /**
+ * Delete something (img detail , attribute, attribute item) in single products
+ */
+export type DeleteReq = {
+  imgDetail?: { _id: string }[];
+  attribute?: { _id: string }[];
+  attributeItem?: { attrId: string; _id: string }[];
+};
+type UpdateType = {
+  updateValue: SellerUpdateProductRequest;
+  deleteValue: DeleteReq;
+};
+/**
  * service update product
  */
-export async function sellerUpdateProductService({
-  attribute,
-  product_id,
-  imgDetail,
-  proCateSlug,
-  proDescription,
-  proImg,
-  proName,
-  proPrice,
-  proSale,
-}: SellerUpdateProductRequest) {
-  const res = await apiAction.post(`seller/update_product_single`, {
-    attribute,
-    product_id,
-    imgDetail,
-    proCateSlug,
-    proDescription,
-    proImg,
-    proName,
-    proPrice,
-    proSale,
+export async function updateProduct({
+  id,
+  body,
+}: {
+  id: string;
+  body: UpdateType;
+}) {
+  const res = await apiAction.put(`seller/products/${id}`, {
+    ...body,
   });
   const api: { resultCode: number; message: string } = res.data;
   return api;
 }
 /**
- * Delete something (img detail , attribute, attribute item) in single products
- */
-export type DeleteReq = {
-  proId: string;
-  imgDetail?: { _id: string }[];
-  attribute?: { _id: string }[];
-  attributeItem?: { attrId: string; _id: string }[];
-};
-export async function deleteActionSingleProductService({
-  attribute,
-  attributeItem,
-  imgDetail,
-  proId,
-}: DeleteReq) {
-  const res = await apiAction.post(`seller/delete_action_single_product`, {
-    attribute,
-    proId,
-    imgDetail,
-    attributeItem,
-  });
-  const api: { message: string; resultCode: number } = res.data;
-  return api;
-}
-/**
  * delete one product by id
  */
-export async function deleteSingleProduct(id: string) {
+export async function deleteProduct(id: string) {
   try {
-    const res = await apiAction.delete(`seller/delete_single_product/${id}`);
+    const res = await apiAction.delete(`seller/products/${id}`);
     const result: { message: string; resultCode: number } = res.data;
     return result;
   } catch (error) {

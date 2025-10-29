@@ -13,9 +13,10 @@ import { GetProductDto, getSingleProductDto } from "./dto/product.dto";
  * Remember** lean<T>()
  */
 import { InjectRepository } from "@nestjs/typeorm";
-import { StoreEntity } from "src/store/entity/store.entity";
+import { StoreEntity } from "src/seller/entity/store.entity";
 import { Repository } from "typeorm";
 import {
+  NormalHandleResponse,
   ProductHomeDataType,
   ProductHomePageResponse,
   ProductPreviewDataType,
@@ -40,7 +41,7 @@ export class ProductsService {
    * @param userId
    * @param page
    */
-  async getProductPreview(query: {
+  async getProducts(query: {
     page: number;
     minPrice: number;
     maxPrice?: number;
@@ -120,96 +121,25 @@ export class ProductsService {
     }
   }
   /**
-   * get product for shop page
-   * @param dto
-   * @returns
-   */
-  async getProductShopService(
-    dto: GetProductDto
-  ): Promise<ProductShopPageResponse> {
-    try {
-      /**
-       * query khu vực
-       * query giá
-       * query danh mục
-       * loại sản phẩm
-       */
-      const storeQuery: { storeAreaSlug?: string } = {};
-
-      if (dto.area) storeQuery.storeAreaSlug = dto.area;
-      const proQuery: {
-        proCateSlug?: string;
-      } = {};
-
-      if (dto.cate_slug) proQuery.proCateSlug = dto.cate_slug;
-      const store = await this.storeRepo.find({ where: storeQuery });
-
-      const data = await Promise.all(
-        store.map(async (s) => {
-          const pro = await this.productModel
-            .find({
-              storeId: s.storeId.toLowerCase(),
-              ...proQuery,
-              proPrice: dto.pro_price
-                ? { $lte: Number(dto.pro_price) }
-                : { $gte: 0 },
-              proSale: dto.pro_sale
-                ? { $lte: Number(dto.pro_sale) }
-                : { $gte: 0 },
-            })
-            .lean<ProductPreviewDataType[]>();
-          return {
-            storeId: s.storeId,
-            storeName: s.storeName,
-            storeArea: s.storeArea,
-            products: pro,
-          };
-        })
-      );
-      return { message: "Got!", api: data, resultCode: 1, statusCode: 200 };
-    } catch (error) {
-      return { message: `${error}`, api: [], resultCode: 0, statusCode: 500 };
-    }
-  }
-  /**
    *
    * @returns
    */
   /**
    * get single products
    */
-  async getSingleProductService(
-    dto: getSingleProductDto
-  ): Promise<SingleProductResponse> {
+  async getSingleProduct(id: string): Promise<SingleProductDataType> {
     try {
-      if (!dto.id && !dto.slug) {
+      if (!id) {
         throw new BadRequestException(`Vui lòng truyền tham số query`);
       }
       const product = await this.productModel
-        .findOne({
-          ...(dto &&
-            (dto.id
-              ? { _id: new mongoose.Types.ObjectId(dto.id) }
-              : { proSlug: dto.slug })),
-        })
+        .findById(new mongoose.Types.ObjectId(id))
+        .select("-createdAt -updatedAt -__v")
         .lean<SingleProductDataType>();
       if (!product) {
         throw new BadRequestException("Product not define!");
       }
-      const relatedProduct = await this.productModel
-        .find({ _id: { $ne: product._id }, proCateSlug: product.proCateSlug })
-        .select("proName proPrice proSlug proCateSlug proImg")
-        .limit(12) // loại luôn product hiện tại
-        .lean<ProductPreviewDataType[]>();
-      return {
-        message: "successfull!",
-        resultCode: 1,
-        statusCode: 200,
-        api: {
-          product: product,
-          related: relatedProduct,
-        },
-      };
+      return product;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }

@@ -7,13 +7,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductFilter from "./ProductFilter";
 import { onLoadingAction } from "@/api/redux/slice/app_slice/app.slice";
-import { getProductShopThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
+import { getProductThunk } from "@/api/redux/thunk/product_thunk/product.thunk";
 import ProductPreviewSection from "./ProductPreviewSection";
 import CarouselHeader from "@/components/web_body/CarouselHeader";
 
 export default function ProductShop() {
   const dispatch = useDispatch<AppDispatch>();
-  const { productShop } = useSelector((state: RootState) => state.product);
+  const { products } = useSelector((state: RootState) => state.product);
   /**
    * App state
    */
@@ -38,16 +38,17 @@ export default function ProductShop() {
     (async () => {
       dispatch(onLoadingAction(true));
       const pr = await dispatch(
-        getProductShopThunk({
+        getProductThunk({
           area: location,
-          max_price: costFilter.price?.max_price,
-          min_price: costFilter.price?.min_price,
-          max_sale: costFilter.sale?.max_sale,
-          min_sale: costFilter.sale?.min_sale,
-          cate_slug: cateSlug,
+          maxPrice: costFilter.price?.max_price,
+          minPrice: costFilter.price?.min_price,
+          maxSale: costFilter.sale?.max_sale,
+          minSale: costFilter.sale?.min_sale,
+          category: cateSlug,
+          page: 1,
         })
       );
-      if (getProductShopThunk.fulfilled.match(pr)) {
+      if (getProductThunk.fulfilled.match(pr)) {
         dispatch(onLoadingAction(false));
       } else {
         dispatch(onLoadingAction(false));
@@ -74,7 +75,7 @@ export default function ProductShop() {
           setCateSlug={setCateSlug}
           setLocation={setLocation}
         />
-        <ProductPreviewSection data={productShop} />
+        <ProductPreviewSection data={products} />
       </div>
     </section>
   );

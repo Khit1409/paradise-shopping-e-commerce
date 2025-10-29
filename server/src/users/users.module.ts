@@ -7,22 +7,15 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { CloudinaryModule } from "src/cloudinaray/cloudinary.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./entity/user.entity";
-import { StoreEntity } from "src/store/entity/store.entity";
-import {
-  UserAddressSchema,
-  userEmailSchema,
-  userPhoneSchema,
-} from "./model/user.model";
+import { userInforSchema } from "./model/user.model";
 
 @Module({
   imports: [
     //sql server module
-    TypeOrmModule.forFeature([UserEntity, StoreEntity]),
+    TypeOrmModule.forFeature([UserEntity]),
     //mongoodb module
     MongooseModule.forFeature([
-      { name: "userAddress", schema: UserAddressSchema },
-      { name: "userPhone", schema: userPhoneSchema },
-      { name: "userEmail", schema: userEmailSchema },
+      { name: "userInformations", schema: userInforSchema },
     ]),
     //jwt module
     JwtModule.registerAsync({
@@ -41,4 +34,4 @@ import {
   providers: [UsersService],
   exports: [UsersService],
 })
-export class UsersModule{}
+export class UsersModule {}

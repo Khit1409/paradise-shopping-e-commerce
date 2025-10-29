@@ -34,7 +34,7 @@ export default function CartModal({ ...props }: ComponentProps) {
         ) : (
           carts.map((cart) => (
             <Link
-              href={"/user/my_cart"}
+              href={"/user/my-cart"}
               key={cart._id}
               className="flex items-center gap-3 p-2 rounded-xl border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all duration-200"
             >
@@ -74,7 +74,7 @@ export default function CartModal({ ...props }: ComponentProps) {
             </span>
           </div>
           <Link
-            href="/user/my_cart"
+            href="/user/my-cart"
             className="block w-full text-center bg-black text-white py-2 rounded-xl hover:bg-gray-800 transition-all"
           >
             Xem giỏ hàng

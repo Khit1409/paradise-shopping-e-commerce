@@ -1,4 +1,4 @@
-import { Product } from "@/api/interfaces/product.interface";
+import { Products } from "@/api/interfaces/product.interface";
 import { createSlug } from "@/feature/index";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,7 @@ import React from "react";
  * Component props
  */
 type ComponentProps = {
-  related: Product[];
+  related: Products[];
 };
 /**
  * Component function

@@ -76,7 +76,7 @@ export default function NavigationBarMobileMode() {
               key={index}
               href={toggle.toggleUrl}
               onClick={() => {
-                handleLogout();
+                closeResponesive();
               }}
             >
               <FontAwesomeIcon icon={getIconByName(toggle.toggleIcon)} />
@@ -121,7 +121,7 @@ export default function NavigationBarMobileMode() {
           <div className="text-center">
             <button
               onClick={() => {
-                closeResponesive();
+                handleLogout();
               }}
               className="text-red-500 hover:text-red-600 hover:underline"
             >

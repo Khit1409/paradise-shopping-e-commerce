@@ -22,7 +22,8 @@
     "react-dom": "19.1.0",
     "react-qr-code": "^2.0.18",
     "react-redux": "^9.2.0",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

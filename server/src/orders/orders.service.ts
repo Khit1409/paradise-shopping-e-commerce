@@ -7,9 +7,7 @@ import {
 import { CreateOrderAttribute, CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UserEntity } from "src/users/entity/user.entity";
 import { Repository } from "typeorm";
-import { StoreEntity } from "src/store/entity/store.entity";
 import { Orders } from "./entities/order.entity";
 import { PaymentsService } from "src/payments/payments.service";
 import { CreatePaymentLinkResponse } from "@payos/node";
@@ -27,6 +25,7 @@ import {
   OrderAttributeDoc,
   OrderAttributes,
 } from "./models/order-attribute.model";
+import { StoreEntity } from "src/seller/entity/store.entity";
 
 @Injectable()
 export class OrdersService {
@@ -38,14 +37,14 @@ export class OrdersService {
     @InjectModel("Product") private readonly productModel: Model<Product>,
     @InjectModel("OrderAttribute")
     private readonly orderAttrModel: Model<OrderAttributeDoc>,
-    @InjectRepository(StoreEntity)
-    private readonly storeRepo: Repository<StoreEntity>,
     @InjectRepository(Orders)
     private readonly orderRepo: Repository<Orders>,
     @InjectRepository(OrderPersonContacts)
     private readonly orderContactRepo: Repository<OrderPersonContacts>,
     @InjectRepository(OrderItems)
-    private readonly orderItemRepo: Repository<OrderItems>
+    private readonly orderItemRepo: Repository<OrderItems>,
+    @InjectRepository(StoreEntity)
+    private readonly storeRepo: Repository<StoreEntity>
   ) {}
   /**
    * auto delete order if created day is greeter than 100 day
@@ -71,7 +70,7 @@ export class OrdersService {
    * @param userId
    * @returns {AddNewOrderResponse}
    */
-  async addNewOrderService(
+  async addNewOrder(
     dto: CreateOrderDto,
     userId: string
   ): Promise<AddNewOrderResponse> {
@@ -222,7 +221,7 @@ export class OrdersService {
       const sendMailResult = await this.emailService.sendOrderMail(
         email,
         userName,
-        storeName,
+        "abc",
         orderCode,
         totalPrice
       );
@@ -278,12 +277,7 @@ export class OrdersService {
           };
         })
       );
-      return {
-        message: "successfull",
-        api,
-        resultCode: 1,
-        statusCode: 200,
-      };
+      return api;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }

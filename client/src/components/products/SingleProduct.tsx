@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import RealatedProduct from "./RealatedProduct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartPlus,
@@ -28,7 +27,7 @@ export default function SingleProduct() {
   const params = useSearchParams();
   const _info = params?.get("_info");
   const [slug, id]: (string | undefined)[] = _info?.split("_") ?? [];
-  const { singleProduct } = useSelector((state: RootState) => state.product);
+  const { product } = useSelector((state: RootState) => state.product);
   const { user } = useSelector((state: RootState) => state.auth);
 
   /** Component state */
@@ -47,7 +46,7 @@ export default function SingleProduct() {
   useEffect(() => {
     setChooseAttr([]);
     (async () => {
-      await dispatch(getSingleProductThunk({ id, slug }));
+      await dispatch(getSingleProductThunk(id));
     })();
   }, [id, dispatch, slug]);
 
@@ -83,7 +82,7 @@ export default function SingleProduct() {
         dispatch(onErrorModel({ mess: "Please login first!", onError: true }));
         return;
       }
-      if (!id || !singleProduct) {
+      if (!id || !product) {
         dispatch(onLoadingAction(false));
         dispatch(onErrorModel({ mess: "Product not found!", onError: true }));
         return;
@@ -96,7 +95,7 @@ export default function SingleProduct() {
 
       if (
         chooseArr.length == 0 ||
-        chooseArr.length < singleProduct.product.proAttributes.length
+        chooseArr.length < product.proAttributes.length
       ) {
         dispatch(onLoadingAction(false));
         setUnSelectAttr(true);
@@ -106,10 +105,10 @@ export default function SingleProduct() {
       const result = await dispatch(
         addToCartThunk({
           proId: id,
-          img: singleProduct.product.proImg,
-          name: singleProduct.product.proName,
+          img: product.proImg,
+          name: product.proName,
           quantity,
-          price: singleProduct.product.proPrice,
+          price: product.proPrice,
           choose: chooseArr,
         })
       );
@@ -134,10 +133,9 @@ export default function SingleProduct() {
    * Handle Order
    */
   function handleOpenOrderModal() {
-    if (!id || !singleProduct || !user) {
+    if (!id || !product || !user) {
       return;
     }
-    const product = singleProduct.product;
     const orderAttribute: {
       attributeName: string;
       attributeValue: string;
@@ -169,24 +167,24 @@ export default function SingleProduct() {
   }
   /** UI */
   return (
-    singleProduct && (
-      <section className="min-h-screen bg-gray-50 text-gray-700 py-8">
-        <div className="max-w-6xl mx-auto p-5 bg-white rounded-2xl shadow-sm border border-gray-200">
+    product && (
+      <section className="bg-gray-50 text-gray-700">
+        <div className="mx-auto p-5 bg-white">
           {/* Product Main Section */}
           <div className="flex flex-col lg:flex-row gap-8 ">
             {/* Image Section */}
             <div className="flex-1 flex gap-3">
               <div className="flex-1 flex justify-center">
                 <Image
-                  src={imgPreview ?? singleProduct.product.proImg}
-                  alt={singleProduct.product.proName}
+                  src={imgPreview ?? product.proImg}
+                  alt={product.proName}
                   width={400}
                   height={400}
                   className="rounded-xl border border-gray-200 object-cover h-[400px] w-[400px]"
                 />
               </div>
               <div className="flex flex-col gap-2 overflow-y-auto w-[120px]">
-                {singleProduct.product.proImgDetails.map((img) => (
+                {product.proImgDetails.map((img) => (
                   <Image
                     key={img._id}
                     src={img.imgUrl}
@@ -205,10 +203,10 @@ export default function SingleProduct() {
               className={`flex-1 flex flex-col gap-4 h-[400px] overflow-y-auto p-1`}
             >
               <h1 className="text-3xl font-bold uppercase text-gray-800">
-                {singleProduct.product.proName}
+                {product.proName}
               </h1>
               <p className="text-2xl font-semibold text-red-500">
-                {singleProduct.product.proPrice.toLocaleString("vi-VN")} VND
+                {product.proPrice.toLocaleString("vi-VN")} VND
               </p>
 
               <div className="flex gap-1 text-yellow-400">
@@ -218,7 +216,7 @@ export default function SingleProduct() {
               </div>
 
               <p className="text-gray-600 leading-relaxed">
-                {singleProduct.product.proDescription}
+                {product.proDescription}
               </p>
 
               {/* Attributes */}
@@ -227,7 +225,7 @@ export default function SingleProduct() {
                   unSeletAttr ? "bg-red-100" : ""
                 } flex flex-col gap-3`}
               >
-                {singleProduct.product.proAttributes.map((attr) => (
+                {product.proAttributes.map((attr) => (
                   <div key={attr._id} className="flex flex-col gap-2">
                     <p className="text-lg font-semibold text-gray-800">
                       {attr.attrName}
@@ -315,7 +313,7 @@ export default function SingleProduct() {
               sản phẩm cùng danh mục
             </p>
             <hr className="border-amber-400 mb-4" />
-            <RealatedProduct related={singleProduct.related} />
+            {/* <RealatedProduct related={singleProduct.related} /> */}
           </div>
         </div>
       </section>

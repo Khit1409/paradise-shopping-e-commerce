@@ -17,7 +17,7 @@ export type NormalHandleResponse = {
  * type of Navigation api response
  */
 export interface NavigationDataType {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   navName: string;
   navIcon?: string;
   navUrl: string;
@@ -40,8 +40,7 @@ export type NavigationReponse = {
  * product preview data type
  */
 export type ProductPreviewDataType = {
-  _id: string;
-  cateId: string;
+  _id: mongoose.Types.ObjectId;
   proName: string;
   proPrice: number;
   proSale: number;
@@ -53,8 +52,7 @@ export type ProductPreviewDataType = {
  * Product home page api
  */
 export type ProductHomeDataType = {
-  _id: string;
-  cateId: string;
+  _id: mongoose.Types.ObjectId;
   proName: string;
   proPrice: number;
   proSale: number;
@@ -96,28 +94,27 @@ export type ProductShopPageResponse = {
 
 //attribute item type
 export type AttributeItem = {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   attrId: string;
   itemValue: string;
   itemImg?: string;
 };
 //attribute type
 export type Attribute = {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   proId: string;
   attrName: string;
   items: AttributeItem[];
 };
 //img detail type
 export type ImgDetail = {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   proId: string;
   imgUrl: string;
 };
 // api type
 export type SingleProductDataType = {
-  _id: string;
-  cateId: string;
+  _id: mongoose.Types.ObjectId;
   proName: string;
   proSale: number;
   proPrice: number;
@@ -163,6 +160,11 @@ export type UserPhoneDataType = {
   _id: mongoose.Types.ObjectId;
   phoneNum: string;
 };
+export type UserInformationDataType = {
+  userAddress: UserAddressDataType[];
+  userOtherEmail: UserEmailDataType[];
+  userOtherPhone: UserPhoneDataType[];
+};
 /**
  * create new account data type
  */
@@ -192,9 +194,6 @@ export type TokenPayLoadDataType = {
   userFirtName: string;
   userLastName: string;
   userFullName: string;
-  userAddress: UserAddressDataType[];
-  userOtherEmail: UserEmailDataType[];
-  userOtherPhone: UserPhoneDataType[];
 };
 export type UserDataType = {
   /**
@@ -234,4 +233,25 @@ export type AddNewOrderResponse = {
   resultCode: number;
   payment: CreatePaymentLinkResponse | null;
   statusCode: number;
+};
+/**
+ * ============
+ * TYPE OF CART
+ * ============
+ */
+export type CartAttribute = {
+  _id: mongoose.Types.ObjectId;
+  attrName: string;
+  itemValue: string;
+  otherValue: { value: string; _id: string }[];
+};
+export type UserCartDataType = {
+  _id: mongoose.Types.ObjectId;
+  cartImg: string;
+  cartName: string;
+  cartPrice: number;
+  proId: string;
+  cartQuantity: number;
+  cartTotalPrice: number;
+  cartAttributes: CartAttribute[];
 };

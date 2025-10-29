@@ -3,8 +3,6 @@ import { AppModule } from "./app.module";
 import { ConfigService } from "@nestjs/config";
 import cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
-import { DataSource } from "typeorm";
-import { Connection } from "mongoose";
 
 /**
  * Bootstrap the NestJS application.

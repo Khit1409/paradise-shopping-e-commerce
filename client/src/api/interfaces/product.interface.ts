@@ -9,10 +9,15 @@
  *
  * @property {number} page - Current page number.
  */
-export type GetProductByCategoryRequest = {
+export type GetProductQueryType = {
   page: number;
+  category?: string;
+  maxPrice?: number;
+  minPrice?: number;
+  maxSale?: number;
+  minSale?: number;
+  area?: string;
 };
-
 /**
  * Product global type — used for preview or product list display.
  *
@@ -26,7 +31,7 @@ export type GetProductByCategoryRequest = {
  * @property {string} proImg - Main product image URL.
  * @property {string} proDescription - Short product description.
  */
-export type Product = {
+export type Products = {
   _id: string;
   cateId: string;
   proName: string;
@@ -37,18 +42,6 @@ export type Product = {
   proImg: string;
   proDescription: string;
 };
-export type ProductPreviewDataType = {
-  _id: string;
-  cateId: string;
-  proName: string;
-  proPrice: number;
-  proSale: number;
-  proTag: string;
-  proSlug: string;
-  proImg: string;
-  proDescription: string;
-};
-
 /**
  * Product image detail type — for additional product images.
  *
@@ -98,11 +91,6 @@ export type AttributeItem = {
  * @property {SingleProduct} product - The main product details.
  * @property {Product[]} related - List of related products.
  */
-export type SingelProductDataResponse = {
-  product: SingleProduct;
-  related: Product[];
-};
-
 /**
  * Single product full data — used when fetching one product by slug or id.
  *
@@ -177,7 +165,7 @@ export type ProductShopPage = {
   storeAreaSlug: string;
   storeAvatar: string;
   storeAddress: string;
-  products: Product[];
+  products: Products[];
 };
 
 /**

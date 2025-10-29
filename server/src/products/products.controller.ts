@@ -1,6 +1,12 @@
-import { Controller, Get, Query, Res } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  InternalServerErrorException,
+  Param,
+  Query,
+  Res,
+} from "@nestjs/common";
 import { ProductsService } from "./products.service";
-import { GetProductDto, getSingleProductDto } from "./dto/product.dto";
 import type { Response } from "express";
 
 @Controller("products")
@@ -12,8 +18,8 @@ export class ProductsController {
    * @param res
    * @returns
    */
-  @Get("get_home_product")
-  async getHomeProductController(
+  @Get("")
+  async getProducts(
     @Query()
     query: {
       page: number;
@@ -27,36 +33,7 @@ export class ProductsController {
     @Res() res: Response
   ) {
     try {
-      const api = await this.productsService.getProductPreview(query);
-      return res
-        .status(200)
-        .json({ message: "successful!", api, resultCode: 1 });
-    } catch (error) {
-      return res.status(500).json({ message: `${error}`, resultCode: 0 });
-    }
-  }
-  /**
-   * get product for shop page preview
-   * @param dto
-   * @returns
-   */
-  @Get("get_product_shop")
-  async getProductShopController(
-    @Query()
-    query: {
-      page: number;
-      minPrice: number;
-      maxPrice?: number;
-      category?: string;
-      area?: string;
-      minSale: number;
-      maxSale?: number;
-    },
-    @Res() res: Response
-  ) {
-    try {
-      console.log(query);
-      const api = await this.productsService.getProductPreview(query);
+      const api = await this.productsService.getProducts(query);
       return res
         .status(200)
         .json({ message: "successful!", api, resultCode: 1 });
@@ -66,16 +43,16 @@ export class ProductsController {
   }
   /**
    * get single product for single product page
-   * @param dto
+   * @param id
    * @returns
    */
-  @Get("get_single_product")
-  async getSingleProductController(
-    @Query() dto: getSingleProductDto,
-    @Res() res: Response
-  ) {
-    const result = await this.productsService.getSingleProductService(dto);
-    const { message, resultCode, statusCode, api } = result;
-    return res.status(statusCode).json({ message, resultCode, api });
+  @Get("/:id")
+  async getSingleProduct(@Param("id") id: string) {
+    try {
+      const result = await this.productsService.getSingleProduct(id);
+      return result;
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
   }
 }

@@ -1,19 +1,19 @@
 import { Type } from "class-transformer";
 import { IsArray, IsOptional, IsString } from "class-validator";
 
-class UpdatePhone {
+export class UpdatePhone {
   @IsString()
   _id: string;
   @IsString()
   phoneNum: string;
 }
-class UpdateAddress {
+export class UpdateAddress {
   @IsString()
   _id: string;
   @IsString()
   addressName: string;
 }
-class UpdateEmail {
+export class UpdateEmail {
   @IsString()
   _id: string;
   @IsString()
@@ -29,13 +29,13 @@ export class UpdateAuth {
 export class UpdateUserAccountDto {
   @IsOptional()
   @IsString()
-  newFirtName: string;
+  firtName: string;
   @IsOptional()
   @IsString()
-  newAvatar: string;
+  avatar: string;
   @IsOptional()
   @IsString()
-  newLastName: string;
+  lastName: string;
   @IsOptional()
   @IsArray()
   @Type(() => UpdatePhone)

@@ -82,12 +82,12 @@ export default function UserModal({ ...props }: ComponentProps) {
       {/* ===== Navigation Links ===== */}
       <div className="flex flex-col gap-2 text-[15px]">
         <UserLink
-          href={user ? `/user/my_order` : "/login"}
+          href={user ? `/user/my-order` : "/login"}
           icon={faShoppingBag}
           label="Your Orders"
         />
         <UserLink
-          href={user ? `/user/setting_account` : "/login"}
+          href={user ? `/user/setting-account` : "/login"}
           icon={faUserGear}
           label="Account Settings"
         />
@@ -97,7 +97,7 @@ export default function UserModal({ ...props }: ComponentProps) {
           label="Register New Account"
         />
         <UserLink
-          href={"/register_seller"}
+          href={"/register-seller"}
           icon={faUsers}
           label="Become a Seller"
         />

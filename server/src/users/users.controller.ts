@@ -1,15 +1,10 @@
 import { Body, Controller, Get, Put, Req, Res } from "@nestjs/common";
 import { UsersService } from "./users.service";
-
 import { UpdateUserAccountDto } from "./dto/user-update.dto";
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
 
 @Controller("users")
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
   /**
    * update user accounts
    * @param dto
@@ -17,15 +12,16 @@ export class UsersController {
    * @param res
    * @returns
    */
-  @Put("update_user_account")
+  @Put("")
   async updateUserAccount(
     @Body() dto: UpdateUserAccountDto,
     @Req() req,
     @Res() res
   ) {
     try {
+      const { userId } = req.user;
       //service
-      const result = await this.usersService.updateUserAccount(dto, req.userId);
+      const result = await this.usersService.updateUserAccount(dto, userId);
       //response
       const { statusCode, message, resultCode } = result;
       return res.status(statusCode).json({ message, resultCode });

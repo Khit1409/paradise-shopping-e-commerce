@@ -150,9 +150,9 @@ export default function CartSection() {
 
   return carts && carts.length !== 0 ? (
     <section className="bg-gray-50 px-3 py-4 text-gray-700">
-      <div className="flex flex-col gap-3 max-w-6xl mx-auto">
+      <div className="flex flex-col gap-3 mx-auto">
         {/* Header */}
-        <div className="grid grid-cols-6 bg-white p-3 border border-gray-300 rounded-lg font-semibold uppercase text-center shadow-sm">
+        <div className="grid grid-cols-6 bg-white p-3 border border-gray-300 font-semibold uppercase text-center ">
           <div className="flex items-center justify-center">
             <input
               type="checkbox"
@@ -178,7 +178,7 @@ export default function CartSection() {
         {carts.map((cart) => (
           <div
             key={cart._id}
-            className="grid grid-cols-6 items-center bg-white p-3 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all"
+            className="grid grid-cols-6 items-center bg-white p-3 border border-gray-200  transition-all"
           >
             {/* Checkbox + Ảnh */}
             <div className="flex items-center justify-center gap-2">
@@ -276,7 +276,7 @@ export default function CartSection() {
                     proName: cart.cartName,
                   });
                 }}
-                className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm rounded transition-all"
+                className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm transition-all"
               >
                 <FontAwesomeIcon icon={faCartShopping} />
               </button>
@@ -285,7 +285,7 @@ export default function CartSection() {
         ))}
 
         {/* Tổng kết */}
-        <div className="flex justify-end items-center mt-4 bg-white border border-gray-200 rounded-lg p-3 shadow-sm gap-3">
+        <div className="flex justify-end items-center mt-4 bg-white border border-gray-200  p-3  gap-3">
           <FontAwesomeIcon
             icon={faCircleCheck}
             className="text-green-500 text-2xl"
@@ -296,7 +296,7 @@ export default function CartSection() {
           </p>
           <button
             onClick={() => updateCart(selectedCart)}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-md transition-all"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2  transition-all"
           >
             Cập nhật
           </button>
@@ -304,11 +304,11 @@ export default function CartSection() {
             onClick={() => {
               handleDeletCartById(selectedCart);
             }}
-            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-md transition-all"
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2  transition-all"
           >
             Xóa
           </button>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-md transition-all">
+          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2  transition-all">
             Thanh toán
           </button>
         </div>

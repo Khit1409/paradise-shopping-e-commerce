@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  getHomeProductThunk,
   getProductSellerThunk,
-  getProductShopThunk,
+  getProductThunk,
   getSingleProductThunk,
 } from "../../thunk/product_thunk/product.thunk";
 import {
-  Product,
-  ProductPreviewDataType,
-  SingelProductDataResponse,
+  Products,
+  SingleProduct,
 } from "@/api/interfaces/product.interface";
 import {
   ProductSeller,
@@ -19,12 +17,11 @@ import {
  */
 interface ProductInitialState {
   errorMessage: string | null;
-  productShop: ProductPreviewDataType[];
   sendRequest: boolean;
   spSeller: SingleProductSeller | null;
   productSellerApi: ProductSeller[];
-  productApi: Product[];
-  singleProduct: SingelProductDataResponse | null;
+  products: Products[];
+  product: SingleProduct | null;
 }
 
 /**
@@ -32,12 +29,11 @@ interface ProductInitialState {
  */
 const productInitialState: ProductInitialState = {
   errorMessage: null,
-  productApi: [],
+  products: [],
   sendRequest: false,
   productSellerApi: [],
   spSeller: null,
-  productShop: [],
-  singleProduct: null,
+  product: null,
 };
 /**
  * product slice
@@ -52,14 +48,14 @@ const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Case get all products
-      .addCase(getHomeProductThunk.pending, (state) => {
+      .addCase(getProductThunk.pending, (state) => {
         state.sendRequest = true;
       })
-      .addCase(getHomeProductThunk.fulfilled, (state, action) => {
-        state.productApi = action.payload;
+      .addCase(getProductThunk.fulfilled, (state, action) => {
+        state.products = action.payload;
         state.sendRequest = false;
       })
-      .addCase(getHomeProductThunk.rejected, (state, action) => {
+      .addCase(getProductThunk.rejected, (state, action) => {
         state.errorMessage = action.payload ?? "Error";
         state.sendRequest = false;
       })
@@ -68,22 +64,10 @@ const productSlice = createSlice({
         state.sendRequest = true;
       })
       .addCase(getSingleProductThunk.fulfilled, (state, action) => {
-        state.singleProduct = action.payload;
+        state.product = action.payload;
         state.sendRequest = false;
       })
       .addCase(getSingleProductThunk.rejected, (state, action) => {
-        state.errorMessage = action.payload ?? "Error";
-        state.sendRequest = false;
-      })
-      //get product shop page
-      .addCase(getProductShopThunk.pending, (state) => {
-        state.sendRequest = true;
-      })
-      .addCase(getProductShopThunk.fulfilled, (state, action) => {
-        state.productShop = action.payload;
-        state.sendRequest = false;
-      })
-      .addCase(getProductShopThunk.rejected, (state, action) => {
         state.errorMessage = action.payload ?? "Error";
         state.sendRequest = false;
       })

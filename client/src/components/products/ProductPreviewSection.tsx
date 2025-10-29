@@ -1,12 +1,12 @@
-import { ProductPreviewDataType } from "@/api/interfaces/product.interface";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { Products } from "@/api/interfaces/product.interface";
 
 type ComponentProps = {
-  data: ProductPreviewDataType[];
+  data: Products[];
 };
 /**
  * func component
@@ -28,7 +28,7 @@ export default function ProductPreviewSection(props: ComponentProps) {
           <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
             {data.map((pro) => (
               <Link
-                href={`/user/single_product?_info=${pro.proSlug}_${pro._id}`}
+                href={`/user/single-product?_info=${pro.proSlug}_${pro._id}`}
                 key={pro._id}
                 className="border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col"
               >
@@ -61,9 +61,6 @@ export default function ProductPreviewSection(props: ComponentProps) {
             <p>HIỆN SẢN PHẨM ĐANG TRỐNG....</p>
           </section>
         )}
-        <div>
-          <hr className="text-gray-300 border" />
-        </div>
       </section>
     </div>
   );

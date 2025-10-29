@@ -81,7 +81,7 @@ export async function addNewOrder({ ...req }: OrderRequest): Promise<{
   payment: CreatePaymentLinkResponse | null;
 }> {
   try {
-    const result = await apiAction.post(`orders/new_order`, { ...req });
+    const result = await apiAction.post(`orders`, { ...req });
     const api: {
       message: string;
       resultCode: number;
@@ -139,14 +139,9 @@ export type OrderContactAPIDataType = {
  */
 export async function getUserOrders(): Promise<UserOrderAPIDataType[]> {
   try {
-    const res = await apiAction.get("orders/get_user_order");
-    const data: {
-      message: string;
-      resultCode: number;
-      api: UserOrderAPIDataType[];
-    } = res.data;
-    const { api } = data;
-    return api;
+    const res = await apiAction.get("orders");
+    const data: UserOrderAPIDataType[] = res.data;
+    return data;
   } catch (error) {
     console.log(error);
     return [];

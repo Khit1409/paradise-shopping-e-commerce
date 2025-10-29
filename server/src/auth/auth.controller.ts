@@ -44,10 +44,15 @@ export class AuthController {
     @Res() res: Response
   ): Promise<Response<any, Record<string, any>>> {
     try {
-      const { userRole } = req.user;
+      const { userRole, userId } = req.user;
+      const infor = await this.authService.getUserInformation(userId);
+      const data = {
+        ...req.user,
+        ...infor,
+      };
       return res
         .status(200)
-        .json({ message: userRole, api: req.user, resultCode: 1 });
+        .json({ message: userRole, api: data, resultCode: 1 });
     } catch (error) {
       return res
         .status(500)
@@ -73,7 +78,7 @@ export class AuthController {
    * logout and clear token on cookie
    * @param req
    */
-  @Post("client_logout")
+  @Post("logout")
   logout(
     @Req() req: Request,
     @Res() res: Response

@@ -32,19 +32,18 @@ export class OrdersController {
    * @param req
    * @returns
    */
-  @Post("new_order")
-  async createNewOderController(@Body() dto: CreateOrderDto, @Req() req) {
+  @Post("")
+  async createNewOder(@Body() dto: CreateOrderDto, @Req() req) {
     const { userId } = req.user;
-    const result = await this.ordersService.addNewOrderService(dto, userId);
+    const result = await this.ordersService.addNewOrder(dto, userId);
     return result;
   }
 
-  @Get("get_user_order")
-  async getUserOrder(@Req() req, @Res() res: Response) {
+  @Get("")
+  async getUserOrder(@Req() req) {
     const { userId } = req.user;
     const result = await this.ordersService.getOrdersByUserId(userId);
-    const { api, statusCode, resultCode, message } = result;
-    return res.status(statusCode).json({ message, resultCode, api });
+    return result;
   }
 
   @Patch(":id")

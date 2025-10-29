@@ -7,9 +7,7 @@ import {
   onErrorModel,
   onLoadingAction,
 } from "@/api/redux/slice/app_slice/app.slice";
-import {
-  authenticationThunk,
-} from "@/api/redux/thunk/auth_thunk/auth.thunk";
+import { authenticationThunk } from "@/api/redux/thunk/auth_thunk/auth.thunk";
 import { signIn } from "@/api/services/auth.service";
 import UserLoginForm from "../forms/UserLoginFrom";
 
@@ -50,7 +48,7 @@ export default function UserLoginPage() {
         if (result.resultCode == 1) {
           const check = await dispatch(authenticationThunk());
           if (authenticationThunk.fulfilled.match(check)) {
-            return router.replace(`${check.payload.api?.userRole}`);
+            return router.replace(`/user`);
           }
         } else {
           dispatch(

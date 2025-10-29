@@ -27,12 +27,12 @@ export class CartsController {
    * @param dto
    * @returns
    */
-  @Post("add_to_cart")
+  @Post("")
   @HttpCode(200)
-  async addToCartController(@Body() dto: AddToCartDto, @Req() req) {
+  async addToCart(@Body() dto: AddToCartDto, @Req() req) {
     try {
       const { userId } = req.user;
-      const result = await this.cartsService.addToCartServicer(dto, userId);
+      const result = await this.cartsService.addToCart(dto, userId);
       return result;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
@@ -43,11 +43,11 @@ export class CartsController {
    * @param dto
    * @returns
    */
-  @Get("get_user_cart")
-  async getCartByUserIdController(@Req() req) {
+  @Get("")
+  async getCartByUserId(@Req() req) {
     try {
       const { userId } = req.user;
-      const result = await this.cartsService.getCartByUserIdService(userId);
+      const result = await this.cartsService.getCartByUserId(userId);
       return result;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
@@ -56,24 +56,24 @@ export class CartsController {
   /**
    * delete user cart
    */
-  @Delete("delete_user_cart/:id")
+  @Delete("/:id")
   @HttpCode(200)
-  async deleteUserCartController(
+  async deleteUserCart(
     @Param("id") id: string,
     @Req()
     req
   ) {
     const userData = req.user;
     const { userId } = userData;
-    const result = await this.cartsService.deleteCartUserService(id, userId);
+    const result = await this.cartsService.deleteUserCart(id, userId);
     return result;
   }
   /**
    * update cart
    */
-  @Put("update_user_cart")
+  @Put("")
   @HttpCode(200)
-  async updateUserCartController(@Body() dto: UpdateUserCartDto, @Req() req) {
+  async updateUserCart(@Body() dto: UpdateUserCartDto, @Req() req) {
     try {
       const { userId } = req.user;
       const result = await this.cartsService.updateUserCart(dto, userId);

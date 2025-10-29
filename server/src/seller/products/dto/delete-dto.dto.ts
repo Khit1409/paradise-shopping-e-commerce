@@ -16,10 +16,7 @@ export class DeleteAttributeItem {
   _id: string;
 }
 
-export class DeleteActionSingleProductDto {
-  @IsOptional()
-  @IsString()
-  proId?: string;
+export class DeleteProductPartDto{
   @IsOptional()
   @IsArray()
   @Type(() => DeleteImageDetail)

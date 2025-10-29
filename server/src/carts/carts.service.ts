@@ -9,6 +9,7 @@ import { cartDoc } from "./model/cart.model";
 import { AddToCartDto } from "./dto/cart-create.dto";
 import { UpdateUserCartDto } from "./dto/cart-update.dto";
 import { ProductDoc } from "src/products/models/product.model";
+import { UserCartDataType } from "src/interfaces/server.types";
 
 /**
  * 1. add to cart ok
@@ -29,7 +30,7 @@ export class CartsService {
    * @param dto
    * @returns
    */
-  async addToCartServicer(dto: AddToCartDto, userId: string) {
+  async addToCart(dto: AddToCartDto, userId: string) {
     try {
       if (!dto.proId) {
         throw new BadRequestException("Not found proId");
@@ -145,7 +146,7 @@ export class CartsService {
    * @param dto
    * @returns
    */
-  async getCartByUserIdService(userId: string) {
+  async getCartByUserId(userId: string): Promise<UserCartDataType[]> {
     try {
       if (!userId) {
         throw new BadRequestException("user id is not define!");
@@ -155,9 +156,8 @@ export class CartsService {
         .select(
           "cartName cartImg cartAttributes cartPrice cartTotalPrice proId cartQuantity"
         )
-        .lean();
-
-      return cart as [];
+        .lean<UserCartDataType[]>();
+      return cart;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }
@@ -165,7 +165,7 @@ export class CartsService {
   /**
    * update cart by id user id and cart id
    */
-  async deleteCartUserService(id: string, userId: string) {
+  async deleteUserCart(id: string, userId: string) {
     try {
       if (id === "all") {
         await this.cartModel.deleteMany({ userId });

@@ -35,7 +35,7 @@ export async function addToCartServicer(
     if (!body.proId) {
       return { message: "Thiếu tham số 'proId'", resultCode: 0 };
     }
-    const res = await apiAction.post(`carts/add_to_cart`, body);
+    const res = await apiAction.post(`carts`, body);
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);
@@ -49,7 +49,7 @@ export async function addToCartServicer(
  */
 export async function getUserCartService(): Promise<UserCart[]> {
   try {
-    const res = await apiAction.get(`carts/get_user_cart`);
+    const res = await apiAction.get(`carts`);
     return res.data as UserCart[];
   } catch (error) {
     console.error("getUserCartService error:", error);
@@ -67,7 +67,7 @@ export async function deleteUserCartService(
   cartId: string
 ): Promise<{ message: string; resultCode: number }> {
   try {
-    const res = await apiAction.delete(`carts/delete_user_cart/${cartId}`);
+    const res = await apiAction.delete(`carts/${cartId}`);
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);
@@ -84,7 +84,7 @@ export async function updateUserCart(
   body: UpdateCartType
 ): Promise<{ message: string; resultCode: number }> {
   try {
-    const res = await apiAction.put(`carts/update_user_cart`, body);
+    const res = await apiAction.put(`carts`, body);
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);

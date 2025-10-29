@@ -6,18 +6,20 @@ import { Orders } from "./entities/order.entity";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ProductSchema } from "src/products/models/product.model";
 import { UserEntity } from "src/users/entity/user.entity";
-import { StoreEntity } from "src/store/entity/store.entity";
 import { UsersModule } from "src/users/users.module";
 import { PaymentsModule } from "src/payments/payments.module";
 import { EmailsModule } from "src/emails/emails.module";
 import { OrderItems } from "./entities/order-item.entity";
 import { OrderPersonContacts } from "./entities/order-contact.entity";
 import { orderAttrSchema } from "./models/order-attribute.model";
+import { SellerModule } from "src/seller/seller.module";
+import { StoreEntity } from "src/seller/entity/store.entity";
 
 @Module({
   imports: [
     //module
     UsersModule,
+    SellerModule,
     EmailsModule,
     //
     MongooseModule.forFeature([

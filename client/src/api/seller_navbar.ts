@@ -16,7 +16,7 @@ export const SELLER_NAV = [
       {
         id: 102,
         name: "Chỉnh sửa cửa hàng",
-        url: "/seller/setting_store",
+        url: "/seller/setting-store",
         icon: "faGear",
       },
     ],
@@ -28,13 +28,13 @@ export const SELLER_NAV = [
       {
         id: 301,
         name: "Kho sản phẩm",
-        url: "/seller/manager_product_store",
+        url: "/seller/manager-product-store",
         icon: "faStore",
       },
       {
         id: 302,
         name: "Thêm sản phẩm",
-        url: "/seller/add_new_product",
+        url: "/seller/add-new-product",
         icon: "faStore",
       },
     ],

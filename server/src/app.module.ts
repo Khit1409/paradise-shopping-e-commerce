@@ -4,7 +4,6 @@ import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersModule } from "./users/users.module";
-import { StoreModule } from "./store/store.module";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ProductsModule } from "./products/products.module";
 import dotenv from "dotenv";
@@ -20,6 +19,7 @@ import { AuthModule } from "./auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { JwtModule } from "@nestjs/jwt";
+import { StoreEntity } from "./seller/entity/store.entity";
 dotenv.config();
 
 @Module({
@@ -75,7 +75,6 @@ dotenv.config();
       { name: "carousel", schema: carouselSchema },
     ]),
     //
-    StoreModule,
     UsersModule,
     CloudinaryModule,
     ProductsModule,

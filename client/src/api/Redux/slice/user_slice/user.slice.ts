@@ -1,6 +1,6 @@
 import { UserAuthenticateResponse } from "@/api/interfaces/user.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { clietnRegisterThunk } from "../../thunk/user_thunk/user.thunk";
+import {} from "../../thunk/user_thunk/user.thunk";
 
 /**
  * Interface userinitialState of userSlice
@@ -32,18 +32,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      //register
-      .addCase(clietnRegisterThunk.pending, (state) => {
-        state.userSendRequest = true;
-      })
-      .addCase(clietnRegisterThunk.fulfilled, (state) => {
-        state.userSendRequest = false;
-      })
-      .addCase(clietnRegisterThunk.rejected, (state, action) => {
-        state.message = action.payload as string;
-        state.userSendRequest = false;
-      });
+    builder;
+    //register
   },
 });
 /**

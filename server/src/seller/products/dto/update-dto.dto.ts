@@ -10,7 +10,7 @@ import {
 /**
  * dto update product
  */
-export class UpdateSingleProductDto {
+export class UpdateProductPartDto {
   @IsOptional()
   @IsString()
   proCateSlug?: string;

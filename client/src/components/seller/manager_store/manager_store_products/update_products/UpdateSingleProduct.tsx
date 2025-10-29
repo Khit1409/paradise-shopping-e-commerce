@@ -26,11 +26,7 @@ import {
   faSave,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  deleteActionSingleProductService,
-  deleteSingleProduct,
-  sellerUpdateProductService,
-} from "@/api/services/seller.service";
+import { deleteProduct, updateProduct } from "@/api/services/seller.service";
 
 /**
  * Type definitions for local state
@@ -111,7 +107,7 @@ export default function UpdateSingleProduct() {
   /**
    * Submit updated product to server
    */
-  async function updateProduct() {
+  async function handleUpdate() {
     dispatch(onLoadingAction(true));
 
     // Validate required ids
@@ -121,30 +117,31 @@ export default function UpdateSingleProduct() {
     }
 
     // handle update with promise all
-    const [resultUp, resultDelete] = await Promise.all([
-      //update
-      sellerUpdateProductService({
-        attribute: attributeInput,
-        product_id: product_id,
-        imgDetail: imgDetail,
-        proCateSlug: newCate,
-        proDescription: basicInput?.proDescription,
-        proImg: imgInput,
-        proName: basicInput?.proName,
-        proPrice: basicInput?.proPrice,
-        proSale: basicInput?.proSale,
-      }),
-      //delete choseen
-      deleteActionSingleProductService({
-        proId: product_id,
-        attribute: attrIdRemove ?? [],
-        attributeItem: attrItemIdRemove ?? [],
-        imgDetail: imgIdRemove ?? [],
-      }),
-    ]);
+
+    const result = await updateProduct({
+      id: product_id,
+      body: {
+        deleteValue: {
+          imgDetail: imgIdRemove,
+          attribute: attrIdRemove,
+          attributeItem: attrItemIdRemove,
+        },
+        updateValue: {
+          attribute: attributeInput,
+          product_id: product_id,
+          imgDetail: imgDetail,
+          proCateSlug: newCate,
+          proDescription: basicInput?.proDescription,
+          proImg: imgInput,
+          proName: basicInput?.proName,
+          proPrice: basicInput?.proPrice,
+          proSale: basicInput?.proSale,
+        },
+      },
+    });
 
     //check result
-    if (resultUp.resultCode == 1 && resultDelete.resultCode == 1) {
+    if (result.resultCode == 1) {
       dispatch(onLoadingAction(false));
       dispatch(onSuccessfulModel(true));
       setReloadFlag(true);
@@ -156,14 +153,11 @@ export default function UpdateSingleProduct() {
       );
       //error action
     } else {
-      const errorUp = resultUp.message;
-      const errorDelete = resultDelete.message;
       dispatch(onLoadingAction(false));
       dispatch(
         onErrorModel({
           mess: `
-          ${errorUp ?? ""}
-          ${errorDelete ?? ""}
+          ${result.message}
           `,
           onError: true,
         })
@@ -183,7 +177,7 @@ export default function UpdateSingleProduct() {
    * Delete single product
    * @param param0
    */
-  async function deleteProduct() {
+  async function handleDelete() {
     dispatch(onLoadingAction(true));
     if (!product_id) {
       dispatch(onLoadingAction(false));
@@ -192,7 +186,7 @@ export default function UpdateSingleProduct() {
       );
       return;
     }
-    const result = await deleteSingleProduct(product_id);
+    const result = await deleteProduct(product_id);
     if (result.resultCode === 1) {
       dispatch(onLoadingAction(false));
       setReloadFlag(true);
@@ -244,7 +238,7 @@ export default function UpdateSingleProduct() {
 
         <button
           type="button"
-          onClick={() => deleteProduct()}
+          onClick={() => handleDelete()}
           role="button"
           className="bg-red-500 text-white p-2 rounded"
         >
@@ -254,7 +248,7 @@ export default function UpdateSingleProduct() {
         <button
           type="submit"
           className="bg-green-500 p-2 text-white rounded"
-          onClick={updateProduct}
+          onClick={() => handleUpdate()}
         >
           Gửi lên dữ liệu server
           <FontAwesomeIcon icon={faSave} className="mx-1" />

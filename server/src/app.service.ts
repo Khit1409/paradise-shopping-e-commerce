@@ -1,6 +1,5 @@
 import {
   Injectable,
-  InternalServerErrorException,
   OnModuleInit,
 } from "@nestjs/common";
 import { DataSource } from "typeorm";
