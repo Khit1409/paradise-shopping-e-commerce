@@ -18,7 +18,7 @@ export default function SellerNavigationBar() {
    * render
    */
   return (
-    <div className="text-gray-700 h-screen border-gray-300 border p-2 min-w-[200px]">
+    <div className="text-gray-700 h-screen border-gray-300 border p-2">
       <div className="flex flex-col gap-5">
         <div>
           <button

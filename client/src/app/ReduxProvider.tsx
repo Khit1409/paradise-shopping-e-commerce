@@ -1,5 +1,5 @@
 "use client";
-import { globalStore } from "@/api/Redux/store";
+import { globalStore } from "@/api/redux/store";
 import { Provider } from "react-redux";
 
 export default function ReduxProvider({

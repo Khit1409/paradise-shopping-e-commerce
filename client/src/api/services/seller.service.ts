@@ -35,15 +35,14 @@ export interface UpProductReq {
   cate_slug: string;
   price: number;
   sale: number;
-  hashtag: string;
   description: string;
-  img?: string;
-  imgDetail?: { imgUrl?: string }[];
-  attribute?: {
-    name: string;
-    item: {
-      value: string;
-      img?: string;
+  img: string;
+  imgDetail: { imgUrl: string }[];
+  attribute: {
+    attrName: string;
+    items: {
+      itemValue: string;
+      itemImg?: string;
     }[];
   }[];
 }
@@ -52,10 +51,9 @@ export interface UpProductReq {
  * @param param0
  * @returns
  */
-export async function upNewProductService({
+export async function createNewProduct({
   cate_slug,
   description,
-  hashtag,
   name,
   price,
   sale,
@@ -66,11 +64,9 @@ export async function upNewProductService({
   const res = await apiAction.post(`seller/products`, {
     cate_slug,
     description,
-    hashtag,
     name,
     price,
     sale,
-
     attribute,
     img,
     imgDetail,

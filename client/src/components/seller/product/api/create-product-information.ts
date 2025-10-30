@@ -1,0 +1,61 @@
+export const CATEGORY_SELECT_LIST = [
+  { id: 1, name: "Thời trang nam", slug: "thoi_trang_nam" },
+  { id: 2, name: "Thời trang nữ", slug: "thoi_trang_nu" },
+  { id: 3, name: "Giày dép", slug: "giay_dep" },
+  { id: 4, name: "Túi xách", slug: "tui_xach" },
+  { id: 5, name: "Phụ kiện thời trang", slug: "phu_kien_thoi_trang" },
+  { id: 6, name: "Điện thoại", slug: "dien_thoai" },
+  { id: 7, name: "Máy tính bảng", slug: "may_tinh_bang" },
+  { id: 8, name: "Laptop", slug: "laptop" },
+  { id: 9, name: "PC - Máy tính để bàn", slug: "pc_may_tinh_de_ban" },
+  { id: 10, name: "Linh kiện máy tính", slug: "linh_kien_may_tinh" },
+  { id: 11, name: "Thiết bị mạng", slug: "thiet_bi_mang" },
+  { id: 12, name: "Điện tử - Điện lạnh", slug: "dien_tu_dien_lanh" },
+  { id: 13, name: "Đồ gia dụng", slug: "do_gia_dung" },
+  { id: 14, name: "Nhà cửa - Đời sống", slug: "nha_cua_doi_song" },
+  { id: 15, name: "Mẹ & Bé", slug: "me_be" },
+  { id: 16, name: "Sức khỏe - Làm đẹp", slug: "suc_khoe_lam_dep" },
+  { id: 17, name: "Thể thao - Dã ngoại", slug: "the_thao_da_ngoai" },
+  { id: 18, name: "Xe cộ", slug: "xe_co" },
+  { id: 19, name: "Sách - Văn phòng phẩm", slug: "sach_van_phong_pham" },
+  { id: 20, name: "Thực phẩm - Đồ uống", slug: "thuc_pham_do_uong" },
+];
+
+type CreateInformationList = {
+  name: string;
+  id: string;
+  type: "text" | "number";
+  required: boolean;
+  title: string;
+};
+
+export const CREATE_INFORMATION_FORM: CreateInformationList[] = [
+  {
+    name: "name",
+    id: "name",
+    required: true,
+    type: "text",
+    title: "Tên sản phẩm",
+  },
+  {
+    name: "price",
+    type: "number",
+    id: "price",
+    required: true,
+    title: "Giá gốc",
+  },
+  {
+    name: "sale",
+    id: "sale",
+    type: "number",
+    required: false,
+    title: "Giá khuyến mại nếu có",
+  },
+  {
+    name: "description",
+    id: "description",
+    required: true,
+    type: "text",
+    title: "Mô tả sản phẩm",
+  },
+];

@@ -4,16 +4,15 @@ import { apiAction } from "@/config/axios";
  * @param file
  * @returns
  */
-export async function uploadImageToCloud(file: File | undefined) {
-  if (!file) {
-    return;
-  }
+export async function uploadImageToCloud(
+  file: File
+): Promise<{ resultCode: number; url: string }> {
   const data = new FormData();
   data.append("image", file);
   const res = await apiAction.post(`images/upload`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-  const rs: string = res.data.url;
-  return rs;
+  const { url, resultCode } = res.data;
+  return { url, resultCode };
 }

@@ -59,7 +59,7 @@ export default function SellerManagerStoreProduct() {
             <div key={pro._id} className="flex flex-col gap-3">
               <Link
                 // href single product page
-                href={`/seller/update-single-product?product_id=${pro._id}`}
+                href={`/seller/edit-product?product_id=${pro._id}`}
                 className="border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col"
               >
                 <Image

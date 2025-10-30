@@ -51,7 +51,6 @@ export type Products = {
  */
 export type ImgDetail = {
   _id: string;
-  proId: string;
   imgUrl: string;
 };
 
@@ -65,7 +64,6 @@ export type ImgDetail = {
  */
 export type Attribute = {
   _id: string;
-  proId: string;
   attrName: string;
   items: AttributeItem[];
 };
@@ -110,7 +108,6 @@ export type AttributeItem = {
  */
 export type SingleProduct = {
   _id: string;
-  cateId: string;
   proName: string;
   proSale: number;
   proCateSlug: string;

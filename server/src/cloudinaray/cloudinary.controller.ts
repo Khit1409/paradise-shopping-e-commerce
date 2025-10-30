@@ -20,8 +20,8 @@ export class ImageController {
         throw new Error("No file uploaded");
       }
       const result = await this.cloudinaryService.uploadImage(file);
-      console.log(result);
       return {
+        resultCode: 1,
         url: result.secure_url,
         public_id: result.public_id,
       };

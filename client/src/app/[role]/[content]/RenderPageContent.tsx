@@ -3,10 +3,10 @@
 import CartPage from "@/pages/user/CartPage";
 import OrderPage from "@/pages/user/OrderPage";
 import ShopPage from "@/pages/user/ShopPage";
-import UpdateSingleProductPage from "@/pages/seller/UpdateSingleProductPage";
 import ManagerStoreProductPage from "@/pages/seller/ManagerStoreProductPage";
-import UpNewProductPage from "@/pages/seller/UpNewProductPage";
 import UpdateAccountPage from "@/pages/user/UpdateAccountPage";
+import CreateNewProduct from "@/components/seller/page/CreateProduct";
+import EditProduct from "@/components/seller/product/EditProduct";
 
 /**
  * render page follow url when navigation page
@@ -29,8 +29,8 @@ const PAGE_CONTENT: Record<string, React.ReactNode> = {
    * seller page content
    */
   "manager-product-store": <ManagerStoreProductPage />,
-  "update-single-product": <UpdateSingleProductPage />,
-  "add-new-product": <UpNewProductPage />,
+  "edit-product": <EditProduct/>,
+  "add-new-product": <CreateNewProduct />,
 };
 /**
  *
