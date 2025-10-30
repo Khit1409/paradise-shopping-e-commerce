@@ -1,6 +1,6 @@
 "use client";
 
-import CartSection from "@/components/user/carts/CartSection";
+import CartSection from "@/components/user/cart/CartSection";
 import ProductHomePage from "@/components/products/ProductHome";
 import BorderLine from "@/layouts/BorderLine";
 /**

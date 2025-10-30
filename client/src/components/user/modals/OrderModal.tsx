@@ -1,13 +1,13 @@
 "use client";
 
-import OrderAttributePreview from "../orders/form/OrderAttributePreview";
-import OrderProductInfo from "../orders/form/OrderProductInfo";
-import OrderSelectAddress from "../orders/form/OrderSelectAddress";
-import OrderSelectEmail from "../orders/form/OrderSelectEmail";
-import OrderSelectPaymentMethod from "../orders/form/OrderSelectPaymentMethod";
-import OrderSelectPhone from "../orders/form/OrderSelectPhone";
+import OrderAttributePreview from "../orders/OrderAttributePreview";
+import OrderProductInfo from "../orders/OrderProductInfo";
+import OrderSelectAddress from "../orders/OrderSelectAddress";
+import OrderSelectEmail from "../orders/OrderSelectEmail";
+import OrderSelectPaymentMethod from "../orders/OrderSelectPaymentMethod";
+import OrderSelectPhone from "../orders/OrderSelectPhone";
 import OrderSelectShippingMethod from "../orders/form/OrderSelectShippingMethod";
-import { OrderModalHook } from "../orders/hooks/orderModalHook";
+import { OrderModalHook } from "../hook/orderModalHook";
 
 /**
  * function component

@@ -1,5 +1,5 @@
 import React from "react";
-import { payMethod } from "./form_api/order_form_api";
+import { payMethod } from "./api/order_form_api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getIconByName } from "@/ultis/ultis";
 /**

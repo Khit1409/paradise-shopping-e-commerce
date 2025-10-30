@@ -40,11 +40,18 @@ export const UpdateAccountHook = () => {
    * onchange
    */
   const onchangeAvatar = async (file: File) => {
-    const fileUrl = await uploadImageToCloud(file);
-    if (!fileUrl) {
-      return;
+    dispatch(onLoadingAction(true));
+    const res = await uploadImageToCloud(file);
+
+    const { resultCode, url } = res;
+    if (res) {
+      dispatch(onLoadingAction(false));
+      if (resultCode == 1) {
+        setAvatar(url);
+      } else {
+        dispatch(onErrorModel({ onError: true, mess: "error upload img!" }));
+      }
     }
-    setAvatar(fileUrl);
   };
 
   const onchangeAddress = (id: string, value: string) => {
