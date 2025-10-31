@@ -20,16 +20,7 @@ npm run dev
 ```bash
 npm run dev
 ```
-
-### POJECT TRUCTURE
-
-paradise_shopping/
-├── client/ # Frontend (Next.js)
-├── server/ # Backend (NestJS)
-├── .gitignore
-├── package.json
-├── README.md
-└── ...
+### Project structor
 
 #### github method
 
