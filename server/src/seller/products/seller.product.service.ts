@@ -36,6 +36,7 @@ export class sellerProductService {
    */
   async upNewProduct(dto: UpNewProductDto, sellerId: string, storeId: string) {
     try {
+      console.log(dto.attribute);
       //new product
       const result = await this.productModel.create({
         proName: dto.name,
@@ -49,19 +50,15 @@ export class sellerProductService {
         sellerId: sellerId,
         storeId: storeId,
         //tạo phân loại hàng
-        proAttributes: dto.attribute
-          ? dto.attribute.map((attr) => ({
-              _id: new mongoose.Types.ObjectId(),
-              attrName: attr.name,
-              items: attr.item
-                ? attr.item.map((item) => ({
-                    _id: new mongoose.Types.ObjectId(),
-                    itemValue: item.value,
-                    itemImg: item.img ?? "",
-                  }))
-                : [],
-            }))
-          : [],
+        proAttributes: dto.attribute.map((attr) => ({
+          _id: new mongoose.Types.ObjectId(),
+          attrName: attr.attrName,
+          items: attr.items.map((item) => ({
+            _id: new mongoose.Types.ObjectId(),
+            itemValue: item.itemValue,
+            itemImg: item.itemImg ?? "",
+          })),
+        })),
         //tạo ảnh chi tiết
         proImgDetails: dto.imgDetail
           ? dto.imgDetail.map((img) => ({
@@ -348,8 +345,8 @@ export class sellerProductService {
   }
   /**
    * update product image detail
-   * @param productData 
-   * @param imgDetail 
+   * @param productData
+   * @param imgDetail
    */
   async updateImageDetail(
     productData: mongoose.Document<unknown, {}, ProductDoc, {}, {}> &
@@ -442,7 +439,7 @@ export class sellerProductService {
       }
       //update img detail
       if (imgDetail) {
-        await this.updateImageDetail(foundProduct,imgDetail)
+        await this.updateImageDetail(foundProduct, imgDetail);
       }
 
       //save

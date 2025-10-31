@@ -12,21 +12,21 @@ import {
  */
 class AttributeItemDto {
   @IsString()
-  value: string;
+  itemValue: string;
   @IsOptional()
   @IsString()
-  img?: string;
+  itemImg?: string;
 }
 /*
  *attribute
  */
 class ProductAttributeDto {
   @IsString()
-  name: string;
+  attrName: string;
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => AttributeItemDto)
-  item: AttributeItemDto[];
+  items: AttributeItemDto[];
 }
 /**
  * Img detail
@@ -56,13 +56,13 @@ export class UpNewProductDto {
   @IsString()
   description: string;
   @IsString()
-  img?: string;
+  img: string;
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ImgDetailDto)
-  imgDetail?: ImgDetailDto[];
+  imgDetail: ImgDetailDto[];
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ProductAttributeDto)
-  attribute?: ProductAttributeDto[];
+  attribute: ProductAttributeDto[];
 }
