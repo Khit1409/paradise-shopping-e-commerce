@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { Products } from "@/api/interfaces/product.interface";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { getProductThunk } from "../../redux/product/thunk";
+import { getProductSellerThunk } from "../../redux/seller/thunk";
 
 type ComponentProps = {
-  data: Products[];
+  ofRole: "user" | "seller";
 };
 /**
  * func component
@@ -14,21 +17,38 @@ type ComponentProps = {
  * @returns
  */
 export default function ProductList(props: ComponentProps) {
+  const { ofRole } = props;
+  const products = useSelector((state: RootState) =>
+    ofRole === "user" ? state.product.products : state.seller.products
+  );
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    (async () => {
+      if (ofRole) {
+        if (ofRole === "user") await dispatch(getProductThunk({ page: 1 }));
+        if (ofRole === "seller") await dispatch(getProductSellerThunk());
+      }
+    })();
+  }, [ofRole, dispatch]);
   /**
    * prop state
    */
-  const { data } = props;
+
   /**
    * jsx
    */
   return (
     <div className="flex flex-col gap-3 my-2 bg-white p-2">
       <section className="flex flex-col gap-5">
-        {data.length !== 0 ? (
+        {products.length !== 0 ? (
           <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-            {data.map((pro) => (
+            {products.map((pro) => (
               <Link
-                href={`/user/single-product?_info=${pro.proSlug}_${pro._id}`}
+                href={`/${
+                  ofRole === "seller"
+                    ? `seller/edit-product?product_id=${pro._id}`
+                    : `user/single-product?_info=${pro.proSlug}_${pro._id}`
+                }`}
                 key={pro._id}
                 className="border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col"
               >

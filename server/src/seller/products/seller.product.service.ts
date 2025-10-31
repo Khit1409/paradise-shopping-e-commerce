@@ -85,10 +85,8 @@ export class sellerProductService {
     try {
       const products = await this.productModel
         .find({ sellerId })
-        .select(
-          "-proAttributes -proDescription -proImgDetails -createdAt -updatedAt -__v -storeId -sellerId"
-        )
         .lean<ProductPreviewDataType[]>();
+      console.log(products);
       return products;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);

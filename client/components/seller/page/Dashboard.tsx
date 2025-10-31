@@ -1,5 +1,11 @@
 "use client";
 
+import SellerDashboard from "../dashboard";
+
 export default function Dashboard() {
-  return <div className="flex flex-col gap-2"></div>;
+  return (
+    <>
+      <SellerDashboard />
+    </>
+  );
 }

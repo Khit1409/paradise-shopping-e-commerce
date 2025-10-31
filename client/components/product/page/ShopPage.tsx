@@ -6,7 +6,7 @@ import Banner from "../../layout/Header/Banner";
 
 export default function ShopPage() {
   const hook = ShopHook();
-  const { clearFilter, setCateSlug, setCostFilter, setLocation, products } =
+  const { clearFilter, setCateSlug, setCostFilter, setLocation } =
     hook;
   return (
     <>
@@ -17,7 +17,7 @@ export default function ShopPage() {
         setCostFilter={setCostFilter}
         setLocation={setLocation}
       />
-      <ProductList data={products} />
+      <ProductList ofRole="user" />
     </>
   );
 }

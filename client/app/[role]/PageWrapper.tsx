@@ -10,8 +10,8 @@ import { authenticationThunk } from "../../redux/auth/thunk";
 import { getNavigationThunk } from "../../redux/app/thunk";
 import Footer from "../../components/layout/Footer/Footer";
 import UserHeader from "../../components/layout/Header/Header";
-import SellerNavigationBar from "../../components/layout/Header/SellerNavigationBar";
-import SellerHeader from "../../components/layout/Header/SellerHeader";
+import SellerNavbar from "../../components/layout/Navbar/Seller/SellerNavbar";
+import SellerHeader from "../../components/layout/Header/Seller/SellerHeader";
 
 export default function PageWrapper({
   role,
@@ -88,23 +88,23 @@ export default function PageWrapper({
     return null;
   }
   //render follow roler
-  return role === "user" ? (
+  return role === "seller" ? (
+    <main className="w-full max-h-screen h-screen flex gap-1 overflow-hidden">
+      <SellerNavbar />
+      <div className="flex flex-1 flex-col gap-1">
+        <SellerHeader />
+        <section className="border border-gray-300 bg-white h-screen overflow-y-auto p-2 ">
+          {children}
+        </section>
+      </div>
+    </main>
+  ) : (
     <main>
       {/* left */}
       <UserHeader />
       {/* <Banner /> */}
       {children}
       <Footer />
-    </main>
-  ) : (
-    <main className="w-full max-h-screen h-screen flex gap-1 overflow-hidden">
-      <SellerNavigationBar />
-      <div className="flex flex-col gap-1">
-        <SellerHeader />
-        <section className="border border-gray-300 h-screen overflow-y-auto p-2 ">
-          {children}
-        </section>
-      </div>
     </main>
   );
 }

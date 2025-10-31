@@ -46,7 +46,7 @@ export const getSingleProductThunk = createAsyncThunk<
 /**
  * Get product for seller manager product
  */
-export const getProductThunk = createAsyncThunk<
+export const getProductSellerThunk = createAsyncThunk<
   /**
    * res
    */

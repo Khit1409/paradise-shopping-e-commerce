@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import { EditProductHook } from "../../hook/seller/EditProductHook";
+
 import EditProductInformation from "./EditProductInformation";
 import EditProductCategory from "./EditProductCategory";
 import EditImageDetailt from "./EditImageDetailt";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { EditProductHook } from "../../../../hook/seller/EditProductHook";
 
 export default function EditProduct() {
   const {

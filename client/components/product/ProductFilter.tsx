@@ -16,7 +16,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ProvinceApiType } from "../../type/app.interface";
 import { getAddressThunk } from "../../redux/app/thunk";
-import { CATEGORY_SELECT_LIST } from "../seller/create-product-information";
+import { CATEGORY_SELECT_LIST } from "../seller/manager-product/create/create-product-information";
 
 /**
  * props type

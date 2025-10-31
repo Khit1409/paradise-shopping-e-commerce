@@ -6,6 +6,10 @@ import { AppService } from "./app.service";
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  startRun() {
+    console.log("Running App");
+  }
+
   @Get("navigation")
   @HttpCode(200)
   async getNavigation(@Res() res: Response) {

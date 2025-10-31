@@ -1,10 +1,10 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { CreateProductHook } from "../../../hook/seller/CreateProductHook";
-import CreateProductInformtaion from "../CreateProductInformtaion";
-import CreateProductCategory from "../CreateProductCategory";
-import CreateProductImage from "../CreateProductImage";
+import { CreateProductHook } from "../../../../hook/seller/CreateProductHook";
+import CreateProductInformtaion from "./CreateProductInformtaion";
+import CreateProductCategory from "./CreateProductCategory";
+import CreateProductImage from "./CreateProductImage";
 
 export default function CreateNewProduct() {
   /**

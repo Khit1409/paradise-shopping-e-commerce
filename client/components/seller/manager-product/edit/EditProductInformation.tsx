@@ -2,10 +2,10 @@ import React, { SetStateAction } from "react";
 
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { onErrorModel, onLoadingAction } from "../../redux/app/slice";
-import { uploadImageToCloud } from "../../service/cloud.service";
-import { ProductInformationUpdate } from "../../hook/seller/EditProductHook";
+import { AppDispatch } from "@/../redux/store";
+import { onErrorModel, onLoadingAction } from "@/../redux/app/slice";
+import { uploadImageToCloud } from "@/../service/cloud.service";
+import { ProductInformationUpdate } from "@/../hook/seller/EditProductHook";
 
 type ComponentProps = {
   editProductInformation: ProductInformationUpdate;

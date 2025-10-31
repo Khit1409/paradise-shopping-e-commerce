@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Pagination from "../Pagination";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, } from "../../../redux/store";
 import ProductList from "../ProductList";
 import { getProductThunk } from "../../../redux/product/thunk";
 
 export default function HomePage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { products } = useSelector((state: RootState) => state.product);
   /**
    * State change product category
    */
@@ -31,7 +30,7 @@ export default function HomePage() {
 
   return (
     <section className="p-5 bg-white shadow-md">
-      <ProductList data={products} />
+      <ProductList ofRole="user" />
       {/* set page */}
       <Pagination setPage={setPage} page={page} />
     </section>

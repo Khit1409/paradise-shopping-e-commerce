@@ -153,7 +153,7 @@ export default function OrderList() {
         ))}
       </div>
       <BorderLine title="SẢN PHẨM" />
-      <ProductList data={products} />
+      <ProductList ofRole="user" />
     </section>
   ) : (
     <></>

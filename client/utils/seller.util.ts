@@ -2,7 +2,7 @@ import {
   ProductAttribute,
   ProductAttributeItem,
 } from "@/components/seller/hook/CreateProductHook";
-import { PRODUCT_ATTRIBUT_FOLLOW_CATEGORY } from "../components/seller/create-product-attribute";
+import { PRODUCT_ATTRIBUT_FOLLOW_CATEGORY } from "../components/seller/manager-product/create/create-product-attribute";
 
 /**
  * get attribute name (from slug in mongoodb) to name in List

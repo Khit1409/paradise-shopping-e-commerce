@@ -1,7 +1,7 @@
 import { Products, SingleProduct } from "../../type/product.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  getProductThunk,
+  getProductSellerThunk,
   getSingleProductThunk,
 } from "./thunk";
 
@@ -33,14 +33,14 @@ const sellerSlice = createSlice({
   initialState: sellerInitialState,
   extraReducers: (builder) => {
     builder
-      .addCase(getProductThunk.pending, (state) => {
+      .addCase(getProductSellerThunk.pending, (state) => {
         state.sellerOnloading = true;
       })
-      .addCase(getProductThunk.fulfilled, (state, action) => {
+      .addCase(getProductSellerThunk.fulfilled, (state, action) => {
         state.products = action.payload;
         state.sellerOnloading = false;
       })
-      .addCase(getProductThunk.rejected, (state, action) => {
+      .addCase(getProductSellerThunk.rejected, (state, action) => {
         state.sellerErrMess = action.payload ?? "Error";
         state.sellerOnloading = false;
       })

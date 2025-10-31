@@ -22,6 +22,7 @@ import { getCarouselThunk } from "../../../redux/app/thunk";
 import { getUserOrderThunk } from "../../../redux/order/thunk";
 import { getUserCartThunk } from "../../../redux/cart/thunk";
 import { openResponsiveMode } from "../../../redux/app/slice";
+import Logo from "../../common/Logo";
 
 export default function TopBar() {
   /**
@@ -93,9 +94,7 @@ export default function TopBar() {
         <div className="flex lg:flex-1 justify-center items-center">
           {/* logo */}
           <div>
-            <span className="text-2xl font-bold hidden lg:block">
-              Paradise Store
-            </span>
+            <Logo />
             {/* bar toggle */}
             <button
               className="block lg:hidden p-2 border rounded"

@@ -3,17 +3,17 @@ import Image from "next/image";
 import {
   ProductAttributeUpdate,
   ProductInformationUpdate,
-} from "../../hook/seller/EditProductHook";
-import { uploadImageToCloud } from "../../service/cloud.service";
+} from "@/../hook/seller/EditProductHook";
+import { uploadImageToCloud } from "@/../service/cloud.service";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { onErrorModel, onLoadingAction } from "../../redux/app/slice";
+import { AppDispatch } from "@/../redux/store";
+import { onErrorModel, onLoadingAction } from "@/../redux/app/slice";
 import {
   getAttrNameBySlug,
   getOtherCategoryName,
   getAttributeByCategory,
   getValueByAttName,
-} from "../../utils/seller.util";
+} from "@/../utils/seller.util";
 
 type ComponentProps = {
   category: string;

@@ -11,6 +11,7 @@ export async function getProducts() {
    */
   const res = await apiAction.get(`seller/products`);
   const api: Products[] = res.data;
+  console.log(api);
   return api;
 }
 /**

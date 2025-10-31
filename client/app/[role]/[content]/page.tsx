@@ -1,11 +1,13 @@
 import React from "react";
 import RenderPageContent from "./RenderPageContent";
 
+type Role = "user" | "seller";
+
 export default async function page({
   params,
 }: {
-  params: { role: "user" | "seller"; content: string };
+  params: { role: Role; content: string };
 }) {
-  const { content } = await params;
-  return <RenderPageContent content={content} />;
+  const { content, role } = await params;
+  return <RenderPageContent role={role} content={content} />;
 }

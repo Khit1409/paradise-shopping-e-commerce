@@ -5,20 +5,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import Logo from "../../../common/Logo";
+import Link from "next/link";
 /**
  * Function component
- * @returns 
+ * @returns
  */
 export default function SellerHeader() {
   return (
-    <section className="h-[60px] max-h-[60px] border border-gray-300 min-w-[1115px] p-2">
+    <section className="h-[60px] max-h-[60px] border border-gray-300 p-2 bg-white">
       <div className="flex justify-between items-center w-full">
         {/* logo */}
-        <div>
-          <span className="font-semibold">
-            Paradise Shopping
-          </span>
-        </div>
+        <Link href={"/seller"}>
+          <Logo />
+        </Link>
         <div className="flex gap-2">
           <div className="flex gap-5 px-2 ">
             <button>
