@@ -1,7 +1,8 @@
 "use client";
 
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
+  faDashboard,
   faRightFromBracket,
   faShoppingBag,
   faUserGear,
@@ -16,8 +17,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../service/auth.service";
-import { authenticationThunk } from "../../redux/auth/thunk";
+import { logout } from "@/service/auth.service";
+import { authenticationThunk } from "@/redux/auth/thunk";
 
 type ComponentProps = {
   ref: React.RefObject<HTMLDivElement | null>;
@@ -37,7 +38,7 @@ export default function UserModal({ ...props }: ComponentProps) {
   const { user } = useSelector((state: RootState) => state.auth);
   /** Handle user logout and redirect to homepage if logout succeeds */
   const handleLogout = async () => {
-    const rs = await logout();
+    const rs = await logout("user");
     if (rs.resultCode == 1) {
       const check = await dispatch(authenticationThunk());
       if (authenticationThunk.rejected.match(check)) {
@@ -82,22 +83,27 @@ export default function UserModal({ ...props }: ComponentProps) {
         <UserLink
           href={user ? `/user/my-order` : "/login"}
           icon={faShoppingBag}
-          label="Your Orders"
+          label="Đơn hàng của bạn"
         />
         <UserLink
-          href={user ? `/user/setting-account` : "/login"}
+          href={user ? `/user/profile` : "/login"}
           icon={faUserGear}
-          label="Account Settings"
+          label="Chỉnh sửa thông tin"
         />
         <UserLink
           href={user ? `/register` : "/login"}
           icon={faUserPlus}
-          label="Register New Account"
+          label="Đăng ký tài khoản mới"
         />
         <UserLink
           href={"/register-seller"}
           icon={faUsers}
-          label="Become a Seller"
+          label="Trở thành người bán hàng"
+        />
+        <UserLink
+          href={"/seller-login"}
+          icon={faDashboard}
+          label="Đăng nhập trang người bán"
         />
       </div>
 

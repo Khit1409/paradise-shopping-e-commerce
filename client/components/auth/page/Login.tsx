@@ -4,7 +4,7 @@ import { AppDispatch } from "../../../redux/store";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "../../../service/auth.service";
-import LoginForm from "../../form/Login";
+import LoginForm from "../../form/user/Login";
 import { onErrorModel, onLoadingAction } from "../../../redux/app/slice";
 import { authenticationThunk } from "../../../redux/auth/thunk";
 

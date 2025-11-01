@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,14 +11,14 @@ import {
   faShoppingBasket,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
-import { addToCartServicer } from "../../../service/cart.service";
-import { getAttrNameBySlug } from "../../../utils/seller.util";
-import { getSingleProductThunk } from "../../../redux/product/thunk";
-import { onErrorModel, onLoadingAction, onSuccessfulModel } from "../../../redux/app/slice";
-import { getUserCartThunk } from "../../../redux/cart/thunk";
-import { onOpenOrderModal } from "../../../redux/order/slice";
+import { addToCartServicer } from "@/service/cart.service";
+import { getAttrNameBySlug } from "@/utils/seller.util";
+import { getSingleProductThunk } from "@/redux/product/thunk";
+import { onErrorModel, onLoadingAction, onSuccessfulModel } from "@/redux/app/slice";
+import { getUserCartThunk } from "@/redux/cart/thunk";
+import { onOpenOrderModal } from "@/redux/order/slice";
 
-export default function Single() {
+export default function ProductSinglePage() {
   const params = useSearchParams();
   const _info = params?.get("_info");
   const [slug, id]: (string | undefined)[] = _info?.split("_") ?? [];

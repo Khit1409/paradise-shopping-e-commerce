@@ -4,8 +4,8 @@ import {
   NavigationDataType,
   ProvinceApiType,
   WardApiType,
-} from "../type/app.interface";
-import { apiAction } from "../config/fetch-api.config";
+} from "@/type/app.interface";
+import { apiAction } from "@/config/fetch-api.config";
 
 /**
  * api configuration

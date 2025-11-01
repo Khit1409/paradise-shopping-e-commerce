@@ -1,9 +1,9 @@
 import React, { SetStateAction } from "react";
-import { ProductImageDetailUpdate } from "@/../hook/seller/EditProductHook";
+import { ProductImageDetailUpdate } from "@/hook/seller/product/EditProductHook";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/../redux/store";
-import { onLoadingAction } from "@/../redux/app/slice";
-import { uploadImageToCloud } from "@/../service/cloud.service";
+import { AppDispatch } from "@/redux/store";
+import { onLoadingAction } from "@/redux/app/slice";
+import { uploadImageToCloud } from "@/service/cloud.service";
 import Image from "next/image";
 type ComponentProps = {
   editProductImageDetail: ProductImageDetailUpdate[];

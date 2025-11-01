@@ -1,6 +1,6 @@
 "use client";
 
-import Banner from "../../layout/Header/Banner";
+import Banner from "@/components/layout/Header/Banner";
 import OrderList from "../OrderList";
 import React from "react";
 

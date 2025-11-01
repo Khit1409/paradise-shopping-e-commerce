@@ -1,14 +1,17 @@
-import { getIconByName } from "../../utils/getIconByName";
+import { getIconByName } from "@/utils/getIconByName";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { RegisterHook } from "../../hook/auth/registerHook";
-import { REGISTER_LIST } from "./data";
+import {
+  RegisterHook,
+  RegisterInputState,
+} from "@/hook/auth/registerHook";
+import { REGISTER_LIST } from "../data";
 
 export default function RegisterForm() {
-  const { setRegisterInput, avt, onchangeAvatar } = RegisterHook();
-
+  const { setRegisterInput, onchangeAvatar, registerInput } = RegisterHook();
+  const { avatar } = registerInput;
   return (
     <section className="w-screen h-screen flex items-center justify-center">
       <div className="grid lg:grid-cols-3 gap-4 md:grid-cols-2 grid-cols-1">
@@ -24,6 +27,9 @@ export default function RegisterForm() {
               />
               <input
                 type={item.type}
+                value={
+                  registerInput[`${item.name as keyof RegisterInputState}`]
+                }
                 onChange={(e) =>
                   setRegisterInput((prev) => ({
                     ...prev,
@@ -45,7 +51,7 @@ export default function RegisterForm() {
             Chọn ảnh đại diện
           </label>
           <div>
-            {avt && <Image src={avt} alt="" width={100} height={100} />}
+            {avatar && <Image src={avatar} alt="" width={100} height={100} />}
             <FontAwesomeIcon icon={faImage} className="me-2" />
             <input
               type={"file"}

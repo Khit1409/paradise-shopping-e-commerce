@@ -2,9 +2,9 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "../../redux/app/slice";
-import { AppDispatch } from "../../redux/store";
-import { createNewProduct } from "../../service/seller.service";
+} from "@/redux/app/slice";
+import { AppDispatch } from "@/redux/store";
+import { createNewProduct } from "@/service/seller.service";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 /**

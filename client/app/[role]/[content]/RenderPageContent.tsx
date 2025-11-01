@@ -1,14 +1,14 @@
 "use client";
 
-import OrderPage from "../../../components/order/page/OrderPage";
-import CreateNewProduct from "../../../components/seller/manager-product/create/CreateProduct";
-import CartPage from "../../../components/cart/page/CartPage";
-import ShopPage from "../../../components/product/page/ShopPage";
-import SalePage from "../../../components/product/page/SalePage";
-import ProfileSetting from "../../../components/user/ProductSetting";
-import CheckoutOrder from "../../../components/checkout/CheckoutOrder";
-import EditProduct from "../../../components/seller/manager-product/edit/EditProduct";
-import SellerManagerStoreProduct from "../../../components/seller/page/SellerManagerStoreProduct";
+import OrderPage from "@/components/order/page/OrderPage";
+import CreateNewProduct from "@/components/seller/manager-product/create/CreateProduct";
+import CartPage from "@/components/cart/page/CartPage";
+import ShopPage from "@/components/product/page/ShopPage";
+import SalePage from "@/components/product/page/SalePage";
+import ProfileSetting from "@/components/user/ProductSetting";
+import CheckoutOrder from "@/components/checkout/CheckoutOrder";
+import EditProduct from "@/components/seller/manager-product/edit/EditProduct";
+import SellerManagerStoreProduct from "@/components/seller/page/SellerManagerStoreProduct";
 
 type Role = "user" | "seller";
 

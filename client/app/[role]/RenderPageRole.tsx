@@ -1,7 +1,7 @@
 import React from "react";
 import Error from "../not-found";
-import Home from "../../components/user/page/Home";
-import Dashboard from "../../components/seller/page/Dashboard";
+import Home from "@/components/user/page/Home";
+import Dashboard from "@/components/seller/page/Dashboard";
 type Role = "user" | "seller";
 
 const PAGE_ROLE: Record<Role, React.ReactNode> = {

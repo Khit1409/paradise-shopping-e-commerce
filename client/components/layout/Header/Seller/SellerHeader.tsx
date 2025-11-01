@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import Logo from "../../../common/Logo";
+import Logo from "@/components/common/Logo";
 import Link from "next/link";
 /**
  * Function component

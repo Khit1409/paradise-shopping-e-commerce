@@ -5,10 +5,10 @@ import Image from "next/image";
 import { faGift, faStore } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "@/redux/store";
 import BorderLine from "../layout/BorderLine";
 
-import { getAttrNameBySlug } from "../../utils/seller.util";
+import { getAttrNameBySlug } from "@/utils/seller.util";
 import ProductList from "../product/ProductList";
 
 export default function OrderList() {

@@ -6,7 +6,7 @@ import EditProductCategory from "./EditProductCategory";
 import EditImageDetailt from "./EditImageDetailt";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { EditProductHook } from "../../../../hook/seller/EditProductHook";
+import { EditProductHook } from "@/hook/seller/product/EditProductHook";
 
 export default function EditProduct() {
   const {

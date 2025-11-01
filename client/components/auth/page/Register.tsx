@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
-import RegisterForm from "../../form/Register";
+import RegisterForm from "../../form/user/Register";
 import { RegisterHook } from "../../../hook/auth/registerHook";
 
 export default function Register() {

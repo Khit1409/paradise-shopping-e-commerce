@@ -3,17 +3,17 @@ import Image from "next/image";
 import {
   ProductAttributeUpdate,
   ProductInformationUpdate,
-} from "@/../hook/seller/EditProductHook";
-import { uploadImageToCloud } from "@/../service/cloud.service";
+} from "@/hook/seller/product/EditProductHook";
+import { uploadImageToCloud } from "@/service/cloud.service";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/../redux/store";
-import { onErrorModel, onLoadingAction } from "@/../redux/app/slice";
+import { AppDispatch } from "@/redux/store";
+import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
 import {
   getAttrNameBySlug,
   getOtherCategoryName,
   getAttributeByCategory,
   getValueByAttName,
-} from "@/../utils/seller.util";
+} from "@/utils/seller.util";
 
 type ComponentProps = {
   category: string;
@@ -93,7 +93,7 @@ export default function EditProductCategory(props: ComponentProps) {
                 }));
                 setEditProductAttribute([]);
               }}
-              className="border border-gray-300 px-2 py-1"
+              className="border border-gray-300 px-2 py-1 hover:bg-gray-200"
             >
               {cate.category}
             </button>
@@ -163,7 +163,7 @@ export default function EditProductCategory(props: ComponentProps) {
                   <div className="grid grid-cols-5 gap-3">
                     {getValueByAttName(attr.attrName, attr.items)?.map((m) => (
                       <button
-                        className="border border-gray-300 px-2 py-1"
+                        className="border border-gray-300 px-2 py-1 hover:bg-gray-200"
                         onClick={() => {
                           setEditProductAttribute((prev) => {
                             return prev.map((attrUp) => {
@@ -214,7 +214,7 @@ export default function EditProductCategory(props: ComponentProps) {
                         ];
                       });
                     }}
-                    className="border border-gray-300 px-2 py-1"
+                    className="border border-gray-300 px-2 py-1 hover:bg-gray-200"
                     key={m.name}
                   >
                     {m.name}

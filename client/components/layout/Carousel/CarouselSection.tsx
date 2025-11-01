@@ -1,6 +1,6 @@
 "use client";
 
-import { CarouselApiDataType } from "@/api/interfaces/app.interface";
+import { CarouselApiDataType } from "@/type/app.interface";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";

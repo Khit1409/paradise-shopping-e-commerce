@@ -1,6 +1,6 @@
 "use client";
 
-import { getAttrNameBySlug } from "../../utils/seller.util";
+import { getAttrNameBySlug } from "@/utils/seller.util";
 
 
 /**

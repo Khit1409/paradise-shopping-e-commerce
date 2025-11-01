@@ -1,5 +1,5 @@
-import { UserResponse } from "../../service/auth.service";
-import SelectAddressForm from "../form/SelectAddressForm";
+import { UserResponse } from "@/service/auth.service";
+import SelectAddressForm from "@/components/form/SelectAddressForm";
 import React from "react";
 
 /**

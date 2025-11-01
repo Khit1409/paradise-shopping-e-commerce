@@ -1,9 +1,9 @@
 
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "@/redux/store";
 import React, { SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ProvinceApiType, WardApiType } from "../../type/app.interface";
-import { getAddressThunk } from "../../redux/app/thunk";
+import { ProvinceApiType, WardApiType } from "@/type/app.interface";
+import { getAddressThunk } from "@/redux/app/thunk";
 
 /** Props từ component cha */
 type ComponentProps = {

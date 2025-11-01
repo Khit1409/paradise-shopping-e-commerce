@@ -2,15 +2,15 @@ import React, { SetStateAction } from "react";
 import { PRODUCT_ATTRIBUT_FOLLOW_CATEGORY } from "./create-product-attribute";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
-import { ProductAttribute } from "@/../hook/seller/CreateProductHook";
-import { AppDispatch } from "@/../redux/store";
-import { onErrorModel, onLoadingAction } from "@/../redux/app/slice";
-import { uploadImageToCloud } from "@/../service/cloud.service";
+import { AppDispatch } from "@/redux/store";
+import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
+import { uploadImageToCloud } from "@/service/cloud.service";
 import {
   getAttributeByCategory,
   getAttrNameBySlug,
   getValueByAttName,
-} from "@/../utils/seller.util";
+} from "@/utils/seller.util";
+import { ProductAttribute } from "@/hook/seller/product/CreateProductHook";
 /**
  * props type
  */

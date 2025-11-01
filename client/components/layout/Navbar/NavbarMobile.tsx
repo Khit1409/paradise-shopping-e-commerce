@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   faBars,
   faRightFromBracket,
@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Link from "next/link";
 import { NAV_TOGGLE_LIST } from "./data";
-import { getIconByName } from "../../../utils/getIconByName";
+import { getIconByName } from "@/utils/getIconByName";
 import { useRouter } from "next/navigation";
-import { logout } from "../../../service/auth.service";
-import { openResponsiveMode } from "../../../redux/app/slice";
-import { authenticationThunk } from "../../../redux/auth/thunk";
+import { logout } from "@/service/auth.service";
+import { openResponsiveMode } from "@/redux/app/slice";
+import { authenticationThunk } from "@/redux/auth/thunk";
 
 export default function NavBarMobile() {
   const router = useRouter();
@@ -44,7 +44,7 @@ export default function NavBarMobile() {
   /** Handle user logout and redirect to homepage if logout succeeds */
   const handleLogout = async () => {
     closeResponesive();
-    const rs = await logout();
+    const rs = await logout("user");
     if (rs.resultCode == 1) {
       const check = await dispatch(authenticationThunk());
       if (authenticationThunk.rejected.match(check)) {

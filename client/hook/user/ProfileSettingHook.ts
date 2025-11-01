@@ -1,15 +1,15 @@
 "use client";
 
-import { uploadImageToCloud } from "../../service/cloud.service";
+import { uploadImageToCloud } from "@/service/cloud.service";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "../../redux/app/slice";
-import { updateUserAccount } from "../../service/auth.service";
+} from "@/redux/app/slice";
+import { updateUserAccount } from "@/service/auth.service";
 
 interface UpdateAddressType {
   _id: string;

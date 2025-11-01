@@ -1,12 +1,12 @@
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/../redux/app/slice";
-import { cancelCheckout } from "../../service/order.service";
-import { checkoutAction } from "../../redux/order/slice";
+} from "@/redux/app/slice";
+import { cancelCheckout } from "@/service/order.service";
+import { checkoutAction } from "@/redux/order/slice";
 
 export const ChekoutHook = () => {
   const dispatch = useDispatch<AppDispatch>();

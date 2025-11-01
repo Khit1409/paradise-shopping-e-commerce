@@ -1,9 +1,9 @@
 "use client";
 import QRCode from "react-qr-code";
 import Link from "next/link";
-import Banner from "@/../components/layout/Header/Banner";
-import ProductList from "../product/ProductList";
-import { ChekoutHook } from "../../hook/checkout/chekoutHook";
+import Banner from "@/components/layout/Header/Banner";
+import ProductList from "@/components/product/ProductList";
+import { ChekoutHook } from "@/hook/checkout/chekoutHook";
 
 /**
  * Checkout modal with QR code

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Put, Req, Res } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import type { Request, Response } from "express";
 import { RegisterDto } from "./dto/auth-register.dto";
@@ -78,22 +78,20 @@ export class AuthController {
    * logout and clear token on cookie
    * @param req
    */
-  @Post("logout")
+  @Put("logout")
   logout(
-    @Req() req: Request,
+    @Body() body: { role: "user" | "seller" },
     @Res() res: Response
   ): Response<any, Record<string, any>> {
-    const usertoken = req.cookies.user_token;
-    if (usertoken) {
+    try {
+      const { role } = body;
       return res
-        .clearCookie("user_token")
+        .clearCookie(`${role}_token`)
         .status(200)
-        .json({ message: "user is logout!", resultCode: 1 });
+        .json({ message: `${role} is logout!`, resultCode: 1 });
+    } catch (error) {
+      return res.status(500).json({ message: `${error}`, resulCode: 0 });
     }
-    return res
-      .clearCookie("seller_token")
-      .status(200)
-      .json({ message: "user is logout!", resultCode: 1 });
   }
   /**
    * test function

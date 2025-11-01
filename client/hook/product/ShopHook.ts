@@ -1,9 +1,9 @@
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { onLoadingAction } from "@/../redux/app/slice";
-import { getProductThunk } from "../../redux/product/thunk";
+import { onLoadingAction } from "@/redux/app/slice";
+import { getProductThunk } from "@/redux/product/thunk";
 
 export const ShopHook = () => {
   const dispatch = useDispatch<AppDispatch>();

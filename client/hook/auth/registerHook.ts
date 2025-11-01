@@ -2,20 +2,21 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/../redux/app/slice";
-import { AppDispatch } from "@/../redux/store";
-import { clietnRegisterService } from "@/../service/auth.service";
+} from "@/redux/app/slice";
+import { AppDispatch } from "@/redux/store";
+import { clietnRegisterService } from "@/service/auth.service";
 import { OnchangeImage } from "../../utils/onchangeImage";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-export type RegisterRequestType = {
+export type RegisterInputState = {
   firtname: string;
   email: string;
   phone: string;
   lastname: string;
   password: string;
   repassword: string;
+  avatar?: string;
 };
 
 export const RegisterHook = () => {
@@ -26,14 +27,14 @@ export const RegisterHook = () => {
   /**
    * component state
    */
-  const [avt, setAvt] = useState<string>("");
-  const [registerInput, setRegisterInput] = useState<RegisterRequestType>({
+  const [registerInput, setRegisterInput] = useState<RegisterInputState>({
     firtname: "",
     email: "",
     phone: "",
     lastname: "",
     password: "",
     repassword: "",
+    avatar: "",
   });
   /**
    * Register onchange
@@ -42,8 +43,21 @@ export const RegisterHook = () => {
   const handleRegister = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
-
-      if (registerInput.password !== registerInput.repassword) {
+      const { email, firtname, lastname, password, phone, repassword, avatar } =
+        registerInput;
+      const isValid = !Object.entries(registerInput).some(
+        ([key, value]) => key !== "avatar" && !value
+      );
+      if (isValid) {
+        dispatch(
+          onErrorModel({
+            mess: "Vui lòng nhập đầy đủ thông tin đăng ký!",
+            onError: true,
+          })
+        );
+        return;
+      }
+      if (password !== repassword) {
         dispatch(
           onErrorModel({
             mess: "Hai mật khẩu bạn nhập không trùng khớp",
@@ -56,12 +70,12 @@ export const RegisterHook = () => {
       dispatch(onLoadingAction(true));
 
       const result = await clietnRegisterService({
-        email: registerInput.email,
-        firtname: registerInput.firtname,
-        lastname: registerInput.lastname,
-        password: registerInput.password,
-        phone: registerInput.phone,
-        avatar: avt ?? "",
+        email,
+        firtname,
+        lastname,
+        password,
+        phone,
+        avatar,
       });
       if (result.resultCode == 1) {
         dispatch(onLoadingAction(false));
@@ -91,7 +105,7 @@ export const RegisterHook = () => {
     dispatch(onLoadingAction(true));
     const url: string | null = await OnchangeImage(e);
     if (url) {
-      setAvt(url);
+      setRegisterInput((prev) => ({ ...prev, avatar: url }));
     } else {
       dispatch(
         onErrorModel({
@@ -102,9 +116,8 @@ export const RegisterHook = () => {
     }
   };
   return {
-    avt,
     handleRegister,
-    setAvt,
+    registerInput,
     setRegisterInput,
     onchangeAvatar,
   };

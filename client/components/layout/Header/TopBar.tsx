@@ -6,7 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 
 import {
   faBars,
@@ -14,15 +14,15 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
-import CartModal from "../../../components/modal/CartModal";
-import NotificateModal from "../../../components/modal/NotificateModal";
-import MessageModal from "../../../components/modal/MessageModal";
-import UserModal from "../../../components/modal/UserModal";
-import { getCarouselThunk } from "../../../redux/app/thunk";
-import { getUserOrderThunk } from "../../../redux/order/thunk";
-import { getUserCartThunk } from "../../../redux/cart/thunk";
-import { openResponsiveMode } from "../../../redux/app/slice";
-import Logo from "../../common/Logo";
+import CartModal from "@/components/modal/CartModal";
+import NotificateModal from "@/components/modal/NotificateModal";
+import MessageModal from "@/components/modal/MessageModal";
+import UserModal from "@/components/modal/UserModal";
+import { getCarouselThunk } from "@/redux/app/thunk";
+import { getUserOrderThunk } from "@/redux/order/thunk";
+import { getUserCartThunk } from "@/redux/cart/thunk";
+import { openResponsiveMode } from "@/redux/app/slice";
+import Logo from "@/components/common/Logo";
 
 export default function TopBar() {
   /**

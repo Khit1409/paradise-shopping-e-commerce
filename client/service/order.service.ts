@@ -1,4 +1,4 @@
-import { apiAction } from "../config/fetch-api.config";
+import { apiAction } from "@/config/fetch-api.config";
 
 export type OrderKindOfShipping = "FLASH" | "COD";
 export type OrderStatus =

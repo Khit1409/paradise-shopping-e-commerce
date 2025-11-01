@@ -149,14 +149,14 @@ export type SellerUpdateProductRequest = {
 /**
  * Delete something (img detail , attribute, attribute item) in single products
  */
-export type DeleteReq = {
+export type DeleteProductPartRequest = {
   imgDetail?: { _id: string }[];
   attribute?: { _id: string }[];
   attributeItem?: { attrId: string; _id: string }[];
 };
-type UpdateType = {
+export type UpdateProductRequest = {
   updateValue: SellerUpdateProductRequest;
-  deleteValue: DeleteReq;
+  deleteValue: DeleteProductPartRequest;
 };
 /**
  * service update product
@@ -166,7 +166,7 @@ export async function updateProduct({
   body,
 }: {
   id: string;
-  body: UpdateType;
+  body: UpdateProductRequest;
 }) {
   const res = await apiAction.put(`seller/products/${id}`, {
     ...body,

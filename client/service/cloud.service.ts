@@ -1,4 +1,4 @@
-import { apiAction } from "../config/fetch-api.config";
+import { apiAction } from "@/config/fetch-api.config";
 /**
  * upload file for get url file
  * @param file

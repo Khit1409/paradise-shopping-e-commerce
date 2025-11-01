@@ -222,7 +222,10 @@ export class AuthService {
         userLastName: lastName,
         userFullName: fullName,
       };
-      const token = this.jwt.sign(payload);
+      const token = this.jwt.sign(payload, {
+        secret: process.env.JWT_SECRET,
+        expiresIn: "2d",
+      });
       /**
        * send token to cookie
        */

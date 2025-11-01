@@ -4,9 +4,9 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getProductThunk } from "../../redux/product/thunk";
-import { getProductSellerThunk } from "../../redux/seller/thunk";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getProductThunk } from "@/redux/product/thunk";
+import { getProductSellerThunk } from "@/redux/seller/thunk";
 
 type ComponentProps = {
   ofRole: "user" | "seller";

@@ -1,14 +1,14 @@
-import { AppDispatch, RootState } from "../../redux/store";
-import { addNewOrder } from "../../service/order.service";
+import { AppDispatch, RootState } from "@/redux/store";
+import { addNewOrder } from "@/service/order.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { onOpenOrderModal, checkoutAction } from "../../redux/order/slice";
+import { onOpenOrderModal, checkoutAction } from "@/redux/order/slice";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "../../redux/app/slice";
+} from "@/redux/app/slice";
 
 /**
  *

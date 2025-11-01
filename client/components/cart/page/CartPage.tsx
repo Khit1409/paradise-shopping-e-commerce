@@ -1,9 +1,9 @@
 "use client";
 
 import CartList from "../CartList";
-import BorderLine from "../../layout/BorderLine";
-import Banner from "../../layout/Header/Banner";
-import HomePage from "../../product/page/HomePage";
+import BorderLine from "@/components/layout/BorderLine";
+import Banner from "@/components/layout/Header/Banner";
+import HomePage from "@/components/product/page/HomePage";
 /**
  *
  * @returns

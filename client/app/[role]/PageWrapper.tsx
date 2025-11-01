@@ -1,17 +1,17 @@
 "use client";
 
-import { onErrorModel, onLoadingAction } from "../../redux/app/slice";
-import { AppDispatch, RootState } from "../../redux/store";
+import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
+import { AppDispatch, RootState } from "@/redux/store";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticationThunk } from "../../redux/auth/thunk";
-import { getNavigationThunk } from "../../redux/app/thunk";
-import Footer from "../../components/layout/Footer/Footer";
-import UserHeader from "../../components/layout/Header/Header";
-import SellerNavbar from "../../components/layout/Navbar/Seller/SellerNavbar";
-import SellerHeader from "../../components/layout/Header/Seller/SellerHeader";
+import { authenticationThunk } from "@/redux/auth/thunk";
+import { getNavigationThunk } from "@/redux/app/thunk";
+import Footer from "@/components/layout/Footer/Footer";
+import UserHeader from "@/components/layout/Header/Header";
+import SellerNavbar from "@/components/layout/Navbar/Seller/SellerNavbar";
+import SellerHeader from "@/components/layout/Header/Seller/SellerHeader";
 
 export default function PageWrapper({
   role,

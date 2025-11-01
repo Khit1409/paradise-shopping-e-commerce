@@ -2,8 +2,8 @@ import {
   GetProductQueryType,
   SingleProduct,
   Products,
-} from "../type/product.interface";
-import { apiAction } from "../config/fetch-api.config";
+} from "@/type/product.interface";
+import { apiAction } from "@/config/fetch-api.config";
 
 /**
  * ================

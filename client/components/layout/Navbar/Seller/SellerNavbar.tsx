@@ -33,7 +33,7 @@ export default function SellerNavBar() {
   const dispatch = useDispatch<AppDispatch>();
   async function handleLogout() {
     dispatch(onLoadingAction(true));
-    const res = await logout();
+    const res = await logout("seller");
     if (res) {
       dispatch(onLoadingAction(false));
       if (res.resultCode == 1) {

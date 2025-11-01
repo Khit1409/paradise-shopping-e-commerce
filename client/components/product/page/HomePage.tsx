@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import Pagination from "../Pagination";
-import { AppDispatch, } from "../../../redux/store";
+import { AppDispatch, } from "@/redux/store";
 import ProductList from "../ProductList";
-import { getProductThunk } from "../../../redux/product/thunk";
+import { getProductThunk } from "@/redux/product/thunk";
 
 export default function HomePage() {
   const dispatch = useDispatch<AppDispatch>();

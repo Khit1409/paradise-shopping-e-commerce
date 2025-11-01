@@ -1,6 +1,6 @@
 "use client";
 
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,17 +11,17 @@ import {
 import {
   deleteUserCartService,
   updateUserCart,
-} from "../../service/cart.service";
+} from "@/service/cart.service";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "../../redux/app/slice";
+} from "@/redux/app/slice";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { onOpenOrderModal } from "../../redux/order/slice";
-import { getAttrNameBySlug } from "../../utils/seller.util";
+import { onOpenOrderModal } from "@/redux/order/slice";
+import { getAttrNameBySlug } from "@/utils/seller.util";
 
 export default function CartList() {
   const [newQuantity, setNewQuantity] = useState<number>();

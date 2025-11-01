@@ -1,10 +1,7 @@
 "use client";
-import {
-  onErrorModel,
-  onLoadingAction,
-} from "@/api/redux/slice/app_slice/app.slice";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { getProductThunk } from "@/api/redux/thunk/seller_thunk/seller.thunk";
+import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getProductSellerThunk } from "@/redux/seller/thunk";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -36,9 +33,9 @@ export default function SellerManagerStoreProduct() {
           return router.replace(`/login`);
         }
         // get product by seller id
-        const rs = await dispatch(getProductThunk());
+        const rs = await dispatch(getProductSellerThunk());
         //  handle if successful call api
-        if (getProductThunk.fulfilled.match(rs)) {
+        if (getProductSellerThunk.fulfilled.match(rs)) {
           dispatch(onLoadingAction(false));
         } else {
           dispatch(onLoadingAction(false));

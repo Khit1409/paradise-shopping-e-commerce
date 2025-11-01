@@ -3,8 +3,8 @@ import {
   AddToCartType,
   UpdateCartType,
   UserCart,
-} from "../type/cart.interface";
-import { apiAction } from "../config/fetch-api.config";
+} from "@/type/cart.interface";
+import { apiAction } from "@/config/fetch-api.config";
 /**
  * =============
  * CART SERVICES

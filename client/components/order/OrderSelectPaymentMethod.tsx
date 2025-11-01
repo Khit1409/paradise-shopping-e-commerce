@@ -1,7 +1,7 @@
 import React from "react";
 import { payMethod } from "./data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getIconByName } from "../../utils/getIconByName";
+import { getIconByName } from "@/utils/getIconByName";
 /**
  * component props
  */

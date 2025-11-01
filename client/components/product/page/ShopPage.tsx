@@ -1,8 +1,8 @@
 import React from "react";
-import { ShopHook } from "../../../hook/product/ShopHook";
+import { ShopHook } from "@/hook/product/ShopHook";
 import ProductList from "../ProductList";
 import ProductFilter from "../ProductFilter";
-import Banner from "../../layout/Header/Banner";
+import Banner from "@/components/layout/Header/Banner";
 
 export default function ShopPage() {
   const hook = ShopHook();

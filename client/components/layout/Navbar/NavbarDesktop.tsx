@@ -1,5 +1,5 @@
-import { RootState } from "../../../redux/store";
-import { getIconByName } from "../../../utils/getIconByName";
+import { RootState } from "@/redux/store";
+import { getIconByName } from "@/utils/getIconByName";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";

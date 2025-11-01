@@ -3,7 +3,7 @@ import { faPaperPlane, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { SetStateAction } from "react";
-import { USER_LOGIN } from "./data";
+import { USER_LOGIN } from "../data";
 /**
  * Type Props
  */

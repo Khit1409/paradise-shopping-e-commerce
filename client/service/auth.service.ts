@@ -1,8 +1,8 @@
-import { apiAction } from "../config/fetch-api.config";
+import { apiAction } from "@/config/fetch-api.config";
 import {
-  RegisterType,
+  RegisterRequestType,
   UserServiceGeneralErrorType,
-} from "../type/user.interface";
+} from "@/type/auth.type";
 import axios from "axios";
 
 /**
@@ -18,13 +18,45 @@ const handleApiError = (
   return { message: msg, resultCode: 0 };
 };
 /**
+ * check validate value of request
+ * if null => return follow invalid value
+ * else => return null (is not wrong)
+ * @param email
+ * @param password
+ * @returns
+ */
+export const checkValidateLoginRequest = (
+  email: string,
+  password: string
+): string | null => {
+  if (email === "") {
+    return "Vui lòng nhập email!";
+  } else if (email === "") {
+    return "Vui lòng nhập mật khẩu!";
+  } else if (email === "" && password === "") {
+    return "Vui lòng nhập email và mật khẩu!";
+  }
+  return null;
+};
+/**
+ * check validate value of register request
+ * @param req
+ * @returns
+ */
+export const checkValidateRegisterRequest = (req: RegisterRequestType) => {
+  const isValid = !Object.entries(req).some(
+    ([key, value]) => key !== "avatar" && !value
+  );
+  return isValid;
+};
+/**
  * function register new account for user
- * @body REGISTERTYPE
+ * @body RegisterRequestType
  * @returns
  */
 export async function clietnRegisterService({
   ...body
-}: RegisterType): Promise<UserServiceGeneralErrorType> {
+}: RegisterRequestType): Promise<UserServiceGeneralErrorType> {
   try {
     const res = await apiAction.post(`auth/register`, {
       ...body,
@@ -132,12 +164,12 @@ export async function updateUserAccount({ ...params }: UpdateAccountRequest) {
  * logout
  * @param pram0
  */
-export async function logout(): Promise<{
+export async function logout(role: "user" | "seller"): Promise<{
   resultCode: number;
   message: string;
 }> {
   try {
-    const res = await apiAction.post(`auth/logout`);
+    const res = await apiAction.put(`auth/logout`, { role });
     return res.data;
   } catch (error) {
     return { resultCode: 0, message: `${error}` };

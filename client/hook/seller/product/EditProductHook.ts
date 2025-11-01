@@ -3,13 +3,13 @@ import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "@/../redux/app/slice";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getSingleProductThunk } from "@/../redux/seller/thunk";
+} from "@/redux/app/slice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getSingleProductThunk } from "@/redux/seller/thunk";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, updateProduct } from "../../service/seller.service";
+import { deleteProduct, updateProduct } from "@/service/seller.service";
 
 export type ProductAttributeItemUpdate = {
   _id: string;

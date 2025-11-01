@@ -1,13 +1,13 @@
-import { uploadImageToCloud } from "@/../service/cloud.service";
+import { uploadImageToCloud } from "@/service/cloud.service";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { faHistory } from "@fortawesome/free-solid-svg-icons/faHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React, { SetStateAction, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ProductImageDetail } from "@/../hook/seller/CreateProductHook";
-import { AppDispatch } from "@/../redux/store";
-import { onErrorModel, onLoadingAction } from "@/../redux/app/slice";
+import { ProductImageDetail } from "@/hook/seller/product/CreateProductHook";
+import { AppDispatch } from "@/redux/store";
+import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
 
 type ComponentProps = {
   productThumbnail: string;
