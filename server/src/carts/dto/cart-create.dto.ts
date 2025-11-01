@@ -25,5 +25,5 @@ class CartAttribute {
   @IsString()
   attrName?: string;
   @IsString()
-  itemValue?: string;
+  itemValue: string;
 }

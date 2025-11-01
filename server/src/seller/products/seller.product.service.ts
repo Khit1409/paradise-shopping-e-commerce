@@ -36,7 +36,6 @@ export class sellerProductService {
    */
   async upNewProduct(dto: UpNewProductDto, sellerId: string, storeId: string) {
     try {
-      console.log(dto.attribute);
       //new product
       const result = await this.productModel.create({
         proName: dto.name,

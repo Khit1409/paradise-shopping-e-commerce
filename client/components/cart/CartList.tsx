@@ -142,7 +142,7 @@ export default function CartList() {
                   href={`/user/single-product?_info=_${cart.proId}`}
                   className="uppercase hover:underline"
                 >
-                  {cart.cartName}
+                  <p className="w-[600px] truncate">{cart.cartName}</p>
                 </Link>
                 <div className="text-gray-500 flex flex-col gap-1">
                   {cart.cartAttributes.map((attr) => (

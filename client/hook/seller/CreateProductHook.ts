@@ -48,7 +48,9 @@ export const CreateProductHook = () => {
   /**
    * === Onchange====
    */
-  const onchangeInformation = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onchangeInformation = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setProductInformation((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,

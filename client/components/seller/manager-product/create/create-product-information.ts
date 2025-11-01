@@ -24,7 +24,7 @@ export const CATEGORY_SELECT_LIST = [
 type CreateInformationList = {
   name: string;
   id: string;
-  type: "text" | "number";
+  type: "text" | "number"|"textarea";
   required: boolean;
   title: string;
 };
@@ -55,7 +55,7 @@ export const CREATE_INFORMATION_FORM: CreateInformationList[] = [
     name: "description",
     id: "description",
     required: true,
-    type: "text",
+    type: "textarea",
     title: "Mô tả sản phẩm",
   },
 ];

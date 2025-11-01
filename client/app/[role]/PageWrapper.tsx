@@ -53,9 +53,15 @@ export default function PageWrapper({
          * if use null => replace page is login
          * if successfull => set appMouted is true and render app
          */
-        if (authenticationThunk.fulfilled.match(check)) {
+        if (authenticationThunk.fulfilled.match(check) && check.payload.api) {
           dispatch(onLoadingAction(false));
           setAppMounted(true);
+          if (role === "seller") {
+            const { userRole } = check.payload.api;
+            if (userRole !== role) {
+              return router.replace("user");
+            }
+          }
           /**
            * check login state for user and seller
            * if not logging go to login page

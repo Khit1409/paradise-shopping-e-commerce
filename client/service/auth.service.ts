@@ -82,7 +82,7 @@ export type UserResponse = {
   userEmail: string;
   userPhone: string;
   userStore: number | null;
-  userRole: "user";
+  userRole: "user" | "seller";
   userAvatar: string | null;
   userAddress: { _id: string; addressName: string }[];
   userOtherPhone: { _id: string; phoneNum: string }[];

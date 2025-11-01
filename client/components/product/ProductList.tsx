@@ -60,7 +60,7 @@ export default function ProductList(props: ComponentProps) {
                   className="object-cover w-full h-[200px]"
                 />
                 <div className="flex flex-col gap-1 p-2">
-                  <p className="font-medium text-gray-700 hover:text-amber-600 hover:underline line-clamp-2">
+                  <p className="font-medium text-gray-700 hover:text-amber-600 hover:underline w-full truncate">
                     {pro.proName}
                   </p>
                   <div className="flex items-center gap-1 text-sm text-yellow-500">
@@ -77,7 +77,7 @@ export default function ProductList(props: ComponentProps) {
             ))}
           </div>
         ) : (
-          <section className="h-[300px] flex items-center justify-center text-gray-7000">
+          <section className="flex items-center justify-center text-gray-700 h-[80vh]">
             <p>HIỆN SẢN PHẨM ĐANG TRỐNG....</p>
           </section>
         )}

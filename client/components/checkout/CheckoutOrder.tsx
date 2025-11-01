@@ -1,8 +1,6 @@
 "use client";
 import QRCode from "react-qr-code";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import Banner from "@/../components/layout/Header/Banner";
 import ProductList from "../product/ProductList";
 import { ChekoutHook } from "../../hook/checkout/chekoutHook";
@@ -14,7 +12,6 @@ import { ChekoutHook } from "../../hook/checkout/chekoutHook";
  * @returns
  */
 export default function CheckoutOrder() {
-  const { products } = useSelector((state: RootState) => state.product);
   /**
    * hook
    */
@@ -78,7 +75,7 @@ export default function CheckoutOrder() {
           </div>
         </div>
       </div>
-      <ProductList data={products} />
+      <ProductList ofRole={"user"} />
     </>
   );
 }

@@ -1,7 +1,9 @@
 import { CREATE_INFORMATION_FORM } from "./create-product-information";
 
 type ComponentProps = {
-  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onchange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
 export default function CreateProductInformtaion(props: ComponentProps) {
@@ -16,18 +18,28 @@ export default function CreateProductInformtaion(props: ComponentProps) {
             <label htmlFor={m.id} className="font-normal uppercase">
               {m.title}
             </label>
-            <input
-              type={m.type}
-              id={m.id}
-              name={m.name}
-              required={m.required}
-              onChange={(e) => {
-                onchange(e);
-              }}
-              className={`${
-                m.name === "description" ? "h-[300px]" : ""
-              } border border-gray-300 outline-0 p-1 text-gray-700`}
-            />
+            {m.type === "textarea" ? (
+              <textarea
+                name={m.name}
+                id={m.id}
+                required={m.required}
+                onChange={(e) => {
+                  onchange(e);
+                }}
+                className="min-h-[200px] border border-gray-300 outline-0 p-1 text-gray-700"
+              />
+            ) : (
+              <input
+                type={m.type}
+                id={m.id}
+                name={m.name}
+                required={m.required}
+                onChange={(e) => {
+                  onchange(e);
+                }}
+                className={` border border-gray-300 outline-0 p-1 text-gray-700`}
+              />
+            )}
           </div>
         ))}
       </div>

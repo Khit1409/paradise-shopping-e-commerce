@@ -100,8 +100,7 @@ export default function EditProductInformation(props: ComponentProps) {
         <label htmlFor="" className="uppercase text-sm font-bold">
           Mô tả sản phẩm
         </label>
-        <input
-          type="text"
+        <textarea
           className="border outline-0 border-gray-300 p-1 h-[200px]"
           defaultValue={proDescription}
           onChange={(e) => {

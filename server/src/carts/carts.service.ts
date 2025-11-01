@@ -45,23 +45,62 @@ export class CartsService {
         throw new Error("Product is not define in database!");
       }
       //update if existed product id and userid in database
-      const updatedCart = await this.cartModel.findOneAndUpdate(
-        {
-          proId: new mongoose.Types.ObjectId(dto.proId),
-          userId,
-        },
-        {
-          $inc: {
-            cartQuantity: +Number(dto.quantity),
-            cartTotalPrice: +Number(dto.price * dto.quantity),
-          }, //update quantity
-        },
-        { new: true }
-      );
+      const existedCart = await this.cartModel.findOne({
+        proId: new mongoose.Types.ObjectId(dto.proId),
+        userId,
+      });
+      /**
+       * update if existed product id
+       */
+      if (existedCart) {
+        const newAttribute = [...existedCart.cartAttributes];
+        for (const attrDto of dto.choose) {
+          for (const attrEx of newAttribute) {
+            if (attrEx.attrName === attrDto.attrName) {
+              const newOtherValue: { value: string }[] = [];
+              for (const proAttr of productAdded.proAttributes) {
+                if (proAttr.attrName === attrDto.attrName) {
+                  /**
+                   * fillter diffirent itemValue
+                   */
+                  const diffItemValue = proAttr.items.filter(
+                    (ft) => ft.itemValue !== attrDto.itemValue
+                  );
+                  for (const newItemValue of diffItemValue) {
+                    /**
+                     * update orther value, name and itemValue
+                     * if
+                     * dto attrName === exitedCart attrName
+                     * and dto item !== existed item
+                     * => update new item = dto itemValue
+                     */
+                    newOtherValue.push({
+                      value: newItemValue.itemValue,
+                    });
+                    attrEx.attrName = attrDto.attrName;
+                    attrEx.itemValue = attrDto.itemValue;
+                    attrEx.otherValue = newOtherValue;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        Object.assign(existedCart, {
+          ...existedCart,
+          cartQuantity: existedCart.cartQuantity + Number(dto.quantity),
+          cartTotalPrice: Number(
+            dto.price * (existedCart.cartQuantity + Number(dto.quantity))
+          ),
+          cartAttribute: newAttribute,
+        });
+
+        await existedCart.save();
+      }
       //create if new
-      if (!updatedCart) {
+      if (!existedCart) {
         const productAttribute = productAdded.proAttributes;
-        console.log(productAttribute);
         const newCart = await this.cartModel.create({
           userId: userId,
           proId: new mongoose.Types.ObjectId(dto.proId),
@@ -123,15 +162,29 @@ export class CartsService {
 
       if (dto.newQuantity) existedCart.cartQuantity = Number(dto.newQuantity);
       if (dto.newAttributes) {
-        console.log(dto.newAttributes);
         dto.newAttributes.forEach((attr) => {
           const thisAttr = existedCart.cartAttributes.find(
             (f) => f._id.toString() === attr._id
           );
-          if (thisAttr) {
-            thisAttr.attrName = attr.attrName ?? thisAttr.attrName;
-            thisAttr.itemValue = attr.itemValue ?? thisAttr.itemValue;
+          if (!thisAttr) {
+            throw new BadRequestException(
+              "This attribute of cart is not define"
+            );
           }
+          const neededAttr = existedCart.cartAttributes.find(
+            (ft) => ft.attrName === attr.attrName
+          );
+          if (!neededAttr) {
+            throw new BadRequestException(
+              "need attribute of old cart is not define"
+            );
+          }
+          const newOtherValue = neededAttr.otherValue.filter(
+            (ft) => ft.value !== attr.itemValue
+          );
+          if (attr.attrName) thisAttr.attrName = attr.attrName;
+          if (attr.itemValue) thisAttr.itemValue = attr.itemValue;
+          thisAttr.otherValue = newOtherValue;
         });
       }
       await existedCart.save();
