@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import CarouselSection from "./CarouselSection";
 import { useSelector } from "react-redux";

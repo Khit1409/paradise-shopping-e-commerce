@@ -2,7 +2,7 @@ import { Controller } from "@nestjs/common";
 import { SellerService } from "./seller.service";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
-import { Product } from "src/products/models/product.model";
+import { Product } from "@/modules/products/models/product.model";
 
 @Controller("seller")
 export class SellerController {

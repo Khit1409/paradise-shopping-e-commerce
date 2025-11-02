@@ -16,7 +16,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ProvinceApiType } from "@/type/app.interface";
 import { getAddressThunk } from "@/redux/app/thunk";
-import { CATEGORY_SELECT_LIST } from "../seller/manager-product/create/create-product-information";
+import { PRODUCT_ATTRIBUT_FOLLOW_CATEGORY } from "../seller/manager-product/create/create-product-attribute";
 
 /**
  * props type
@@ -80,7 +80,7 @@ export default function ProductFilter(props: ComponentProps) {
   /**
    * onchange location select
    */
-  const onchangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onchangeLocation = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = e.target.value;
     const thisProvince = provinceApi.find((f) => f.name === selected);
     if (thisProvince) {
@@ -127,11 +127,29 @@ export default function ProductFilter(props: ComponentProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {/* KHU VỰC */}
             <div className="flex flex-col gap-2">
-              <label className="font-semibold text-gray-700 flex items-center gap-2">
+              <label
+                htmlFor="location"
+                className="font-semibold text-gray-700 flex items-center gap-2"
+              >
                 <FontAwesomeIcon icon={faLocationDot} />
                 Khu vực
               </label>
-              <input
+              <select
+                id="location"
+                name="location"
+                onChange={(e) => {
+                  onchangeLocation(e);
+                }}
+                className="border border-gray-300  p-2 outline-none "
+              >
+                <option value="">Chọn khu vực gần bạn nhất</option>
+                {provinceApi.map((p) => (
+                  <option value={p.name} key={p.code}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+              {/* <input
                 type="text"
                 onChange={(e) => {
                   onchangeLocation(e);
@@ -139,12 +157,13 @@ export default function ProductFilter(props: ComponentProps) {
                 list="area_list"
                 placeholder="Chọn tỉnh/thành phố..."
                 className="border border-gray-300  p-2 outline-none "
-              />
-              <datalist id="area_list">
+              /> */}
+
+              {/* <datalist id="area_list">
                 {provinceApi.map((prov) => (
                   <option key={prov.code} value={prov.name} />
                 ))}
-              </datalist>
+              </datalist> */}
             </div>
 
             {/* GIÁ SẢN PHẨM */}
@@ -206,9 +225,10 @@ export default function ProductFilter(props: ComponentProps) {
                 onChange={(e) => setSavedCateSlug(e.target.value)}
                 className="border border-gray-300  p-2 outline-none "
               >
-                {CATEGORY_SELECT_LIST.map((cate) => (
-                  <option value={cate.slug} key={cate.id}>
-                    {cate.name.toUpperCase()}
+                <option value="">Chọn danh mục bạn cần</option>
+                {PRODUCT_ATTRIBUT_FOLLOW_CATEGORY.map((cate) => (
+                  <option value={cate.slug} key={cate.category}>
+                    {cate.category.toUpperCase()}
                   </option>
                 ))}
               </select>

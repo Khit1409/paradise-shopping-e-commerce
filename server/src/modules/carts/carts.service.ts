@@ -8,8 +8,8 @@ import mongoose, { Model } from "mongoose";
 import { cartDoc } from "./model/cart.model";
 import { AddToCartDto } from "./dto/cart-create.dto";
 import { UpdateUserCartDto } from "./dto/cart-update.dto";
-import { ProductDoc } from "src/products/models/product.model";
-import { UserCartDataType } from "src/interfaces/server.types";
+import { ProductDoc } from"@/modules/products/models/product.model";
+import { UserCartDataType } from"@/interfaces/server.types";
 
 /**
  * 1. add to cart ok

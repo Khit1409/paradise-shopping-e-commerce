@@ -4,7 +4,7 @@ import { UsersController } from "./users.controller";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
-import { CloudinaryModule } from "src/cloudinaray/cloudinary.module";
+import { CloudinaryModule } from "@/modules/cloudinaray/cloudinary.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./entity/user.entity";
 import { userInforSchema } from "./model/user.model";

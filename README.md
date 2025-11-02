@@ -95,6 +95,10 @@ git commit -m  "message"
 git add . && git commit -m "update" && git push
 ```
 
-
-
-ngrok http --url=perspiry-promisingly-bethany.ngrok-free.dev 8000
+###### Run project in other service with local LAN
+1. Vào Windows Defender Firewall
+2. Chọn addvanced setting
+3. Chọn inbound rule
+4. Tạo Port 3000 và 8000
+5. Vào cmd gõ ipconfig lấy IPAdress4
+6. Truy cập http://IPAddress4:3000 (Đổi url api thành http://IPAddress4:8000)

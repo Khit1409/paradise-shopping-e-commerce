@@ -3,11 +3,11 @@ import { PaymentsService } from "./payments.service";
 import { PaymentsController } from "./payments.controller";
 import { ConfigService } from "@nestjs/config";
 import { PayOS } from "@payos/node";
-import { OrdersModule } from "src/orders/orders.module";
+import { OrdersModule } from"@/modules/orders/orders.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Orders } from "src/orders/entities/order.entity";
-import { OrderPersonContacts } from "src/orders/entities/order-contact.entity";
-import { OrderItems } from "src/orders/entities/order-item.entity";
+import { Orders } from"@/modules/orders/entities/order.entity";
+import { OrderPersonContacts } from"@/modules/orders/entities/order-contact.entity";
+import { OrderItems } from"@/modules/orders/entities/order-item.entity";
 
 @Module({
   imports: [

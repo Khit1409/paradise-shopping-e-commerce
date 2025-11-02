@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { CartsService } from "./carts.service";
 import { AddToCartDto } from "./dto/cart-create.dto";
-import { UsersService } from "src/users/users.service";
+import { UsersService } from"@/modules/users/users.service";
 import { UpdateUserCartDto } from "./dto/cart-update.dto";
 
 @Controller("carts")

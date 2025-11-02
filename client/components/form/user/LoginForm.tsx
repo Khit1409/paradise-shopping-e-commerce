@@ -1,8 +1,13 @@
 "use client";
-import { faPaperPlane, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faEyeSlash,
+  faPaperPlane,
+  faUserPen,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { SetStateAction } from "react";
+import { SetStateAction, useState } from "react";
 import { USER_LOGIN } from "../data";
 /**
  * Type Props
@@ -24,13 +29,20 @@ type ComponentProps = {
  */
 export default function LoginForm(props: ComponentProps) {
   const { acceptLogin, acceptLoginState, getRequestData, handle } = props;
+  /**
+   * component state
+   */
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  /**
+   * render
+   */
   return (
     <section id="login" className="">
       <div className="flex flex-col items-center h-screen max-h-screen overflow-hidden justify-center">
         {/* form */}
         <form
           onSubmit={handle}
-          className="flex flex-col gap-4 border border-gray-300 p-5 lg:w-[600px] md:w-[400px] w-[350px]"
+          className="flex flex-col gap-4 border border-gray-300 p-5 lg:w-[600px] md:w-[400px] w-[350px] bg-white"
         >
           <div className="text-center">
             <h2>Join To Our Website</h2>
@@ -41,10 +53,16 @@ export default function LoginForm(props: ComponentProps) {
               <label htmlFor={item.name} className="text-xl text-gray-700">
                 {item.title}
               </label>
-              <div>
+              <div className="relative">
                 <FontAwesomeIcon icon={faUserPen} className="me-2" />
                 <input
-                  type={item.type}
+                  type={`${
+                    item.type === "password"
+                      ? showPassword
+                        ? "text"
+                        : "password"
+                      : item.type
+                  }`}
                   name={item.name}
                   onChange={(e) =>
                     getRequestData((prev) => ({
@@ -53,9 +71,25 @@ export default function LoginForm(props: ComponentProps) {
                     }))
                   }
                   id={item.name}
-                  className="p-2 rounded-sm border border-gray-300 outline-0 hover:scale-[1.02] transition text-gray-700 w-full"
+                  className="p-2 rounded-full border border-gray-300 outline-0 hover:scale-[1.02] transition text-gray-700 w-full"
                   placeholder={item.mess}
                 />
+                {item.type === "password" ? (
+                  <button
+                    type="button"
+                    role="button"
+                    className="absolute right-2 top-1/2"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEye} />
+                    )}
+                  </button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           ))}
@@ -85,7 +119,7 @@ export default function LoginForm(props: ComponentProps) {
             </Link>
           </div>
           {/* submit button */}
-          <div>
+          <div className="flex items-center justify-center">
             <button
               disabled={!acceptLoginState}
               className={`text-xl

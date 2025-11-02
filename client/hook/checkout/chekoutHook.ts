@@ -20,7 +20,7 @@ export const ChekoutHook = () => {
    * value of check state
    */
   const { paymentLinkId } = value;
-
+  console.log(value);
   /**
    * handle
    */

@@ -105,8 +105,10 @@ export const RegisterHook = () => {
     dispatch(onLoadingAction(true));
     const url: string | null = await OnchangeImage(e);
     if (url) {
+      dispatch(onLoadingAction(false));
       setRegisterInput((prev) => ({ ...prev, avatar: url }));
     } else {
+      dispatch(onLoadingAction(false));
       dispatch(
         onErrorModel({
           onError: true,

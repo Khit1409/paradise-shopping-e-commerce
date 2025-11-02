@@ -9,7 +9,7 @@ import {
   ProductPreviewDataType,
   SingleProductDataType,
 } from "src/interfaces/server.types";
-import { Product, ProductDoc } from "src/products/models/product.model";
+import { Product, ProductDoc } from "@/modules/products/models/product.model";
 import { UpNewProductDto } from "./dto/create-dto.dto";
 import {
   UpdateProductPartDto,

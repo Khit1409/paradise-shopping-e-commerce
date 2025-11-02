@@ -3,23 +3,24 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsersModule } from "./users/users.module";
+import { UsersModule } from "@/modules/users/users.module";
 import { MongooseModule } from "@nestjs/mongoose";
-import { ProductsModule } from "./products/products.module";
+import { ProductsModule } from "@/modules/products/products.module";
 import dotenv from "dotenv";
 import { carouselSchema, NavigationSchema } from "./app.model";
 import { MulterModule } from "@nestjs/platform-express";
-import { CloudinaryModule } from "./cloudinaray/cloudinary.module";
-import { CartsModule } from "./carts/carts.module";
-import { OrdersModule } from "./orders/orders.module";
-import { PaymentsModule } from "./payments/payments.module";
-import { EmailsModule } from "./emails/emails.module";
-import { SellerModule } from "./seller/seller.module";
-import { AuthModule } from "./auth/auth.module";
+import { CloudinaryModule } from "@/modules/cloudinaray/cloudinary.module";
+import { CartsModule } from "@/modules/carts/carts.module";
+import { OrdersModule } from "@/modules/orders/orders.module";
+import { PaymentsModule } from "@/modules/payments/payments.module";
+import { EmailsModule } from "@/modules/emails/emails.module";
+import { SellerModule } from "@/modules/seller/seller.module";
+import { AuthModule } from "@/modules/auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
-import { JwtAuthGuard } from "./auth/jwt-auth.guard";
+import { JwtAuthGuard } from "@/modules/auth/jwt-auth.guard";
 import { JwtModule } from "@nestjs/jwt";
-import { StoreEntity } from "./seller/entity/store.entity";
+import { StoreEntity } from "@/modules/seller/entity/store.entity";
+// import { TestProductsModule } from "./test_modules/test_products.module";
 dotenv.config();
 
 @Module({
@@ -84,6 +85,7 @@ dotenv.config();
     EmailsModule,
     SellerModule,
     AuthModule,
+    // TestProductsModule
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],

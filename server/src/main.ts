@@ -20,11 +20,11 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
   app.enableCors({
-    origin: ["http://localhost:3000"],
+    origin: true,
     credentials: true,
   });
   app.setGlobalPrefix("v1");
-  await app.listen(port);
+  await app.listen(port,'0.0.0.0');
 }
 /**
  * Start the application and log the service status.

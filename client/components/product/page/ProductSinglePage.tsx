@@ -8,15 +8,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartPlus,
+  faMinus,
+  faPlus,
   faShoppingBasket,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { addToCartServicer } from "@/service/cart.service";
 import { getAttrNameBySlug } from "@/utils/seller.util";
 import { getSingleProductThunk } from "@/redux/product/thunk";
-import { onErrorModel, onLoadingAction, onSuccessfulModel } from "@/redux/app/slice";
+import {
+  onErrorModel,
+  onLoadingAction,
+  onSuccessfulModel,
+} from "@/redux/app/slice";
 import { getUserCartThunk } from "@/redux/cart/thunk";
 import { onOpenOrderModal } from "@/redux/order/slice";
+import { minusedPrice, nowPrice } from "@/utils/salePrice";
 
 export default function ProductSinglePage() {
   const params = useSearchParams();
@@ -36,7 +43,6 @@ export default function ProductSinglePage() {
 
   /** Redux setup */
   const dispatch = useDispatch<AppDispatch>();
-
   /** Fetch product data */
   useEffect(() => {
     setChooseAttr([]);
@@ -155,6 +161,9 @@ export default function ProductSinglePage() {
       );
     }
   }
+  /**
+   *
+   */
   /** UI */
   return (
     product && (
@@ -195,9 +204,23 @@ export default function ProductSinglePage() {
               <h1 className="text-3xl font-bold uppercase text-gray-800">
                 {product.proName}
               </h1>
-              <p className="text-2xl font-semibold text-red-500">
-                {product.proPrice.toLocaleString("vi-VN")} VND
-              </p>
+              <div className="font-bold text-red-500 flex gap-1 items-center">
+                <p className="text-2xl">
+                  {nowPrice(product.proPrice, product.proSale)}
+                  <span className="text-sm pb-3">₫</span>
+                </p>
+                <p className="line-through text-gray-700 ms-2">
+                  {product.proSale ? (
+                    <>
+                      {minusedPrice(product.proPrice, product.proSale)}
+                      <span className="text-sm pb-3">₫</span>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </p>
+                <p className="ms-2 text-sm">{product.proSale}%</p>
+              </div>
 
               <div className="flex gap-1 text-yellow-400">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -268,16 +291,34 @@ export default function ProductSinglePage() {
 
               {/* Quantity + Buttons */}
               <div className="flex items-center gap-4 mt-3">
-                <input
-                  type="number"
-                  name="quantity"
-                  id="quantity"
-                  className="border border-gray-300 rounded-lg text-center p-2 w-20"
-                  value={quantity}
-                  min={1}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                />
-
+                <div className="flex items-center">
+                  <button
+                    disabled={quantity == 1}
+                    className="p-2 border border-gray-300 border-r-transparent"
+                    onClick={() => {
+                      setQuantity((prev) => prev - 1);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faMinus} />
+                  </button>
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    className="border border-gray-300 outline-0 text-center p-2 w-20"
+                    value={quantity}
+                    min={1}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                  />
+                  <button
+                    className="p-2 border border-gray-300 border-l-transparent"
+                    onClick={() => {
+                      setQuantity((prev) => prev + 1);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                </div>
                 <button
                   onClick={() => addToCart()}
                   className="flex items-center justify-center gap-2 px-5 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all text-lg font-semibold shadow"

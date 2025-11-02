@@ -13,7 +13,7 @@ import { GetProductDto, getSingleProductDto } from "./dto/product.dto";
  * Remember** lean<T>()
  */
 import { InjectRepository } from "@nestjs/typeorm";
-import { StoreEntity } from "src/seller/entity/store.entity";
+import { StoreEntity } from"@/modules/seller/entity/store.entity";
 import { Repository } from "typeorm";
 import {
   NormalHandleResponse,
@@ -23,7 +23,7 @@ import {
   ProductShopPageResponse,
   SingleProductDataType,
   SingleProductResponse,
-} from "src/interfaces/server.types";
+} from"@/interfaces/server.types";
 
 @Injectable()
 export class ProductsService {

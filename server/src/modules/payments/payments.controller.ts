@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { PaymentsService } from "./payments.service";
 import type { Response, Request } from "express";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Orders } from "src/orders/entities/order.entity";
+import { Orders } from"@/modules/orders/entities/order.entity";
 import { Repository } from "typeorm";
 import type { Webhook } from "@payos/node";
 

@@ -9,23 +9,23 @@ import { UpdateOrderDto } from "./dto/update-order.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Orders } from "./entities/order.entity";
-import { PaymentsService } from "src/payments/payments.service";
+import { PaymentsService } from"@/modules/payments/payments.service";
 import { CreatePaymentLinkResponse } from "@payos/node";
 import { InjectModel } from "@nestjs/mongoose";
-import { Product } from "src/products/models/product.model";
+import { Product } from"@/modules/products/models/product.model";
 import { Model, Types } from "mongoose";
-import { EmailsService } from "src/emails/emails.service";
+import { EmailsService } from"@/modules/emails/emails.service";
 import {
   AddNewOrderResponse,
   SingleProductDataType,
-} from "src/interfaces/server.types";
+} from"@/interfaces/server.types";
 import { OrderPersonContacts } from "./entities/order-contact.entity";
 import { OrderItems } from "./entities/order-item.entity";
 import {
   OrderAttributeDoc,
   OrderAttributes,
 } from "./models/order-attribute.model";
-import { StoreEntity } from "src/seller/entity/store.entity";
+import { StoreEntity } from"@/modules/seller/entity/store.entity";
 
 @Injectable()
 export class OrdersService {

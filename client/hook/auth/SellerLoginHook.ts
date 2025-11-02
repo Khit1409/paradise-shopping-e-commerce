@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { SellerLoginRequest } from "../../type/auth.type";
+import { SellerLoginRequest } from "@/type/auth.type";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "@/redux/store";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "../../redux/app/slice";
-import { checkValidateLoginRequest, signIn } from "../../service/auth.service";
+} from "@/redux/app/slice";
+import { checkValidateLoginRequest, signIn } from "@/service/auth.service";
 import { useRouter } from "next/navigation";
 
 export const SellerLoginHook = () => {

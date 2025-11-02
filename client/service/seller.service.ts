@@ -1,5 +1,5 @@
-import { apiAction } from "../config/fetch-api.config";
-import { Products, SingleProduct } from "../type/product.interface";
+import { apiAction } from "@/config/fetch-api.config";
+import { Products, SingleProduct } from "@/type/product.interface";
 /**
  *
  * @param param0

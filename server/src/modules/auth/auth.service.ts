@@ -16,14 +16,14 @@ import {
   UserPhoneDataType,
 } from "src/interfaces/server.types";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UserEntity } from "src/users/entity/user.entity";
+import { UserEntity } from "@/modules/users/entity/user.entity";
 import { Repository } from "typeorm";
 import * as bcryt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import type { Response } from "express";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { UserInforDoc } from "src/users/model/user.model";
+import { UserInforDoc } from "@/modules/users/model/user.model";
 @Injectable()
 /**
  * Handle relation to authenticate information
