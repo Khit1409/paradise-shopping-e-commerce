@@ -1,4 +1,5 @@
 # server source structor
+```txt
 src/
 ├── app.module.ts
 ├── config/
@@ -79,3 +80,4 @@ src/
 │           └── update-order.dto.ts
 │
 └── main.ts
+```
