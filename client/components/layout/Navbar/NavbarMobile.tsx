@@ -97,10 +97,10 @@ export default function NavBarMobile() {
               <Link
                 key={list._id}
                 onClick={() => closeResponesive()}
-                href={`/user/${list.navUrl}`}
+                href={`/user/${list.url}`}
                 className="hover:underline"
               >
-                {list.navName}
+                {list.name}
               </Link>
             ))
           ) : (

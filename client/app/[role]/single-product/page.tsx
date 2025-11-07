@@ -1,6 +1,6 @@
 import React from "react";
-import ProductSinglePage from "@/components/product/page/ProductSinglePage";
+import SingleProductPage from "@/components/product/page/SingleProductPage";
 
 export default function page() {
-  return <ProductSinglePage />;
+  return <SingleProductPage />;
 }

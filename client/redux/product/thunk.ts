@@ -1,5 +1,5 @@
 import {
-  Products,
+  ProductList,
   SingleProduct,
   GetProductQueryType,
 } from "../../type/product.interface";
@@ -14,7 +14,7 @@ export const getProductThunk = createAsyncThunk<
   /**
    * Response type
    */
-  Products[],
+  ProductList[],
   /**
    * request type
    */
@@ -36,16 +36,25 @@ export const getProductThunk = createAsyncThunk<
       /**
        * use service
        */
-      const { page, area, category, maxPrice, maxSale, minPrice, minSale } =
-        query;
+      const {
+        page,
+        brand,
+        category,
+        location,
+        max_price,
+        max_sale,
+        min_price,
+        min_sale,
+      } = query;
       const data = await getProducts({
         page,
-        area,
+        brand,
         category,
-        maxPrice,
-        maxSale,
-        minPrice,
-        minSale,
+        location,
+        max_price,
+        max_sale,
+        min_price,
+        min_sale,
       });
       const payload = data;
       return payload;

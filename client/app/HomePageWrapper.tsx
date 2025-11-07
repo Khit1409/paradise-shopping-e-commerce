@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../redux/store";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCarouselThunk } from "../redux/app/thunk";
+import { getUIThunk } from "../redux/app/thunk";
 import { authenticationThunk } from "../redux/auth/thunk";
 /**
  * Component props
@@ -35,12 +35,12 @@ export default function HomePageWrapper({
   useEffect(() => {
     (async () => {
       //authentication user for navigation if is logged in
-      await dispatch(getCarouselThunk());
+      await dispatch(getUIThunk());
       const check = await dispatch(authenticationThunk());
       if (authenticationThunk.fulfilled.match(check) && check.payload.api) {
         const res = check.payload.api;
-        const { userRole } = res;
-        return router.push(`/${userRole}`);
+        const { role } = res;
+        return router.push(`/${role}`);
       } else {
         return;
       }

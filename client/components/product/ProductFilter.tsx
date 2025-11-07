@@ -62,20 +62,28 @@ export default function ProductFilter(props: ComponentProps) {
    * @param e
    */
   const onchangePrice = (e: ChangeEvent<HTMLInputElement>) => {
-    setSavedCostFilter((prev) => ({
-      ...prev,
-      price: { ...prev.price, [e.target.name]: Number(e.target.value) },
-    }));
+    const { name, value } = e.target;
+    setSavedCostFilter((prev) => {
+      if (Number(value) > 0) {
+        return { ...prev, price: { ...prev.price, [name]: Number(value) } };
+      } else {
+        return { ...prev, price: {} };
+      }
+    });
   };
   /**
    * onchange sale filter
    * @param e
    */
   const onchangeSale = (e: ChangeEvent<HTMLInputElement>) => {
-    setSavedCostFilter((prev) => ({
-      ...prev,
-      sale: { ...prev.sale, [e.target.name]: Number(e.target.value) },
-    }));
+    const { name, value } = e.target;
+    setSavedCostFilter((prev) => {
+      if (Number(value) > 0) {
+        return { ...prev, sale: { ...prev.sale, [name]: value } };
+      } else {
+        return { ...prev, sale: {} };
+      }
+    });
   };
   /**
    * onchange location select
@@ -96,6 +104,9 @@ export default function ProductFilter(props: ComponentProps) {
     setCostFilter(savedCostFilter);
     setLocation(savedLocation);
     setCateSlug(savedCateSlug);
+    setSavedCateSlug("");
+    setSavedCostFilter({});
+    setSavedLocation("");
   };
   /**
    * call api when start mount
@@ -149,21 +160,6 @@ export default function ProductFilter(props: ComponentProps) {
                   </option>
                 ))}
               </select>
-              {/* <input
-                type="text"
-                onChange={(e) => {
-                  onchangeLocation(e);
-                }}
-                list="area_list"
-                placeholder="Chọn tỉnh/thành phố..."
-                className="border border-gray-300  p-2 outline-none "
-              /> */}
-
-              {/* <datalist id="area_list">
-                {provinceApi.map((prov) => (
-                  <option key={prov.code} value={prov.name} />
-                ))}
-              </datalist> */}
             </div>
 
             {/* GIÁ SẢN PHẨM */}
@@ -177,12 +173,14 @@ export default function ProductFilter(props: ComponentProps) {
                   type="number"
                   name="min_price"
                   onChange={onchangePrice}
+                  value={savedCostFilter.price?.min_price ?? ""}
                   placeholder="Từ"
                   className="w-1/2 border border-gray-300  p-2 outline-none "
                 />
                 <input
                   type="number"
                   name="max_price"
+                  value={savedCostFilter.price?.max_price ?? ""}
                   onChange={onchangePrice}
                   placeholder="Đến"
                   className="w-1/2 border border-gray-300  p-2 outline-none "
@@ -199,6 +197,7 @@ export default function ProductFilter(props: ComponentProps) {
               <div className="flex gap-3">
                 <input
                   type="number"
+                  value={savedCostFilter.sale?.min_sale ?? ""}
                   name="min_sale"
                   onChange={onchangeSale}
                   placeholder="Từ"
@@ -207,6 +206,7 @@ export default function ProductFilter(props: ComponentProps) {
                 <input
                   type="number"
                   name="max_sale"
+                  value={savedCostFilter.sale?.max_sale ?? ""}
                   onChange={onchangeSale}
                   placeholder="Đến"
                   className="w-1/2 border border-gray-300  p-2 outline-none "

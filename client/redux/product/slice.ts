@@ -3,17 +3,16 @@ import {
   getProductThunk,
   getSingleProductThunk,
 } from "./thunk";
-import { Products, SingleProduct } from "../../type/product.interface";
+import { ProductList, SingleProduct } from "@/type/product.interface";
 /**
  * interface of productInitialState of product slice
  */
 interface ProductInitialState {
   errorMessage: string | null;
   sendRequest: boolean;
-  products: Products[];
+  products: ProductList[];
   product: SingleProduct | null;
 }
-
 /**
  * inital state of product slice
  */

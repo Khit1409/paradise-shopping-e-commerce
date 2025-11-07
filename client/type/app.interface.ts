@@ -4,10 +4,22 @@
  */
 export interface NavigationDataType {
   _id: string;
-  navName: string;
-  navIcon?: string;
-  navUrl: string;
+  name: string;
+  icon?: string;
+  url: string;
 }
+/**
+ * carousel api
+ */
+export interface CarouselApiDataType {
+  _id: string;
+  thumbnail: string;
+  title: string;
+}
+export type UIDataResponse = {
+  nav: NavigationDataType[];
+  carousel: CarouselApiDataType[];
+};
 /**
  * Province api type
  */
@@ -28,12 +40,4 @@ export interface WardApiType {
   division_type: string;
   codename: string;
   province_code: number;
-}
-/**
- * carousel api
- */
-export interface CarouselApiDataType {
-  _id: string;
-  imgUrl: string;
-  title: string;
 }

@@ -60,7 +60,7 @@ export default function CarouselSection(props: ComponentProps) {
           >
             {data.map((imgs) => (
               <Image
-                src={imgs.imgUrl}
+                src={imgs.thumbnail}
                 width={1280}
                 height={400}
                 key={imgs._id}

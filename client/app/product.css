@@ -1,5 +1,11 @@
 .product_img_custom {
     inline-size: 100%;
     block-size: 250px;
-    object-fit: cover ;
+    object-fit: cover;
+}
+
+.product-description-from-api p {
+    max-inline-size: 500px;
+    text-wrap: wrap;
+
 }

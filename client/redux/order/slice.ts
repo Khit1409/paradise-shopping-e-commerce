@@ -1,45 +1,25 @@
-import {
-  CreatePaymentLinkResponse,
-  UserOrderAPIDataType,
-} from "../../service/order.service";
+import { OrderResponseType, OrderSliceState } from "@/type/order.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserOrderThunk } from "./thunk";
+import { getOrderThunk } from "./thunk";
 /**
  * type of slice
  */
 type orderInitialStateType = {
-  checkoutState: {
-    value: CreatePaymentLinkResponse | null;
-  };
-  orderState: OrderState | null;
-  orders: UserOrderAPIDataType[];
+  orderState: OrderSliceState | null;
   pending: boolean;
   orderError: string | null;
+  orders: OrderResponseType[];
 };
 /**
  * Type of state on initial state
  */
-export type OrderState = {
-  open: boolean;
-  items: {
-    productName: string;
-    productId: string;
-    productImg: string;
-    attribute: { attributeName: string; attributeValue: string }[];
-    totalPrice: number;
-    quantity: number;
-  } | null;
-};
 
 /**
  * Order initialstate
  */
 const orderInitialState: orderInitialStateType = {
-  checkoutState: {
-    value: null,
-  },
-  orderState: { open: false, items: null },
   orders: [],
+  orderState: null,
   pending: false,
   orderError: null,
 };
@@ -51,53 +31,32 @@ const orderSlice = createSlice({
   name: "order",
   reducers: {
     /**
-     * action set checkout value
-     * @param state
-     * @param action
-     */
-    checkoutAction: (
-      state,
-      action: {
-        payload: {
-          value: CreatePaymentLinkResponse | null;
-        };
-      }
-    ) => {
-      //tắt order modal trước khi mở checkout modal
-      if (state.orderState) {
-        state.orderState.open = false;
-        state.orderState.items = null;
-      }
-      //set state
-      state.checkoutState = action.payload;
-    },
-    /**
      * Open order modal
      * @param state
      * @param action
      */
-    onOpenOrderModal: (state, action: { payload: OrderState }) => {
+    onOpenOrderModal: (state, action: { payload: OrderSliceState | null }) => {
       state.orderState = action.payload;
     },
   },
   extraReducers: (builder) => {
-    //get user order
     builder
-      .addCase(getUserOrderThunk.pending, (state) => {
+      .addCase(getOrderThunk.pending, (state) => {
         state.pending = true;
       })
-      .addCase(getUserOrderThunk.fulfilled, (state, action) => {
+      .addCase(getOrderThunk.fulfilled, (state, action) => {
         state.pending = false;
         state.orders = action.payload;
       })
-      .addCase(getUserOrderThunk.rejected, (state, action) => {
+      .addCase(getOrderThunk.rejected, (state, action) => {
         state.pending = false;
-        state.orderError = action.payload as string;
+        state.orderError = action.error as string;
       });
+    //get user order
   },
 });
 /**
  * export reducer and action
  */
 export const orderReducer = orderSlice.reducer;
-export const { checkoutAction, onOpenOrderModal } = orderSlice.actions;
+export const { onOpenOrderModal } = orderSlice.actions;

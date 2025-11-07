@@ -33,19 +33,20 @@ export const ShopHook = () => {
       dispatch(onLoadingAction(true));
       const pr = await dispatch(
         getProductThunk({
-          area: location,
-          maxPrice: costFilter.price?.max_price,
-          minPrice: costFilter.price?.min_price,
-          maxSale: costFilter.sale?.max_sale,
-          minSale: costFilter.sale?.min_sale,
+          brand: "",
+          location,
+          max_price: costFilter.price?.max_price,
+          min_price: costFilter.price?.min_price,
+          max_sale: costFilter.sale?.max_sale,
+          min_sale: costFilter.sale?.min_sale,
           category: cateSlug,
           page: 1,
         })
       );
       if (getProductThunk.fulfilled.match(pr)) {
-        dispatch(onLoadingAction(false));
+        return dispatch(onLoadingAction(false));
       } else {
-        dispatch(onLoadingAction(false));
+        return dispatch(onLoadingAction(false));
       }
     })();
   }, [dispatch, router, location, costFilter, cateSlug]);

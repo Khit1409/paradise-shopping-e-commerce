@@ -12,7 +12,7 @@ type ComponentProps = {
 export default function CartModal({ ...props }: ComponentProps) {
   const { carts } = useSelector((state: RootState) => state.cart);
 
-  const totalPrice = carts.reduce((acc, item) => acc + item.cartTotalPrice, 0);
+  const totalPrice = carts.reduce((acc, item) => acc + item.total_price, 0);
 
   return (
     <div
@@ -41,8 +41,8 @@ export default function CartModal({ ...props }: ComponentProps) {
               {/* image */}
               <div className="shrink-0">
                 <Image
-                  src={cart.cartImg}
-                  alt={cart.cartName}
+                  src={cart.thumbnail}
+                  alt={cart.info.name}
                   width={60}
                   height={60}
                   className="rounded-lg object-cover border"
@@ -52,11 +52,11 @@ export default function CartModal({ ...props }: ComponentProps) {
               {/* info */}
               <div className="flex-1 truncate">
                 <p className="text-sm font-medium text-gray-700 truncate">
-                  {cart.cartName}
+                  {cart.info.name}
                 </p>
-                <p className="text-xs text-gray-500">SL: {cart.cartQuantity}</p>
+                <p className="text-xs text-gray-500">SL: {cart.quantity}</p>
                 <p className="text-sm font-semibold text-red-500">
-                  {cart.cartTotalPrice.toLocaleString()} ₫
+                  {cart.total_price.toLocaleString()} ₫
                 </p>
               </div>
             </Link>

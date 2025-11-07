@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-    --font-family: "Nunito",'Open sans' ,sans-serif;
+    --font-family: "Nunito", 'Open sans', sans-serif;
     --font-title: 'Montserrat', sans-serif;
     --product-item-border: silver;
     --footer-background: rgba(0, 0, 0, 0.682);
@@ -33,6 +33,10 @@ toàn bộ các thành phần nội dùng
 có background màu trắng trừ Header
 hạn chế bo tròn góc, padding nội dung vào 30px
 */
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
 body {
     font-family: var(--font-family);

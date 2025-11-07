@@ -5,10 +5,10 @@ import CreateNewProduct from "@/components/seller/manager-product/create/CreateP
 import CartPage from "@/components/cart/page/CartPage";
 import ShopPage from "@/components/product/page/ShopPage";
 import SalePage from "@/components/product/page/SalePage";
-import ProfileSetting from "@/components/user/ProductSetting";
-import CheckoutOrder from "@/components/checkout/CheckoutOrder";
+import ProfileSetting from "@/components/user/ProfileSetting";
 import EditProduct from "@/components/seller/manager-product/edit/EditProduct";
 import SellerManagerStoreProduct from "@/components/seller/page/SellerManagerStoreProduct";
+import CheckoutPage from "@/components/checkout/page/CheckoutPage";
 
 type Role = "user" | "seller";
 
@@ -23,12 +23,12 @@ const PAGE_CONTENT: Record<Role, Record<string, React.ReactNode>> = {
     "my-order": <OrderPage />,
     sale: <SalePage />,
     profile: <ProfileSetting />,
+    checkout: <CheckoutPage />,
   },
   seller: {
     "manager-product-store": <SellerManagerStoreProduct />,
     "edit-product": <EditProduct />,
     "add-new-product": <CreateNewProduct />,
-    "checkout-my-order": <CheckoutOrder />,
   },
 };
 /**

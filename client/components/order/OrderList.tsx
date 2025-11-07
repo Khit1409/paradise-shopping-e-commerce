@@ -13,7 +13,6 @@ import ProductList from "../product/ProductList";
 
 export default function OrderList() {
   const { orders } = useSelector((state: RootState) => state.order);
-  const { products } = useSelector((state: RootState) => state.product);
 
   // format ngày dd/MM/yyyy
   const formatDate = (dateString: string | Date) => {
@@ -37,7 +36,7 @@ export default function OrderList() {
     <section className="bg-gray-50 px-3 py-6 text-gray-700">
       <div className="flex flex-col gap-5">
         {orders.map((order) => (
-          <div key={order.orderId} className="flex flex-col gap-2">
+          <div key={order.id} className="flex flex-col gap-2">
             {/* info */}
             <div className="flex flex-col gap-2">
               {/* store info */}
@@ -53,7 +52,7 @@ export default function OrderList() {
                   <div className="border-r px-2">
                     <FontAwesomeIcon icon={faTruck} className="me-2" />
                     {(() => {
-                      const status = order.orderItems.orderStatus;
+                      const status = order.items.status;
                       if (status === "PENDING") return "Chờ xác nhận";
                       else if (status === "ACCEPTED") return "Đã xác nhận";
                       else if (status === "RECEIVED") return "Đã nhận hàng";
@@ -66,7 +65,7 @@ export default function OrderList() {
                   <div className="border-r px-2">
                     <FontAwesomeIcon icon={faTruck} className="me-2" />
                     {(() => {
-                      const ship = order.orderItems.orderKindOfShipping;
+                      const ship = order.items.shipping_type;
                       if (ship === "COD") return "Vận chuyển thường";
                       else return "Vẫn chuyển nhanh";
                     })()}
@@ -75,7 +74,7 @@ export default function OrderList() {
                   <div className="border-r px-2">
                     <FontAwesomeIcon icon={faGift} className="me-2" />
                     {(() => {
-                      const pay = order.orderItems.orderKindOfPay;
+                      const pay = order.items.pay_type;
                       if (pay === "COD") return "Thanh toán khi nhận hàng";
                       else if (pay === "ONLINE") return "Thanh toán online";
                     })()}
@@ -84,7 +83,7 @@ export default function OrderList() {
                   <div className="px-2">
                     <FontAwesomeIcon icon={faMoneyBillAlt} className="me-2" />
                     {(() => {
-                      const payStatus = order.orderItems.orderPayStatus;
+                      const payStatus = order.items.pay_state;
                       if (payStatus === "PAID") return "Đã thanh toán";
                       else return "Chưa thanh toán";
                     })()}
@@ -97,7 +96,7 @@ export default function OrderList() {
                 <div className="p-2">
                   <div className="flex gap-2">
                     <Image
-                      src={order.orderItems.orderImg}
+                      src={order.items.img}
                       alt=""
                       width={200}
                       height={100}
@@ -105,25 +104,27 @@ export default function OrderList() {
                     {/* order item */}
                     <div>
                       <Link
-                        href={`/user/single_product?_info=_${order.orderItems.proId}`}
+                        href={`/user/single_product?_info=_${order.items.product_id}`}
                         className="uppercase text-gray-800 hover:underline"
                       >
-                        {order.orderItems.orderName}
+                        {order.items.name}
                         {/* phân loại hàng */}
                       </Link>
-                      <div>
-                        {order.orderAttribute.map((attr, index) => (
-                          <div key={index}>
-                            <span>
-                              {getAttrNameBySlug(attr.attributeName)}:{" "}
-                              {attr.attributeValue}
-                            </span>
-                          </div>
-                        ))}
+                      <div className="flex flex-col gap-1">
+                        <strong>Mẫu: {order.varitants.sku}</strong>
+                        <div>
+                          {order.varitants.attributes.map((attr, index) => (
+                            <div key={index}>
+                              <span>
+                                {attr.name}: {attr.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                       <p>
                         <span className="text-sm">x</span>
-                        {order.orderItems.orderQuantity}
+                        {order.items.quantity}
                       </p>
                     </div>
                   </div>
@@ -131,10 +132,10 @@ export default function OrderList() {
                 {/* total price */}
                 <div className="text-end">
                   <p>
-                    {order.orderItems.orderTotalPrice.toLocaleString("vi-VN")}{" "}
+                    {order.items.total_price.toLocaleString("vi-VN")}{" "}
                     <span className="text-gray-500 text-sm">VND</span>
                   </p>
-                  <p>{formatDate(order.createdAt)}</p>
+                  <p>{formatDate(order.created_at)}</p>
                 </div>
               </div>
             </div>

@@ -56,7 +56,7 @@ export default function UserModal({ ...props }: ComponentProps) {
       <div className="flex items-center gap-3 p-2">
         {/* User avatar */}
         <Image
-          src={user?.userAvatar ?? `/imgs/food.jpg`}
+          src={user?.avatar ?? `/imgs/food.jpg`}
           width={70}
           height={70}
           alt="avatar"
@@ -65,13 +65,13 @@ export default function UserModal({ ...props }: ComponentProps) {
         {/* User information */}
         <div className="flex flex-col">
           <p className="font-semibold text-gray-800">
-            {`${user.userFirtName} ${user.userLastName}`}
+            {`${user.firtname} ${user.lastname}`}
           </p>
           <p className="text-sm text-gray-500 truncate">
-            {user?.userEmail ?? "Please log in"}
+            {user?.email ?? "Please log in"}
           </p>
           <p className="text-sm text-gray-500 truncate">
-            {user?.userPhone ?? ""}
+            {user?.phone ?? ""}
           </p>
         </div>
       </div>

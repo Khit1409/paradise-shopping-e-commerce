@@ -2,12 +2,11 @@
 
 import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
 import { AppDispatch, RootState } from "@/redux/store";
-
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticationThunk } from "@/redux/auth/thunk";
-import { getNavigationThunk } from "@/redux/app/thunk";
+import { getUIThunk } from "@/redux/app/thunk";
 import Footer from "@/components/layout/Footer/Footer";
 import UserHeader from "@/components/layout/Header/Header";
 import SellerNavbar from "@/components/layout/Navbar/Seller/SellerNavbar";
@@ -44,29 +43,37 @@ export default function PageWrapper({
         /**
          * Call get user data api and get navigation api for start using web
          */
-        const [check] = await Promise.all([
+        const [check, ui] = await Promise.all([
           dispatch(authenticationThunk()),
-          dispatch(getNavigationThunk()),
+          dispatch(getUIThunk()),
         ]);
         /**
          * check result of authenticate and get naviagtion api
          * if use null => replace page is login
          * if successfull => set appMouted is true and render app
          */
-        if (authenticationThunk.fulfilled.match(check) && check.payload.api) {
+        if (
+          authenticationThunk.fulfilled.match(check) &&
+          getUIThunk.fulfilled.match(ui) &&
+          check.payload.api
+        ) {
           dispatch(onLoadingAction(false));
           setAppMounted(true);
           if (role === "seller") {
-            const { userRole } = check.payload.api;
-            if (userRole !== role) {
-              return router.replace("user");
+            const user = check.payload.api;
+            if (user.role !== role) {
+              return router.replace("/user");
             }
+            return;
           }
           /**
            * check login state for user and seller
            * if not logging go to login page
            */
-        } else if (authenticationThunk.rejected.match(check)) {
+        } else if (
+          authenticationThunk.rejected.match(check) &&
+          getUIThunk.rejected.match(ui)
+        ) {
           dispatch(onLoadingAction(false));
           return router.replace("/login");
         } else {

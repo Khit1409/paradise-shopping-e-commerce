@@ -1,13 +1,10 @@
-import { Products, SingleProduct } from "../../type/product.interface";
+import { ProductList, SingleProduct } from "../../type/product.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getProductSellerThunk,
-  getSingleProductThunk,
-} from "./thunk";
+import { getProductSellerThunk, getSingleProductThunk } from "./thunk";
 
 // interface of sellerInitialState of seller slice
 interface SellerSliceInitialState {
-  products: Products[];
+  products: ProductList[];
   product: SingleProduct | null;
   sellerOnloading: boolean;
   sellerErrMess: string;

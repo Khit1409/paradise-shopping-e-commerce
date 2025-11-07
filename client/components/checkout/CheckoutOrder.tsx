@@ -1,81 +1,134 @@
 "use client";
-import QRCode from "react-qr-code";
-import Link from "next/link";
-import Banner from "@/components/layout/Header/Banner";
-import ProductList from "@/components/product/ProductList";
-import { ChekoutHook } from "@/hook/checkout/chekoutHook";
 
-/**
- * Checkout modal with QR code
- * or click button for using payos page
- * or cancel payment
- * @returns
- */
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import QRCode from "react-qr-code";
+import { cancelCheckout } from "@/service/order.service";
+import {
+  onErrorModel,
+  onLoadingAction,
+  onSuccessfulModel,
+} from "@/redux/app/slice";
+import { changeCheckoutValue } from "@/redux/checkout/slice";
+
 export default function CheckoutOrder() {
-  /**
-   * hook
-   */
-  const hook = ChekoutHook();
-  if (!hook) {
-    return null;
-  }
-  const { cancel, value } = hook;
+  const { checkoutValue } = useSelector((state: RootState) => state.checkout);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (checkoutValue) {
+      if (checkoutValue.expiredAt) {
+        const now = Date.now();
+        if (now === checkoutValue.expiredAt) {
+          window.location.reload();
+        }
+      }
+    }
+  }, [checkoutValue]);
+
+  if (!checkoutValue)
+    return (
+      <div className="flex items-center justify-center min-h-screen text-gray-600">
+        Không có thông tin thanh toán.
+      </div>
+    );
+
   const {
-    qrCode,
     accountName,
     accountNumber,
-    orderCode,
     amount,
-    currency,
     checkoutUrl,
-  } = value;
-  //render
-  return (
-    <>
-      <Banner />
-      <div className="bg-white p-6 w-full text-gray-700">
-        <div className="flex items-center justify-around border-b py-3 border-gray-300">
-          {/* QR Code */}
-          <div className="flex border items-center gap-2 flex-col p-1 justify-center border-gray-300 rounded">
-            <QRCode value={qrCode} size={220} />
-            <p className="text-gray-500 text-sm">QR Code thanh toán</p>
-            {/* PayOS button */}
-          </div>
-          {/* Order Info */}
-          <div className="flex flex-col gap-2 p-2 border border-gray-300 text-gray-700">
-            <h4 className="font-bold uppercase text-center">
-              Thông tin đơn hàng
-            </h4>
-            <div className="flex flex-col gap-2">
-              <p className="font-semibold">Mã đơn: {orderCode}</p>
-              <p>Tên TK: {accountName}</p>
-              <p>Số TK: {accountNumber}</p>
-              <p>
-                Số tiền: {amount} {currency}
-              </p>
-              <p className="text-sm text-gray-600">Quét mã QR để thanh toán</p>
-            </div>
+    currency,
+    description,
+    orderCode,
+    qrCode,
+    expiredAt,
+    paymentLinkId,
+  } = checkoutValue;
 
-            <div className="flex gap-2 items-center">
-              <Link
-                href={checkoutUrl}
-                target="_blank"
-                className="border-green-500 hover:bg-green-500 py-[6px] px-2 hover:text-white border text-green-500 text-sm transition"
-              >
-                Thanh toán bằng PayOS
-              </Link>
-              <button
-                onClick={() => cancel()}
-                role="button"
-                className="py-1 border  px-1 border-red-500 text-red-600 hover:text-white hover:bg-red-500"
-              >
-                Hủy thanh toán
-              </button>
-            </div>
+  const expiredDate = new Date(expiredAt! * 1000).toLocaleString("vi-VN");
+  const cancel = async () => {
+    dispatch(onLoadingAction(true));
+    const result = await cancelCheckout(paymentLinkId);
+    if (result) {
+      const { resultCode } = result;
+      dispatch(onLoadingAction(false));
+      if (resultCode == 1) {
+        dispatch(changeCheckoutValue(null));
+        return dispatch(onSuccessfulModel(true));
+      } else {
+        return dispatch(
+          onErrorModel({ mess: "Hủy thanh toán thất bại", onError: true })
+        );
+      }
+    } else {
+      dispatch(onLoadingAction(false));
+      return dispatch(onErrorModel({ mess: "Lỗi Server!", onError: true }));
+    }
+  };
+  return (
+    <div className="min-h-screen bg-neutral-100 text-gray-900 p-8">
+      <div className="max-w-md mx-auto bg-white border border-gray-300 p-6">
+        <h1 className="text-xl font-semibold text-center mb-6">
+          Xác nhận thanh toán
+        </h1>
+
+        <div className="flex flex-col items-center gap-4">
+          <QRCode value={qrCode} size={180} />
+          <p className="text-sm text-gray-500 text-center">
+            Quét mã để thanh toán đơn hàng
+          </p>
+        </div>
+
+        <div className="border-t border-gray-300 mt-6 pt-4 space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span>Mã đơn hàng:</span>
+            <span className="font-medium">{orderCode}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Số tài khoản:</span>
+            <span className="font-medium">{accountNumber}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Tên tài khoản:</span>
+            <span className="font-medium">{accountName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Số tiền:</span>
+            <span className="font-semibold">
+              {amount.toLocaleString()} {currency}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span>Mô tả:</span>
+            <span className="text-right">{description}</span>
+          </div>
+          <div className="flex justify-between text-gray-500">
+            <span>Hết hạn lúc:</span>
+            <span>{expiredDate}</span>
           </div>
         </div>
+
+        <div className="mt-6 text-center flex gap-2  justify-center">
+          <a
+            href={checkoutUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline text-sm"
+          >
+            Mở liên kết thanh toán
+          </a>
+          <button
+            className="hover:underline text-red-500 text-sm"
+            onClick={() => {
+              cancel();
+            }}
+          >
+            Hủy thanh toán
+          </button>
+        </div>
       </div>
-      <ProductList ofRole={"user"} />
-    </>
+    </div>
   );
 }

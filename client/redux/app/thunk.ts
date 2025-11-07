@@ -1,26 +1,21 @@
 import {
-  CarouselApiDataType,
-  NavigationDataType,
   ProvinceApiType,
+  UIDataResponse,
   WardApiType,
 } from "../../type/app.interface";
-import {
-  getAddressService,
-  getCarousel,
-  getNavigationService,
-} from "../../service/app.service";
+import { getAddressService, getUI } from "@/service/app.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 /**
  * get app navtigation api
  */
-export const getNavigationThunk = createAsyncThunk<
-  NavigationDataType[],
+export const getUIThunk = createAsyncThunk<
+  UIDataResponse,
   void,
   { rejectValue: string }
 >("navigation_app", async (_, thunkAPI) => {
   try {
-    const payload = await getNavigationService();
+    const payload = await getUI();
     return payload;
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);
@@ -37,26 +32,6 @@ export const getAddressThunk = createAsyncThunk<
 >("address api", async (_, thunkAPI) => {
   try {
     const payload = await getAddressService();
-    return payload;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(`${error}`);
-  }
-});
-
-/**
- * get carousel
- */
-
-export const getCarouselThunk = createAsyncThunk<
-  /**
-   *
-   */
-  CarouselApiDataType[],
-  void,
-  { rejectValue: string }
->("carousel list", async (_, thunkAPI) => {
-  try {
-    const payload = await getCarousel();
     return payload;
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);

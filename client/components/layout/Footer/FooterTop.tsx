@@ -12,8 +12,8 @@ export default function FooterTop() {
   return (
     <section className="p-2 flex justify-center items-center gap-5 border-b border-gray-300">
       {nav.map((n) => (
-        <Link href={n.navUrl} key={n._id} className="uppercase hover:underline">
-          {n.navName}
+        <Link href={n.url} key={n._id} className="uppercase hover:underline">
+          {n.name}
         </Link>
       ))}
     </section>

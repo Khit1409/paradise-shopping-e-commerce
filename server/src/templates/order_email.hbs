@@ -1,0 +1,105 @@
+<html lang='vi'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Xác nhận đơn hàng - Paradise Shop</title>
+  </head>
+  <body
+    style="
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    "
+  >
+    <div
+      style='
+        max-inline-size: 600px;
+        margin: 30px auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      '
+    >
+      <!-- Header -->
+      <div
+        style='
+          background: linear-gradient(90deg, #3b82f6, #06b6d4);
+          color: #ffffff;
+          padding: 20px;
+          text-align: center;
+        '
+      >
+        <h2 style='margin: 0'>Paradise Shop 🛒</h2>
+        <p style='margin: 5px 0 0'>Cảm ơn bạn đã đặt hàng!</p>
+      </div>
+
+      <!-- Nội dung chính -->
+      <div style='padding: 25px'>
+        <h3 style='color: #333333'>Xin chào {{userName}},</h3>
+        <p style='color: #555555; line-height: 1.6'>
+          Cảm ơn bạn đã đặt hàng tại
+          <b>Paradise Shopping</b>
+          qua
+          <b>Paradise Shop</b>. Chúng tôi rất vui được phục vụ bạn 💙
+        </p>
+        <div
+          style='
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            background-color: #f9fafb;
+          '
+        >
+          <p><b>Mã đơn hàng:</b> {{orderCode}}</p>
+          <p><b>Tổng tiền:</b> {{totalPrice}}</p>
+        </div>
+
+        <p style='color: #555555; line-height: 1.6'>
+          Bạn có thể xem chi tiết đơn hàng hoặc theo dõi trạng thái giao hàng
+          tại trang sau:
+        </p>
+
+        <div style='text-align: center; margin-block-start: 25px'>
+          <a
+            href='http://localhost:3000'
+            style='
+              display: inline-block;
+              background-color: #3b82f6;
+              color: white;
+              text-decoration: none;
+              padding: 12px 25px;
+              border-radius: 6px;
+              font-weight: bold;
+            '
+          >
+            🔍 Xem đơn hàng
+          </a>
+        </div>
+
+        <p style='color: #777777; font-size: 13px; margin-block-start: 30px'>
+          Nếu bạn không thực hiện hành động này, vui lòng bỏ qua email này.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div
+        style='
+          background-color: #f3f4f6;
+          padding: 15px;
+          text-align: center;
+          font-size: 12px;
+          color: #777777;
+        '
+      >
+        © 2025 Paradise Shop. Mọi quyền được bảo lưu.<br />
+        <a
+          href='mailto:support@paradiseshop.com'
+          style='color: #3b82f6; text-decoration: none'
+        >Liên hệ hỗ trợ</a>
+      </div>
+    </div>
+  </body>
+</html>

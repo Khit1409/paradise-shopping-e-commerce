@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
-  AddToCartType,
-  UpdateCartType,
-  UserCart,
+  AddToCartRequest,
+  Cart,
+  CartPatchRequest,
 } from "@/type/cart.interface";
 import { apiAction } from "@/config/fetch-api.config";
 /**
@@ -24,69 +24,70 @@ const handleApiError = (
 };
 /**
  * Add product to cart.
- *
- * @param {AddToCartType} body
- * @returns {Promise<{ message: string; resultCode: number }>}
+ * @param data
  */
-export async function addToCartServicer(
-  body: AddToCartType
+export async function addToCart(
+  data: AddToCartRequest
 ): Promise<{ message: string; resultCode: number }> {
   try {
-    if (!body.proId) {
-      return { message: "Thiếu tham số 'proId'", resultCode: 0 };
+    if (!data.info.product_id) {
+      return { message: "Thiếu mã sản phẩm!", resultCode: 0 };
     }
-    const res = await apiAction.post(`carts`, body);
+    const res = await apiAction.post(`carts`, { ...data });
     return res.data as { message: string; resultCode: number };
   } catch (error) {
     return handleApiError(error);
   }
 }
-
 /**
- * Get user's cart.
+ * get user cart
  *
- * @returns {Promise<UserCart[]>}
  */
-export async function getUserCartService(): Promise<UserCart[]> {
+export async function getCart(): Promise<Cart[]> {
   try {
-    const res = await apiAction.get(`carts`);
-    return res.data as UserCart[];
+    const res = await apiAction.get("/carts");
+    const api: Cart[] = res.data;
+    return api;
   } catch (error) {
-    console.error("getUserCartService error:", error);
+    console.log(error);
     return [];
   }
 }
-
 /**
- * Delete cart item by ID.
- *
- * @param {string} cartId - Cart item ID.
- * @returns {Promise<{ message: string; resultCode: number }>}
+ * delete by id
+ * @param id
  */
-export async function deleteUserCartService(
-  cartId: string
-): Promise<{ message: string; resultCode: number }> {
+export async function deleteCart(id: string) {
   try {
-    const res = await apiAction.delete(`carts/${cartId}`);
-    return res.data as { message: string; resultCode: number };
+    const res = await apiAction.delete(`/carts/${id}`);
+    if (!res.data || res.data.resultCode !== 1) {
+      return "failed";
+    }
+    return "ok";
   } catch (error) {
-    return handleApiError(error);
+    console.log(error);
+    return "failed";
   }
 }
-
 /**
- * Update user's cart item.
- *
- * @param {UpdateCartType} body - Updated cart data.
- * @returns {Promise<{ message: string; resultCode: number }>}
+ * patch cart part
+ * @param quantity
+ * @param updateValue
  */
-export async function updateUserCart(
-  body: UpdateCartType
-): Promise<{ message: string; resultCode: number }> {
+export async function patchCart(req: {
+  id: string;
+  quantity?: number;
+  updateValue: CartPatchRequest;
+}) {
   try {
-    const res = await apiAction.put(`carts`, body);
-    return res.data as { message: string; resultCode: number };
+    const res = await apiAction.patch(`carts`, {
+      id: req.id,
+      quantity: req.quantity,
+      ...req.updateValue,
+    });
+    const result: { message: string; resultCode: number } = res.data;
+    return result;
   } catch (error) {
-    return handleApiError(error);
+    return { message: `${error}`, resultCode: 0 };
   }
 }

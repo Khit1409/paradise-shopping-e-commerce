@@ -1,7 +1,7 @@
 import {
   GetProductQueryType,
   SingleProduct,
-  Products,
+  ProductList,
 } from "@/type/product.interface";
 import { apiAction } from "@/config/fetch-api.config";
 
@@ -18,19 +18,29 @@ import { apiAction } from "@/config/fetch-api.config";
  */
 export async function getProducts(
   query: GetProductQueryType
-): Promise<Products[]> {
-  const { page, area, category, maxPrice, maxSale, minPrice, minSale } = query;
+): Promise<ProductList[]> {
+  const {
+    page,
+    brand,
+    category,
+    location,
+    max_price,
+    max_sale,
+    min_price,
+    min_sale,
+  } = query;
   const params = new URLSearchParams({
     page: String(page ?? 1),
-    maxPrice: String(maxPrice ?? ""),
-    minPrice: String(minPrice ?? ""),
+    max_price: String(max_price ?? ""),
+    min_price: String(min_price ?? ""),
     category: String(category ?? ""),
-    area: String(area ?? ""),
-    maxSale: String(maxSale ?? ""),
-    minSale: String(minSale ?? ""),
+    location: String(location ?? ""),
+    max_sale: String(max_sale ?? ""),
+    min_sale: String(min_sale ?? ""),
+    brand: String(brand ?? ""),
   });
   const res = await apiAction.get(`products?${params.toString()}`);
-  const api: Products[] = res.data.api;
+  const api: ProductList[] = res.data;
   return api;
 }
 /**

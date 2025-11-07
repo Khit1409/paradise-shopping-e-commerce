@@ -108,14 +108,13 @@ export async function signIn({ role, email, password }: LoginRequest) {
  * @returns
  */
 export type UserResponse = {
-  userId: string;
-  userFirtName: string;
-  userLastName: string;
-  userEmail: string;
-  userPhone: string;
-  userStore: number | null;
-  userRole: "user" | "seller";
-  userAvatar: string | null;
+  id: string;
+  firtname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  role: "user" | "seller";
+  avatar: string | null;
   userAddress: { _id: string; addressName: string }[];
   userOtherPhone: { _id: string; phoneNum: string }[];
   userOtherEmail: { _id: string; emailAddress: string }[];
@@ -127,7 +126,7 @@ export type UserResponse = {
  */
 export async function Authentication(): Promise<UserResponse | null> {
   const res = await apiAction.get(`auth/me`);
-  const data: UserResponse | null = res.data.api;
+  const data: UserResponse | null = res.data;
   if (!data) {
     return null;
   }
@@ -169,7 +168,7 @@ export async function logout(role: "user" | "seller"): Promise<{
   message: string;
 }> {
   try {
-    const res = await apiAction.put(`auth/logout`, { role });
+    const res = await apiAction.put(`auth/logout/${role}`);
     return res.data;
   } catch (error) {
     return { resultCode: 0, message: `${error}` };

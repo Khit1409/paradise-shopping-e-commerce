@@ -1,51 +1,81 @@
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
-```
-
-## npm script
-
-1. create new folder controller service module
-   -- nest g resource name_folder
-2. create new file controller
-   -- nest g co name_file
-3. create new file module
-   -- nest g mo name_file
-4. tạo migration
-   npm run migration:create
-5. chạy
-   npm run migration:run
-   <!-- npm run migration:generate kiểm tra thay đổi nếu có update-->
-6. return
-   npm run migration:revert
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+# server source structor
+src/
+├── app.module.ts
+├── config/
+│   ├── database/
+│   │   ├── mongoose.config.ts
+│   │   ├── typeorm.config.ts
+│   └── env.config.ts
+│
+├── common/
+│   ├── constants/
+│   ├── decorators/
+│   ├── exceptions/
+│   ├── filters/
+│   ├── interceptors/
+│   ├── pipes/
+│   ├── utils/
+│   └── types/
+│
+├── domain/
+│   ├── entities/
+│   │   ├── product.entity.ts
+│   │   ├── user.entity.ts
+│   │   └── order.entity.ts
+│   ├── repositories/
+│   │   ├── product.repository.interface.ts
+│   │   ├── user.repository.interface.ts
+│   │   └── order.repository.interface.ts
+│   └── value-objects/
+│
+├── infrastructure/
+│   ├── database/
+│   │   ├── mongoose/
+│   │   │   ├── schemas/
+│   │   │   │   └── product.schema.ts
+│   │   │   ├── repositories/
+│   │   │   │   └── product.mongo.repository.ts
+│   │   │   └── index.ts
+│   │   ├── typeorm/
+│   │   │   ├── entities/
+│   │   │   │   └── product.sql.entity.ts
+│   │   │   ├── repositories/
+│   │   │   │   └── product.sql.repository.ts
+│   │   │   └── index.ts
+│   │
+│   ├── adapters/
+│   │   ├── email/
+│   │   ├── storage/
+│   │   └── payment/
+│   │
+│   └── mappers/
+│       ├── product.mapper.ts
+│       └── user.mapper.ts
+│
+├── modules/
+│   ├── product/
+│   │   ├── product.module.ts
+│   │   ├── product.controller.ts
+│   │   ├── product.service.ts
+│   │   ├── dto/
+│   │   │   ├── create-product.dto.ts
+│   │   │   └── update-product.dto.ts
+│   │   └── index.ts
+│   │
+│   ├── user/
+│   │   ├── user.module.ts
+│   │   ├── user.controller.ts
+│   │   ├── user.service.ts
+│   │   └── dto/
+│   │       ├── create-user.dto.ts
+│   │       └── update-user.dto.ts
+│   │
+│   └── order/
+│       ├── order.module.ts
+│       ├── order.controller.ts
+│       ├── order.service.ts
+│       └── dto/
+│           ├── create-order.dto.ts
+│           └── update-order.dto.ts
+│
+└── main.ts

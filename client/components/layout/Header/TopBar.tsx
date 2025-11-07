@@ -18,11 +18,10 @@ import CartModal from "@/components/modal/CartModal";
 import NotificateModal from "@/components/modal/NotificateModal";
 import MessageModal from "@/components/modal/MessageModal";
 import UserModal from "@/components/modal/UserModal";
-import { getCarouselThunk } from "@/redux/app/thunk";
-import { getUserOrderThunk } from "@/redux/order/thunk";
-import { getUserCartThunk } from "@/redux/cart/thunk";
+import { getCartThunk } from "@/redux/cart/thunk";
 import { openResponsiveMode } from "@/redux/app/slice";
 import Logo from "@/components/common/Logo";
+import { getOrderThunk } from "@/redux/order/thunk";
 
 export default function TopBar() {
   /**
@@ -70,20 +69,11 @@ export default function TopBar() {
     };
   }, []);
 
-  //cal api
   useEffect(() => {
     if (user) {
       (async () => {
-        await dispatch(getCarouselThunk());
-        await dispatch(getUserOrderThunk());
-      })();
-    }
-  }, [dispatch, user]);
-
-  useEffect(() => {
-    if (user) {
-      (async () => {
-        await dispatch(getUserCartThunk());
+        await dispatch(getCartThunk());
+        await dispatch(getOrderThunk());
       })();
     }
   }, [dispatch, user, reRender]);

@@ -1,12 +1,12 @@
-import { UserCart } from "../../type/cart.interface";
-import { getUserCartService } from "../../service/cart.service";
+import { getCart } from "@/service/cart.service";
+import { Cart } from "@/type/cart.interface";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 /**
  * get user cart thunk
  */
-export const getUserCartThunk = createAsyncThunk<
-  UserCart[],
+export const getCartThunk = createAsyncThunk<
+  Cart[],
   void,
   { rejectValue: string }
 >(
@@ -15,7 +15,7 @@ export const getUserCartThunk = createAsyncThunk<
   //handle
   async (_, thunkAPI) => {
     try {
-      const result = await getUserCartService();
+      const result = await getCart();
       return result;
     } catch (error) {
       return thunkAPI.rejectWithValue(`${error}`);

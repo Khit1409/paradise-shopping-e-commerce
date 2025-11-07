@@ -1,89 +1,87 @@
 /**
- * =====================================
- * CART TYPES DEFINITION
- * =====================================
+ * type of varitant attribute request
  */
-
-/**
- * Chosen attribute in "Add to Cart" action.
- *
- * @property {string} attrName - Attribute name.
- * @property {string} itemValue - Chosen attribute value.
- */
-export type AddToCartChooseType = {
-  attrName: string;
-  itemValue: string;
-};
-
-/**
- * Request type for adding a product to cart.
- *
- * @property {string} proId - Product ID.
- * @property {string} name - Product name.
- * @property {number} quantity - Quantity added.
- * @property {number} price - Price per unit.
- * @property {string} img - Product image.
- * @property {AddToCartChooseType[]} choose - Chosen attributes.
- */
-export type AddToCartType = {
-  proId: string;
+export type CartVaritantAttributeRequest = {
   name: string;
+  value: string;
+};
+/**
+ * type of varitant request
+ */
+export type CartVaritantRequest = {
+  sku: string;
+  attributes: CartVaritantAttributeRequest[];
+};
+/**
+ * type of add to cart
+ */
+export type AddToCartRequest = {
+  info: {
+    name: string;
+    product_id: string;
+    slug: string;
+  };
+  varitants: CartVaritantRequest;
+  thumbnail: string;
+  original_price: number;
   quantity: number;
-  price: number;
-  img: string;
-  choose: AddToCartChooseType[];
 };
-
 /**
- * Type of product attributes displayed inside the cart.
- *
- * @property {_id} _id - Attribute ID.
- * @property {string} attrName - Attribute name.
- * @property {string} itemValue - Selected attribute value.
- * @property {{ value: string; _id: string }[]} otherValue - Options for attribute changes.
+ * type of cart varitant attribute api response
  */
-export type CartAttribute = {
+export type CartVaritantAttribute = {
+  name: string;
+  value: string;
+  thumbnail?: string;
+  other: string[];
+};
+/**
+ * type of  cart varitant api response
+ */
+export type CartVaritant = {
+  sku: string;
+  attributes: CartVaritantAttribute[];
+};
+/**
+ * type of cart attribute
+ *
+ */
+export type CartInfo = {
+  product_id: string;
+  name: string;
+  slug: string;
+};
+/**
+ * type of cart response
+ */
+export type Cart = {
   _id: string;
-  attrName: string;
-  itemValue: string;
-  otherValue: { value: string; _id: string }[];
+  info: CartInfo;
+  varitants: CartVaritant;
+  thumbnail: string;
+  total_price: number;
+  quantity: number;
+  original_price: number;
 };
-
 /**
- * Type for user's cart item or list of cart items.
- *
- * @property {_id} _id - Cart item ID.
- * @property {string} cartImg - Product image.
- * @property {string} cartName - Product name.
- * @property {number} cartPrice - Price per unit.
- * @property {string} proId - Related product ID.
- * @property {number} cartQuantity - Quantity selected.
- * @property {number} cartTotalPrice - Total price for this cart item.
- * @property {CartAttribute[]} cartAttributes - Attributes of product in cart.
+ * types of update attribute cart vartitant
  */
-export type UserCart = {
+export interface CartVaritantAttributeUpdateRequest {
+  name: string;
+  value: string;
+}
+/**
+ * Type of request when update cart
+ */
+export interface CartUpdateRequest {
   _id: string;
-  cartImg: string;
-  cartName: string;
-  cartPrice: number;
-  proId: string;
-  cartQuantity: number;
-  cartTotalPrice: number;
-  cartAttributes: CartAttribute[];
-};
+  attributes?: CartVaritantAttributeUpdateRequest[];
+  quantity?: number;
+}
 /**
- * Request type to update cart item.
- *
- * @property {string} cartId - Cart item ID.
- * @property {number} [newQuantity] - Updated quantity.
- * @property {{ _id: string; attrName?: string; itemValue?: string }[]} [newAttributes] - Updated attributes.
+ * Patch cart request type
  */
-export type UpdateCartType = {
-  cartId: string;
-  newQuantity?: number;
-  newAttributes?: {
-    _id: string;
-    attrName?: string;
-    itemValue?: string;
-  }[];
-};
+export interface CartPatchRequest {
+  sku: string;
+  attributes: { name: string; value: string }[];
+}

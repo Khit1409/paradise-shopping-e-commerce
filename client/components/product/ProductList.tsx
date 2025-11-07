@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getProductThunk } from "@/redux/product/thunk";
 import { getProductSellerThunk } from "@/redux/seller/thunk";
+import PriceBox from "./PriceBox";
 
 type ComponentProps = {
   ofRole: "user" | "seller";
@@ -47,31 +48,29 @@ export default function ProductList(props: ComponentProps) {
                 href={`/${
                   ofRole === "seller"
                     ? `seller/edit-product?product_id=${pro._id}`
-                    : `user/single-product?_info=${pro.proSlug}_${pro._id}`
+                    : `user/single-product?info=${pro._id}`
                 }`}
                 key={pro._id}
                 className="border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col"
               >
                 <Image
-                  src={pro.proImg}
+                  src={pro.thumbnail}
                   width={180}
                   height={200}
-                  alt={pro.proName}
+                  alt={pro.info.name}
                   className="object-cover w-full h-[200px]"
                 />
                 <div className="flex flex-col gap-1 p-2">
-                  <p className="font-medium text-gray-700 hover:text-amber-600 hover:underline w-full truncate">
-                    {pro.proName}
+                  <p className="font-medium uppercase text-gray-700 hover:text-amber-600 hover:underline w-full truncate">
+                    {pro.info.name}
                   </p>
                   <div className="flex items-center gap-1 text-sm text-yellow-500">
                     <p className="text-gray-600">5.0</p>
-                    {Array.from({ length: 5 }).map((_, i) => (
+                    {Array.from({ length: pro.rating }).map((_, i) => (
                       <FontAwesomeIcon key={i} icon={faStar} />
                     ))}
                   </div>
-                  <p className="font-semibold text-amber-600">
-                    {pro.proPrice.toLocaleString("vi-VN")} VND
-                  </p>
+                  <PriceBox price={pro.original_price} sale={pro.sale} />
                 </div>
               </Link>
             ))}

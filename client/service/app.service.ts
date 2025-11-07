@@ -1,8 +1,7 @@
 import axios from "axios";
 import {
-  CarouselApiDataType,
-  NavigationDataType,
   ProvinceApiType,
+  UIDataResponse,
   WardApiType,
 } from "@/type/app.interface";
 import { apiAction } from "@/config/fetch-api.config";
@@ -14,12 +13,12 @@ const PROVINCE_API_URL = process.env.NEXT_PUBLIC_PROVINCE_API_URL!;
 const WARD_API_URL = process.env.NEXT_PUBLIC_WARD_API_URL!;
 
 /**
- * Get navigation for routing service in webisite , res null if user is not login
+ * Get navigation for routing service in webisite and carousel api for carousel setcion,
  * @returns
  */
-export async function getNavigationService(): Promise<NavigationDataType[]> {
-  const res = await apiAction.get(`app/navigation`);
-  const api: NavigationDataType[] = res.data.api;
+export async function getUI(): Promise<UIDataResponse> {
+  const res = await apiAction.get(`ui`);
+  const api: UIDataResponse = res.data;
   return api;
 }
 /**
@@ -40,21 +39,4 @@ export async function getAddressService(): Promise<{
   };
 
   return api;
-}
-/**
- * get carousel api for creat slider
- */
-/**
- * @param param0
- * @returns {CarouselApiDataType[]}
- */
-export async function getCarousel(): Promise<CarouselApiDataType[]> {
-  try {
-    const res = await apiAction.get(`app/carousel`);
-    const data: CarouselApiDataType[] = res.data;
-    return data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
 }

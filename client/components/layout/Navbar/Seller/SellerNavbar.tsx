@@ -1,5 +1,5 @@
 "use client";
-import { getIconByName } from "../../../../utils/getIconByName";
+import { getIconByName } from "@/utils/getIconByName";
 import {
   faArrowRightFromBracket,
   faHamburger,
@@ -8,15 +8,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
 import { SELLER_NAV } from "../data";
-import Avatar from "../../../common/Avatar";
+import Avatar from "@/components/common/Avatar";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../redux/store";
+import { AppDispatch } from "@/redux/store";
 import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
-} from "../../../../redux/app/slice";
-import { logout } from "../../../../service/auth.service";
+} from "@/redux/app/slice";
+import { logout } from "@/service/auth.service";
 import { useRouter } from "next/navigation";
 /**
  * function component

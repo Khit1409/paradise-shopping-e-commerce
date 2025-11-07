@@ -26,11 +26,11 @@ export default function NavbarDesktop() {
         {nav.map((n) => (
           <Link
             key={n._id}
-            href={`/user${n.navUrl}`}
+            href={`/user${n.url}`}
             className="uppercase text-sm"
           >
-            {n.navIcon && <FontAwesomeIcon icon={getIconByName(n.navIcon)} />}
-            {n.navName}
+            {n.icon && <FontAwesomeIcon icon={getIconByName(n.icon)} />}
+            {n.name}
           </Link>
         ))}
       </div>

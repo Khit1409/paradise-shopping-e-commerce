@@ -9,116 +9,94 @@ import {
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  deleteUserCartService,
-  updateUserCart,
-} from "@/service/cart.service";
-import {
   onErrorModel,
   onLoadingAction,
   onSuccessfulModel,
 } from "@/redux/app/slice";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { onOpenOrderModal } from "@/redux/order/slice";
-import { getAttrNameBySlug } from "@/utils/seller.util";
+import { deleteCart, patchCart } from "@/service/cart.service";
+import { CartPatchRequest } from "@/type/cart.interface";
 
-export default function CartList() {
+export interface UpdateAttribute {
+  name: string;
+  value: string;
+}
+export default function CartList(select?: number) {
   const [newQuantity, setNewQuantity] = useState<number>();
-  const [newAttribute, setNewAttribute] =
-    useState<{ _id: string; attrName: string; itemValue: string }[]>();
-
+  const [varitantUpdated, setVaritantUpdated] = useState<CartPatchRequest>({
+    sku: "",
+    attributes: [],
+  });
   const dispatch = useDispatch<AppDispatch>();
   const { carts } = useSelector((state: RootState) => state.cart);
-  const { user } = useSelector((state: RootState) => state.auth);
-  const router = useRouter();
 
-  const handleDeletCartById = async (id: string) => {
-    if (!id) {
-      dispatch(onLoadingAction(false));
-      dispatch(
-        onErrorModel({
-          mess: "Vui lòng tick vào giỏ hàng cần xóa!",
-          onError: true,
-        })
-      );
-      return;
-    }
-    if (!user) {
-      router.replace("/login");
-      return;
-    } else {
-      const result = await deleteUserCartService(id);
-      if (result.resultCode == 1) {
-        dispatch(onSuccessfulModel(true));
+  const onchangeUpdate = (sku: string, name: string, value: string) => {
+    setVaritantUpdated((prev) => {
+      let varitants = { ...prev };
+      if (!varitants.sku) varitants.sku = sku;
+      let attributes = [...(varitants.attributes ?? [])];
+      const index = attributes.findIndex((f) => f.name === name);
+      if (index !== -1) {
+        attributes[index] = { ...attributes[index], value };
       } else {
-        dispatch(onErrorModel({ mess: `${result.message}`, onError: true }));
+        attributes = [...attributes, { name, value }];
       }
-    }
-  };
-
-  const handleOnchangeNewAttribute = (
-    id: string,
-    name: string,
-    newValue: string
-  ) => {
-    setNewAttribute((prev) => {
-      const oldData = [...(prev ?? [])];
-      const existed = oldData.find((f) => f._id === id);
-      const dif = oldData.filter((ft) => ft._id !== id);
-      if (existed) {
-        return [...dif, { ...existed, itemValue: newValue }];
+      const checkEnogreValue = carts.find((f) => f.varitants.sku === sku);
+      if (checkEnogreValue) {
+        if (attributes.length < checkEnogreValue.varitants.attributes.length) {
+          const diff = checkEnogreValue.varitants.attributes.filter((ft) =>
+            attributes.some((f) => f.name !== ft.name)
+          );
+          console.log(diff);
+          attributes = [...attributes, ...diff];
+        }
       }
-      oldData.push({ _id: id, attrName: name, itemValue: newValue });
-      return oldData;
+      varitants = { ...varitants, sku, attributes: attributes };
+      return varitants;
     });
   };
 
-  async function updateCart(cartId: string) {
-    dispatch(onLoadingAction(true));
-    const result = await updateUserCart({
-      cartId,
-      newAttributes: newAttribute,
-      newQuantity,
-    });
+  const onDelete = async (id: string) => {
+    const result = await deleteCart(id);
     if (result) {
       dispatch(onLoadingAction(false));
-      if (result.resultCode == 1) {
-        dispatch(onSuccessfulModel(true));
-      } else if (result.resultCode == 0) {
-        dispatch(onErrorModel({ onError: false, mess: result.message }));
+      if (result === "ok") {
+        return dispatch(onSuccessfulModel(true));
       } else {
-        const error = new Error();
-        dispatch(onErrorModel({ mess: `${error}`, onError: true }));
+        return dispatch(
+          onErrorModel({ onError: true, mess: "Lỗi xóa giỏ hàng, thử lại!" })
+        );
       }
+    } else {
+      return dispatch(
+        onErrorModel({ onError: true, mess: "Lỗi Server:500, thử lại!" })
+      );
     }
-  }
+  };
 
-  function addToOrder({
-    ...value
-  }: {
-    proName: string;
-    productId: string;
-    productImg: string;
-    attribute: { attributeName: string; attributeValue: string }[];
-    totalPrice: number;
-    quantity: number;
-  }) {
-    dispatch(
-      onOpenOrderModal({
-        open: true,
-        items: {
-          productName: value.proName,
-          productId: value.productId,
-          attribute: value.attribute,
-          productImg: value.productImg,
-          quantity: value.quantity,
-          totalPrice: value.totalPrice,
-        },
-      })
-    );
-  }
-
+  const onUpdate = async (req: {
+    id: string;
+    quantity?: number;
+    updateValue: CartPatchRequest;
+  }) => {
+    dispatch(onLoadingAction(true));
+    const result = await patchCart(req);
+    if (result) {
+      dispatch(onLoadingAction(false));
+      if ((result.resultCode = 1)) {
+        return dispatch(onSuccessfulModel(true));
+      } else {
+        return dispatch(onErrorModel({ onError: true, mess: result.message }));
+      }
+    } else {
+      dispatch(onLoadingAction(false));
+      return dispatch(onErrorModel({ onError: true, mess: "Server error!" }));
+    }
+  };
+  /**
+   * return
+   */
   return carts && carts.length !== 0 ? (
     <section className="bg-gray-50 px-2 sm:px-4 py-4 text-gray-700">
       <div className="flex flex-col gap-5 w-full">
@@ -129,93 +107,84 @@ export default function CartList() {
             className="flex justify-between border rouned p-2 border-gray-300"
           >
             {/* Product Info */}
-            <div className="flex gap-3">
-              <Image
-                src={cart.cartImg}
-                alt={cart.cartName}
-                width={180}
-                height={100}
-                className="object-cover"
-              />
-              <div className="flex flex-col">
-                <Link
-                  href={`/user/single-product?_info=_${cart.proId}`}
-                  className="uppercase hover:underline"
-                >
-                  <p className="w-[600px] truncate">{cart.cartName}</p>
-                </Link>
-                <div className="text-gray-500 flex flex-col gap-1">
-                  {cart.cartAttributes.map((attr) => (
-                    <div key={attr._id} className="flex gap-1">
-                      <span>{getAttrNameBySlug(attr.attrName)}:</span>
-                      <select
-                        name="newItemValue"
-                        id="newItemValue"
-                        className=""
-                        onChange={(e) =>
-                          handleOnchangeNewAttribute(
-                            attr._id,
-                            attr.attrName,
-                            e.target.value
-                          )
-                        }
-                      >
-                        <option value={attr.itemValue}>{attr.itemValue}</option>
-                        {attr.otherValue.map((other) => (
-                          <option value={other.value} key={other._id}>
-                            {other.value}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  ))}
-                </div>
-                <div className="text-gray-500">
-                  x
-                  <input
-                    name="quantity"
-                    id="quantity"
-                    type="number"
-                    className="text-center w-[30px]"
-                    defaultValue={cart.cartQuantity}
-                    onChange={(e) => setNewQuantity(Number(e.target.value))}
-                  />
+            {cart.info && (
+              <div className="flex gap-3">
+                <Image
+                  src={cart.thumbnail}
+                  alt={cart.info.name}
+                  width={180}
+                  height={100}
+                  className="object-cover border border-gray-300"
+                />
+                <div className="flex flex-col">
+                  <Link
+                    href={`/user/single-product?info=${cart.info.product_id}`}
+                    className="uppercase hover:underline"
+                  >
+                    <p className="w-[600px] truncate">{cart.info.name}</p>
+                  </Link>
+                  <div className="text-gray-500 flex flex-col gap-1">
+                    {cart.varitants.attributes.map((attr) => (
+                      <div key={attr.name} className="flex gap-1">
+                        <span>{attr.name}</span>
+                        <select
+                          name={attr.name}
+                          id="ovether-value"
+                          onChange={(e) => {
+                            const { name, value } = e.target;
+                            onchangeUpdate(cart.varitants.sku, name, value);
+                          }}
+                        >
+                          <option value={attr.value}>{attr.value}</option>
+                          {attr.other.map((diff) => (
+                            <option value={diff} key={diff}>
+                              {diff}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-gray-500">
+                    x
+                    <input
+                      name="quantity"
+                      id="quantity"
+                      type="number"
+                      className="text-center w-[30px]"
+                      defaultValue={cart.quantity}
+                      onChange={(e) => setNewQuantity(Number(e.target.value))}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="flex flex-col justify-between items-end">
               {/* Unit Price */}
               <div className="block text-xl">
-                <p>{cart.cartTotalPrice.toLocaleString()}₫</p>
+                <p>{cart.total_price?.toLocaleString()}₫</p>
               </div>
               {/* Actions */}
               <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    addToOrder({
-                      productId: cart.proId,
-                      attribute: cart.cartAttributes.map((cart) => ({
-                        attributeName: cart.attrName,
-                        attributeValue: cart.itemValue,
-                      })),
-                      productImg: cart.cartImg,
-                      quantity: cart.cartQuantity,
-                      totalPrice: cart.cartTotalPrice,
-                      proName: cart.cartName,
-                    });
-                  }}
-                  className="border border-gray-300 hover:text-white hover:bg-green-600 px-2 py-1"
-                >
+                <button className="border border-gray-300 hover:text-white hover:bg-green-600 px-2 py-1">
                   MUA <FontAwesomeIcon icon={faCartShopping} />
                 </button>
                 <button
-                  onClick={() => updateCart(cart._id)}
+                  onClick={() => {
+                    onUpdate({
+                      id: cart._id,
+                      updateValue: varitantUpdated,
+                      quantity: newQuantity,
+                    });
+                  }}
                   className=" hover:bg-green-500 border uppercase border-gray-300 hover:text-white px-2 py-1 transition-all"
                 >
                   Cập nhật
                 </button>
                 <button
-                  onClick={() => handleDeletCartById(cart._id)}
+                  onClick={async () => {
+                    await onDelete(cart._id);
+                  }}
                   className="hover:bg-red-600 hover:text-white uppercase text-red-500 border border-red-500  px-2 py-1 transition-all"
                 >
                   Xóa

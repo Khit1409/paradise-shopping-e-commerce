@@ -4,10 +4,7 @@ import {
   WardApiType,
 } from "../../type/app.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getCarouselThunk,
-  getNavigationThunk,
-} from "./thunk";
+import { getUIThunk } from "./thunk";
 /**
  * Type of app slice initial state
  */
@@ -21,6 +18,7 @@ interface AppInitialState {
   openResponsive: boolean;
   carousel: CarouselApiDataType[];
   reRender: number;
+  openAddressModal: boolean;
 }
 /**
  * appInitialState extends type of AppInitialState
@@ -35,6 +33,7 @@ const appInitialState: AppInitialState = {
   openResponsive: false,
   carousel: [],
   reRender: Date.now(),
+  openAddressModal: false,
 };
 /**
  * Slice config and functions
@@ -55,18 +54,21 @@ const appSlice = createSlice({
       state,
       action: { payload: { mess: string; onError: boolean } }
     ) => {
-      state.reRender =  Date.now();
+      state.reRender = Date.now();
       state.onError = action.payload.onError;
       state.message = action.payload.mess;
     },
     //successful modal
     onSuccessfulModel: (state, action) => {
-      state.reRender =  Date.now();
+      state.reRender = Date.now();
       state.onSuccess = action.payload;
     },
     //open responsive mode
     openResponsiveMode: (state) => {
       state.openResponsive = !state.openResponsive;
+    },
+    onAddressModal: (state) => {
+      state.openAddressModal = !state.openAddressModal;
     },
   },
   /**
@@ -75,28 +77,17 @@ const appSlice = createSlice({
    */
   extraReducers: (builder) => {
     builder
-      .addCase(getNavigationThunk.pending, (state) => {
+      .addCase(getUIThunk.pending, (state) => {
         state.onLoading = true;
       })
-      .addCase(getNavigationThunk.fulfilled, (state, action) => {
+      .addCase(getUIThunk.fulfilled, (state, action) => {
         state.onLoading = false;
-        state.nav = action.payload;
+        state.nav = action.payload.nav;
+        state.carousel = action.payload.carousel;
       })
-      .addCase(getNavigationThunk.rejected, (state, action) => {
+      .addCase(getUIThunk.rejected, (state, action) => {
         state.onLoading = false;
         state.message = action.payload ?? "error get navigation";
-      })
-      //carousel
-      .addCase(getCarouselThunk.pending, (state) => {
-        state.onLoading = true;
-      })
-      .addCase(getCarouselThunk.fulfilled, (state, action) => {
-        state.onLoading = false;
-        state.carousel = action.payload;
-      })
-      .addCase(getCarouselThunk.rejected, (state, action) => {
-        state.onLoading = false;
-        state.message = action.payload as string;
       });
   },
 });
@@ -113,3 +104,5 @@ export const {
  * export slice
  */
 export const appReducer = appSlice.reducer;
+
+export const appProvider = appSlice.actions;

@@ -1,10 +1,10 @@
-import { UserCart } from "../../type/cart.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserCartThunk } from "./thunk";
+import { getCartThunk } from "./thunk";
+import { Cart } from "@/type/cart.interface";
 
 interface CartInitialState {
   sendRequest: boolean;
-  carts: UserCart[];
+  carts: Cart[];
   errorMessage: string;
 }
 
@@ -20,14 +20,14 @@ const cartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder //get cart for user
-      .addCase(getUserCartThunk.pending, (state) => {
+      .addCase(getCartThunk.pending, (state) => {
         state.sendRequest = true;
       })
-      .addCase(getUserCartThunk.fulfilled, (state, action) => {
+      .addCase(getCartThunk.fulfilled, (state, action) => {
         state.carts = action.payload;
         state.sendRequest = false;
       })
-      .addCase(getUserCartThunk.rejected, (state, action) => {
+      .addCase(getCartThunk.rejected, (state, action) => {
         state.errorMessage = action.payload ?? "Error";
         state.sendRequest = false;
       });
