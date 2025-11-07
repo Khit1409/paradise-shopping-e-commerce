@@ -1,0 +1,48 @@
+@keyframes product_loading {
+
+    0%,
+    100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+.animation-product-loading {
+    display: flex;
+    gap: 24px;
+    inline-size: 100%;
+    align-items: center;
+    justify-content: center;
+    block-size: 100%;
+}
+
+.animation-product-loading-a {
+    inline-size: 20px;
+    block-size: 20px;
+    border-radius: 100%;
+    background-color: orangered;
+    animation: product_loading infinite 1s;
+}
+
+.animation-product-loading-b {
+    inline-size: 20px;
+    block-size: 20px;
+    border-radius: 100%;
+    background-color: orangered;
+    animation: product_loading infinite 1s;
+    animation-delay: 0.2s;
+}
+
+.animation-product-loading-c {
+    inline-size: 20px;
+    block-size: 20px;
+    border-radius: 100%;
+    background-color: orangered;
+    animation: product_loading infinite 1s;
+    animation-delay: 0.4s;
+}
