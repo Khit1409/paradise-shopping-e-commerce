@@ -16,7 +16,7 @@ export class CreateNewProductInformationDto {
  */
 export class CreateNewProductVaritantAttributeDto {
   name: string;
-  value: string;
+  value: string[];
   image: string | undefined;
   constructor(parital: Partial<CreateNewProductVaritantAttributeDto>) {
     Object.assign(this, parital);
@@ -37,7 +37,7 @@ export class CreateNewProductOwnerInformationDto {
  * Dto
  */
 export class CreateNewProductVaritantDto {
-  sku: number;
+  sku: string;
   stoke: number;
   attributes: CreateNewProductVaritantAttributeDto[];
   constructor(parital: Partial<CreateNewProductVaritantDto>) {

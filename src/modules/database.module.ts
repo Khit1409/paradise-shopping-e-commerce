@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserOrmEntity } from '@/infrastructure/database/sql-server/user.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductSchema } from '@/infrastructure/database/mongoodb/product.schema';
-import { ProductMongooRepository } from '@/modules/domain/repositories/produc.repository';
+import { ProductMongooRepository } from '@/modules/domain/repositories/product.repository';
 import {
   StoreBankingEntity,
   StoreOrmEntity,

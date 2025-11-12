@@ -1,9 +1,19 @@
 import type { JwtAuthGuardRequest } from '@/types/auth/auth.type';
-import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { ProductService } from '../services/product.service';
 import type {
   CreateNewProductRequest,
   GetProductByQueryRequest,
+  UpdateProductRequest,
 } from '@/types/product/product.type';
 import { ProductMapper } from '../mapper/product.mapper';
 
@@ -50,5 +60,17 @@ export class SellerController {
       store_id,
     );
     return await this.producService.createNewProduct(formatedDto);
+  }
+  /**
+   * update product by seller id controller
+   */
+  @Put('products')
+  async updateProduct(
+    @Body() body: UpdateProductRequest,
+    @Req() req: JwtAuthGuardRequest,
+  ) {
+    const { id } = req.user;
+    const formatedRequest = ProductMapper.formatUpdateProductRequest(body);
+    return await this.producService.updateProduct(formatedRequest, id);
   }
 }

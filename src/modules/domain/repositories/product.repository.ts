@@ -5,7 +5,7 @@ import { GetProductByQueryDto } from '@/domain/dto/product/product-get.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StoreOrmEntity } from '@/entities/store.entity';
 import { Repository } from 'typeorm';
-import { FilterQuery, Model } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
 import {
   GetProductByQueryResponseDto,
   GetSingleProductResponseDto,
@@ -19,6 +19,7 @@ import {
 import { GeneralHandleResponse } from '@/interfaces/repositories/general.interface';
 import { CreateNewProductDto } from '../dto/product/product-create-dto';
 import { OpenAIService } from '@/modules/services/openai.service';
+import { UpdateProductDto } from '../dto/product/product-update.dto';
 /**
  * original handle database from schema or entity. using by service and using (mongoose or sql server) document
  * for query and response formated data to controller response to client
@@ -33,6 +34,114 @@ export class ProductMongooRepository implements IProductRepository {
     //other service
     private readonly openAiService: OpenAIService,
   ) {}
+  /**
+   * update product
+   * @param dto
+   * @param seller_id
+   */
+  update: (
+    dto: UpdateProductDto,
+    seller_id: string,
+  ) => Promise<GeneralHandleResponse> = async (dto, seller_id) => {
+    try {
+      const product = await this.productModel.findOne({
+        _id: dto.id,
+        'owner_info.seller_id': seller_id,
+      });
+      if (!product) {
+        return {
+          message: `Product with ${String(dto.id)} is not define!`,
+          error: 'product not found',
+          success: false,
+        };
+      }
+      const newHashtag = await this.openAiService.clearProductHashtag(
+        dto.info.name,
+        dto.info.description,
+      );
+      product.info = dto.info;
+      product.varitants = dto.varitants;
+      product.original_price = dto.original_price;
+      product.sale = dto.sale;
+      product.images = dto.images;
+      product.tags = newHashtag;
+      product.thumbnail = dto.thumbnail;
+      await product.save();
+
+      return {
+        message: 'Successfully update product',
+        success: true,
+        error: null,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  };
+  /***
+   * delete product by id
+   * @param id
+   * @param seller_id
+   */
+  delete: (
+    id: Types.ObjectId,
+    seller_id: string,
+  ) => Promise<GeneralHandleResponse> = async (id, seller_id) => {
+    try {
+      const deleted = await this.productModel.findOneAndDelete({
+        _id: id,
+        owner_info: { seller_id },
+      });
+      if (!deleted) {
+        return {
+          message: `Failed to delete product by id:${String(id)}`,
+          success: false,
+          error: 'delete error',
+        };
+      }
+      return {
+        message: `Successfully delete this product!`,
+        success: true,
+        error: null,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  };
+  /**
+   * stop seller product by id
+   * @param id
+   * @param seller_id
+   */
+  stopActive: (
+    seller_id: string,
+    id: Types.ObjectId,
+  ) => Promise<GeneralHandleResponse> = async (seller_id, id) => {
+    try {
+      const product = await this.productModel.findOneAndUpdate(
+        {
+          _id: id,
+          owner_info: { seller_id },
+        },
+        {
+          isActive: false,
+        },
+      );
+      if (!product) {
+        return {
+          message: `Failed to stop is active product by id:${String(id)}`,
+          success: false,
+          error: 'stop is active error',
+        };
+      }
+      return {
+        message: `Success full to stop sell this products`,
+        success: true,
+        error: null,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  };
   /**
    * @param dto
    * @param seller_id

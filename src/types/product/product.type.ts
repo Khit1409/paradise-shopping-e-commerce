@@ -86,7 +86,7 @@ export type CreateNewProductInformationRequest = {
  */
 export type CreateNewProductVaritantAttributeRequest = {
   name: string;
-  value: string;
+  value: string[];
   image: string | undefined;
 };
 /**
@@ -94,7 +94,7 @@ export type CreateNewProductVaritantAttributeRequest = {
  * request
  */
 export type CreateNewProductVaritantRequest = {
-  sku: number;
+  sku: string;
   stoke: number;
   attributes: CreateNewProductVaritantAttributeRequest[];
 };
@@ -108,4 +108,10 @@ export type CreateNewProductRequest = {
   sale: number;
   thumbnail: string;
   images: string[];
+};
+/**
+ *
+ */
+export type UpdateProductRequest = CreateNewProductRequest & {
+  id: string;
 };
