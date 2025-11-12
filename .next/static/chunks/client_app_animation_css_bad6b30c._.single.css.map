@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/client/app/animation.css"],"sourcesContent":["@keyframes product_loading {\n\n    0%,\n    100% {\n        transform: translateY(-25%);\n        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);\n    }\n\n    50% {\n        transform: translateY(0);\n        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);\n    }\n}\n\n.animation-product-loading {\n    display: flex;\n    gap: 24px;\n    inline-size: 100%;\n    align-items: center;\n    justify-content: center;\n    block-size: 100%;\n}\n\n.animation-product-loading-a {\n    inline-size: 20px;\n    block-size: 20px;\n    border-radius: 100%;\n    background-color: orangered;\n    animation: product_loading infinite 1s;\n}\n\n.animation-product-loading-b {\n    inline-size: 20px;\n    block-size: 20px;\n    border-radius: 100%;\n    background-color: orangered;\n    animation: product_loading infinite 1s;\n    animation-delay: 0.2s;\n}\n\n.animation-product-loading-c {\n    inline-size: 20px;\n    block-size: 20px;\n    border-radius: 100%;\n    background-color: orangered;\n    animation: product_loading infinite 1s;\n    animation-delay: 0.4s;\n}"],"names":[],"mappings":"AAAA;;;;;;;;;;;;AAcA;;;;;;;;;AASA;;;;;;;;AAQA;;;;;;;;AASA"}}]
-}
