@@ -59,9 +59,10 @@ export interface IProductRepository {
    * @param id
    * @returns
    */
-  stopActive: (
-    seller_id: string,
+  changeActive: (
     id: mongoose.Types.ObjectId,
+    seller_id: string,
+    active: boolean,
   ) => Promise<GeneralHandleResponse>;
   /**
    * update product

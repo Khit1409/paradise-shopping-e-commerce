@@ -2,8 +2,10 @@ import type { JwtAuthGuardRequest } from '@/types/auth/auth.type';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -46,6 +48,7 @@ export class SellerController {
   /**
    * create new product controller
    * @param body
+   * @param req
    */
   @Post('products')
   async createProduct(
@@ -63,6 +66,8 @@ export class SellerController {
   }
   /**
    * update product by seller id controller
+   * @param body
+   * @param req
    */
   @Put('products')
   async updateProduct(
@@ -72,5 +77,32 @@ export class SellerController {
     const { id } = req.user;
     const formatedRequest = ProductMapper.formatUpdateProductRequest(body);
     return await this.producService.updateProduct(formatedRequest, id);
+  }
+  /**
+   * delete product by id and seller id
+   * @param id
+   * @param req
+   */
+  @Delete('products/:id')
+  async deleteProduct(
+    @Param('id') product_id: string,
+    @Req() req: JwtAuthGuardRequest,
+  ) {
+    const { id } = req.user;
+    return await this.producService.deleteProduct(product_id, id);
+  }
+  /**
+   * stop product active controller
+   * @param product_id
+   * @param req
+   */
+  @Patch('products/:id/:active')
+  async changeProductActive(
+    @Param('id') product_id: string,
+    @Param('active') active: boolean,
+    @Req() req: JwtAuthGuardRequest,
+  ) {
+    const { id } = req.user;
+    return await this.producService.changeProductActive(product_id, id, active);
   }
 }

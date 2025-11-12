@@ -3,6 +3,7 @@ import { ProductMongooRepository } from '@/modules/domain/repositories/product.r
 import { Injectable } from '@nestjs/common';
 import { CreateNewProductDto } from '../domain/dto/product/product-create-dto';
 import { UpdateProductDto } from '../domain/dto/product/product-update.dto';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class ProductService {
@@ -46,5 +47,23 @@ export class ProductService {
    */
   async updateProduct(dto: UpdateProductDto, seller_id: string) {
     return await this.productRepo.update(dto, seller_id);
+  }
+  /**
+   * delete product
+   * @param id
+   * @param seller_id
+   */
+  async deleteProduct(id: string, seller_id: string) {
+    const product_id = new mongoose.Types.ObjectId(id);
+    return await this.productRepo.delete(product_id, seller_id);
+  }
+  /**
+   * stop product active by id
+   * @param id
+   * @param seller_id
+   */
+  async changeProductActive(id: string, seller_id: string, active: boolean) {
+    const product_id = new mongoose.Types.ObjectId(id);
+    return await this.productRepo.changeActive(product_id, seller_id, active);
   }
 }

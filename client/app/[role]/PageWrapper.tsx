@@ -26,6 +26,7 @@ export default function PageWrapper({
   const {} = useSelector((state: RootState) => state.auth);
   const {} = useSelector((state: RootState) => state.product);
   const {} = useSelector((state: RootState) => state.app);
+  const {} = useSelector((state: RootState) => state.seller);
 
   //next router
   const router = useRouter();

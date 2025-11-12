@@ -44,10 +44,29 @@ export class ProductMongooRepository implements IProductRepository {
     seller_id: string,
   ) => Promise<GeneralHandleResponse> = async (dto, seller_id) => {
     try {
-      const product = await this.productModel.findOne({
-        _id: dto.id,
-        'owner_info.seller_id': seller_id,
-      });
+      const newHashtag = await this.openAiService.clearProductHashtag(
+        dto.info.name,
+        dto.info.description,
+      );
+
+      const product = await this.productModel.findOneAndUpdate(
+        {
+          _id: dto.id,
+          'owner_info.seller_id': seller_id,
+        },
+        {
+          $set: {
+            info: dto.info,
+            varitants: dto.varitants,
+            original_price: dto.original_price,
+            sale: dto.sale,
+            images: dto.images,
+            tags: newHashtag,
+            thumbnail: dto.thumbnail,
+          },
+        },
+        { new: true },
+      );
       if (!product) {
         return {
           message: `Product with ${String(dto.id)} is not define!`,
@@ -55,19 +74,6 @@ export class ProductMongooRepository implements IProductRepository {
           success: false,
         };
       }
-      const newHashtag = await this.openAiService.clearProductHashtag(
-        dto.info.name,
-        dto.info.description,
-      );
-      product.info = dto.info;
-      product.varitants = dto.varitants;
-      product.original_price = dto.original_price;
-      product.sale = dto.sale;
-      product.images = dto.images;
-      product.tags = newHashtag;
-      product.thumbnail = dto.thumbnail;
-      await product.save();
-
       return {
         message: 'Successfully update product',
         success: true,
@@ -89,7 +95,7 @@ export class ProductMongooRepository implements IProductRepository {
     try {
       const deleted = await this.productModel.findOneAndDelete({
         _id: id,
-        owner_info: { seller_id },
+        'owner_info.seller_id': seller_id,
       });
       if (!deleted) {
         return {
@@ -112,18 +118,22 @@ export class ProductMongooRepository implements IProductRepository {
    * @param id
    * @param seller_id
    */
-  stopActive: (
-    seller_id: string,
+  changeActive: (
     id: Types.ObjectId,
-  ) => Promise<GeneralHandleResponse> = async (seller_id, id) => {
+    seller_id: string,
+    active: boolean,
+  ) => Promise<GeneralHandleResponse> = async (id, seller_id, active) => {
     try {
       const product = await this.productModel.findOneAndUpdate(
         {
           _id: id,
-          owner_info: { seller_id },
+          'owner_info.seller_id': seller_id,
         },
         {
-          isActive: false,
+          isActive: active,
+        },
+        {
+          new: true,
         },
       );
       if (!product) {
@@ -278,7 +288,12 @@ export class ProductMongooRepository implements IProductRepository {
     };
     const products =
       await this.productModel.aggregate<GetProductByQueryFinishedHandle>([
-        { $match: { ...query, isActive: true } },
+        {
+          $match: {
+            ...query,
+            ...(seller_id || store_id ? {} : { isActive: true }),
+          },
+        },
         { $limit: limit },
         { $skip: skip },
         { $project: select },

@@ -1,4 +1,4 @@
-import { Products, SingleProduct } from "../../type/product.interface";
+import { ProductList, SingleProduct } from "../../type/product.interface";
 import {
   getProducts,
   getSingleProductSellerService,
@@ -13,7 +13,7 @@ export const getSingleProductThunk = createAsyncThunk<
   /**
    * req
    */
-  { product_id: string },
+  string,
   /**
    * error
    */
@@ -26,14 +26,12 @@ export const getSingleProductThunk = createAsyncThunk<
    * @param thunkAPI
    * @returns
    */
-  async ({ product_id }, thunkAPI) => {
+  async (product_id, thunkAPI) => {
     try {
       /**
        * service
        */
-      const payload = await getSingleProductSellerService({
-        product_id,
-      });
+      const payload = await getSingleProductSellerService(product_id);
       return payload;
     } catch (error) {
       /**
@@ -50,7 +48,7 @@ export const getProductSellerThunk = createAsyncThunk<
   /**
    * res
    */
-  Products[],
+  ProductList[],
   /***
    * req
    */

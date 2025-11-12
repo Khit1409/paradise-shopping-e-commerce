@@ -13,8 +13,6 @@ export class OpenAIService {
     name: string,
     description: string,
   ): Promise<string[]> {
-    console.log('mô tả', description);
-    console.log('tên', name);
     const prompt = `
       Tạo một mảng hashtag cho sản phẩm. dựa trên tên và mô tả của sản phẩm dưới đây.
       Tên: ${name};
@@ -37,7 +35,6 @@ export class OpenAIService {
       // fallback nếu GPT trả về không phải JSON thật
       hashtags = text.split(/\s+/).filter((t) => t.startsWith('#'));
     }
-    console.log(hashtags);
     return hashtags;
   }
 }
