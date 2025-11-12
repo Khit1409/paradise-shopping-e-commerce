@@ -1,4 +1,4 @@
-import { FilterQuery } from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 import { GetProductByQueryDto } from '@/dto/product/product-get.dto';
 import { ProductDoc } from '@/schema/product.schema';
 import {
@@ -7,6 +7,7 @@ import {
 } from '@/modules/domain/dto/product/product-response-dto';
 import { CreateNewProductDto } from '@/modules/domain/dto/product/product-create-dto';
 import { GeneralHandleResponse } from './general.interface';
+import { UpdateProductDto } from '@/modules/domain/dto/product/product-update.dto';
 
 export interface IProductRepository {
   /**
@@ -43,4 +44,32 @@ export interface IProductRepository {
    * @returns
    */
   create: (dto: CreateNewProductDto) => Promise<GeneralHandleResponse>;
+  /**
+   * delete
+   * @param id
+   * @param seller_id
+   */
+  delete: (
+    id: mongoose.Types.ObjectId,
+    seller_id: string,
+  ) => Promise<GeneralHandleResponse>;
+  /**
+   * stop sell product by id
+   * @param seller_id
+   * @param id
+   * @returns
+   */
+  stopActive: (
+    seller_id: string,
+    id: mongoose.Types.ObjectId,
+  ) => Promise<GeneralHandleResponse>;
+  /**
+   * update product
+   * @param dto
+   * @param seller_id
+   */
+  update: (
+    dto: UpdateProductDto,
+    seller_id: string,
+  ) => Promise<GeneralHandleResponse>;
 }

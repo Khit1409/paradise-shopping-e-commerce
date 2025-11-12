@@ -1,7 +1,8 @@
 import { GetProductByQueryDto } from '@/domain/dto/product/product-get.dto';
-import { ProductMongooRepository } from '@/modules/domain/repositories/produc.repository';
+import { ProductMongooRepository } from '@/modules/domain/repositories/product.repository';
 import { Injectable } from '@nestjs/common';
 import { CreateNewProductDto } from '../domain/dto/product/product-create-dto';
+import { UpdateProductDto } from '../domain/dto/product/product-update.dto';
 
 @Injectable()
 export class ProductService {
@@ -37,5 +38,13 @@ export class ProductService {
    */
   async createNewProduct(dto: CreateNewProductDto) {
     return await this.productRepo.create(dto);
+  }
+  /**
+   * update product
+   * @param dto
+   * @param seller_id
+   */
+  async updateProduct(dto: UpdateProductDto, seller_id: string) {
+    return await this.productRepo.update(dto, seller_id);
   }
 }

@@ -1,7 +1,7 @@
 import { ProductController } from '@/controller/product.controller';
 import { ProductSchema } from '@/infrastructure/database/mongoodb/product.schema';
 import { StoreOrmEntity } from '@/infrastructure/database/sql-server/store.entity';
-import { ProductMongooRepository } from '@/modules/domain/repositories/produc.repository';
+import { ProductMongooRepository } from '@/modules/domain/repositories/product.repository';
 import { ProductService } from '@/services/product.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';

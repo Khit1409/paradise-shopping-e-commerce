@@ -8,9 +8,12 @@ import {
   GetProductByQueryFinishedHandle,
   GetProductByQueryRequest,
   GetSingleProductFinishedHandle,
+  UpdateProductRequest,
 } from '@/types/product/product.type';
 import { CreateNewProductDto } from '../domain/dto/product/product-create-dto';
 import { createProductSlug } from '@/util/create-slug-product-info';
+import { UpdateProductDto } from '../domain/dto/product/product-update.dto';
+import mongoose from 'mongoose';
 
 /**
  * Format response hoặc request trước khi gửi về hoặc nhận từ client
@@ -99,6 +102,25 @@ export class ProductMapper {
         seller_id,
         store_id,
       },
+    });
+  }
+  /**
+   * format update product request
+   */
+  static formatUpdateProductRequest(
+    req: UpdateProductRequest,
+  ): UpdateProductDto {
+    return new UpdateProductDto({
+      id: new mongoose.Types.ObjectId(req.id),
+      images: req.images,
+      info: {
+        ...req.info,
+        slug: createProductSlug(req.info.name),
+      },
+      original_price: Number(req.original_price),
+      sale: Number(req.sale),
+      thumbnail: req.thumbnail,
+      varitants: req.varitants,
     });
   }
 }

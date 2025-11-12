@@ -1,10 +1,10 @@
-
 import HomePageWrapper from "./HomePageWrapper";
 
 import HomePage from "../components/product/page/HomePage";
 import UserHeader from "../components/layout/Header/Header";
 import CarouselHeader from "../components/layout/Carousel/CarouselHeader";
 import { Metadata } from "next";
+import Footer from "@/components/layout/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "Paradise Shopping",
@@ -20,6 +20,7 @@ export default function Home() {
       <UserHeader />
       <CarouselHeader />
       <HomePage />
+      <Footer />
     </HomePageWrapper>
   );
 }
