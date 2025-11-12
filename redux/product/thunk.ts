@@ -2,8 +2,8 @@ import {
   ProductList,
   SingleProduct,
   GetProductQueryType,
-} from "../../type/product.interface";
-import { getProducts, getSingleProduct } from "../../service/product.service";
+} from "@/type/product.interface";
+import { getProducts, getSingleProduct } from "@/service/product.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 /**
