@@ -515,7 +515,9 @@ __turbopack_context__.s([
     "getProducts",
     ()=>getProducts,
     "getSingleProductSellerService",
-    ()=>getSingleProductSellerService
+    ()=>getSingleProductSellerService,
+    "updateProduct",
+    ()=>updateProduct
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$config$2f$fetch$2d$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/config/fetch-api.config.ts [app-client] (ecmascript)");
 ;
@@ -555,6 +557,19 @@ async function deleteProduct(id) {
         return {
             message: "".concat(error),
             resultCode: 1
+        };
+    }
+}
+async function updateProduct(data) {
+    try {
+        const res = await __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$config$2f$fetch$2d$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiAction"].put("seller/products", data);
+        const result = res.data;
+        return result;
+    } catch (error) {
+        return {
+            error: "".concat(error),
+            message: "Lỗi update sản phẩm",
+            success: false
         };
     }
 }
@@ -1443,16 +1458,40 @@ __turbopack_context__.s([
     ()=>LoadingAnimation
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/redux/app/slice.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-redux/dist/react-redux.mjs [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
 ;
+;
+;
 function LoadingAnimation() {
     _s();
-    const { onLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
+    const dispatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDispatch"])();
+    /**
+   * auto stop loading if server is not response api or some error handle.
+   */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "LoadingAnimation.useEffect": ()=>{
+            const timer = setTimeout({
+                "LoadingAnimation.useEffect.timer": ()=>{
+                    dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["onLoadingAction"])(false));
+                }
+            }["LoadingAnimation.useEffect.timer"], 10000);
+            return ({
+                "LoadingAnimation.useEffect": ()=>clearTimeout(timer)
+            })["LoadingAnimation.useEffect"];
+        }
+    }["LoadingAnimation.useEffect"], [
+        dispatch
+    ]);
+    /**
+   * redux state
+   */ const { onLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
         "LoadingAnimation.useSelector": (state)=>state.app
     }["LoadingAnimation.useSelector"]);
+    //render
     return onLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "w-screen h-screen fixed z-9999 bg-effect",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1461,22 +1500,23 @@ function LoadingAnimation() {
                 className: "animate-spin w-[100px] h-[100px] border-5 border-t-transparent rounded-full border-green-500"
             }, void 0, false, {
                 fileName: "[project]/client/components/modal/root/LoadingAnimation.tsx",
-                lineNumber: 12,
+                lineNumber: 28,
                 columnNumber: 11
             }, this)
         }, void 0, false, {
             fileName: "[project]/client/components/modal/root/LoadingAnimation.tsx",
-            lineNumber: 11,
+            lineNumber: 27,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "[project]/client/components/modal/root/LoadingAnimation.tsx",
-        lineNumber: 10,
+        lineNumber: 26,
         columnNumber: 7
     }, this);
 }
-_s(LoadingAnimation, "1OlzntAN67oOOJ3zN0nk4BnlTX8=", false, function() {
+_s(LoadingAnimation, "x4Sa8PVrx7vHFGB8gURjjpuZmqM=", false, function() {
     return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDispatch"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"]
     ];
 });

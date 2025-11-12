@@ -1,7 +1,10 @@
 import { apiAction } from "@/config/fetch-api.config";
 import { GeneralHandleResponse } from "@/type/general.type";
 import { ProductList, SingleProduct } from "@/type/product.interface";
-import { ProductDataRequest } from "@/type/seller.interface";
+import {
+  ProductDataRequest,
+  ProductDataUpdateRequest,
+} from "@/type/seller.interface";
 /**
  *
  * @param param0
@@ -56,5 +59,23 @@ export async function deleteProduct(id: string) {
     return result;
   } catch (error) {
     return { message: `${error}`, resultCode: 1 };
+  }
+}
+/**
+ * update product
+ */
+export async function updateProduct(
+  data: ProductDataUpdateRequest
+): Promise<GeneralHandleResponse> {
+  try {
+    const res = await apiAction.put("seller/products", data);
+    const result: GeneralHandleResponse = res.data;
+    return result;
+  } catch (error) {
+    return {
+      error: `${error}`,
+      message: "Lỗi update sản phẩm",
+      success: false,
+    };
   }
 }
