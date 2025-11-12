@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import BorderLine from "../layout/BorderLine";
 
-import { getAttrNameBySlug } from "@/utils/seller.util";
 import ProductList from "../product/ProductList";
 
 export default function OrderList() {
@@ -43,8 +42,9 @@ export default function OrderList() {
               <div className="flex items-center justify-between text-sm border border-gray-300 p-2 rounded">
                 {/* shop info */}
                 <div>
-                  <Link href={"/store"} className="hover:underline">
-                    <FontAwesomeIcon icon={faStore} /> Name of store
+                  <Link href={"/user/store"} className="hover:underline">
+                    <FontAwesomeIcon icon={faStore} />{" "}
+                    {order.store_info.store_name}
                   </Link>
                 </div>
                 {/* status order */}

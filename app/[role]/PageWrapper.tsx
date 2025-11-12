@@ -106,7 +106,7 @@ export default function PageWrapper({
       <SellerNavbar />
       <div className="flex flex-1 flex-col gap-1">
         <SellerHeader />
-        <section className="border border-gray-300 bg-white h-screen overflow-y-auto p-2 ">
+        <section className="border border-gray-300 bg-white overflow-y-auto p-3">
           {children}
         </section>
       </div>

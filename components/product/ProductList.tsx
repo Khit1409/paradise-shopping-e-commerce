@@ -47,10 +47,10 @@ export default function ProductList(props: ComponentProps) {
               <Link
                 href={`/${
                   ofRole === "seller"
-                    ? `seller/edit-product?product_id=${pro._id}`
-                    : `user/single-product?info=${pro._id}`
+                    ? `seller/edit-product?product_id=${pro.id}`
+                    : `user/single-product?info=${pro.id}`
                 }`}
-                key={pro._id}
+                key={pro.id}
                 className="border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col"
               >
                 <Image

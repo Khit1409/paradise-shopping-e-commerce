@@ -4,7 +4,6 @@ import {
   ProductList,
 } from "@/type/product.interface";
 import { apiAction } from "@/config/fetch-api.config";
-
 /**
  * ================
  * PRODUCT SERVICES
@@ -45,8 +44,7 @@ export async function getProducts(
 }
 /**
  * Get single product by ID or slug.
- * @param {GetSingleProductRequest} query
- * @returns {Promise<SingleProduct>}
+ * @param id
  */
 export async function getSingleProduct(id: string): Promise<SingleProduct> {
   const res = await apiAction.get(`products/${id}`);

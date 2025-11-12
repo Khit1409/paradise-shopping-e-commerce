@@ -1,14 +1,16 @@
 "use client";
 
 import OrderPage from "@/components/order/page/OrderPage";
-import CreateNewProduct from "@/components/seller/manager-product/create/CreateProduct";
+
 import CartPage from "@/components/cart/page/CartPage";
 import ShopPage from "@/components/product/page/ShopPage";
 import SalePage from "@/components/product/page/SalePage";
 import ProfileSetting from "@/components/user/ProfileSetting";
-import EditProduct from "@/components/seller/manager-product/edit/EditProduct";
+
 import SellerManagerStoreProduct from "@/components/seller/page/SellerManagerStoreProduct";
 import CheckoutPage from "@/components/checkout/page/CheckoutPage";
+import EditProductPage from "@/components/seller/page/EditProductPage";
+import CreateNewProductPage from "@/components/seller/page/CreateNewProductPage";
 
 type Role = "user" | "seller";
 
@@ -27,8 +29,8 @@ const PAGE_CONTENT: Record<Role, Record<string, React.ReactNode>> = {
   },
   seller: {
     "manager-product-store": <SellerManagerStoreProduct />,
-    "edit-product": <EditProduct />,
-    "add-new-product": <CreateNewProduct />,
+    "edit-product": <EditProductPage />,
+    "add-new-product": <CreateNewProductPage/>,
   },
 };
 /**

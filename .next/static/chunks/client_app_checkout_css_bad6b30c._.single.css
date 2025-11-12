@@ -1,0 +1,9 @@
+/* [project]/client/app/checkout.css [app-client] (css) */
+.checkout-bg {
+  object-fit: cover;
+  background-image: url("/imgs/checkout-background.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+/*# sourceMappingURL=client_app_checkout_css_bad6b30c._.single.css.map*/

@@ -42,7 +42,7 @@ export const ProductVaritant = (props: ComponentProps) => {
     if (selectedVaritant?.sku === sku) {
       const selected = selectedVaritant.attributes.find((f) => f.name === name);
       return selected?.value === value
-        ? "bg-blue-500 text-white"
+        ? "bg-gray-400 text-white"
         : "bg-white hover:bg-gray-200";
     }
   };

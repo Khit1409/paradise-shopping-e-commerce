@@ -35,7 +35,7 @@ export default function CartModal({ ...props }: ComponentProps) {
           carts.map((cart) => (
             <Link
               href={"/user/my-cart"}
-              key={cart._id}
+              key={cart.id}
               className="flex items-center gap-3 p-2 rounded-xl border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all duration-200"
             >
               {/* image */}

@@ -39,7 +39,7 @@ export default function UserModal({ ...props }: ComponentProps) {
   /** Handle user logout and redirect to homepage if logout succeeds */
   const handleLogout = async () => {
     const rs = await logout("user");
-    if (rs.resultCode == 1) {
+    if (rs.success) {
       const check = await dispatch(authenticationThunk());
       if (authenticationThunk.rejected.match(check)) {
         router.replace("/");
@@ -66,12 +66,6 @@ export default function UserModal({ ...props }: ComponentProps) {
         <div className="flex flex-col">
           <p className="font-semibold text-gray-800">
             {`${user.firtname} ${user.lastname}`}
-          </p>
-          <p className="text-sm text-gray-500 truncate">
-            {user?.email ?? "Please log in"}
-          </p>
-          <p className="text-sm text-gray-500 truncate">
-            {user?.phone ?? ""}
           </p>
         </div>
       </div>
