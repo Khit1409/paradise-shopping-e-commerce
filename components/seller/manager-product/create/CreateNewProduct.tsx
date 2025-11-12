@@ -156,6 +156,76 @@ export default function CreateNewProduct() {
     setData((prev) => ({ ...prev, varitants: updatedVariants }));
   };
 
+  /**
+   * find brand list by selected category name
+   * @param category
+   */
+  const findBrands = (category: string) => {
+    const selectedCategory = EXAMPLE_CATEGORY_JSON.find(
+      (cate) => cate.name === category
+    );
+    if (!selectedCategory) return [];
+    const brandNeeded = EXAMPLE_BRAND_JSON.find(
+      (fBr) => fBr.category_id === selectedCategory.id
+    );
+    if (!brandNeeded) return [];
+    return brandNeeded.brands;
+  };
+  /**
+   * find varitant product list by selected cate gory
+   * @param category
+   */
+  const findVaritantAttributes = (category: string) => {
+    const selectedCategory = EXAMPLE_CATEGORY_JSON.find(
+      (cate) => cate.name === category
+    );
+    if (!selectedCategory) return [];
+    const varitantNeeded = EXAMPLE_VARIANT_JSON.find(
+      (fVrt) => fVrt.category_id === selectedCategory.id
+    );
+    if (!varitantNeeded) return [];
+    return varitantNeeded.attributes;
+  };
+  /**
+   * check is valid attribute by sku and name in data state
+   * @param sku
+   * @param name
+   */
+  const isCheckedAttribute = (sku: string, name: string) => {
+    if (!data.varitants) {
+      return false;
+    }
+    const isValidVaritant = data.varitants.find((fVr) => fVr.sku === sku);
+    if (!isValidVaritant) return false;
+
+    const isValidAttribute = isValidVaritant.attributes.find(
+      (fAttr) => fAttr.name === name
+    );
+    if (!isValidAttribute) return false;
+    return true;
+  };
+  /**
+   * check is valid  attribute value by sku, name , value in data state
+   * @param sku
+   * @param name
+   * @param value
+   */
+  const isCheckedValue = (sku: string, name: string, value: string) => {
+    const isValidVaritant = data.varitants.find((fVar) => fVar.sku === sku);
+    if (!isValidVaritant) return false;
+    const isValidAttribute = isValidVaritant.attributes.find(
+      (fAttr) => fAttr.name === name
+    );
+    if (!isValidAttribute) return false;
+    const isValidValue = isValidAttribute.value.find((fVl) => fVl === value);
+    if (!isValidValue) return false;
+    return true;
+  };
+  /**
+   * check validate value before handle request add new product
+   * @param data
+   * @returns
+   */
   const checkValidateRequest = (data: ProductDataRequest) => {
     let errorMessage: string | null = null;
     if (data.images.length == 0) {
@@ -376,13 +446,7 @@ export default function CreateNewProduct() {
                   ? "Chọn hãng sản xuất"
                   : "Vui lòng chọn danh mục trước"}
               </option>
-              {EXAMPLE_BRAND_JSON.find(
-                (b) =>
-                  b.category_id ===
-                  EXAMPLE_CATEGORY_JSON.find(
-                    (c) => c.name === data.info.category
-                  )?.id
-              )?.brands.map((brand) => (
+              {findBrands(data.info.category).map((brand) => (
                 <option key={brand} value={brand}>
                   {brand}
                 </option>
@@ -546,65 +610,51 @@ export default function CreateNewProduct() {
                   name={`stock-${createSku(data.info.name)}-MOD-${i + 1}`}
                 />
               </label>
-              {EXAMPLE_VARIANT_JSON.find(
-                (f) =>
-                  f.category_id ===
-                  EXAMPLE_CATEGORY_JSON.find(
-                    (f) => f.name === data.info.category
-                  )?.id
-              )?.attributes.map((f, idx) => (
-                <div key={idx} className="mb-3">
-                  <label className="flex items-center gap-2 w-max">
-                    <input
-                      type="checkbox"
-                      value={f.name}
-                      checked={
-                        !!data.varitants
-                          .find(
-                            (v) =>
-                              v.sku ===
-                              `${createSku(data.info.name)}-MOD-${i + 1}`
-                          )
-                          ?.attributes.find((a) => a.name === f.name)
-                      }
-                      onChange={() =>
-                        handleVariantChange({
-                          sku: `${createSku(data.info.name)}-MOD-${i + 1}`,
-                          name: f.name,
-                        })
-                      }
-                    />
-                    <strong>{f.name}</strong>
-                  </label>
-                  <div className="grid grid-cols-3 mt-1">
-                    {f.value.map((val) => (
-                      <label key={val} className="flex gap-2">
-                        <input
-                          type="checkbox"
-                          checked={
-                            !!data.varitants
-                              .find(
-                                (v) =>
-                                  v.sku ===
-                                  `${createSku(data.info.name)}-MOD-${i + 1}`
-                              )
-                              ?.attributes.find((a) => a.name === f.name)
-                              ?.value.includes(val)
-                          }
-                          onChange={() =>
-                            handleVariantChange({
-                              sku: `${createSku(data.info.name)}-MOD-${i + 1}`,
-                              name: f.name,
-                              value: val,
-                            })
-                          }
-                        />
-                        {val}
-                      </label>
-                    ))}
+              {findVaritantAttributes(data.info.category).map(
+                (attribute, idx) => (
+                  <div key={idx} className="mb-3">
+                    <label className="flex items-center gap-2 w-max">
+                      <input
+                        type="checkbox"
+                        value={attribute.name}
+                        checked={isCheckedAttribute(
+                          `${createSku(data.info.name)}-MOD-${i + 1}`,
+                          attribute.name
+                        )}
+                        onChange={() =>
+                          handleVariantChange({
+                            sku: `${createSku(data.info.name)}-MOD-${i + 1}`,
+                            name: attribute.name,
+                          })
+                        }
+                      />
+                      <strong>{attribute.name}</strong>
+                    </label>
+                    <div className="grid grid-cols-3 mt-1">
+                      {attribute.value.map((val) => (
+                        <label key={val} className="flex gap-2">
+                          <input
+                            type="checkbox"
+                            checked={isCheckedValue(
+                              `${createSku(data.info.name)}-MOD-${i + 1}`,
+                              attribute.name,
+                              val
+                            )}
+                            onChange={() =>
+                              handleVariantChange({
+                                sku: `${createSku(data.info.name)}-MOD-${i + 1}`,
+                                name: attribute.name,
+                                value: val,
+                              })
+                            }
+                          />
+                          {val}
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           ))}
       </div>

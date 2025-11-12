@@ -33,6 +33,7 @@ export default function HomePage() {
       <ProductList ofRole="user" />
       {/* set page */}
       <Pagination setPage={setPage} page={page} />
+      
     </section>
   );
 }

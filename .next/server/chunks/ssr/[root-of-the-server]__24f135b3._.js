@@ -3244,7 +3244,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-redux/dist/react-redux.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/components/seller/manager-product/data.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$service$2f$cloud$2e$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/service/cloud.service.ts [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$service$2f$seller$2e$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/service/seller.service.ts [app-ssr] (ecmascript)");
 "use client";
+;
 ;
 ;
 ;
@@ -3263,8 +3265,9 @@ function EditProduct() {
     const dispatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useDispatch"])();
     const { product } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.seller);
     const [data, setData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(product);
-    // Fetch product
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+    /**
+   * fetch product api when params got id product from url
+   */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (product_id) {
             (async ()=>{
                 dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(true));
@@ -3281,8 +3284,9 @@ function EditProduct() {
         product_id,
         dispatch
     ]);
-    // Redirect if invalid id
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+    /**
+   * Redirect if invalid id
+   */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (!product_id || product_id.length < 24) {
             const timer = setTimeout(()=>router.replace("/seller"), 2000);
             return ()=>clearTimeout(timer);
@@ -3291,7 +3295,18 @@ function EditProduct() {
         product_id,
         router
     ]);
-    if (!product_id || product_id.length < 24) {
+    /**
+   * fix bug log
+   */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (data && data.varitants && data.varitants[data.varitants.length - 1]) {
+            console.log(data.varitants[data.varitants.length - 1]);
+        }
+    }, [
+        data
+    ]);
+    /**
+   * preview component notification error when id is not right format object id
+   */ if (!product_id || product_id.length < 24) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "flex h-[80vh] flex-col items-center justify-center text-center text-gray-600",
             children: [
@@ -3300,7 +3315,7 @@ function EditProduct() {
                     className: "text-yellow-500 text-3xl mb-2"
                 }, void 0, false, {
                     fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                    lineNumber: 55,
+                    lineNumber: 81,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3308,18 +3323,23 @@ function EditProduct() {
                     children: "PRODUCT ID IS INVALID OR NOT FOUND. PLEASE DO NOT MODIFY THE URL OR CONTACT ADMIN."
                 }, void 0, false, {
                     fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                    lineNumber: 59,
+                    lineNumber: 85,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-            lineNumber: 54,
+            lineNumber: 80,
             columnNumber: 7
         }, this);
     }
-    // helper functions
-    const findDifferentAttributeValues = (categoryName, attrName, currentValues)=>{
+    /**
+   * find different attribute value list by category name , attribute name and existed value list
+   * @param categoryName
+   * @param attrName
+   * @param currentValues
+   * @returns
+   */ const findDifferentAttributeValues = (categoryName, attrName, currentValues)=>{
         const category = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((cate)=>cate.name === categoryName);
         if (!category) return [];
         const variantTemplate = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_VARIANT_JSON"].find((variant)=>variant.category_id === category.id);
@@ -3328,7 +3348,12 @@ function EditProduct() {
         if (!attribute) return [];
         return attribute.value.filter((val)=>!currentValues.includes(val));
     };
-    const finDifferentAttributes = (category, attributes)=>{
+    /**
+   * find different attribute by category and attributes selected
+   * @param category
+   * @param attributes
+   * @returns
+   */ const findDifferentAttributes = (category, attributes)=>{
         const categorySelected = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((fcate)=>fcate.name === category);
         if (!categorySelected) return [];
         const selectedAttrName = attributes.map((attr)=>attr.name);
@@ -3336,14 +3361,26 @@ function EditProduct() {
         if (!varitantTemple) return [];
         return varitantTemple.attributes.filter((ft)=>!selectedAttrName.includes(ft.name));
     };
-    const findIsChecked = (sku, name, value)=>{
+    /**
+   * find value is selected for stick checked of checkbox input
+   * @param sku
+   * @param name
+   * @param value
+   * @returns
+   */ const findIsChecked = (sku, name, value)=>{
         const varitant = data.varitants.find((fv)=>fv.sku === sku);
         if (!varitant) return false;
         const attribute = varitant.attributes.find((fAttr)=>fAttr.name === name);
         if (!attribute) return false;
         return attribute.value.includes(value);
     };
-    const onChangeAttributeValue = (sku, name, value)=>{
+    /**
+   * up new attribute value if seller is pushing new attribute value to
+   * old attribute value list
+   * @param sku
+   * @param name
+   * @param value
+   */ const onChangeAttributeValue = (sku, name, value)=>{
         setData((prev)=>{
             const newVaritants = prev.varitants.map((varitant)=>{
                 if (varitant.sku === sku) {
@@ -3374,7 +3411,60 @@ function EditProduct() {
             };
         });
     };
-    const onchangeThumbnail = async (file)=>{
+    /**
+   * add new attribute name and attribute values list to old product data
+   * @param sku
+   * @param name
+   * @param value
+   */ const onChangeVaritantAttributes = (sku, name, value)=>{
+        console.log(sku, name, value);
+        setData((prev)=>{
+            const newVaritants = prev.varitants.map((varitant)=>{
+                let newAttributes = [
+                    ...varitant.attributes
+                ];
+                if (varitant.sku === sku) {
+                    const attrIdx = newAttributes.findIndex((attr)=>attr.name === name);
+                    if (attrIdx !== -1) {
+                        console.log("existing");
+                        if (!value) {
+                            newAttributes = newAttributes.filter((ftAttr)=>ftAttr.name !== name);
+                        } else {
+                            console.log("add new");
+                            newAttributes.map((newAttr)=>newAttr.name === name ? {
+                                    ...newAttr,
+                                    value: [
+                                        ...newAttr.value,
+                                        value
+                                    ]
+                                } : newAttr);
+                        }
+                    } else {
+                        newAttributes.push({
+                            name,
+                            value: value ? [
+                                value
+                            ] : []
+                        });
+                    }
+                    return {
+                        ...varitant,
+                        attributes: newAttributes
+                    };
+                } else {
+                    return varitant;
+                }
+            });
+            return {
+                ...prev,
+                varitants: newVaritants
+            };
+        });
+    };
+    /**
+   * update old thumbnail
+   * @param file
+   */ const onchangeThumbnail = async (file)=>{
         dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(true));
         const res = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$service$2f$cloud$2e$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["uploadImageToCloud"])(file);
         if (res) {
@@ -3389,9 +3479,75 @@ function EditProduct() {
             }));
         }
     };
+    /**
+   * remove image of images list by index
+   * @param index
+   */ const removeImageInImageList = (index)=>{
+        setData((prev)=>({
+                ...prev,
+                images: prev.images.filter((_, idx)=>idx !== index)
+            }));
+    };
+    /**
+   * onchange images
+   * @param index
+   * @param file
+   */ const onChangeImages = async (index, file)=>{
+        dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(true));
+        const res = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$service$2f$cloud$2e$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["uploadImageToCloud"])(file);
+        dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(false));
+        if (!res || res.resultCode !== 1) {
+            return dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onErrorModel"])({
+                onError: true,
+                mess: "Lỗi tải ảnh lên đám mây"
+            }));
+        }
+        setData((prev)=>{
+            const newImages = [
+                ...prev.images
+            ];
+            if (newImages[index]) {
+                newImages[index] = res.url;
+            } else {
+                newImages.push(res.url);
+            }
+            return {
+                ...prev,
+                images: newImages
+            };
+        });
+    };
+    /**
+   * update handle
+   */ async function handleUpdate(e) {
+        e.preventDefault();
+        try {
+            dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(true));
+            const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$service$2f$seller$2e$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["updateProduct"])(data);
+            if (result) {
+                dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(false));
+                if (!result.success) {
+                    dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onErrorModel"])({
+                        onError: true,
+                        mess: result.message
+                    }));
+                }
+                dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onSuccessfulModel"])(true));
+            }
+        } catch (error) {
+            dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(false));
+            dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onErrorModel"])({
+                onError: true,
+                mess: `${error}`
+            }));
+        }
+    }
     // Render layout
-    return data ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "text-gray-800 mx-auto ",
+    return data ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+        className: "text-gray-800 mx-auto",
+        onSubmit: async (e)=>{
+            await handleUpdate(e);
+        },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "bg-white mb-6",
@@ -3401,7 +3557,7 @@ function EditProduct() {
                         children: "Thông tin sản phẩm"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 155,
+                        lineNumber: 312,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3419,13 +3575,13 @@ function EditProduct() {
                                                 children: "*"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 318,
                                                 columnNumber: 28
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 160,
+                                        lineNumber: 317,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -3440,13 +3596,13 @@ function EditProduct() {
                                         className: "border border-gray-300 outline-none p-2 h-[80px]"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 163,
+                                        lineNumber: 320,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 159,
+                                lineNumber: 316,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3457,7 +3613,7 @@ function EditProduct() {
                                         children: "Hãng sản xuất"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 176,
+                                        lineNumber: 333,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3475,7 +3631,7 @@ function EditProduct() {
                                                 children: data.info.brand
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 188,
+                                                lineNumber: 345,
                                                 columnNumber: 15
                                             }, this),
                                             __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_BRAND_JSON"].find((b)=>b.category_id === __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((c)=>c.name === data.info.category)?.id)?.brands.map((brand)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3483,25 +3639,25 @@ function EditProduct() {
                                                     children: brand
                                                 }, brand, false, {
                                                     fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                    lineNumber: 196,
+                                                    lineNumber: 353,
                                                     columnNumber: 17
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 179,
+                                        lineNumber: 336,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 175,
+                                lineNumber: 332,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 158,
+                        lineNumber: 315,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3516,13 +3672,13 @@ function EditProduct() {
                                         children: "*"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 364,
                                         columnNumber: 28
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 206,
+                                lineNumber: 363,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -3537,13 +3693,13 @@ function EditProduct() {
                                 className: "border d border-gray-300 outline-none p-2 w-full h-[200px]"
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 209,
+                                lineNumber: 366,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 205,
+                        lineNumber: 362,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3560,13 +3716,13 @@ function EditProduct() {
                                                 children: "*"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 225,
+                                                lineNumber: 382,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 224,
+                                        lineNumber: 381,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3581,13 +3737,13 @@ function EditProduct() {
                                         className: "border border-gray-300 d outline-none p-2 w-full"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 227,
+                                        lineNumber: 384,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 223,
+                                lineNumber: 380,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3597,7 +3753,7 @@ function EditProduct() {
                                         children: "Giá khuyến mãi"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 243,
+                                        lineNumber: 400,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3613,25 +3769,25 @@ function EditProduct() {
                                         className: "border border-gray-300 d outline-none p-2 w-full"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 246,
+                                        lineNumber: 403,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 242,
+                                lineNumber: 399,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 222,
+                        lineNumber: 379,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                lineNumber: 154,
+                lineNumber: 311,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -3642,7 +3798,7 @@ function EditProduct() {
                         children: "Hình ảnh sản phẩm"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 266,
+                        lineNumber: 422,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3655,7 +3811,7 @@ function EditProduct() {
                                         children: "Ảnh bìa"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 271,
+                                        lineNumber: 427,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -3670,7 +3826,7 @@ function EditProduct() {
                                                 className: "d border border-gray-300 object-cover w-[200px] h-[180px]"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 273,
+                                                lineNumber: 429,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3684,19 +3840,19 @@ function EditProduct() {
                                                 className: "hidden"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 280,
+                                                lineNumber: 436,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 272,
+                                        lineNumber: 428,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 270,
+                                lineNumber: 426,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3707,75 +3863,127 @@ function EditProduct() {
                                         children: "Ảnh chi tiết"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 294,
+                                        lineNumber: 450,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex flex-wrap gap-3",
                                         children: [
-                                            data.images.map((img, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                    src: img,
-                                                    alt: `detail-${i}`,
-                                                    width: 150,
-                                                    height: 120,
-                                                    className: "d border border-gray-300 w-[150px] h-[120px] object-cover"
-                                                }, i, false, {
+                                            data.images.map((img, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                    htmlFor: `${img}-${i}`,
+                                                    className: "w-max",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex justify-end",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                className: "text-red-500 h-max",
+                                                                onClick: ()=>{
+                                                                    removeImageInImageList(i);
+                                                                },
+                                                                children: "x"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                lineNumber: 455,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                            lineNumber: 454,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                                            src: img,
+                                                            alt: `detail-${i}`,
+                                                            width: 150,
+                                                            height: 120,
+                                                            className: "d border border-gray-300 w-[150px] h-[120px] object-cover"
+                                                        }, i, false, {
+                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                            lineNumber: 464,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                            id: `${img}-${i}`,
+                                                            type: "file",
+                                                            onChange: async (e)=>{
+                                                                const { files } = e.target;
+                                                                if (!files) return;
+                                                                const file = files[0];
+                                                                await onChangeImages(i, file);
+                                                            },
+                                                            accept: "image/*",
+                                                            className: "hidden"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                            lineNumber: 472,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, i, true, {
                                                     fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                    lineNumber: 297,
+                                                    lineNumber: 453,
                                                     columnNumber: 17
                                                 }, this)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                className: "border border-dashed border-green-400 text-green-500 w-[150px] h-[120px] flex items-center justify-center cursor-pointer d",
+                                                htmlFor: "new-image",
+                                                className: "border mt-6 border-dashed border-green-400 text-green-500 w-[150px] h-[120px] flex items-center justify-center cursor-pointer d",
                                                 children: [
                                                     "+ Thêm ảnh",
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                         type: "file",
+                                                        id: "new-image",
+                                                        onChange: async (e)=>{
+                                                            const { files } = e.target;
+                                                            if (!files) return;
+                                                            const file = files[0];
+                                                            await onChangeImages(data.images.length, file);
+                                                        },
                                                         accept: "image/*",
                                                         className: "hidden"
                                                     }, void 0, false, {
                                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                        lineNumber: 308,
+                                                        lineNumber: 491,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 306,
+                                                lineNumber: 486,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 295,
+                                        lineNumber: 451,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                lineNumber: 293,
+                                lineNumber: 449,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 269,
+                        lineNumber: 425,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                lineNumber: 265,
+                lineNumber: 421,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
-                className: "bg-white borde",
+                className: "bg-white",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                         className: "text-lg font-bold uppercase border-b pb-2 mb-4",
                         children: "Phân loại sản phẩm"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                        lineNumber: 317,
+                        lineNumber: 510,
                         columnNumber: 9
                     }, this),
                     data.varitants.map((variant)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3790,13 +3998,13 @@ function EditProduct() {
                                             children: variant.sku
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                            lineNumber: 327,
+                                            lineNumber: 517,
                                             columnNumber: 20
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                    lineNumber: 326,
+                                    lineNumber: 516,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3807,22 +4015,31 @@ function EditProduct() {
                                             children: "Tồn kho:"
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                            lineNumber: 331,
+                                            lineNumber: 521,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                             type: "number",
                                             defaultValue: variant.stoke,
+                                            onChange: (e)=>{
+                                                setData((prev)=>({
+                                                        ...prev,
+                                                        varitants: prev.varitants.map((vari)=>vari.sku === variant.sku ? {
+                                                                ...vari,
+                                                                stoke: Number(e.target.value)
+                                                            } : vari)
+                                                    }));
+                                            },
                                             className: "border border-gray-300 d outline-none p-1 w-[100px] text-center"
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                            lineNumber: 332,
+                                            lineNumber: 522,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                    lineNumber: 330,
+                                    lineNumber: 520,
                                     columnNumber: 13
                                 }, this),
                                 variant.attributes.map((attr)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3833,7 +4050,7 @@ function EditProduct() {
                                                 children: attr.name
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 341,
+                                                lineNumber: 541,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3847,49 +4064,301 @@ function EditProduct() {
                                                                 onChange: ()=>onChangeAttributeValue(variant.sku, attr.name, val)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                                lineNumber: 345,
+                                                                lineNumber: 545,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 children: val
                                                             }, void 0, false, {
                                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                                lineNumber: 352,
+                                                                lineNumber: 552,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, val, true, {
                                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                        lineNumber: 344,
+                                                        lineNumber: 544,
                                                         columnNumber: 21
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                                lineNumber: 342,
+                                                lineNumber: 542,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "grid grid-cols-3 gap-1 border-t border-gray-300 mt-2 pt-1",
+                                                children: findDifferentAttributeValues(data.info.category, attr.name, attr.value).map((val)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "flex items-center gap-1",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "checkbox",
+                                                                checked: findIsChecked(variant.sku, attr.name, val),
+                                                                onChange: ()=>onChangeAttributeValue(variant.sku, attr.name, val)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                lineNumber: 563,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                children: val
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                lineNumber: 570,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, val, true, {
+                                                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                        lineNumber: 562,
+                                                        columnNumber: 21
+                                                    }, this))
+                                            }, void 0, false, {
+                                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                lineNumber: 556,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, attr.name, true, {
                                         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                                        lineNumber: 340,
+                                        lineNumber: 540,
                                         columnNumber: 15
-                                    }, this))
+                                    }, this)),
+                                findDifferentAttributes(data.info.category, variant.attributes).length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                            children: "Phân loại khác"
+                                        }, void 0, false, {
+                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                            lineNumber: 580,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "border-t border-gray-300",
+                                            children: findDifferentAttributes(data.info.category, variant.attributes).map((attr)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "pt-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                            htmlFor: `new-attribute-name-${attr.name}`,
+                                                            className: "flex items-center w-max gap-1 mb-1",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                    type: "checkbox",
+                                                                    id: `new-attribute-name-${attr.name}`,
+                                                                    onChange: ()=>{
+                                                                        onChangeVaritantAttributes(variant.sku, attr.name);
+                                                                    }
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                    lineNumber: 591,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    className: "block",
+                                                                    children: attr.name
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                    lineNumber: 598,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                            lineNumber: 587,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "grid grid-cols-3 gap-1",
+                                                            children: attr.value.map((val)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                    className: "flex items-center gap-1",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                            type: "checkbox",
+                                                                            onChange: ()=>onChangeVaritantAttributes(variant.sku, attr.name, val)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                            lineNumber: 603,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            children: val
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                            lineNumber: 613,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, val, true, {
+                                                                    fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                    lineNumber: 602,
+                                                                    columnNumber: 27
+                                                                }, this))
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                            lineNumber: 600,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "grid grid-cols-3 gap-1 border-t border-gray-300 mt-2 pt-1",
+                                                            children: findDifferentAttributeValues(data.info.category, attr.name, attr.value).map((val)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                    className: "flex items-center gap-1",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                            type: "checkbox",
+                                                                            checked: findIsChecked(variant.sku, attr.name, val),
+                                                                            onChange: ()=>onChangeAttributeValue(variant.sku, attr.name, val)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                            lineNumber: 624,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            children: val
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                            lineNumber: 639,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, val, true, {
+                                                                    fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                                    lineNumber: 623,
+                                                                    columnNumber: 27
+                                                                }, this))
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                            lineNumber: 617,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    ]
+                                                }, attr.name, true, {
+                                                    fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                                    lineNumber: 586,
+                                                    columnNumber: 21
+                                                }, this))
+                                        }, void 0, false, {
+                                            fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                            lineNumber: 581,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true)
                             ]
                         }, variant.sku, true, {
                             fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                            lineNumber: 322,
+                            lineNumber: 515,
                             columnNumber: 11
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-                lineNumber: 316,
+                lineNumber: 509,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "bg-white mb-6 flex flex-col gap-2",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                        className: "uppercase",
+                        children: "Tùy chọn"
+                    }, void 0, false, {
+                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                        lineNumber: 653,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-5",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "submit",
+                                className: "px-2 py-1 border border-green-500 hover:bg-green-500 hover:text-white uppercase",
+                                children: [
+                                    "Lưu chỉnh sửa ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faSave"]
+                                    }, void 0, false, {
+                                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                        lineNumber: 659,
+                                        columnNumber: 27
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                lineNumber: 655,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                className: "px-2 py-1 border border-red-500 hover:bg-red-500 hover:text-white uppercase",
+                                children: [
+                                    "Xóa sản phẩm ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faDeleteLeft"]
+                                    }, void 0, false, {
+                                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                        lineNumber: 665,
+                                        columnNumber: 26
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                lineNumber: 661,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                onClick: ()=>{
+                                    setData(product);
+                                },
+                                className: "px-2 py-1 border border-gray-500 hover:bg-gray-500 hover:text-white uppercase",
+                                children: [
+                                    "hủy thay đổi ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faHistory"]
+                                    }, void 0, false, {
+                                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                        lineNumber: 674,
+                                        columnNumber: 26
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                lineNumber: 667,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                className: "px-2 py-1 border border-gray-300 uppercase hover:bg-gray-400 hover:text-white",
+                                children: [
+                                    "ngừng bán sản phẩm này ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FontAwesomeIcon"], {
+                                        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faCancel"]
+                                    }, void 0, false, {
+                                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                        lineNumber: 680,
+                                        columnNumber: 36
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                                lineNumber: 676,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                        lineNumber: 654,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
+                lineNumber: 652,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-        lineNumber: 152,
+        lineNumber: 304,
         columnNumber: 5
     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex h-full items-center justify-center",
@@ -3898,12 +4367,12 @@ function EditProduct() {
             children: "Sản phẩm không tồn tại."
         }, void 0, false, {
             fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-            lineNumber: 364,
+            lineNumber: 687,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/client/components/seller/manager-product/edit/EditProduct.tsx",
-        lineNumber: 363,
+        lineNumber: 686,
         columnNumber: 5
     }, this);
 }
@@ -4079,7 +4548,59 @@ function CreateNewProduct() {
                 varitants: updatedVariants
             }));
     };
-    const checkValidateRequest = (data)=>{
+    /**
+   * find brand list by selected category name
+   * @param category
+   */ const findBrands = (category)=>{
+        const selectedCategory = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((cate)=>cate.name === category);
+        if (!selectedCategory) return [];
+        const brandNeeded = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_BRAND_JSON"].find((fBr)=>fBr.category_id === selectedCategory.id);
+        if (!brandNeeded) return [];
+        return brandNeeded.brands;
+    };
+    /**
+   * find varitant product list by selected cate gory
+   * @param category
+   */ const findVaritantAttributes = (category)=>{
+        const selectedCategory = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((cate)=>cate.name === category);
+        if (!selectedCategory) return [];
+        const varitantNeeded = __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_VARIANT_JSON"].find((fVrt)=>fVrt.category_id === selectedCategory.id);
+        if (!varitantNeeded) return [];
+        return varitantNeeded.attributes;
+    };
+    /**
+   * check is valid attribute by sku and name in data state
+   * @param sku
+   * @param name
+   */ const isCheckedAttribute = (sku, name)=>{
+        if (!data.varitants) {
+            return false;
+        }
+        const isValidVaritant = data.varitants.find((fVr)=>fVr.sku === sku);
+        if (!isValidVaritant) return false;
+        const isValidAttribute = isValidVaritant.attributes.find((fAttr)=>fAttr.name === name);
+        if (!isValidAttribute) return false;
+        return true;
+    };
+    /**
+   * check is valid  attribute value by sku, name , value in data state
+   * @param sku
+   * @param name
+   * @param value
+   */ const isCheckedValue = (sku, name, value)=>{
+        const isValidVaritant = data.varitants.find((fVar)=>fVar.sku === sku);
+        if (!isValidVaritant) return false;
+        const isValidAttribute = isValidVaritant.attributes.find((fAttr)=>fAttr.name === name);
+        if (!isValidAttribute) return false;
+        const isValidValue = isValidAttribute.value.find((fVl)=>fVl === value);
+        if (!isValidValue) return false;
+        return true;
+    };
+    /**
+   * check validate value before handle request add new product
+   * @param data
+   * @returns
+   */ const checkValidateRequest = (data)=>{
         let errorMessage = null;
         if (data.images.length == 0) {
             errorMessage = "Vui lòng thêm ít nhất 1 ảnh mô tả sản phẩm";
@@ -4158,7 +4679,7 @@ function CreateNewProduct() {
                         children: "Thông tin sản phẩm"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 233,
+                        lineNumber: 303,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4174,13 +4695,13 @@ function CreateNewProduct() {
                                         children: "*"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 240,
+                                        lineNumber: 310,
                                         columnNumber: 26
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 239,
+                                lineNumber: 309,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -4198,13 +4719,13 @@ function CreateNewProduct() {
                                         }))
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 242,
+                                lineNumber: 312,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 238,
+                        lineNumber: 308,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4220,13 +4741,13 @@ function CreateNewProduct() {
                                         children: "*"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 263,
+                                        lineNumber: 333,
                                         columnNumber: 28
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 259,
+                                lineNumber: 329,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -4244,13 +4765,13 @@ function CreateNewProduct() {
                                         }))
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 265,
+                                lineNumber: 335,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 258,
+                        lineNumber: 328,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4268,13 +4789,13 @@ function CreateNewProduct() {
                                                 children: "*"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 287,
+                                                lineNumber: 357,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 283,
+                                        lineNumber: 353,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4293,13 +4814,13 @@ function CreateNewProduct() {
                                                 }))
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 289,
+                                        lineNumber: 359,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 282,
+                                lineNumber: 352,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4310,7 +4831,7 @@ function CreateNewProduct() {
                                         children: "Giá khuyến mãi"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 308,
+                                        lineNumber: 378,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4329,19 +4850,19 @@ function CreateNewProduct() {
                                                 }))
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 311,
+                                        lineNumber: 381,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 307,
+                                lineNumber: 377,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 281,
+                        lineNumber: 351,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4359,13 +4880,13 @@ function CreateNewProduct() {
                                                 children: "*"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 338,
+                                                lineNumber: 408,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 404,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -4386,7 +4907,7 @@ function CreateNewProduct() {
                                                 children: "Chọn danh mục"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 352,
+                                                lineNumber: 422,
                                                 columnNumber: 15
                                             }, this),
                                             __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].map((cate)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4394,19 +4915,19 @@ function CreateNewProduct() {
                                                     children: cate.name
                                                 }, cate.id, false, {
                                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                    lineNumber: 354,
+                                                    lineNumber: 424,
                                                     columnNumber: 17
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 340,
+                                        lineNumber: 410,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 333,
+                                lineNumber: 403,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4417,7 +4938,7 @@ function CreateNewProduct() {
                                         children: "Hãng sản xuất"
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 361,
+                                        lineNumber: 431,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -4436,39 +4957,39 @@ function CreateNewProduct() {
                                                 children: data.info.category ? "Chọn hãng sản xuất" : "Vui lòng chọn danh mục trước"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 374,
+                                                lineNumber: 444,
                                                 columnNumber: 15
                                             }, this),
-                                            __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_BRAND_JSON"].find((b)=>b.category_id === __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((c)=>c.name === data.info.category)?.id)?.brands.map((brand)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                            findBrands(data.info.category).map((brand)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                     value: brand,
                                                     children: brand
                                                 }, brand, false, {
                                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                    lineNumber: 386,
+                                                    lineNumber: 450,
                                                     columnNumber: 17
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 364,
+                                        lineNumber: 434,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 360,
+                                lineNumber: 430,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 332,
+                        lineNumber: 402,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                lineNumber: 232,
+                lineNumber: 302,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4479,7 +5000,7 @@ function CreateNewProduct() {
                         children: "Ảnh sản phẩm"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 397,
+                        lineNumber: 461,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4490,7 +5011,7 @@ function CreateNewProduct() {
                                 children: "Ảnh bìa"
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 400,
+                                lineNumber: 464,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4507,7 +5028,7 @@ function CreateNewProduct() {
                                             objectFit: "cover"
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 407,
+                                            lineNumber: 471,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4518,13 +5039,13 @@ function CreateNewProduct() {
                                             onChange: handleThumbnailUpload
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 415,
+                                            lineNumber: 479,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 403,
+                                    lineNumber: 467,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                     className: "w-max h-max flex items-center justify-center border border-green-500",
@@ -4535,7 +5056,7 @@ function CreateNewProduct() {
                                             children: "+Ảnh"
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 428,
+                                            lineNumber: 492,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4546,24 +5067,24 @@ function CreateNewProduct() {
                                             onChange: handleThumbnailUpload
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 431,
+                                            lineNumber: 495,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 424,
+                                    lineNumber: 488,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 401,
+                                lineNumber: 465,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 399,
+                        lineNumber: 463,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4574,7 +5095,7 @@ function CreateNewProduct() {
                                 children: "Ảnh chi tiết"
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 445,
+                                lineNumber: 509,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4591,7 +5112,7 @@ function CreateNewProduct() {
                                                     className: "w-[200px] h-[180px]"
                                                 }, void 0, false, {
                                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                    lineNumber: 449,
+                                                    lineNumber: 513,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4601,13 +5122,13 @@ function CreateNewProduct() {
                                                     onChange: (e)=>handleImageUpload(e, i)
                                                 }, void 0, false, {
                                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                    lineNumber: 456,
+                                                    lineNumber: 520,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, i, true, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 448,
+                                            lineNumber: 512,
                                             columnNumber: 15
                                         }, this)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4619,7 +5140,7 @@ function CreateNewProduct() {
                                                 children: "+ Ảnh"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 468,
+                                                lineNumber: 532,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4630,31 +5151,31 @@ function CreateNewProduct() {
                                                 onChange: (e)=>handleImageUpload(e, data.images.length)
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 471,
+                                                lineNumber: 535,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 464,
+                                        lineNumber: 528,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 446,
+                                lineNumber: 510,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 444,
+                        lineNumber: 508,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                lineNumber: 396,
+                lineNumber: 460,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4665,7 +5186,7 @@ function CreateNewProduct() {
                         children: "Phân loại sản phẩm"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 485,
+                        lineNumber: 549,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4680,12 +5201,12 @@ function CreateNewProduct() {
                                     icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faMinus"]
                                 }, void 0, false, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 496,
+                                    lineNumber: 560,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 490,
+                                lineNumber: 554,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4695,7 +5216,7 @@ function CreateNewProduct() {
                                 className: "border border-gray-300 outline-0 w-[50px] text-center"
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 498,
+                                lineNumber: 562,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4706,18 +5227,18 @@ function CreateNewProduct() {
                                     icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faPlus"]
                                 }, void 0, false, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 509,
+                                    lineNumber: 573,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 504,
+                                lineNumber: 568,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 489,
+                        lineNumber: 553,
                         columnNumber: 9
                     }, this),
                     (!data.info.category || !data.info.name) && modelCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4725,7 +5246,7 @@ function CreateNewProduct() {
                         children: "* Vui lòng nhập tên và chọn danh mục trước"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 515,
+                        lineNumber: 579,
                         columnNumber: 11
                     }, this),
                     modelCount > 0 && data.info.name && data.info.category && Array.from({
@@ -4742,7 +5263,7 @@ function CreateNewProduct() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 526,
+                                    lineNumber: 590,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4753,7 +5274,7 @@ function CreateNewProduct() {
                                             children: "Số lượng tồn kho"
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 534,
+                                            lineNumber: 598,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4770,16 +5291,16 @@ function CreateNewProduct() {
                                             name: `stock-${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`
                                         }, void 0, false, {
                                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                            lineNumber: 535,
+                                            lineNumber: 599,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 530,
+                                    lineNumber: 594,
                                     columnNumber: 15
                                 }, this),
-                                __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_VARIANT_JSON"].find((f)=>f.category_id === __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$seller$2f$manager$2d$product$2f$data$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["EXAMPLE_CATEGORY_JSON"].find((f)=>f.name === data.info.category)?.id)?.attributes.map((f, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                findVaritantAttributes(data.info.category).map((attribute, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "mb-3",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4787,76 +5308,76 @@ function CreateNewProduct() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                         type: "checkbox",
-                                                        value: f.name,
-                                                        checked: !!data.varitants.find((v)=>v.sku === `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`)?.attributes.find((a)=>a.name === f.name),
+                                                        value: attribute.name,
+                                                        checked: isCheckedAttribute(`${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`, attribute.name),
                                                         onChange: ()=>handleVariantChange({
                                                                 sku: `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`,
-                                                                name: f.name
+                                                                name: attribute.name
                                                             })
                                                     }, void 0, false, {
                                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                        lineNumber: 558,
-                                                        columnNumber: 21
+                                                        lineNumber: 617,
+                                                        columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                        children: f.name
+                                                        children: attribute.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                        lineNumber: 577,
-                                                        columnNumber: 21
+                                                        lineNumber: 631,
+                                                        columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 557,
-                                                columnNumber: 19
+                                                lineNumber: 616,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid grid-cols-3 mt-1",
-                                                children: f.value.map((val)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                children: attribute.value.map((val)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                         className: "flex gap-2",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "checkbox",
-                                                                checked: !!data.varitants.find((v)=>v.sku === `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`)?.attributes.find((a)=>a.name === f.name)?.value.includes(val),
+                                                                checked: isCheckedValue(`${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`, attribute.name, val),
                                                                 onChange: ()=>handleVariantChange({
                                                                         sku: `${(0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$utils$2f$create$2d$sku$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createSku"])(data.info.name)}-MOD-${i + 1}`,
-                                                                        name: f.name,
+                                                                        name: attribute.name,
                                                                         value: val
                                                                     })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                                lineNumber: 582,
-                                                                columnNumber: 25
+                                                                lineNumber: 636,
+                                                                columnNumber: 27
                                                             }, this),
                                                             val
                                                         ]
                                                     }, val, true, {
                                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                        lineNumber: 581,
-                                                        columnNumber: 23
+                                                        lineNumber: 635,
+                                                        columnNumber: 25
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 579,
-                                                columnNumber: 19
+                                                lineNumber: 633,
+                                                columnNumber: 21
                                             }, this)
                                         ]
                                     }, idx, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 556,
-                                        columnNumber: 17
+                                        lineNumber: 615,
+                                        columnNumber: 19
                                     }, this))
                             ]
                         }, i, true, {
                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                            lineNumber: 525,
+                            lineNumber: 589,
                             columnNumber: 13
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                lineNumber: 484,
+                lineNumber: 548,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4867,7 +5388,7 @@ function CreateNewProduct() {
                         children: "Phân loại đã chọn"
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 614,
+                        lineNumber: 664,
                         columnNumber: 9
                     }, this),
                     data.varitants.length ? data.varitants.map((v)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4878,7 +5399,7 @@ function CreateNewProduct() {
                                     children: v.sku
                                 }, void 0, false, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 620,
+                                    lineNumber: 670,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4886,7 +5407,7 @@ function CreateNewProduct() {
                                     children: v.stoke
                                 }, void 0, false, {
                                     fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                    lineNumber: 621,
+                                    lineNumber: 671,
                                     columnNumber: 15
                                 }, this),
                                 v.attributes.map((a, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4899,7 +5420,7 @@ function CreateNewProduct() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 624,
+                                                lineNumber: 674,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4908,36 +5429,36 @@ function CreateNewProduct() {
                                                         children: val
                                                     }, val, false, {
                                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                        lineNumber: 627,
+                                                        lineNumber: 677,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                                lineNumber: 625,
+                                                lineNumber: 675,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, i, true, {
                                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                        lineNumber: 623,
+                                        lineNumber: 673,
                                         columnNumber: 17
                                     }, this))
                             ]
                         }, v.sku, true, {
                             fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                            lineNumber: 619,
+                            lineNumber: 669,
                             columnNumber: 13
                         }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: "Chưa chọn."
                     }, void 0, false, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 635,
+                        lineNumber: 685,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                lineNumber: 613,
+                lineNumber: 663,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4952,13 +5473,13 @@ function CreateNewProduct() {
                                 icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faSave"]
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 645,
+                                lineNumber: 695,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 640,
+                        lineNumber: 690,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4971,25 +5492,25 @@ function CreateNewProduct() {
                                 icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faCancel"]
                             }, void 0, false, {
                                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                                lineNumber: 653,
+                                lineNumber: 703,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                        lineNumber: 647,
+                        lineNumber: 697,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-                lineNumber: 639,
+                lineNumber: 689,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/components/seller/manager-product/create/CreateNewProduct.tsx",
-        lineNumber: 230,
+        lineNumber: 300,
         columnNumber: 5
     }, this);
 }

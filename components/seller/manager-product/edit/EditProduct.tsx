@@ -1,8 +1,18 @@
 "use client";
-import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
+import {
+  onErrorModel,
+  onLoadingAction,
+  onSuccessfulModel,
+} from "@/redux/app/slice";
 import { getSingleProductThunk } from "@/redux/seller/thunk";
 import { AppDispatch, RootState } from "@/redux/store";
-import { faWarning } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCancel,
+  faDeleteLeft,
+  faHistory,
+  faSave,
+  faWarning,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,6 +28,7 @@ import {
   SingleProduct,
 } from "@/type/product.interface";
 import { uploadImageToCloud } from "@/service/cloud.service";
+import { updateProduct } from "@/service/seller.service";
 
 export default function EditProduct() {
   const params = useSearchParams();
@@ -27,7 +38,9 @@ export default function EditProduct() {
   const { product } = useSelector((state: RootState) => state.seller);
   const [data, setData] = useState<SingleProduct>(product!);
 
-  // Fetch product
+  /**
+   * fetch product api when params got id product from url
+   */
   useEffect(() => {
     if (product_id) {
       (async () => {
@@ -41,7 +54,9 @@ export default function EditProduct() {
     }
   }, [product_id, dispatch]);
 
-  // Redirect if invalid id
+  /**
+   * Redirect if invalid id
+   */
   useEffect(() => {
     if (!product_id || product_id.length < 24) {
       const timer = setTimeout(() => router.replace("/seller"), 2000);
@@ -49,6 +64,17 @@ export default function EditProduct() {
     }
   }, [product_id, router]);
 
+  /**
+   * fix bug log
+   */
+  useEffect(() => {
+    if (data && data.varitants && data.varitants[data.varitants.length - 1]) {
+      console.log(data.varitants[data.varitants.length - 1]);
+    }
+  }, [data]);
+  /**
+   * preview component notification error when id is not right format object id
+   */
   if (!product_id || product_id.length < 24) {
     return (
       <div className="flex h-[80vh] flex-col items-center justify-center text-center text-gray-600">
@@ -64,7 +90,13 @@ export default function EditProduct() {
     );
   }
 
-  // helper functions
+  /**
+   * find different attribute value list by category name , attribute name and existed value list
+   * @param categoryName
+   * @param attrName
+   * @param currentValues
+   * @returns
+   */
   const findDifferentAttributeValues = (
     categoryName: string,
     attrName: string,
@@ -84,8 +116,13 @@ export default function EditProduct() {
     if (!attribute) return [];
     return attribute.value.filter((val) => !currentValues.includes(val));
   };
-
-  const finDifferentAttributes = (
+  /**
+   * find different attribute by category and attributes selected
+   * @param category
+   * @param attributes
+   * @returns
+   */
+  const findDifferentAttributes = (
     category: string,
     attributes: ProductVariantAttribute[]
   ) => {
@@ -102,7 +139,13 @@ export default function EditProduct() {
       (ft) => !selectedAttrName.includes(ft.name)
     );
   };
-
+  /**
+   * find value is selected for stick checked of checkbox input
+   * @param sku
+   * @param name
+   * @param value
+   * @returns
+   */
   const findIsChecked = (sku: string, name: string, value: string) => {
     const varitant = data.varitants.find((fv) => fv.sku === sku);
     if (!varitant) return false;
@@ -110,7 +153,13 @@ export default function EditProduct() {
     if (!attribute) return false;
     return attribute.value.includes(value);
   };
-
+  /**
+   * up new attribute value if seller is pushing new attribute value to
+   * old attribute value list
+   * @param sku
+   * @param name
+   * @param value
+   */
   const onChangeAttributeValue = (sku: string, name: string, value: string) => {
     setData((prev) => {
       const newVaritants = prev.varitants.map((varitant) => {
@@ -132,7 +181,52 @@ export default function EditProduct() {
       return { ...prev, varitants: newVaritants };
     });
   };
-
+  /**
+   * add new attribute name and attribute values list to old product data
+   * @param sku
+   * @param name
+   * @param value
+   */
+  const onChangeVaritantAttributes = (
+    sku: string,
+    name: string,
+    value?: string
+  ) => {
+    console.log(sku, name, value);
+    setData((prev) => {
+      const newVaritants = prev.varitants.map((varitant) => {
+        let newAttributes = [...varitant.attributes];
+        if (varitant.sku === sku) {
+          const attrIdx = newAttributes.findIndex((attr) => attr.name === name);
+          if (attrIdx !== -1) {
+            console.log("existing");
+            if (!value) {
+              newAttributes = newAttributes.filter(
+                (ftAttr) => ftAttr.name !== name
+              );
+            } else {
+              console.log("add new");
+              newAttributes.map((newAttr) =>
+                newAttr.name === name
+                  ? { ...newAttr, value: [...newAttr.value, value] }
+                  : newAttr
+              );
+            }
+          } else {
+            newAttributes.push({ name, value: value ? [value] : [] });
+          }
+          return { ...varitant, attributes: newAttributes };
+        } else {
+          return varitant;
+        }
+      });
+      return { ...prev, varitants: newVaritants };
+    });
+  };
+  /**
+   * update old thumbnail
+   * @param file
+   */
   const onchangeThumbnail = async (file: File) => {
     dispatch(onLoadingAction(true));
     const res = await uploadImageToCloud(file);
@@ -146,10 +240,73 @@ export default function EditProduct() {
         );
     }
   };
+  /**
+   * remove image of images list by index
+   * @param index
+   */
+  const removeImageInImageList = (index: number) => {
+    setData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, idx) => idx !== index),
+    }));
+  };
+  /**
+   * onchange images
+   * @param index
+   * @param file
+   */
+  const onChangeImages = async (index: number, file: File) => {
+    dispatch(onLoadingAction(true));
+    const res = await uploadImageToCloud(file);
+    dispatch(onLoadingAction(false));
+
+    if (!res || res.resultCode !== 1) {
+      return dispatch(
+        onErrorModel({ onError: true, mess: "Lỗi tải ảnh lên đám mây" })
+      );
+    }
+
+    setData((prev) => {
+      const newImages = [...prev.images];
+      if (newImages[index]) {
+        newImages[index] = res.url;
+      } else {
+        newImages.push(res.url);
+      }
+      return { ...prev, images: newImages };
+    });
+  };
+
+  /**
+   * update handle
+   */
+
+  async function handleUpdate(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      dispatch(onLoadingAction(true));
+      const result = await updateProduct(data);
+      if (result) {
+        dispatch(onLoadingAction(false));
+        if (!result.success) {
+          dispatch(onErrorModel({ onError: true, mess: result.message }));
+        }
+        dispatch(onSuccessfulModel(true));
+      }
+    } catch (error) {
+      dispatch(onLoadingAction(false));
+      dispatch(onErrorModel({ onError: true, mess: `${error}` }));
+    }
+  }
 
   // Render layout
   return data ? (
-    <div className="text-gray-800 mx-auto ">
+    <form
+      className="text-gray-800 mx-auto"
+      onSubmit={async (e) => {
+        await handleUpdate(e);
+      }}
+    >
       {/* --- Product Info --- */}
       <section className="bg-white mb-6">
         <h2 className="text-lg font-bold uppercase border-b pb-2 mb-4">
@@ -260,7 +417,6 @@ export default function EditProduct() {
           </div>
         </div>
       </section>
-
       {/* --- Image Section --- */}
       <section className="bg-white mb-6">
         <h2 className="text-lg font-bold uppercase border-b pb-2 mb-4">
@@ -294,35 +450,69 @@ export default function EditProduct() {
             <p className="font-semibold mb-2">Ảnh chi tiết</p>
             <div className="flex flex-wrap gap-3">
               {data.images.map((img, i) => (
-                <Image
-                  key={i}
-                  src={img}
-                  alt={`detail-${i}`}
-                  width={150}
-                  height={120}
-                  className="d border border-gray-300 w-[150px] h-[120px] object-cover"
-                />
+                <label key={i} htmlFor={`${img}-${i}`} className="w-max">
+                  <div className="flex justify-end">
+                    <button
+                      className="text-red-500 h-max"
+                      onClick={() => {
+                        removeImageInImageList(i);
+                      }}
+                    >
+                      x
+                    </button>
+                  </div>
+                  <Image
+                    key={i}
+                    src={img}
+                    alt={`detail-${i}`}
+                    width={150}
+                    height={120}
+                    className="d border border-gray-300 w-[150px] h-[120px] object-cover"
+                  />
+                  <input
+                    id={`${img}-${i}`}
+                    type="file"
+                    onChange={async (e) => {
+                      const { files } = e.target;
+                      if (!files) return;
+                      const file = files[0];
+                      await onChangeImages(i, file);
+                    }}
+                    accept="image/*"
+                    className="hidden"
+                  />
+                </label>
               ))}
-              <label className="border border-dashed border-green-400 text-green-500 w-[150px] h-[120px] flex items-center justify-center cursor-pointer d">
+              <label
+                htmlFor="new-image"
+                className="border mt-6 border-dashed border-green-400 text-green-500 w-[150px] h-[120px] flex items-center justify-center cursor-pointer d"
+              >
                 + Thêm ảnh
-                <input type="file" accept="image/*" className="hidden" />
+                <input
+                  type="file"
+                  id="new-image"
+                  onChange={async (e) => {
+                    const { files } = e.target;
+                    if (!files) return;
+                    const file = files[0];
+                    await onChangeImages(data.images.length, file);
+                  }}
+                  accept="image/*"
+                  className="hidden"
+                />
               </label>
             </div>
           </div>
         </div>
       </section>
-
       {/* --- Variants --- */}
-      <section className="bg-white borde">
+      <section className="bg-white">
         <h2 className="text-lg font-bold uppercase border-b pb-2 mb-4">
           Phân loại sản phẩm
         </h2>
 
         {data.varitants.map((variant) => (
-          <div
-            key={variant.sku}
-            className="border- pt-4 mt-4 space-y-3"
-          >
+          <div key={variant.sku} className="border- pt-4 mt-4 space-y-3">
             <h4 className="font-semibold text-base">
               Mẫu: <span className="text-gray-500">{variant.sku}</span>
             </h4>
@@ -332,6 +522,16 @@ export default function EditProduct() {
               <input
                 type="number"
                 defaultValue={variant.stoke}
+                onChange={(e) => {
+                  setData((prev) => ({
+                    ...prev,
+                    varitants: prev.varitants.map((vari) =>
+                      vari.sku === variant.sku
+                        ? { ...vari, stoke: Number(e.target.value) }
+                        : vari
+                    ),
+                  }));
+                }}
                 className="border border-gray-300 d outline-none p-1 w-[100px] text-center"
               />
             </div>
@@ -353,12 +553,135 @@ export default function EditProduct() {
                     </label>
                   ))}
                 </div>
+                <div className="grid grid-cols-3 gap-1 border-t border-gray-300 mt-2 pt-1">
+                  {findDifferentAttributeValues(
+                    data.info.category,
+                    attr.name,
+                    attr.value
+                  ).map((val) => (
+                    <label key={val} className="flex items-center gap-1">
+                      <input
+                        type="checkbox"
+                        checked={findIsChecked(variant.sku, attr.name, val)}
+                        onChange={() =>
+                          onChangeAttributeValue(variant.sku, attr.name, val)
+                        }
+                      />
+                      <span>{val}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             ))}
+
+            {findDifferentAttributes(data.info.category, variant.attributes)
+              .length > 0 && (
+              <>
+                <strong>Phân loại khác</strong>
+                <div className="border-t border-gray-300">
+                  {findDifferentAttributes(
+                    data.info.category,
+                    variant.attributes
+                  ).map((attr) => (
+                    <div key={attr.name} className="pt-2">
+                      <label
+                        htmlFor={`new-attribute-name-${attr.name}`}
+                        className="flex items-center w-max gap-1 mb-1"
+                      >
+                        <input
+                          type="checkbox"
+                          id={`new-attribute-name-${attr.name}`}
+                          onChange={() => {
+                            onChangeVaritantAttributes(variant.sku, attr.name);
+                          }}
+                        />
+                        <strong className="block">{attr.name}</strong>
+                      </label>
+                      <div className="grid grid-cols-3 gap-1">
+                        {attr.value.map((val) => (
+                          <label key={val} className="flex items-center gap-1">
+                            <input
+                              type="checkbox"
+                              onChange={() =>
+                                onChangeVaritantAttributes(
+                                  variant.sku,
+                                  attr.name,
+                                  val
+                                )
+                              }
+                            />
+                            <span>{val}</span>
+                          </label>
+                        ))}
+                      </div>
+                      <div className="grid grid-cols-3 gap-1 border-t border-gray-300 mt-2 pt-1">
+                        {findDifferentAttributeValues(
+                          data.info.category,
+                          attr.name,
+                          attr.value
+                        ).map((val) => (
+                          <label key={val} className="flex items-center gap-1">
+                            <input
+                              type="checkbox"
+                              checked={findIsChecked(
+                                variant.sku,
+                                attr.name,
+                                val
+                              )}
+                              onChange={() =>
+                                onChangeAttributeValue(
+                                  variant.sku,
+                                  attr.name,
+                                  val
+                                )
+                              }
+                            />
+                            <span>{val}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         ))}
       </section>
-    </div>
+      {/* action */}
+      <section className="bg-white mb-6 flex flex-col gap-2">
+        <h4 className="uppercase">Tùy chọn</h4>
+        <div className="flex gap-5">
+          <button
+            type="submit"
+            className="px-2 py-1 border border-green-500 hover:bg-green-500 hover:text-white uppercase"
+          >
+            Lưu chỉnh sửa <FontAwesomeIcon icon={faSave} />
+          </button>
+          <button
+            type="button"
+            className="px-2 py-1 border border-red-500 hover:bg-red-500 hover:text-white uppercase"
+          >
+            Xóa sản phẩm <FontAwesomeIcon icon={faDeleteLeft} />
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setData(product!);
+            }}
+            className="px-2 py-1 border border-gray-500 hover:bg-gray-500 hover:text-white uppercase"
+          >
+            hủy thay đổi <FontAwesomeIcon icon={faHistory} />
+          </button>
+          <button
+            type="button"
+            className="px-2 py-1 border border-gray-300 uppercase hover:bg-gray-400 hover:text-white"
+          >
+            ngừng bán sản phẩm này <FontAwesomeIcon icon={faCancel} />
+          </button>
+        </div>
+      </section>
+    </form>
   ) : (
     <div className="flex h-full items-center justify-center">
       <p className="uppercase">Sản phẩm không tồn tại.</p>
