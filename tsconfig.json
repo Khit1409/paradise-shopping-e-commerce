@@ -18,7 +18,19 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/config/*": ["src/config/*"],
+      "@/controller/*": ["src/modules/controller/*"],
+      "@/services/*": ["src/modules/services/*"],
+      "@/domain/*": ["src/modules/domain/*"],
+      "@/modules/*": ["src/modules/*"],
+      "@/infrastructure/*": ["src/infrastructure/*"],
+      "@/repositories/*": ["src/modules/domain/repositories/*"],
+      "@/mapper/*": ["src/modules/mapper/*"],
+      "@/database/*": ["src/infrastructure/database/*"],
+      "@/entities/*": ["src/infrastructure/database/sql-server/*"],
+      "@/schema/*": ["src/infrastructure/database/mongoodb/*"],
+      "@/dto/*": ["src/modules/domain/dto/*"]
     }
   }
 }

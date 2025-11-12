@@ -1,7 +1,7 @@
-import { AuthController } from '@/controllers/auth.controller';
+import { AuthController } from '@/controller/auth.controller';
 import { DatabaseModule } from '@/modules/database.module';
-import { UserInformationSchema } from '@/infrastructure/database/mongoose/schemas/user-info.schema';
-import { UserOrmEntity } from '@/infrastructure/database/typeorm/entities/user.sql.entity';
+import { UserInformationSchema } from '@/database/mongoodb/user-info.schema';
+import { UserOrmEntity } from '@/database/sql-server/user.entity';
 import { AuthService } from '@/services/auth.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';

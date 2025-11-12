@@ -1,24 +1,26 @@
 import { Module } from '@nestjs/common';
-import { UserSqlRepository } from '../infrastructure/database/typeorm/repositories/user.sql.repository';
+import { AuthRepository } from '@/modules/domain/repositories/auth.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserOrmEntity } from '../infrastructure/database/typeorm/entities/user.sql.entity';
+import { UserOrmEntity } from '@/infrastructure/database/sql-server/user.entity';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ProductSchema } from '../infrastructure/database/mongoose/schemas/product.schema';
-import { ProductMongooRepository } from '../infrastructure/database/mongoose/repositories/product.mongoo.repository';
+import { ProductSchema } from '@/infrastructure/database/mongoodb/product.schema';
+import { ProductMongooRepository } from '@/modules/domain/repositories/produc.repository';
 import {
   StoreBankingEntity,
   StoreOrmEntity,
-} from '@/infrastructure/database/typeorm/entities/store.sql.entity';
-import { CartMongooRepository } from '../infrastructure/database/mongoose/repositories/cart.mongoo.repository';
-import { OrderSqlRepository } from '../infrastructure/database/typeorm/repositories/order.sql.repository';
-import { OrderOrmEntity } from '../infrastructure/database/typeorm/entities/order.sql.entity';
-import { OrderItemOrmEntity } from '../infrastructure/database/typeorm/entities/order-item.sql.entity';
-import { OrderContactOrmEntity } from '../infrastructure/database/typeorm/entities/order-contact.sql.entity';
-import { OrderVaritantSchema } from '../infrastructure/database/mongoose/schemas/order-attribute.schema';
-import { CartSchema } from '@/infrastructure/database/mongoose/schemas/cart.schema';
+} from '@/infrastructure/database/sql-server/store.entity';
+import { CartMongooRepository } from '@/modules/domain/repositories/cart.repository';
+import { OrderSqlRepository } from '@/modules/domain/repositories/order.repository';
+import { OrderOrmEntity } from '@/infrastructure/database/sql-server/order.entity';
+import { OrderItemOrmEntity } from '@/infrastructure/database/sql-server/order-item.entity';
+import { OrderContactOrmEntity } from '@/infrastructure/database/sql-server/order-contact.entity';
+import { OrderVaritantSchema } from '@/infrastructure/database/mongoodb/order-attribute.schema';
+import { CartSchema } from '@/infrastructure/database/mongoodb/cart.schema';
 import { PaymentService } from '@/services/payments.service';
-import { PayOsProvider } from '@/configs/payos/payos.config';
+import { PayOsProvider } from '@/config/payos/payos.config';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { UserInformationSchema } from '@/infrastructure/database/mongoodb/user-info.schema';
+import { OpenAIModule } from './OpenAI.module';
 
 @Module({
   imports: [
@@ -38,12 +40,15 @@ import { MailerModule } from '@nestjs-modules/mailer';
       },
       { name: 'OrderVaritantModel', schema: OrderVaritantSchema },
       { name: 'CartModel', schema: CartSchema },
+      { name: 'UserInformations', schema: UserInformationSchema },
     ]),
+    OpenAIModule,
   ],
+
   controllers: [],
   providers: [
     PayOsProvider,
-    UserSqlRepository,
+    AuthRepository,
     ProductMongooRepository,
     CartMongooRepository,
     OrderSqlRepository,
@@ -51,7 +56,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     PaymentService,
   ],
   exports: [
-    UserSqlRepository,
+    AuthRepository,
     ProductMongooRepository,
     CartMongooRepository,
     OrderSqlRepository,

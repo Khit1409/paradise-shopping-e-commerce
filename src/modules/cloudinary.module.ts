@@ -1,4 +1,4 @@
-import { CloudinaryController } from '@/controllers/cloudinary.controller';
+import { CloudinaryController } from '@/controller/cloudinary.controller';
 import { CloudinaryService } from '@/services/cloudinary.service';
 import { Module } from '@nestjs/common';
 
