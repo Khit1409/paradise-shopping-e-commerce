@@ -36,7 +36,7 @@ export default function SellerNavBar() {
     const res = await logout("seller");
     if (res) {
       dispatch(onLoadingAction(false));
-      if (res.resultCode == 1) {
+      if (res.success) {
         dispatch(onSuccessfulModel(true));
         return router.replace("/login");
       } else {

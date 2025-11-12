@@ -52,15 +52,12 @@ export default function CheckoutOrder() {
     dispatch(onLoadingAction(true));
     const result = await cancelCheckout(paymentLinkId);
     if (result) {
-      const { resultCode } = result;
       dispatch(onLoadingAction(false));
-      if (resultCode == 1) {
+      if (result.success) {
         dispatch(changeCheckoutValue(null));
         return dispatch(onSuccessfulModel(true));
       } else {
-        return dispatch(
-          onErrorModel({ mess: "Hủy thanh toán thất bại", onError: true })
-        );
+        return dispatch(onErrorModel({ mess: result.message, onError: true }));
       }
     } else {
       dispatch(onLoadingAction(false));
@@ -68,7 +65,7 @@ export default function CheckoutOrder() {
     }
   };
   return (
-    <div className="min-h-screen bg-neutral-100 text-gray-900 p-8">
+    <div className="min-h-screen text-gray-900 p-8 checkout-bg">
       <div className="max-w-md mx-auto bg-white border border-gray-300 p-6">
         <h1 className="text-xl font-semibold text-center mb-6">
           Xác nhận thanh toán

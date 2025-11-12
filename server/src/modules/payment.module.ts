@@ -1,14 +1,14 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { PaymentService } from '@/services/payments.service';
-import { PaymentController } from '@/controllers/payment.controller';
+import { PaymentController } from '@/controller/payment.controller';
 import { OrderModule } from './order.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OrderVaritantSchema } from '@/infrastructure/database/mongoose/schemas/order-attribute.schema';
+import { OrderVaritantSchema } from '@/infrastructure/database/mongoodb/order-attribute.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OrderOrmEntity } from '@/infrastructure/database/typeorm/entities/order.sql.entity';
-import { OrderContactOrmEntity } from '@/infrastructure/database/typeorm/entities/order-contact.sql.entity';
-import { OrderItemOrmEntity } from '@/infrastructure/database/typeorm/entities/order-item.sql.entity';
-import { PayOsProvider } from '@/configs/payos/payos.config';
+import { OrderOrmEntity } from '@/infrastructure/database/sql-server/order.entity';
+import { OrderContactOrmEntity } from '@/infrastructure/database/sql-server/order-contact.entity';
+import { OrderItemOrmEntity } from '@/infrastructure/database/sql-server/order-item.entity';
+import { PayOsProvider } from '@/config/payos/payos.config';
 
 @Module({
   imports: [

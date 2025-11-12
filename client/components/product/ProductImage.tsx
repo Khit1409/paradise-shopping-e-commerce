@@ -16,7 +16,7 @@ export default function ProductImage(props: ComponentProps) {
    */
   const [imgPreview, setImgPreview] = useState<string>();
   return (
-    <div className="flex gap-3 flex-1">
+    <div className="flex gap-3 w-1/2">
       {/* main img */}
       <Image
         src={imgPreview ?? thumbnail}

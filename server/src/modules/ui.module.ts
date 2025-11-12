@@ -1,8 +1,8 @@
-import { UIController } from '@/controllers/ui.controller';
+import { UIController } from '@/controller/ui.controller';
 import {
   CarouselSchema,
   NavigationSchema,
-} from '@/infrastructure/database/mongoose/schemas/ui.schema';
+} from '@/infrastructure/database/mongoodb/ui.schema';
 import { UIService } from '@/services/ui.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';

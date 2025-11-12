@@ -55,7 +55,7 @@ export type CartInfo = {
  * type of cart response
  */
 export type Cart = {
-  _id: string;
+  id: string;
   info: CartInfo;
   varitants: CartVaritant;
   thumbnail: string;
@@ -74,7 +74,7 @@ export interface CartVaritantAttributeUpdateRequest {
  * Type of request when update cart
  */
 export interface CartUpdateRequest {
-  _id: string;
+  id: string;
   attributes?: CartVaritantAttributeUpdateRequest[];
   quantity?: number;
 }

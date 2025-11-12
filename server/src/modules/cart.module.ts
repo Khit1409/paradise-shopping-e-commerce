@@ -1,7 +1,7 @@
-import { CartController } from '@/controllers/cart.controller';
-import { CartMongooRepository } from '@/infrastructure/database/mongoose/repositories/cart.mongoo.repository';
-import { CartSchema } from '@/infrastructure/database/mongoose/schemas/cart.schema';
-import { ProductSchema } from '@/infrastructure/database/mongoose/schemas/product.schema';
+import { CartController } from '@/controller/cart.controller';
+import { CartSchema } from '@/infrastructure/database/mongoodb/cart.schema';
+import { ProductSchema } from '@/infrastructure/database/mongoodb/product.schema';
+import { CartMongooRepository } from '@/modules/domain/repositories/cart.repository';
 import { CartService } from '@/services/cart.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';

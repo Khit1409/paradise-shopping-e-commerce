@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  authenticationThunk,
-} from "./thunk";
-import { UserResponse } from "../../service/auth.service";
+import { authenticationThunk } from "./thunk";
+import { AuthenticatedUserResponse } from "@/type/auth.type";
 /**
  * type of authentication using for authInitialState of auth slice
  */
@@ -11,7 +9,7 @@ interface AuthenticateInitialState {
   isLoggedIn: boolean;
   resultCode: number | null;
   message: string | null;
-  user: UserResponse | null;
+  user: AuthenticatedUserResponse | null;
 }
 /**
  * intitalstate of authSlice with type of AuthenticatInitialState
@@ -48,7 +46,7 @@ const authSlice = createSlice({
         state.message = action.payload ?? "Login failed";
         state.user = null;
         state.isLoggedIn = false;
-      })
+      });
   },
 });
 /**
