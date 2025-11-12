@@ -1,0 +1,6 @@
+.checkout-bg {
+    background-image: url(/imgs/checkout-background.jpg);
+    background-position: center;
+    background-size: cover;
+    object-fit: cover;
+}

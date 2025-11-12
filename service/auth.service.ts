@@ -1,22 +1,9 @@
 import { apiAction } from "@/config/fetch-api.config";
 import {
+  AuthenticatedUserResponse,
   RegisterRequestType,
-  UserServiceGeneralErrorType,
 } from "@/type/auth.type";
-import axios from "axios";
-
-/**
- * Helper: Standardized error response
- */
-const handleApiError = (
-  error: unknown
-): { message: string; resultCode: number } => {
-  const msg =
-    axios.isAxiosError(error) && error.response?.data?.message
-      ? error.response.data.message
-      : String(error);
-  return { message: msg, resultCode: 0 };
-};
+import { GeneralHandleResponse } from "@/type/general.type";
 /**
  * check validate value of request
  * if null => return follow invalid value
@@ -56,18 +43,14 @@ export const checkValidateRegisterRequest = (req: RegisterRequestType) => {
  */
 export async function clietnRegisterService({
   ...body
-}: RegisterRequestType): Promise<UserServiceGeneralErrorType> {
-  try {
-    const res = await apiAction.post(`auth/register`, {
-      ...body,
-    });
-    //result from api data
-    const result: UserServiceGeneralErrorType = res.data;
-    // response
-    return result;
-  } catch (error) {
-    return handleApiError(error);
-  }
+}: RegisterRequestType): Promise<GeneralHandleResponse> {
+  const res = await apiAction.post(`auth/register`, {
+    ...body,
+  });
+  //result from api data
+  const result: GeneralHandleResponse = res.data;
+  // response
+  return result;
 }
 /**
  * type of login request
@@ -84,49 +67,27 @@ type LoginRequest = {
  * @param email
  * @returns
  */
-export async function signIn({ role, email, password }: LoginRequest) {
-  try {
-    const res: {
-      data: {
-        message: string;
-        resultCode: number;
-      };
-    } = await apiAction.post(`auth/login`, {
-      role,
-      email,
-      password,
-    });
-    const payload = res.data;
-    return payload;
-  } catch (error) {
-    return { message: `${error}`, resultCode: 0 };
-  }
+export async function signIn({
+  role,
+  email,
+  password,
+}: LoginRequest): Promise<GeneralHandleResponse> {
+  const res = await apiAction.post(`auth/login`, {
+    role,
+    email,
+    password,
+  });
+  const payload = res.data;
+  return payload;
 }
-/**
- * Authentication
- * @param param0
- * @returns
- */
-export type UserResponse = {
-  id: string;
-  firtname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  role: "user" | "seller";
-  avatar: string | null;
-  userAddress: { _id: string; addressName: string }[];
-  userOtherPhone: { _id: string; phoneNum: string }[];
-  userOtherEmail: { _id: string; emailAddress: string }[];
-};
 /**
  * authentication user => send cookie and get user data
  * @param role
  * @returns
  */
-export async function Authentication(): Promise<UserResponse | null> {
+export async function Authentication(): Promise<AuthenticatedUserResponse | null> {
   const res = await apiAction.get(`auth/me`);
-  const data: UserResponse | null = res.data;
+  const data: AuthenticatedUserResponse | null = res.data;
   if (!data) {
     return null;
   }
@@ -163,14 +124,9 @@ export async function updateUserAccount({ ...params }: UpdateAccountRequest) {
  * logout
  * @param pram0
  */
-export async function logout(role: "user" | "seller"): Promise<{
-  resultCode: number;
-  message: string;
-}> {
-  try {
-    const res = await apiAction.put(`auth/logout/${role}`);
-    return res.data;
-  } catch (error) {
-    return { resultCode: 0, message: `${error}` };
-  }
+export async function logout(
+  role: "user" | "seller"
+): Promise<GeneralHandleResponse> {
+  const res = await apiAction.put(`auth/logout/${role}`);
+  return res.data;
 }

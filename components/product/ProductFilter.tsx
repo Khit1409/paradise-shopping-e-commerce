@@ -16,7 +16,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ProvinceApiType } from "@/type/app.interface";
 import { getAddressThunk } from "@/redux/app/thunk";
-import { PRODUCT_ATTRIBUT_FOLLOW_CATEGORY } from "../seller/manager-product/create/create-product-attribute";
 
 /**
  * props type
@@ -226,11 +225,11 @@ export default function ProductFilter(props: ComponentProps) {
                 className="border border-gray-300  p-2 outline-none "
               >
                 <option value="">Chọn danh mục bạn cần</option>
-                {PRODUCT_ATTRIBUT_FOLLOW_CATEGORY.map((cate) => (
+                {/* {PRODUCT_ATTRIBUT_FOLLOW_CATEGORY.map((cate) => (
                   <option value={cate.slug} key={cate.category}>
                     {cate.category.toUpperCase()}
                   </option>
-                ))}
+                ))} */}
               </select>
             </div>
           </div>

@@ -9,7 +9,7 @@ export type OrderStatus =
 export type OrderKindOfPay = "COD" | "ONLINE";
 export type OrderPayStatus = "PAID" | "UNPAID";
 /**
- * Order item type
+ * Order item request
  */
 export type OrderItem = {
   name: string;
@@ -21,7 +21,7 @@ export type OrderItem = {
   img: string;
 };
 /**
- * order contact
+ * order contact request
  */
 export type OrderContact = {
   user_name: string;
@@ -30,12 +30,15 @@ export type OrderContact = {
   email: string;
 };
 /**
- * attribute
+ * attribute of order varitant request
  */
 export type OrderAttributeRequest = {
   name: string;
   value: string;
 };
+/**
+ * order varitant request
+ */
 export type OrderVaritantRequest = {
   sku: string;
   attributes: OrderAttributeRequest[];
@@ -44,9 +47,9 @@ export type OrderVaritantRequest = {
  * User order product service
  */
 export type OrderRequest = {
-  item: OrderItem;
-  contact: OrderContact;
-  varitant: OrderVaritantRequest;
+  items: OrderItem;
+  contacts: OrderContact;
+  varitants: OrderVaritantRequest;
 };
 
 /**
@@ -76,7 +79,7 @@ export type CreatePaymentLinkResponse = {
   qrCode: string;
 };
 /**
- * order response type
+ * order item response type
  */
 export type OrderItemResponse = {
   img: string;
@@ -89,18 +92,41 @@ export type OrderItemResponse = {
   total_price: number;
   product_id: string; // mongoose object id
 };
+/**
+ * order varitant attribute response type
+ */
+export type OrderVaritantAttributResponse = {
+  name: string;
+  value: string;
+};
+/**
+ * order varitant response type
+ */
 export type OrderVaritantResponse = {
   sku: string;
-  attributes: { name: string; value: string | number }[];
+  attributes: OrderVaritantAttributResponse[];
 };
+/**
+ * order contact response type
+ */
 export type OrderContactResponse = {
   address: string;
   email: string;
   phone: string;
   user_name: string;
 };
+/***
+ * order store information response type
+ */
+export type OrderStoreInformationResponse = {
+  store_name: string;
+};
+/**
+ * order response final type
+ */
 export type OrderResponseType = {
   id: string;
+  store_info: OrderStoreInformationResponse;
   items: OrderItemResponse;
   varitants: OrderVaritantResponse;
   contact: OrderContactResponse;
@@ -115,5 +141,5 @@ export type OrderSliceState = {
   product_id: string;
   img: string;
   name: string;
-  varitant: { sku: string; attributes: OrderAttributeRequest[] };
+  varitants: { sku: string; attributes: OrderAttributeRequest[] };
 };

@@ -7,7 +7,6 @@
 /**
  * Request: Filter product and get limited products by page.
  *
- * @property {number} page - Current page number.
  */
 export type GetProductQueryType = {
   page: number;
@@ -24,7 +23,7 @@ export type GetProductQueryType = {
  *
  */
 export type ProductList = {
-  _id: string;
+  id: string;
   info: {
     name: string;
     brand: string;
@@ -45,7 +44,7 @@ export type ProductList = {
  *
  */
 export type ImgDetail = {
-  _id: string;
+  id: string;
   imgUrl: string;
 };
 
@@ -54,7 +53,7 @@ export type ImgDetail = {
  *
  */
 export type Attribute = {
-  _id: string;
+  id: string;
   attrName: string;
   items: AttributeItem[];
 };
@@ -64,7 +63,7 @@ export type Attribute = {
  *
  */
 export type AttributeItem = {
-  _id: string;
+  id: string;
   attrId: string;
   itemValue: string;
   itemImg?: string;
@@ -74,16 +73,25 @@ export type AttributeItem = {
  * API response type for single product details page.
  *
  */
+/**
+ * product varitant attribute of product response
+ */
 export interface ProductVariantAttribute {
   name: string;
   value: string[];
 }
+/**
+ * product varitant of product response
+ */
 export interface ProductVariant {
   sku: string;
   stoke: number;
   attributes: ProductVariantAttribute[];
   image: string;
 }
+/**
+ * product information of product response
+ */
 export interface ProductInformation {
   name: string;
   brand: string;
@@ -91,8 +99,11 @@ export interface ProductInformation {
   description: string;
   category: string;
 }
+/**
+ * single product of product response
+ */
 export interface SingleProduct {
-  _id: string;
+  id: string;
   info: ProductInformation;
   varitants: ProductVariant[];
   rating: number;
@@ -166,7 +177,6 @@ export type AddToCartType = {
   choose: AddToCartChooseType[];
 };
 
-
 /**
  * =====================================
  * PRODUCT / CART OPERATIONS
@@ -189,7 +199,7 @@ export type UpdateCartType = {
   cartId: string;
   newQuantity?: number;
   newAttributes?: {
-    _id: string;
+    id: string;
     attrName?: string;
     itemValue?: string;
   }[];

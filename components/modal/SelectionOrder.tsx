@@ -5,7 +5,7 @@ import { OrderKindOfPay, OrderKindOfShipping } from "@/type/order.interface";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import RecivedOrderModal from "../common/RecivedOrderModal";
+import RecivedOrderModal from "./RecivedOrderModal";
 import { onOpenOrderModal } from "@/redux/order/slice";
 import { createOrder } from "@/service/order.service";
 import { changeCheckoutValue } from "@/redux/checkout/slice";
@@ -16,33 +16,26 @@ import {
   onSuccessfulModel,
 } from "@/redux/app/slice";
 
+type OrderContactState = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+};
+
 export default function SelectionOrder() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const [shippingType, setShippingType] = useState<OrderKindOfShipping>("COD");
   const [payType, setPayType] = useState<OrderKindOfPay>("COD");
   const { orderState } = useSelector((state: RootState) => state.order);
-  const [address, setAddress] = useState<{
-    name: string;
-    type: "company" | "home";
-  }>({
-    name: "",
-    type: "home",
-  });
 
-  const [contact, setContact] = useState<{
-    name: string;
-    phone: string;
-    email: string;
-  }>({
+  const [contact, setContact] = useState<OrderContactState>({
     name: "",
     phone: "",
     email: "",
+    address: "",
   });
-
-  const onCloseModal = () => {
-    dispatch(onOpenOrderModal(null));
-  };
 
   async function submitOrder() {
     if (!orderState) {
@@ -57,7 +50,7 @@ export default function SelectionOrder() {
         })
       );
       return;
-    } else if (!address.name) {
+    } else if (!contact.address) {
       dispatch(
         onErrorModel({
           onError: true,
@@ -68,13 +61,13 @@ export default function SelectionOrder() {
     }
     dispatch(onLoadingAction(true));
     const order = await createOrder({
-      contact: {
-        address: `${address.type} - ${address.name}`,
+      contacts: {
+        address: contact.address,
         email: contact.email,
         phone: contact.phone,
         user_name: contact.name,
       },
-      item: {
+      items: {
         img: orderState.img,
         name: orderState.name,
         pay_type: payType,
@@ -83,15 +76,15 @@ export default function SelectionOrder() {
         shipping_type: shippingType,
         total_price: orderState.total_price,
       },
-      varitant: {
-        sku: orderState.varitant.sku,
-        attributes: orderState.varitant.attributes,
+      varitants: {
+        sku: orderState.varitants.sku,
+        attributes: orderState.varitants.attributes,
       },
     });
     if (order) {
       onCloseModal();
       dispatch(onLoadingAction(false));
-      if (order.resultCode == 1) {
+      if (order.success) {
         dispatch(onSuccessfulModel(true));
         if (order.payment) {
           dispatch(changeCheckoutValue(order.payment));
@@ -113,7 +106,12 @@ export default function SelectionOrder() {
       );
     }
   }
-
+  /**
+   * close order model or cancel order model
+   */
+  const onCloseModal = () => {
+    dispatch(onOpenOrderModal(null));
+  };
   return (
     orderState && (
       <div className="text-gray-700 h-full w-full bg-effect fixed z-999 flex items-center justify-center">
@@ -122,7 +120,7 @@ export default function SelectionOrder() {
           <div className="flex flex-col gap-3">
             <p>Tên sản phẩm: {orderState.name}</p>
             <p>Mã sản phẩm: {orderState.product_id}</p>
-            <p>Mã phân loại hàng: {orderState.varitant.sku}</p>
+            <p>Mã phân loại hàng: {orderState.varitants.sku}</p>
             <Image src={orderState.img} alt="" width={100} height={100} />
             <p>
               Tổng tiền {orderState.total_price}
@@ -177,10 +175,10 @@ export default function SelectionOrder() {
           </div>
           {/* select contact toggle */}
           <RecivedOrderModal
-            getAddress={setAddress}
             getContact={setContact}
             onCloseModal={onCloseModal}
             submitOrder={submitOrder}
+            selectedContact={contact}
           />
         </div>
       </div>

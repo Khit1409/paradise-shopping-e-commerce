@@ -1,11 +1,8 @@
 /**
- * Type of throw new exception InternalServerErrorException from server
+ * type of handle response from server
  */
-export interface InternalServerErrorExceptionType {
+export interface GeneralHandleResponse {
   message: string;
-  error: string;
-  statusCode: number;
+  success: boolean;
+  error: string | null;
 }
-/**
- * type of unknow exception
- */

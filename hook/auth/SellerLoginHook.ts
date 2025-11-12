@@ -40,15 +40,14 @@ export const SellerLoginHook = () => {
       const res = await signIn({ role, password, email });
       if (res) {
         dispatch(onLoadingAction(false));
-        const { resultCode, message } = res;
-        if (resultCode == 1) {
+        if (res.success) {
           dispatch(onSuccessfulModel(true));
           return router.replace(`/${role}`);
         } else {
           return dispatch(
             onErrorModel({
               onError: true,
-              mess: message ?? "Server Error: Error login status:500",
+              mess: res.message ?? "Server Error: Error login status:500",
             })
           );
         }

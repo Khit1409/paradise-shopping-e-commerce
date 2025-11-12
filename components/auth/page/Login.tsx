@@ -1,12 +1,12 @@
 "use client";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../redux/store";
+import { AppDispatch } from "@/redux/store";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "../../../service/auth.service";
+import { signIn } from "@/service/auth.service";
 import LoginForm from "../../form/user/LoginForm";
-import { onErrorModel, onLoadingAction } from "../../../redux/app/slice";
-import { authenticationThunk } from "../../../redux/auth/thunk";
+import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
+import { authenticationThunk } from "@/redux/auth/thunk";
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,7 +42,7 @@ export default function Login() {
 
       if (result) {
         dispatch(onLoadingAction(false));
-        if (result.resultCode == 1) {
+        if (result.success) {
           const check = await dispatch(authenticationThunk());
           if (authenticationThunk.fulfilled.match(check)) {
             return router.replace(`/user`);

@@ -22,7 +22,7 @@ export interface UpdateAttribute {
   name: string;
   value: string;
 }
-export default function CartList(select?: number) {
+export default function CartList() {
   const [newQuantity, setNewQuantity] = useState<number>();
   const [varitantUpdated, setVaritantUpdated] = useState<CartPatchRequest>({
     sku: "",
@@ -61,12 +61,10 @@ export default function CartList(select?: number) {
     const result = await deleteCart(id);
     if (result) {
       dispatch(onLoadingAction(false));
-      if (result === "ok") {
+      if (result.success) {
         return dispatch(onSuccessfulModel(true));
       } else {
-        return dispatch(
-          onErrorModel({ onError: true, mess: "Lỗi xóa giỏ hàng, thử lại!" })
-        );
+        return dispatch(onErrorModel({ onError: true, mess: result.message }));
       }
     } else {
       return dispatch(
@@ -78,13 +76,13 @@ export default function CartList(select?: number) {
   const onUpdate = async (req: {
     id: string;
     quantity?: number;
-    updateValue: CartPatchRequest;
+    varitants: CartPatchRequest;
   }) => {
     dispatch(onLoadingAction(true));
     const result = await patchCart(req);
     if (result) {
       dispatch(onLoadingAction(false));
-      if ((result.resultCode = 1)) {
+      if (result.success) {
         return dispatch(onSuccessfulModel(true));
       } else {
         return dispatch(onErrorModel({ onError: true, mess: result.message }));
@@ -103,7 +101,7 @@ export default function CartList(select?: number) {
         {/* Product List */}
         {carts.map((cart) => (
           <div
-            key={cart._id}
+            key={cart.id}
             className="flex justify-between border rouned p-2 border-gray-300"
           >
             {/* Product Info */}
@@ -172,8 +170,8 @@ export default function CartList(select?: number) {
                 <button
                   onClick={() => {
                     onUpdate({
-                      id: cart._id,
-                      updateValue: varitantUpdated,
+                      id: cart.id,
+                      varitants: varitantUpdated,
                       quantity: newQuantity,
                     });
                   }}
@@ -183,7 +181,7 @@ export default function CartList(select?: number) {
                 </button>
                 <button
                   onClick={async () => {
-                    await onDelete(cart._id);
+                    await onDelete(cart.id);
                   }}
                   className="hover:bg-red-600 hover:text-white uppercase text-red-500 border border-red-500  px-2 py-1 transition-all"
                 >

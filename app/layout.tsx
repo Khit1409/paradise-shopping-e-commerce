@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./product.css";
 import "./animation.css";
+import "./checkout.css";
 import { Nunito, Open_Sans } from "next/font/google";
 import ReduxProvider from "./ReduxProvider";
 

@@ -45,7 +45,7 @@ export default function NavBarMobile() {
   const handleLogout = async () => {
     closeResponesive();
     const rs = await logout("user");
-    if (rs.resultCode == 1) {
+    if (rs.success) {
       const check = await dispatch(authenticationThunk());
       if (authenticationThunk.rejected.match(check)) {
         router.replace("/");

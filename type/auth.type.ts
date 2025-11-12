@@ -1,11 +1,3 @@
-export type SellerLoginRequest = {
-  email: string;
-  password: string;
-  role: "seller";
-};
-/**
- * API TYPE
- */
 /**
  * GENERAL ERROR TYPE
  * Used for common service error responses
@@ -25,4 +17,28 @@ export type RegisterRequestType = {
   phone: string;
   lastname: string;
   password: string;
+};
+/**
+ * type of request when login
+ */
+export type SellerLoginRequest = {
+  email: string;
+  password: string;
+  role: "seller";
+};
+/**
+ * export type user authenticated repsonse
+ */
+export type AuthenticatedUserResponse = {
+  id: string;
+  avatar: string | null;
+  firtname: string;
+  fullname: string;
+  lastname: string;
+  store_id: string | null;
+  role: "seller" | "user";
+  email: string[];
+  phone: string[];
+  address: string[];
+  created_at: Date;
 };

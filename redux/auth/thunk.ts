@@ -1,4 +1,5 @@
-import { Authentication, UserResponse } from "../../service/auth.service";
+import { AuthenticatedUserResponse } from "@/type/auth.type";
+import { Authentication } from "../../service/auth.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 /**
  * check Client login state (user/admin/employee)
@@ -9,7 +10,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
  */
 export const authenticationThunk = createAsyncThunk<
   //response
-  { api: UserResponse | null },
+  { api: AuthenticatedUserResponse | null },
   void,
   { rejectValue: string }
 >("authentication", async (_, thunkAPI) => {

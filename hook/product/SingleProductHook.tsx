@@ -10,7 +10,11 @@ export const SingleProductHook = () => {
   const handleCart = async (data: AddToCartRequest) => {
     const { info, original_price, quantity, thumbnail, varitants } = data;
     if (!varitants) {
-      return "failed";
+      return {
+        message: "Varitant is not define",
+        error: "Not enougre value!",
+        success: false,
+      };
     }
     const res = await addToCart({
       info,
@@ -19,15 +23,7 @@ export const SingleProductHook = () => {
       thumbnail,
       varitants,
     });
-    if (res) {
-      if (res.resultCode == 1) {
-        return "ok";
-      } else {
-        return "failed";
-      }
-    } else {
-      return "failed";
-    }
+    return res;
   };
   /**
    * check out handle
@@ -41,5 +37,5 @@ export const SingleProductHook = () => {
   /**
    * return
    */
-  return { handleCart};
+  return { handleCart };
 };
