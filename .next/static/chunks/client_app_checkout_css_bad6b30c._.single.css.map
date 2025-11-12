@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/client/app/checkout.css"],"sourcesContent":[".checkout-bg {\n    background-image: url(/imgs/checkout-background.jpg);\n    background-position: center;\n    background-size: cover;\n    object-fit: cover;\n}"],"names":[],"mappings":"AAAA"}}]
+}

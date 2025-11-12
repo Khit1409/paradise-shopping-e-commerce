@@ -1,0 +1,59 @@
+{
+  "sorted_middleware": [],
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge/chunks/client_feecbb93._.js",
+        "server/edge/chunks/[root-of-the-server]__63c56fb1._.js",
+        "server/edge/chunks/turbopack-client_edge-wrapper_fcbbaac9.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/manager/admin/:path*{(\\\\.json)}?",
+          "originalSource": "/manager/admin/:path*"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/manager/employee/:path*{(\\\\.json)}?",
+          "originalSource": "/manager/employee/:path*"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/user/:path*{(\\\\.json)}?",
+          "originalSource": "/user/:path*"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/about-us{(\\\\.json)}?",
+          "originalSource": "/about-us"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/contact-us{(\\\\.json)}?",
+          "originalSource": "/contact-us"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/manager-login{(\\\\.json)}?",
+          "originalSource": "/manager-login"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/login{(\\\\.json)}?",
+          "originalSource": "/login"
+        },
+        {
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/(/?index|/?index\\\\.json)?",
+          "originalSource": "/"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "ZpAcKV0zcGTCsQmJfkDG0a+6juDjqvwz9WucNb6m+t4=",
+        "__NEXT_PREVIEW_MODE_ID": "e5c3a6243fa252f02a8a45c5d1eca657",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "9e44e697a892bb359a41faafcf629345564bd66b481468ed5b7e6ae857463b0c",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "f2bedd6515d64df199e51f8ec68ebc4e9b1a5ec6aa1a55b4c64d5af7e90e6cee"
+      }
+    }
+  },
+  "instrumentation": null,
+  "functions": {}
+}
