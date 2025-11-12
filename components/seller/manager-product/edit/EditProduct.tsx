@@ -7,6 +7,7 @@ import {
 import { getSingleProductThunk } from "@/redux/seller/thunk";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
+  faBoxOpen,
   faCancel,
   faDeleteLeft,
   faHistory,
@@ -28,7 +29,11 @@ import {
   SingleProduct,
 } from "@/type/product.interface";
 import { uploadImageToCloud } from "@/service/cloud.service";
-import { updateProduct } from "@/service/seller.service";
+import {
+  deleteProduct,
+  stopProductActive,
+  updateProduct,
+} from "@/service/seller.service";
 
 export default function EditProduct() {
   const params = useSearchParams();
@@ -36,42 +41,26 @@ export default function EditProduct() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.seller);
-  const [data, setData] = useState<SingleProduct>(product!);
-
+  const { reRender } = useSelector((state: RootState) => state.app);
+  const [data, setData] = useState<SingleProduct | null>(null);
   /**
-   * fetch product api when params got id product from url
-   */
-  useEffect(() => {
-    if (product_id) {
-      (async () => {
-        dispatch(onLoadingAction(true));
-        const result = await dispatch(getSingleProductThunk({ product_id }));
-        if (getSingleProductThunk.fulfilled.match(result)) {
-          setData(result.payload);
-          dispatch(onLoadingAction(false));
-        }
-      })();
-    }
-  }, [product_id, dispatch]);
-
-  /**
-   * Redirect if invalid id
+   * Redirect if invalid id and fetch api if valid id
    */
   useEffect(() => {
     if (!product_id || product_id.length < 24) {
       const timer = setTimeout(() => router.replace("/seller"), 2000);
       return () => clearTimeout(timer);
+    } else {
+      (async () => {
+        dispatch(onLoadingAction(true));
+        const result = await dispatch(getSingleProductThunk(product_id));
+        if (getSingleProductThunk.fulfilled.match(result)) {
+          dispatch(onLoadingAction(false));
+          setData(result.payload);
+        }
+      })();
     }
-  }, [product_id, router]);
-
-  /**
-   * fix bug log
-   */
-  useEffect(() => {
-    if (data && data.varitants && data.varitants[data.varitants.length - 1]) {
-      console.log(data.varitants[data.varitants.length - 1]);
-    }
-  }, [data]);
+  }, [product_id, router, dispatch, reRender]);
   /**
    * preview component notification error when id is not right format object id
    */
@@ -89,7 +78,6 @@ export default function EditProduct() {
       </div>
     );
   }
-
   /**
    * find different attribute value list by category name , attribute name and existed value list
    * @param categoryName
@@ -115,6 +103,23 @@ export default function EditProduct() {
     );
     if (!attribute) return [];
     return attribute.value.filter((val) => !currentValues.includes(val));
+  };
+
+  /**
+   * find other brand by selected brand and category
+   * @param category
+   * @param selected
+   */
+  const findOtherBrand = (category: string, selected: string) => {
+    const categorySelected = EXAMPLE_CATEGORY_JSON.find(
+      (cate) => cate.name === category
+    );
+    if (!categorySelected) return [];
+    const brandList = EXAMPLE_BRAND_JSON.find(
+      (brand) => brand.category_id === categorySelected.id
+    );
+    if (!brandList) return [];
+    return brandList.brands.filter((ft) => ft !== selected);
   };
   /**
    * find different attribute by category and attributes selected
@@ -147,6 +152,7 @@ export default function EditProduct() {
    * @returns
    */
   const findIsChecked = (sku: string, name: string, value: string) => {
+    if (!data) return false;
     const varitant = data.varitants.find((fv) => fv.sku === sku);
     if (!varitant) return false;
     const attribute = varitant.attributes.find((fAttr) => fAttr.name === name);
@@ -162,6 +168,7 @@ export default function EditProduct() {
    */
   const onChangeAttributeValue = (sku: string, name: string, value: string) => {
     setData((prev) => {
+      if (!prev) return null;
       const newVaritants = prev.varitants.map((varitant) => {
         if (varitant.sku === sku) {
           const newAttributes = varitant.attributes.map((attribute) => {
@@ -194,6 +201,7 @@ export default function EditProduct() {
   ) => {
     console.log(sku, name, value);
     setData((prev) => {
+      if (!prev) return null;
       const newVaritants = prev.varitants.map((varitant) => {
         let newAttributes = [...varitant.attributes];
         if (varitant.sku === sku) {
@@ -233,7 +241,10 @@ export default function EditProduct() {
     if (res) {
       dispatch(onLoadingAction(false));
       if (res.resultCode == 1)
-        setData((prev) => ({ ...prev, thumbnail: res.url }));
+        setData((prev) => {
+          if (!prev) return null;
+          return { ...prev, thumbnail: res.url };
+        });
       else
         dispatch(
           onErrorModel({ onError: true, mess: "Lỗi upload ảnh lên đám mây!" })
@@ -245,10 +256,13 @@ export default function EditProduct() {
    * @param index
    */
   const removeImageInImageList = (index: number) => {
-    setData((prev) => ({
-      ...prev,
-      images: prev.images.filter((_, idx) => idx !== index),
-    }));
+    setData((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        images: prev.images.filter((_, idx) => idx !== index),
+      };
+    });
   };
   /**
    * onchange images
@@ -267,6 +281,7 @@ export default function EditProduct() {
     }
 
     setData((prev) => {
+      if (!prev) return null;
       const newImages = [...prev.images];
       if (newImages[index]) {
         newImages[index] = res.url;
@@ -276,14 +291,14 @@ export default function EditProduct() {
       return { ...prev, images: newImages };
     });
   };
-
   /**
    * update handle
+   * @param e
    */
-
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
     try {
+      if (!data) return;
       dispatch(onLoadingAction(true));
       const result = await updateProduct(data);
       if (result) {
@@ -298,11 +313,53 @@ export default function EditProduct() {
       dispatch(onErrorModel({ onError: true, mess: `${error}` }));
     }
   }
-
+  /**
+   * delete product action
+   * @returns
+   */
+  async function handleDelete() {
+    try {
+      if (!product_id) return;
+      dispatch(onLoadingAction(true));
+      const result = await deleteProduct(product_id);
+      if (result) {
+        dispatch(onLoadingAction(false));
+        if (!result.success) {
+          dispatch(onErrorModel({ onError: true, mess: result.message }));
+        } else {
+          dispatch(onSuccessfulModel(true));
+        }
+      }
+    } catch (error) {
+      dispatch(onLoadingAction(false));
+      dispatch(onErrorModel({ onError: true, mess: error as string }));
+    }
+  }
+  /**
+   * stop product active
+   */
+  async function handleStopActiveProduct() {
+    try {
+      if (!product_id || !data) return;
+      dispatch(onLoadingAction(true));
+      const result = await stopProductActive(product_id, !data.isActive);
+      if (result) {
+        dispatch(onLoadingAction(false));
+        if (!result.success) {
+          dispatch(onErrorModel({ onError: true, mess: result.message }));
+        } else {
+          dispatch(onSuccessfulModel(true));
+        }
+      }
+    } catch (error) {
+      dispatch(onLoadingAction(false));
+      dispatch(onErrorModel({ onError: true, mess: error as string }));
+    }
+  }
   // Render layout
   return data ? (
     <form
-      className="text-gray-800 mx-auto"
+      className="text-gray-700 mx-auto"
       onSubmit={async (e) => {
         await handleUpdate(e);
       }}
@@ -319,10 +376,13 @@ export default function EditProduct() {
             </label>
             <textarea
               onChange={(e) =>
-                setData((prev) => ({
-                  ...prev,
-                  info: { ...prev.info, name: e.target.value },
-                }))
+                setData((prev) => {
+                  if (!prev) return null;
+                  return {
+                    ...prev,
+                    info: { ...prev.info, name: e.target.value },
+                  };
+                })
               }
               defaultValue={data.info.name}
               className="border border-gray-300 outline-none p-2 h-[80px]"
@@ -335,25 +395,24 @@ export default function EditProduct() {
             </label>
             <select
               onChange={(e) =>
-                setData((prev) => ({
-                  ...prev,
-                  info: { ...prev.info, brand: e.target.value },
-                }))
+                setData((prev) => {
+                  if (!prev) return null;
+                  return {
+                    ...prev,
+                    info: { ...prev.info, brand: e.target.value },
+                  };
+                })
               }
               className="outline-none p-2 border border-gray-300"
             >
               <option defaultValue={data.info.brand}>{data.info.brand}</option>
-              {EXAMPLE_BRAND_JSON.find(
-                (b) =>
-                  b.category_id ===
-                  EXAMPLE_CATEGORY_JSON.find(
-                    (c) => c.name === data.info.category
-                  )?.id
-              )?.brands.map((brand) => (
-                <option key={brand} value={brand}>
-                  {brand}
-                </option>
-              ))}
+              {findOtherBrand(data.info.category, data.info.brand).map(
+                (brand) => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                )
+              )}
             </select>
           </div>
         </div>
@@ -365,10 +424,13 @@ export default function EditProduct() {
           </label>
           <textarea
             onChange={(e) =>
-              setData((prev) => ({
-                ...prev,
-                info: { ...prev.info, description: e.target.value },
-              }))
+              setData((prev) => {
+                if (!prev) return null;
+                return {
+                  ...prev,
+                  info: { ...prev.info, description: e.target.value },
+                };
+              })
             }
             defaultValue={data.info.description}
             className="border d border-gray-300 outline-none p-2 w-full h-[200px]"
@@ -386,10 +448,13 @@ export default function EditProduct() {
               min={0}
               onWheel={(e) => e.preventDefault()}
               onChange={(e) =>
-                setData((prev) => ({
-                  ...prev,
-                  original_price: Number(e.target.value),
-                }))
+                setData((prev) => {
+                  if (!prev) return null;
+                  return {
+                    ...prev,
+                    original_price: Number(e.target.value),
+                  };
+                })
               }
               defaultValue={data.original_price}
               className="border border-gray-300 d outline-none p-2 w-full"
@@ -406,10 +471,13 @@ export default function EditProduct() {
               max={100}
               onWheel={(e) => e.preventDefault()}
               onChange={(e) =>
-                setData((prev) => ({
-                  ...prev,
-                  sale: Number(e.target.value),
-                }))
+                setData((prev) => {
+                  if (!prev) return null;
+                  return {
+                    ...prev,
+                    sale: Number(e.target.value),
+                  };
+                })
               }
               defaultValue={data.sale}
               className="border border-gray-300 d outline-none p-2 w-full"
@@ -523,14 +591,17 @@ export default function EditProduct() {
                 type="number"
                 defaultValue={variant.stoke}
                 onChange={(e) => {
-                  setData((prev) => ({
-                    ...prev,
-                    varitants: prev.varitants.map((vari) =>
-                      vari.sku === variant.sku
-                        ? { ...vari, stoke: Number(e.target.value) }
-                        : vari
-                    ),
-                  }));
+                  setData((prev) => {
+                    if (!prev) return null;
+                    return {
+                      ...prev,
+                      varitants: prev.varitants.map((vari) =>
+                        vari.sku === variant.sku
+                          ? { ...vari, stoke: Number(e.target.value) }
+                          : vari
+                      ),
+                    };
+                  });
                 }}
                 className="border border-gray-300 d outline-none p-1 w-[100px] text-center"
               />
@@ -659,6 +730,9 @@ export default function EditProduct() {
             Lưu chỉnh sửa <FontAwesomeIcon icon={faSave} />
           </button>
           <button
+            onClick={async () => {
+              await handleDelete();
+            }}
             type="button"
             className="px-2 py-1 border border-red-500 hover:bg-red-500 hover:text-white uppercase"
           >
@@ -675,9 +749,17 @@ export default function EditProduct() {
           </button>
           <button
             type="button"
+            onClick={async () => {
+              await handleStopActiveProduct();
+            }}
             className="px-2 py-1 border border-gray-300 uppercase hover:bg-gray-400 hover:text-white"
           >
-            ngừng bán sản phẩm này <FontAwesomeIcon icon={faCancel} />
+            {data.isActive ? "Ngừng" : "Mở"} bán sản phẩm này
+            {data.isActive ? (
+              <FontAwesomeIcon icon={faCancel} />
+            ) : (
+              <FontAwesomeIcon icon={faBoxOpen} />
+            )}
           </button>
         </div>
       </section>

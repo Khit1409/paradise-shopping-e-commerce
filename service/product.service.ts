@@ -51,3 +51,4 @@ export async function getSingleProduct(id: string): Promise<SingleProduct> {
   const api: SingleProduct = res.data;
   return api;
 }
+/** */

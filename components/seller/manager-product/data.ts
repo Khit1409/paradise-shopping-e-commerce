@@ -168,7 +168,7 @@ export const EXAMPLE_BRAND_JSON = [
     ],
   },
   {
-    category: 2,
+    category_id: 2,
     brands: [
       "Apple",
       "Samsung",
@@ -183,7 +183,7 @@ export const EXAMPLE_BRAND_JSON = [
     ],
   },
   {
-    category: 3,
+    category_id: 3,
     brands: [
       "L'Oreal",
       "Maybelline",
@@ -198,7 +198,7 @@ export const EXAMPLE_BRAND_JSON = [
     ],
   },
   {
-    category: 4,
+    category_id: 4,
     brands: [
       "IKEA",
       "Ashley Furniture",
@@ -213,7 +213,7 @@ export const EXAMPLE_BRAND_JSON = [
     ],
   },
   {
-    category: 5,
+    category_id: 5,
     brands: [
       "Nike",
       "Adidas",
@@ -228,7 +228,7 @@ export const EXAMPLE_BRAND_JSON = [
     ],
   },
   {
-    category: 6,
+    category_id: 6,
     brands: [
       "Panasonic",
       "Philips",
@@ -243,7 +243,7 @@ export const EXAMPLE_BRAND_JSON = [
     ],
   },
   {
-    category: 7,
+    category_id: 7,
     brands: [
       "LEGO",
       "Hasbro",

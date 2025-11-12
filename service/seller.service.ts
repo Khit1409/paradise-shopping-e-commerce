@@ -6,14 +6,11 @@ import {
   ProductDataUpdateRequest,
 } from "@/type/seller.interface";
 /**
- *
+ * Get product list by this seller
  * @param param0
  * @returns
  */
 export async function getProducts() {
-  /**
-   * send req
-   */
   const res = await apiAction.get(`seller/products`);
   const api: ProductList[] = res.data;
   console.log(api);
@@ -21,15 +18,11 @@ export async function getProducts() {
 }
 /**
  * get single product func
- * @param param0
+ * @param id
  * @returns
  */
-export async function getSingleProductSellerService({
-  product_id,
-}: {
-  product_id: string;
-}) {
-  const res = await apiAction.get(`seller/products/${product_id}`);
+export async function getSingleProductSellerService(id: string) {
+  const res = await apiAction.get(`seller/products/${id}`);
   const api: SingleProduct = res.data;
   return api;
 }
@@ -51,18 +44,24 @@ export async function createNewProduct(
 }
 /**
  * delete one product by id
+ * @param id
+ * @returns
  */
-export async function deleteProduct(id: string) {
+export async function deleteProduct(
+  id: string
+): Promise<GeneralHandleResponse> {
   try {
     const res = await apiAction.delete(`seller/products/${id}`);
-    const result: { message: string; resultCode: number } = res.data;
+    const result: GeneralHandleResponse = res.data;
     return result;
   } catch (error) {
-    return { message: `${error}`, resultCode: 1 };
+    return { message: `${error}`, success: false, error: error as string };
   }
 }
 /**
  * update product
+ * @param data
+ * @returns
  */
 export async function updateProduct(
   data: ProductDataUpdateRequest
@@ -77,5 +76,22 @@ export async function updateProduct(
       message: "Lỗi update sản phẩm",
       success: false,
     };
+  }
+}
+/**
+ * stop product active if seller isn't want to stop sell this product
+ * @param id
+ * @returns
+ */
+export async function stopProductActive(
+  id: string,
+  acive: boolean
+): Promise<GeneralHandleResponse> {
+  try {
+    const res = await apiAction.patch(`seller/products/${id}/${acive}`);
+    const result: GeneralHandleResponse = res.data;
+    return result;
+  } catch (error) {
+    return { message: `${error}`, error: error as string, success: false };
   }
 }
