@@ -41,7 +41,7 @@ export default function SuccessModal() {
             exit={{ scale: 0.8, opacity: 0, y: 30 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             onClick={(e) => e.stopPropagation()}
-            className="relative bg-white rounded-2xl shadow-2xl border-t-4 border-green-500 w-[340px] max-w-[90%] p-6 flex flex-col items-center text-center gap-5"
+            className="relative bg-white shadow-2xl border-t-4 border-green-500 w-[340px] max-w-[90%] p-6 flex flex-col items-center text-center gap-5"
           >
             {/* Outer glowing ring animation */}
             {visible && (

@@ -40,7 +40,7 @@ const authSlice = createSlice({
       .addCase(authenticationThunk.fulfilled, (state, action) => {
         state.pendingRequest = false;
         state.isLoggedIn = true;
-        state.user = action.payload.api;
+        state.user = action.payload;
       })
       .addCase(authenticationThunk.rejected, (state, action) => {
         state.message = action.payload ?? "Login failed";

@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -34,15 +34,16 @@ import {
   stopProductActive,
   updateProduct,
 } from "@/service/seller.service";
+import { createProductDescriptionHtmlElement } from "@/feature/open-api";
 
 export default function EditProduct() {
-  const params = useSearchParams();
-  const product_id = params.get("product_id");
+  const product_id = localStorage.getItem("selected_product_id") as string;
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.seller);
   const { reRender } = useSelector((state: RootState) => state.app);
   const [data, setData] = useState<SingleProduct | null>(null);
+  const [wating, setWating] = useState<boolean>(false);
   /**
    * Redirect if invalid id and fetch api if valid id
    */
@@ -61,6 +62,7 @@ export default function EditProduct() {
       })();
     }
   }, [product_id, router, dispatch, reRender]);
+
   /**
    * preview component notification error when id is not right format object id
    */
@@ -104,7 +106,6 @@ export default function EditProduct() {
     if (!attribute) return [];
     return attribute.value.filter((val) => !currentValues.includes(val));
   };
-
   /**
    * find other brand by selected brand and category
    * @param category
@@ -199,7 +200,6 @@ export default function EditProduct() {
     name: string,
     value?: string
   ) => {
-    console.log(sku, name, value);
     setData((prev) => {
       if (!prev) return null;
       const newVaritants = prev.varitants.map((varitant) => {
@@ -207,13 +207,11 @@ export default function EditProduct() {
         if (varitant.sku === sku) {
           const attrIdx = newAttributes.findIndex((attr) => attr.name === name);
           if (attrIdx !== -1) {
-            console.log("existing");
             if (!value) {
               newAttributes = newAttributes.filter(
                 (ftAttr) => ftAttr.name !== name
               );
             } else {
-              console.log("add new");
               newAttributes.map((newAttr) =>
                 newAttr.name === name
                   ? { ...newAttr, value: [...newAttr.value, value] }
@@ -356,6 +354,23 @@ export default function EditProduct() {
       dispatch(onErrorModel({ onError: true, mess: error as string }));
     }
   }
+  /**
+   * create product description by ai
+   */
+  const createDescripionByAi = async () => {
+    if (!data) return;
+    setWating(true);
+    const descByAi = await createProductDescriptionHtmlElement(
+      JSON.stringify(data)
+    );
+    setData((prev) => {
+      if (!prev) {
+        return null;
+      }
+      return { ...prev, info: { ...prev.info, description: descByAi } };
+    });
+    setWating(false);
+  };
   // Render layout
   return data ? (
     <form
@@ -419,9 +434,24 @@ export default function EditProduct() {
 
         {/* Description */}
         <div className="mt-6">
-          <label className="font-semibold text-sm uppercase">
-            Mô tả sản phẩm <span className="text-red-500">*</span>
+          <label className="text-sm">
+            <strong className="uppercase me-1">Mô tả sản phẩm</strong>
+            <span className="text-red-500">*</span>
+            <p className="text-yellow-500  text-sm">
+              * Nếu bạn sử dụng AI để tạo mô tả. Hệ thống sẽ tự tạo ra 1 đoạn
+              code để tạo giao diện đẹp cho mô tả. Nếu bạn có đội ngũ phát triển
+              riêng, bạn có thể tự tạo HTML mô tả cho mình.
+            </p>
           </label>
+          <div className="flex justify-start gap-3">
+            <button
+              type="button"
+              onClick={async () => await createDescripionByAi()}
+              className="p-1 text-sm underline"
+            >
+              Tạo mô tả bằng AI
+            </button>
+          </div>
           <textarea
             onChange={(e) =>
               setData((prev) => {
@@ -432,7 +462,9 @@ export default function EditProduct() {
                 };
               })
             }
-            defaultValue={data.info.description}
+            value={
+              wating ? "Vui lòng chờ trong giây lát...." : data.info.description
+            }
             className="border d border-gray-300 outline-none p-2 w-full h-[200px]"
           />
         </div>

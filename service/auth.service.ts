@@ -41,7 +41,7 @@ export const checkValidateRegisterRequest = (req: RegisterRequestType) => {
  * @body RegisterRequestType
  * @returns
  */
-export async function clietnRegisterService({
+export async function clietnRegister({
   ...body
 }: RegisterRequestType): Promise<GeneralHandleResponse> {
   const res = await apiAction.post(`auth/register`, {
@@ -85,8 +85,10 @@ export async function signIn({
  * @param role
  * @returns
  */
-export async function Authentication(): Promise<AuthenticatedUserResponse | null> {
-  const res = await apiAction.get(`auth/me`);
+export async function Authentication(
+  role: "seller" | "user"
+): Promise<AuthenticatedUserResponse | null> {
+  const res = await apiAction.get(`auth/me/${role}`);
   const data: AuthenticatedUserResponse | null = res.data;
   if (!data) {
     return null;

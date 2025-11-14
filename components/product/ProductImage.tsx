@@ -24,7 +24,7 @@ export default function ProductImage(props: ComponentProps) {
         width={400}
         objectFit="cover"
         height={300}
-        className="border border-gray-200 h-[300px] flex-1"
+        className="border border-gray-200 h-[400px] flex-1"
       />
       {/* img detail */}
       <div className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2">

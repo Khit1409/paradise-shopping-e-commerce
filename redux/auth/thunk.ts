@@ -9,14 +9,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
  * manager role on login state is true
  */
 export const authenticationThunk = createAsyncThunk<
-  //response
-  { api: AuthenticatedUserResponse | null },
-  void,
+  AuthenticatedUserResponse | null,
+  "seller" | "user",
   { rejectValue: string }
->("authentication", async (_, thunkAPI) => {
+>("authentication", async (role, thunkAPI) => {
   try {
-    const payload = await Authentication();
-    return { api: payload };
+    const payload = await Authentication(role);
+    return payload;
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);
   }

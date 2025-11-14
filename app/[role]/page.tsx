@@ -1,8 +1,19 @@
 import React from "react";
-import RenderPageRole from "./RenderPageRole";
-type Role = "user" | "seller";
-
-export default async function page({ params }: { params: { role: Role } }) {
+import RenderRolePage from "./RendeRolePage";
+import { UserRole } from "@/type/auth.type";
+/**
+ * role params
+ */
+type RoleParams = {
+  params: {
+    role: UserRole;
+  };
+};
+/**
+ *
+ * @returns
+ */
+export default async function page({ params }: RoleParams) {
   const { role } = await params;
-  return <RenderPageRole role={role} />;
+  return <RenderRolePage role={role} />;
 }

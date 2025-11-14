@@ -18,12 +18,10 @@ export default function Login() {
     email: "",
     password: "",
   });
-
   /**
    * App router
    */
   const router = useRouter();
-
   /**
    * handle sign in
    * @param e
@@ -39,11 +37,10 @@ export default function Login() {
         password: requestData.password,
         role: "user",
       });
-
       if (result) {
         dispatch(onLoadingAction(false));
         if (result.success) {
-          const check = await dispatch(authenticationThunk());
+          const check = await dispatch(authenticationThunk("user"));
           if (authenticationThunk.fulfilled.match(check)) {
             return router.replace(`/user`);
           }

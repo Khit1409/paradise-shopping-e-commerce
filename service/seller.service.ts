@@ -85,10 +85,10 @@ export async function updateProduct(
  */
 export async function stopProductActive(
   id: string,
-  acive: boolean
+  active: boolean
 ): Promise<GeneralHandleResponse> {
   try {
-    const res = await apiAction.patch(`seller/products/${id}/${acive}`);
+    const res = await apiAction.patch(`seller/products/${id}`, { active });
     const result: GeneralHandleResponse = res.data;
     return result;
   } catch (error) {

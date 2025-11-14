@@ -1,6 +1,10 @@
 {
   "app": {
-    "[project]/client/app/[role]/[content]/page": [
+    "[project]/client/app/[role]/[page]/[child]/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
+      "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
+    ],
+    "[project]/client/app/[role]/[page]/page": [
       "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
       "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
     ],
@@ -9,14 +13,6 @@
       "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
     ],
     "[project]/client/app/_not-found/page": [
-      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
-      "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
-    ],
-    "[project]/client/app/login/page": [
-      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
-      "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
-    ],
-    "[project]/client/app/page": [
       "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
       "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
     ],

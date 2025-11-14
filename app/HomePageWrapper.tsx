@@ -36,11 +36,9 @@ export default function HomePageWrapper({
     (async () => {
       //authentication user for navigation if is logged in
       await dispatch(getUIThunk());
-      const check = await dispatch(authenticationThunk());
-      if (authenticationThunk.fulfilled.match(check) && check.payload.api) {
-        const res = check.payload.api;
-        const { role } = res;
-        return router.push(`/${role}`);
+      const check = await dispatch(authenticationThunk("user"));
+      if (authenticationThunk.fulfilled.match(check) && check.payload) {
+        return router.push(`/user`);
       } else {
         return;
       }

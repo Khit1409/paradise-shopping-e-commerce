@@ -40,7 +40,7 @@ export default function UserModal({ ...props }: ComponentProps) {
   const handleLogout = async () => {
     const rs = await logout("user");
     if (rs.success) {
-      const check = await dispatch(authenticationThunk());
+      const check = await dispatch(authenticationThunk("user"));
       if (authenticationThunk.rejected.match(check)) {
         router.replace("/");
       }
@@ -56,7 +56,7 @@ export default function UserModal({ ...props }: ComponentProps) {
       <div className="flex items-center gap-3 p-2">
         {/* User avatar */}
         <Image
-          src={user?.avatar ?? `/imgs/food.jpg`}
+          src={user.avatar ?? `/imgs/default-avatar.jpg`}
           width={70}
           height={70}
           alt="avatar"
@@ -64,9 +64,7 @@ export default function UserModal({ ...props }: ComponentProps) {
         />
         {/* User information */}
         <div className="flex flex-col">
-          <p className="font-semibold text-gray-800">
-            {`${user.firtname} ${user.lastname}`}
-          </p>
+          <p className="font-semibold text-gray-800">{user.fullname}</p>
         </div>
       </div>
 

@@ -34,11 +34,9 @@ function HomePageWrapper({ children }) {
         (async ()=>{
             //authentication user for navigation if is logged in
             await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getUIThunk"])());
-            const check = await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"])());
-            if (__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"].fulfilled.match(check) && check.payload.api) {
-                const res = check.payload.api;
-                const { role } = res;
-                return router.push(`/${role}`);
+            const check = await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"])("user"));
+            if (__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"].fulfilled.match(check) && check.payload) {
+                return router.push(`/user`);
             } else {
                 return;
             }
@@ -201,13 +199,14 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/next/image.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/next/dist/client/app-dir/link.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f40$fortawesome$2f$react$2d$fontawesome$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/@fortawesome/react-fontawesome/dist/index.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/@fortawesome/free-solid-svg-icons/index.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/react-redux/dist/react-redux.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$product$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/redux/product/thunk.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$seller$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/redux/seller/thunk.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$product$2f$PriceBox$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/components/product/PriceBox.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/client/node_modules/next/navigation.js [app-ssr] (ecmascript)");
+"use client";
 ;
 ;
 ;
@@ -238,6 +237,17 @@ function ProductList(props) {
     /**
    * prop state
    */ /**
+   * handle navigation to single product page.
+   */ const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
+    const navigationToSingleProductPage = (id)=>{
+        localStorage.setItem("selected_product_id", id);
+        if (ofRole === "seller") {
+            router.replace("/seller/edit-product");
+        } else if (ofRole === "user") {
+            router.replace("/user/single-product");
+        }
+    };
+    /**
    * jsx
    */ return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex flex-col gap-3 my-2 bg-white p-2",
@@ -245,8 +255,8 @@ function ProductList(props) {
             className: "flex flex-col gap-5",
             children: products.length !== 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4",
-                children: products.map((pro)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                        href: `/${ofRole === "seller" ? `seller/edit-product?product_id=${pro.id}` : `user/single-product?info=${pro.id}`}`,
+                children: products.map((pro)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>navigationToSingleProductPage(pro.id),
                         className: "border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -257,7 +267,7 @@ function ProductList(props) {
                                 className: "object-cover w-full h-[200px]"
                             }, void 0, false, {
                                 fileName: "[project]/client/components/product/ProductList.tsx",
-                                lineNumber: 56,
+                                lineNumber: 66,
                                 columnNumber: 17
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -268,7 +278,7 @@ function ProductList(props) {
                                         children: pro.info.name
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/product/ProductList.tsx",
-                                        lineNumber: 64,
+                                        lineNumber: 74,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -279,7 +289,7 @@ function ProductList(props) {
                                                 children: "5.0"
                                             }, void 0, false, {
                                                 fileName: "[project]/client/components/product/ProductList.tsx",
-                                                lineNumber: 68,
+                                                lineNumber: 78,
                                                 columnNumber: 21
                                             }, this),
                                             Array.from({
@@ -288,13 +298,13 @@ function ProductList(props) {
                                                     icon: __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f40$fortawesome$2f$free$2d$solid$2d$svg$2d$icons$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["faStar"]
                                                 }, i, false, {
                                                     fileName: "[project]/client/components/product/ProductList.tsx",
-                                                    lineNumber: 70,
+                                                    lineNumber: 80,
                                                     columnNumber: 23
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/client/components/product/ProductList.tsx",
-                                        lineNumber: 67,
+                                        lineNumber: 77,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$product$2f$PriceBox$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -302,24 +312,24 @@ function ProductList(props) {
                                         sale: pro.sale
                                     }, void 0, false, {
                                         fileName: "[project]/client/components/product/ProductList.tsx",
-                                        lineNumber: 73,
+                                        lineNumber: 83,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/client/components/product/ProductList.tsx",
-                                lineNumber: 63,
+                                lineNumber: 73,
                                 columnNumber: 17
                             }, this)
                         ]
                     }, pro.id, true, {
                         fileName: "[project]/client/components/product/ProductList.tsx",
-                        lineNumber: 47,
+                        lineNumber: 61,
                         columnNumber: 15
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/client/components/product/ProductList.tsx",
-                lineNumber: 45,
+                lineNumber: 59,
                 columnNumber: 11
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "flex items-center justify-center text-gray-700 h-[80vh]",
@@ -327,22 +337,22 @@ function ProductList(props) {
                     children: "HIỆN SẢN PHẨM ĐANG TRỐNG...."
                 }, void 0, false, {
                     fileName: "[project]/client/components/product/ProductList.tsx",
-                    lineNumber: 80,
+                    lineNumber: 90,
                     columnNumber: 13
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/components/product/ProductList.tsx",
-                lineNumber: 79,
+                lineNumber: 89,
                 columnNumber: 11
             }, this)
         }, void 0, false, {
             fileName: "[project]/client/components/product/ProductList.tsx",
-            lineNumber: 43,
+            lineNumber: 57,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/client/components/product/ProductList.tsx",
-        lineNumber: 42,
+        lineNumber: 56,
         columnNumber: 5
     }, this);
 }
@@ -734,7 +744,7 @@ function UserModal({ ...props }) {
     /** Handle user logout and redirect to homepage if logout succeeds */ const handleLogout = async ()=>{
         const rs = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$service$2f$auth$2e$service$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["logout"])("user");
         if (rs.success) {
-            const check = await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"])());
+            const check = await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"])("user"));
             if (__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"].rejected.match(check)) {
                 router.replace("/");
             }
@@ -748,7 +758,7 @@ function UserModal({ ...props }) {
                 className: "flex items-center gap-3 p-2",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                        src: user?.avatar ?? `/imgs/food.jpg`,
+                        src: user.avatar ?? `/imgs/default-avatar.jpg`,
                         width: 70,
                         height: 70,
                         alt: "avatar",
@@ -762,7 +772,7 @@ function UserModal({ ...props }) {
                         className: "flex flex-col",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             className: "font-semibold text-gray-800",
-                            children: `${user.firtname} ${user.lastname}`
+                            children: user.fullname
                         }, void 0, false, {
                             fileName: "[project]/client/components/modal/UserModal.tsx",
                             lineNumber: 67,
@@ -783,7 +793,7 @@ function UserModal({ ...props }) {
                 className: "my-2 text-gray-300"
             }, void 0, false, {
                 fileName: "[project]/client/components/modal/UserModal.tsx",
-                lineNumber: 73,
+                lineNumber: 71,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -795,7 +805,7 @@ function UserModal({ ...props }) {
                         label: "Đơn hàng của bạn"
                     }, void 0, false, {
                         fileName: "[project]/client/components/modal/UserModal.tsx",
-                        lineNumber: 77,
+                        lineNumber: 75,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(UserLink, {
@@ -804,7 +814,7 @@ function UserModal({ ...props }) {
                         label: "Chỉnh sửa thông tin"
                     }, void 0, false, {
                         fileName: "[project]/client/components/modal/UserModal.tsx",
-                        lineNumber: 82,
+                        lineNumber: 80,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(UserLink, {
@@ -813,7 +823,7 @@ function UserModal({ ...props }) {
                         label: "Đăng ký tài khoản mới"
                     }, void 0, false, {
                         fileName: "[project]/client/components/modal/UserModal.tsx",
-                        lineNumber: 87,
+                        lineNumber: 85,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(UserLink, {
@@ -822,7 +832,7 @@ function UserModal({ ...props }) {
                         label: "Trở thành người bán hàng"
                     }, void 0, false, {
                         fileName: "[project]/client/components/modal/UserModal.tsx",
-                        lineNumber: 92,
+                        lineNumber: 90,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(UserLink, {
@@ -831,20 +841,20 @@ function UserModal({ ...props }) {
                         label: "Đăng nhập trang người bán"
                     }, void 0, false, {
                         fileName: "[project]/client/components/modal/UserModal.tsx",
-                        lineNumber: 97,
+                        lineNumber: 95,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/components/modal/UserModal.tsx",
-                lineNumber: 76,
+                lineNumber: 74,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                 className: "my-2 text-gray-300"
             }, void 0, false, {
                 fileName: "[project]/client/components/modal/UserModal.tsx",
-                lineNumber: 104,
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -858,14 +868,14 @@ function UserModal({ ...props }) {
                             className: "me-2"
                         }, void 0, false, {
                             fileName: "[project]/client/components/modal/UserModal.tsx",
-                            lineNumber: 114,
+                            lineNumber: 112,
                             columnNumber: 13
                         }, this),
                         "Logout"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/client/components/modal/UserModal.tsx",
-                    lineNumber: 110,
+                    lineNumber: 108,
                     columnNumber: 11
                 }, this) : /** Login button if user is not logged in */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                     href: "/login",
@@ -876,19 +886,19 @@ function UserModal({ ...props }) {
                             className: "me-2"
                         }, void 0, false, {
                             fileName: "[project]/client/components/modal/UserModal.tsx",
-                            lineNumber: 123,
+                            lineNumber: 121,
                             columnNumber: 13
                         }, this),
                         "Login"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/client/components/modal/UserModal.tsx",
-                    lineNumber: 119,
+                    lineNumber: 117,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/client/components/modal/UserModal.tsx",
-                lineNumber: 107,
+                lineNumber: 105,
                 columnNumber: 7
             }, this)
         ]
@@ -902,7 +912,7 @@ function UserModal({ ...props }) {
         children: "Chưa đăng nhập......"
     }, void 0, false, {
         fileName: "[project]/client/components/modal/UserModal.tsx",
-        lineNumber: 130,
+        lineNumber: 128,
         columnNumber: 5
     }, this);
 }
@@ -918,20 +928,20 @@ function UserModal({ ...props }) {
                 className: "text-gray-500 text-lg w-5"
             }, void 0, false, {
                 fileName: "[project]/client/components/modal/UserModal.tsx",
-                lineNumber: 156,
+                lineNumber: 154,
                 columnNumber: 5
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                 children: label
             }, void 0, false, {
                 fileName: "[project]/client/components/modal/UserModal.tsx",
-                lineNumber: 157,
+                lineNumber: 155,
                 columnNumber: 5
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/client/components/modal/UserModal.tsx",
-        lineNumber: 152,
+        lineNumber: 150,
         columnNumber: 3
     }, ("TURBOPACK compile-time value", void 0));
 }),
