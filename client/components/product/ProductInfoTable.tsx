@@ -54,7 +54,8 @@ export default function ProductInfoTable(props: ComponentProps) {
       {/* price & sale */}
       <PriceBox price={price} sale={sale} />
       {/* description */}
-      <div className="relative w-max">
+      <div className="">
+        <h4 className="mb-3">Mô tả sản phẩm: </h4>
         <div
           dangerouslySetInnerHTML={{ __html: info.description }}
           className={`product-description-from-api overflow-y-hidden ${

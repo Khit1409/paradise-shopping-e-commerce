@@ -9,6 +9,7 @@ import {
 } from "@/redux/app/slice";
 import { checkValidateLoginRequest, signIn } from "@/service/auth.service";
 import { useRouter } from "next/navigation";
+import { authenticationThunk } from "@/redux/auth/thunk";
 
 export const SellerLoginHook = () => {
   const [requestData, setRequestData] = useState<SellerLoginRequest>({
@@ -41,8 +42,9 @@ export const SellerLoginHook = () => {
       if (res) {
         dispatch(onLoadingAction(false));
         if (res.success) {
+          await dispatch(authenticationThunk("seller"));
           dispatch(onSuccessfulModel(true));
-          return router.replace(`/${role}`);
+          return router.replace(`/seller`);
         } else {
           return dispatch(
             onErrorModel({

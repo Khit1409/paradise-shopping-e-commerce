@@ -28,17 +28,14 @@ import { onOpenOrderModal } from "@/redux/order/slice";
 export default function SingleProductPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.product);
-  const params = useSearchParams();
-  const id = params.get("info");
+  const id = localStorage.getItem("selected_product_id") as string;
   /**
    *
    */
   useEffect(() => {
-    if (id) {
-      (async () => {
-        await dispatch(getSingleProductThunk(id));
-      })();
-    }
+    (async () => {
+      await dispatch(getSingleProductThunk(id));
+    })();
   }, [id, dispatch]);
   /**
    * react hook
@@ -140,8 +137,11 @@ export default function SingleProductPage() {
    */
   const calculatorTotalPirce = (): number => {
     const { original_price, sale } = product!;
+    if (sale == 0) {
+      return original_price;
+    }
     const minusSale = original_price - (original_price * sale) / 100;
-    const totalPrice = (original_price - minusSale) * quantity;
+    const totalPrice = minusSale * quantity;
     return totalPrice;
   };
   /** UI */

@@ -7,6 +7,10 @@ export type UserServiceGeneralErrorType = {
   message: string;
 };
 /**
+ * type of role
+ */
+export type UserRole = "seller" | "user";
+/**
  * USER REGISTER REQUEST TYPE
  * Used when creating a new user account
  */

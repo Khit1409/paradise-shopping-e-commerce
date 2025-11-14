@@ -29,8 +29,6 @@ export class JwtAuthGuard implements CanActivate {
     const publictPath = [
       '/v1/auth/login',
       '/v1/auth/register',
-      '/v1/auth/login',
-      '/v1/auth/register',
       '/v1/imgs',
       '/v1/app',
       '/v1/products',
@@ -65,13 +63,14 @@ export class JwtAuthGuard implements CanActivate {
       /**
        * format user data payload
        */
+      console.log(payload);
       request.user = {
         id: payload.id.toLowerCase(),
         avatar: payload.avatar,
         firtname: payload.firtname,
         fullname: payload.fullname,
         lastname: payload.lastname,
-        store_id: payload.store_id.toLowerCase(),
+        store_id: payload.store_id?.toLowerCase() ?? null,
         role: payload.role,
         email: payload.email,
         phone: payload.phone,

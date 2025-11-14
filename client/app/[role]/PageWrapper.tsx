@@ -44,8 +44,8 @@ export default function PageWrapper({
         /**
          * Call get user data api and get navigation api for start using web
          */
-        const [check, ui] = await Promise.all([
-          dispatch(authenticationThunk()),
+        const [check] = await Promise.all([
+          dispatch(authenticationThunk(role)),
           dispatch(getUIThunk()),
         ]);
         /**
@@ -53,49 +53,27 @@ export default function PageWrapper({
          * if use null => replace page is login
          * if successfull => set appMouted is true and render app
          */
-        if (
-          authenticationThunk.fulfilled.match(check) &&
-          getUIThunk.fulfilled.match(ui) &&
-          check.payload.api
-        ) {
+        if (check.payload) {
           dispatch(onLoadingAction(false));
-          setAppMounted(true);
-          if (role === "seller") {
-            const user = check.payload.api;
-            if (user.role !== role) {
+          if (authenticationThunk.fulfilled.match(check)) {
+            setAppMounted(true);
+            if (role === "seller" && check.payload.role === "user") {
               return router.replace("/user");
+            } else {
+              return;
             }
-            return;
+          } else {
+            return router.replace(
+              role === "seller" ? "/seller-login" : "/login"
+            );
           }
-          /**
-           * check login state for user and seller
-           * if not logging go to login page
-           */
-        } else if (
-          authenticationThunk.rejected.match(check) &&
-          getUIThunk.rejected.match(ui)
-        ) {
-          dispatch(onLoadingAction(false));
-          return router.replace("/login");
-        } else {
-          dispatch(onLoadingAction(false));
-          dispatch(
-            onErrorModel({
-              mess: "CAN NOT RENDER THE PAGE, SERVER ERROR - STATUS:500",
-              onError: true,
-            })
-          );
         }
       })();
     } catch (error) {
-      /**
-       * Error handle
-       */
       dispatch(onLoadingAction(false));
       dispatch(onErrorModel({ mess: `${error}`, onError: true }));
     }
   }, [dispatch, role, router]);
-  //use effect handle click outside
 
   //don'nt render app if appMouted false
   if (!appMouted) {

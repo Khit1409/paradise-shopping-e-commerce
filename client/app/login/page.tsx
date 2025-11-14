@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Login from "../../components/auth/page/Login";
+import Login from "@/components/auth/page/Login";
 
 export const metadata: Metadata = {
   title: "Đăng nhập Paradise Shopping",

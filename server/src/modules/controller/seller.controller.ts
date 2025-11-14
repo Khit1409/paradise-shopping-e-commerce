@@ -96,13 +96,17 @@ export class SellerController {
    * @param product_id
    * @param req
    */
-  @Patch('products/:id/:active')
+  @Patch('products/:id')
   async changeProductActive(
     @Param('id') product_id: string,
-    @Param('active') active: boolean,
+    @Body() body: { active: boolean },
     @Req() req: JwtAuthGuardRequest,
   ) {
     const { id } = req.user;
-    return await this.producService.changeProductActive(product_id, id, active);
+    return await this.producService.changeProductActive(
+      product_id,
+      id,
+      body.active,
+    );
   }
 }

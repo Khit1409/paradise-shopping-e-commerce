@@ -47,8 +47,11 @@ export class AuthController {
    * @param req
    * @returns
    */
-  @Get('me')
-  authentication(@Req() req: JwtAuthGuardRequest) {
+  @Get('me/:role')
+  authentication(
+    @Param('role') role: 'seller' | 'user',
+    @Req() req: JwtAuthGuardRequest,
+  ) {
     return req.user;
   }
   /**

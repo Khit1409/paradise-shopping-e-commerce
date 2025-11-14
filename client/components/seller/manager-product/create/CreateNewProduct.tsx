@@ -23,6 +23,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { ProductDataRequest } from "@/type/seller.interface";
 import { createNewProduct } from "@/service/seller.service";
+import { createProductDescriptionHtmlElement } from "@/feature/open-api";
 
 /**
  * --- COMPONENT START ---
@@ -45,7 +46,7 @@ export default function CreateNewProduct() {
     images: [],
     varitants: [],
   });
-
+  const [wating, setWating] = useState<boolean>(false);
   const [modelCount, setModelCount] = useState<number>(0);
 
   /**
@@ -276,6 +277,25 @@ export default function CreateNewProduct() {
   }
 
   /**
+   * create product description by ai
+   */
+  const createDescripionByAi = async () => {
+    if (
+      Object.entries(data.info).some(
+        ([key, value]) => key !== "slug" && key !== "description" && !value
+      )
+    )
+      return;
+    setWating(true);
+    const descByAi = await createProductDescriptionHtmlElement(
+      JSON.stringify(data)
+    );
+    setData((prev) => {
+      return { ...prev, info: { ...prev.info, description: descByAi } };
+    });
+    setWating(false);
+  };
+  /**
    * cancel change
    */
   const onStopHandle = () => {
@@ -300,13 +320,10 @@ export default function CreateNewProduct() {
     <form onSubmit={createProduct} className="w-full text-gray-700">
       {/* ================= PRODUCT INFO SECTION ================= */}
       <div className="border border-gray-300 p-4 mb-4">
-        <h2 className="font-semibold uppercase text-lg mb-3">
-          Thông tin sản phẩm
-        </h2>
-
+        <h2 className="font-bold uppercase text-lg mb-3">Thông tin sản phẩm</h2>
         {/* --- Product Name --- */}
         <div className="flex flex-col mb-3">
-          <label htmlFor="name" className="font-semibold text-sm uppercase">
+          <label htmlFor="name" className="font-bold text-sm uppercase">
             Tên sản phẩm <span className="text-red-500">*</span>
           </label>
           <textarea
@@ -324,35 +341,12 @@ export default function CreateNewProduct() {
           />
         </div>
 
-        {/* --- Description --- */}
-        <div className="flex flex-col mb-3">
-          <label
-            htmlFor="description"
-            className="font-semibold text-sm uppercase"
-          >
-            Mô tả sản phẩm <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="description"
-            required={true}
-            placeholder="Bạn có thể dùng các công cụ hoặc trang web AI để viết mô tả cho sản phẩm."
-            value={data.info.description}
-            className="border border-gray-300 outline-0 p-1 h-[200px]"
-            onChange={(e) =>
-              setData((prev) => ({
-                ...prev,
-                info: { ...prev.info, description: e.target.value },
-              }))
-            }
-          />
-        </div>
-
         {/* --- Pricing --- */}
         <div className="grid grid-cols-2 gap-4 mb-3">
           <div>
             <label
               htmlFor="original_price"
-              className="font-semibold text-sm uppercase"
+              className="font-bold text-sm uppercase"
             >
               Giá gốc <span className="text-red-500">*</span>
             </label>
@@ -375,7 +369,7 @@ export default function CreateNewProduct() {
             />
           </div>
           <div>
-            <label htmlFor="sale" className="font-semibold text-sm uppercase">
+            <label htmlFor="sale" className="font-bold text-sm uppercase">
               Giá khuyến mãi
             </label>
             <input
@@ -401,10 +395,7 @@ export default function CreateNewProduct() {
         {/* --- Category & Brand --- */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label
-              htmlFor="category"
-              className="font-semibold text-sm uppercase"
-            >
+            <label htmlFor="category" className="font-bold text-sm uppercase">
               Danh mục sản phẩm <span className="text-red-500">*</span>
             </label>
             <select
@@ -428,7 +419,7 @@ export default function CreateNewProduct() {
             </select>
           </div>
           <div>
-            <label htmlFor="brand" className="font-semibold text-sm uppercase">
+            <label htmlFor="brand" className="font-bold text-sm uppercase">
               Hãng sản xuất
             </label>
             <select
@@ -458,7 +449,7 @@ export default function CreateNewProduct() {
 
       {/* ================= IMAGES SECTION ================= */}
       <div className="border border-gray-300 p-4 mb-4">
-        <h2 className="font-semibold uppercase text-lg mb-3">Ảnh sản phẩm</h2>
+        <h2 className="font-bold uppercase text-lg mb-3">Ảnh sản phẩm</h2>
         {/* Thumbnail */}
         <div className="mb-4 block">
           <strong className="text-center">Ảnh bìa</strong>
@@ -546,9 +537,7 @@ export default function CreateNewProduct() {
 
       {/* ================= VARIANT SECTION ================= */}
       <div className="border border-gray-300 p-4 mb-4">
-        <h2 className="font-semibold uppercase text-lg mb-3">
-          Phân loại sản phẩm
-        </h2>
+        <h2 className="font-bold uppercase text-lg mb-3">Phân loại sản phẩm</h2>
         {/* Model quantity */}
         <div className="flex items-center mb-4">
           <button
@@ -587,7 +576,7 @@ export default function CreateNewProduct() {
           data.info.category &&
           Array.from({ length: modelCount }).map((_, i) => (
             <div key={i} className="border-t border-gray-300 py-3 mt-3">
-              <h4 className="font-semibold mb-2">
+              <h4 className="font-bold mb-2">
                 {createSku(data.info.name)}-MOD-{i + 1}
               </h4>
               {/* stock */}
@@ -658,17 +647,53 @@ export default function CreateNewProduct() {
             </div>
           ))}
       </div>
+      {/* --- Description --- */}
+      <div className="flex flex-col mb-3">
+        <label className="text-sm">
+          <strong className="uppercase me-1">Mô tả sản phẩm</strong>
+          <span className="text-red-500">*</span>
+          <p className="text-yellow-500  text-sm">
+            * Nếu bạn sử dụng AI để tạo mô tả. Hệ thống sẽ tự tạo ra 1 đoạn code
+            để tạo giao diện đẹp cho mô tả. Nếu bạn có đội ngũ phát triển riêng,
+            bạn có thể tự tạo HTML mô tả cho mình.
+          </p>
+        </label>
+        <div className="flex justify-start gap-3">
+          <button
+            type="button"
+            onClick={async () => await createDescripionByAi()}
+            className="p-1 text-sm underline"
+          >
+            Tạo mô tả bằng AI
+          </button>
+        </div>
+        <textarea
+          id="description"
+          required={true}
+          placeholder="Bạn có thể dùng các công cụ hoặc trang web AI để viết mô tả cho sản phẩm."
+          value={
+            wating
+              ? "Vui lòng chờ, quá trình có thể mất 1 khoảng thời gian...."
+              : data.info.description
+          }
+          className="border border-gray-300 outline-0 p-1 h-[200px]"
+          onChange={(e) =>
+            setData((prev) => ({
+              ...prev,
+              info: { ...prev.info, description: e.target.value },
+            }))
+          }
+        />
+      </div>
 
       {/* ================= VARIANT PREVIEW SECTION ================= */}
       <div className="border border-gray-300 p-4">
-        <h2 className="font-semibold uppercase text-lg mb-3">
-          Phân loại đã chọn
-        </h2>
+        <h2 className="font-bold uppercase text-lg mb-3">Phân loại đã chọn</h2>
         {data.varitants.length ? (
           data.varitants.map((v) => (
             <div key={v.sku} className="mb-3 border-b border-gray-200 pb-2">
-              <p className="font-semibold">{v.sku}</p>
-              <p className="font-semibold">{v.stoke}</p>
+              <p className="font-bold">{v.sku}</p>
+              <p className="font-bold">{v.stoke}</p>
               {v.attributes.map((a, i) => (
                 <div key={i} className="mt-2">
                   <strong>{a.name}:</strong>

@@ -66,13 +66,6 @@ export class CartController {
     @Req() req: JwtAuthGuardRequest,
   ) {
     const { id } = req.user;
-    if (param.varitants.attributes.length == 0) {
-      return {
-        message: 'in valid value to update!',
-        success: true,
-        error: null,
-      };
-    }
     const dto = CartMapper.formatCartUpdateRequest(param);
     const result = await this.cartService.updatePatch(dto, id);
     return result;

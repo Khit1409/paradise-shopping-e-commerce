@@ -1,6 +1,7 @@
+"use client";
+
 import React, { useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { getProductThunk } from "@/redux/product/thunk";
 import { getProductSellerThunk } from "@/redux/seller/thunk";
 import PriceBox from "./PriceBox";
+import { useRouter } from "next/navigation";
 
 type ComponentProps = {
   ofRole: "user" | "seller";
@@ -36,6 +38,18 @@ export default function ProductList(props: ComponentProps) {
    */
 
   /**
+   * handle navigation to single product page.
+   */
+  const router = useRouter();
+  const navigationToSingleProductPage = (id: string) => {
+    localStorage.setItem("selected_product_id", id);
+    if (ofRole === "seller") {
+      router.replace("/seller/edit/product");
+    } else if (ofRole === "user") {
+      router.replace("/user/single/product");
+    }
+  };
+  /**
    * jsx
    */
   return (
@@ -44,12 +58,8 @@ export default function ProductList(props: ComponentProps) {
         {products.length !== 0 ? (
           <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
             {products.map((pro) => (
-              <Link
-                href={`/${
-                  ofRole === "seller"
-                    ? `seller/edit-product?product_id=${pro.id}`
-                    : `user/single-product?info=${pro.id}`
-                }`}
+              <button
+                onClick={() => navigationToSingleProductPage(pro.id)}
                 key={pro.id}
                 className="border bg-white border-gray-300 hover:scale-[1.02] transition flex flex-col"
               >
@@ -72,7 +82,7 @@ export default function ProductList(props: ComponentProps) {
                   </div>
                   <PriceBox price={pro.original_price} sale={pro.sale} />
                 </div>
-              </Link>
+              </button>
             ))}
           </div>
         ) : (
