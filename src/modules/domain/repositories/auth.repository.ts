@@ -104,7 +104,7 @@ export class AuthRepository implements IAuthRepository {
           fullName: `${dto.lastname} ${dto.firtname}`,
           userRole: 'user' as 'user' | 'seller',
           passwordHashed: hashPass,
-          avatarUrl: dto.avatar ?? '',
+          avatarUrl: dto.avatar ?? null,
         };
         const newUser = await this.userRepo.save(newAccount);
         if (!newUser) {

@@ -20,6 +20,8 @@ import { GeneralHandleResponse } from '@/interfaces/repositories/general.interfa
 import { CreateNewProductDto } from '../dto/product/product-create-dto';
 import { OpenAIService } from '@/modules/services/openai.service';
 import { UpdateProductDto } from '../dto/product/product-update.dto';
+import { CartDoc } from '@/infrastructure/database/mongoodb/cart.schema';
+import { OrderItemOrmEntity } from '@/infrastructure/database/sql-server/order-item.entity';
 /**
  * original handle database from schema or entity. using by service and using (mongoose or sql server) document
  * for query and response formated data to controller response to client
@@ -29,8 +31,12 @@ export class ProductMongooRepository implements IProductRepository {
   constructor(
     @InjectRepository(StoreOrmEntity)
     private store: Repository<StoreOrmEntity>,
+    @InjectRepository(OrderItemOrmEntity)
+    private orderItemRepo: Repository<OrderItemOrmEntity>,
     @InjectModel('ProductModel')
     private productModel: Model<ProductDoc>,
+    @InjectModel('CartModel')
+    private readonly cartModel: Model<CartDoc>,
     //other service
     private readonly openAiService: OpenAIService,
   ) {}
@@ -48,7 +54,6 @@ export class ProductMongooRepository implements IProductRepository {
         dto.info.name,
         dto.info.description,
       );
-
       const product = await this.productModel.findOneAndUpdate(
         {
           _id: dto.id,
@@ -97,6 +102,9 @@ export class ProductMongooRepository implements IProductRepository {
         _id: id,
         'owner_info.seller_id': seller_id,
       });
+      await this.cartModel.findOneAndDelete({
+        'info.product_id': id,
+      });
       if (!deleted) {
         return {
           message: `Failed to delete product by id:${String(id)}`,
@@ -124,6 +132,21 @@ export class ProductMongooRepository implements IProductRepository {
     active: boolean,
   ) => Promise<GeneralHandleResponse> = async (id, seller_id, active) => {
     try {
+      if (!active) {
+        const existingInOrder = await this.orderItemRepo.findOne({
+          where: {
+            proId: String(id),
+          },
+        });
+        if (existingInOrder) {
+          return {
+            message:
+              'Sản phẩm này đang được các khách hàng đặt hàng, vui lòng xử lý đơn hàng trước khi ngừng bán',
+            success: false,
+            error: 'Stop active error',
+          };
+        }
+      }
       const product = await this.productModel.findOneAndUpdate(
         {
           _id: id,
@@ -136,6 +159,11 @@ export class ProductMongooRepository implements IProductRepository {
           new: true,
         },
       );
+      if (active) {
+        await this.cartModel.findOneAndDelete({
+          'info.product_id': id,
+        });
+      }
       if (!product) {
         return {
           message: `Failed to stop is active product by id:${String(id)}`,

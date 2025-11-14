@@ -162,8 +162,8 @@ export class CartMongooRepository implements ICartRepository {
         );
       }
       if (dto.quantity) {
-        cartData.total_price = cartData.original_price * dto.quantity;
         cartData.quantity = dto.quantity;
+        cartData.total_price = cartData.original_price * dto.quantity;
       }
       const product = await this.productModel.findById(
         cartData.info.product_id,

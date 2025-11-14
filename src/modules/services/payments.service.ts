@@ -1,6 +1,6 @@
+import { GeneralHandleResponse } from '@/interfaces/repositories/general.interface';
 import type { CancelPaymentResponse } from '@/types/payment/payment.type';
 import {
-  BadRequestException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -117,7 +117,10 @@ export class PaymentService {
    * @param cancellationReason
    * @returns
    */
-  async cancelPaymentLink(paymentLinkId: string, cancellationReason?: string) {
+  async cancelPaymentLink(
+    paymentLinkId: string,
+    cancellationReason?: string,
+  ): Promise<GeneralHandleResponse> {
     try {
       const response = await axios.post(
         `${this.payosApiUrl}/${paymentLinkId}/cancel`,
@@ -133,9 +136,17 @@ export class PaymentService {
       const result: CancelPaymentResponse =
         response.data as CancelPaymentResponse;
       if (!result) {
-        throw new BadRequestException(`Loi huy don hang`);
+        return {
+          success: false,
+          message: 'Hủy đơn hàng thất bại',
+          error: 'Cancel payment error',
+        };
       }
-      return { resultCode: 1, message: 'Success' };
+      return {
+        message: 'Hủy đơn hàng thành công',
+        error: null,
+        success: true,
+      };
     } catch (error) {
       throw new InternalServerErrorException(
         `Failed to cancel payment link, error:${error}`,
