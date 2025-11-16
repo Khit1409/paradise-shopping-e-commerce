@@ -2,5 +2,5 @@
   "version": 3,
   "sources": [],
   "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/client/app/product.css"],"sourcesContent":[".product_img_custom {\n    inline-size: 100%;\n    block-size: 250px;\n    object-fit: cover;\n}\n\n.product-description-from-api p {\n    max-inline-size: 500px;\n    text-wrap: wrap;\n\n}"],"names":[],"mappings":"AAAA;;;;;;AAMA"}}]
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/client/app/product.css"],"sourcesContent":[".product_img_custom {\n    inline-size: 100%;\n    block-size: 250px;\n    object-fit: cover;\n}\n\n.product-description-from-api p {\n    max-inline-size: 500px;\n    text-wrap: wrap;\n}\n\n.product-description-from-api img {\n    max-inline-size: 300px;\n    max-block-size: 300px;\n    object-fit: cover;\n}"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;AAKA"}}]
 }

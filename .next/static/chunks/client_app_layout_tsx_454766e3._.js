@@ -2,7 +2,7 @@
     script: typeof document === "object" ? document.currentScript : undefined,
     chunks: [
   "static/chunks/[root-of-the-server]__58f9365b._.css",
-  "static/chunks/client_bbcacd3c._.js",
+  "static/chunks/client_157e9ff2._.js",
   "static/chunks/1e749_next_689b0450._.js",
   "static/chunks/1e749_axios_lib_ab256652._.js",
   "static/chunks/1e749_@fortawesome_free-solid-svg-icons_index_mjs_ff06ad6d._.js",

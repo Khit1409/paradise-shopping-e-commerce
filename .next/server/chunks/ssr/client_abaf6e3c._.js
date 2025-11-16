@@ -1696,50 +1696,51 @@ function PageWrapper({ role, children }) {
     const {} = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useSelector"])((state)=>state.seller);
     //next router
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
-    //use effect call api when starting render app page
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        try {
-            /**
-       * Call all importaint or needing api
-       * when role component start render
-       */ (async ()=>{
-                //loading effect
-                dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(true));
-                /**
-         * Call get user data api and get navigation api for start using web
-         */ const [check] = await Promise.all([
-                    dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"])(role)),
-                    dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getUIThunk"])())
-                ]);
-                /**
-         * check result of authenticate and get naviagtion api
-         * if use null => replace page is login
-         * if successfull => set appMouted is true and render app
-         */ if (check.payload) {
-                    dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(false));
-                    if (__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"].fulfilled.match(check)) {
-                        setAppMounted(true);
-                        if (role === "seller" && check.payload.role === "user") {
-                            return router.replace("/user");
+    /**
+   * manager page active
+   * check user role and navigation to pages of this role
+   * but role is seller is can join to user page for watching new update or new change.
+   */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const managerPageActive = async ()=>{
+            dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(true));
+            const checkAuth = await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"])(`${role}`));
+            if (checkAuth) {
+                dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(false)); //loading animation
+                try {
+                    if (__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"].fulfilled.match(checkAuth) && checkAuth.payload) {
+                        if (role === "seller" && checkAuth.payload.role === "user") {
+                            router.replace("/user");
                         } else {
-                            return;
+                            router.replace(`/${role}`);
                         }
-                    } else {
-                        return router.replace(role === "seller" ? "/seller-login" : "/login");
+                    } else if (__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$auth$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["authenticationThunk"].rejected.match(checkAuth)) {
+                        const loginUrlPath = role === "seller" ? "/seller-login" : "/login";
+                        router.replace(loginUrlPath);
                     }
+                } catch (error) {
+                    dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onErrorModel"])({
+                        onError: true,
+                        mess: `${error}`
+                    }));
                 }
-            })();
-        } catch (error) {
-            dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onLoadingAction"])(false));
-            dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$slice$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onErrorModel"])({
-                mess: `${error}`,
-                onError: true
-            }));
-        }
+            }
+        };
+        managerPageActive();
+        setAppMounted(true);
     }, [
-        dispatch,
         role,
+        dispatch,
         router
+    ]);
+    /**
+   * get ui api when start
+   */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        const getUI = async ()=>{
+            await dispatch((0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$redux$2f$app$2f$thunk$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getUIThunk"])());
+        };
+        getUI();
+    }, [
+        dispatch
     ]);
     //don'nt render app if appMouted false
     if (!appMouted) {
@@ -1751,7 +1752,7 @@ function PageWrapper({ role, children }) {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$layout$2f$Navbar$2f$Seller$2f$SellerNavbar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-                lineNumber: 85,
+                lineNumber: 84,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1759,7 +1760,7 @@ function PageWrapper({ role, children }) {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$layout$2f$Header$2f$Seller$2f$SellerHeader$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-                        lineNumber: 87,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1767,37 +1768,37 @@ function PageWrapper({ role, children }) {
                         children: children
                     }, void 0, false, {
                         fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-                        lineNumber: 88,
+                        lineNumber: 87,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-                lineNumber: 86,
+                lineNumber: 85,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-        lineNumber: 84,
+        lineNumber: 83,
         columnNumber: 5
     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$layout$2f$Header$2f$Header$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-                lineNumber: 96,
+                lineNumber: 95,
                 columnNumber: 7
             }, this),
             children,
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$client$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$client$2f$components$2f$layout$2f$Footer$2f$Footer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-                lineNumber: 99,
+                lineNumber: 98,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/client/app/[role]/PageWrapper.tsx",
-        lineNumber: 94,
+        lineNumber: 93,
         columnNumber: 5
     }, this);
 }

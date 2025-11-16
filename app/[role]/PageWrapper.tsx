@@ -31,49 +31,46 @@ export default function PageWrapper({
   //next router
   const router = useRouter();
 
-  //use effect call api when starting render app page
+  /**
+   * manager page active
+   * check user role and navigation to pages of this role
+   * but role is seller is can join to user page for watching new update or new change.
+   */
   useEffect(() => {
-    try {
-      /**
-       * Call all importaint or needing api
-       * when role component start render
-       */
-      (async () => {
-        //loading effect
-        dispatch(onLoadingAction(true));
-        /**
-         * Call get user data api and get navigation api for start using web
-         */
-        const [check] = await Promise.all([
-          dispatch(authenticationThunk(role)),
-          dispatch(getUIThunk()),
-        ]);
-        /**
-         * check result of authenticate and get naviagtion api
-         * if use null => replace page is login
-         * if successfull => set appMouted is true and render app
-         */
-        if (check.payload) {
-          dispatch(onLoadingAction(false));
-          if (authenticationThunk.fulfilled.match(check)) {
-            setAppMounted(true);
-            if (role === "seller" && check.payload.role === "user") {
-              return router.replace("/user");
-            } else {
-              return;
+    const managerPageActive = async () => {
+      dispatch(onLoadingAction(true));
+      const checkAuth = await dispatch(authenticationThunk(`${role}`));
+      if (checkAuth) {
+        dispatch(onLoadingAction(false)); //loading animation
+        try {
+          if (
+            authenticationThunk.fulfilled.match(checkAuth) &&
+            checkAuth.payload
+          ) {
+            if (role === "seller" && checkAuth.payload.role === "user") {
+              router.replace("/user");
             }
-          } else {
-            return router.replace(
-              role === "seller" ? "/seller-login" : "/login"
-            );
+          } else if (authenticationThunk.rejected.match(checkAuth)) {
+            const loginUrlPath = role === "seller" ? "/seller-login" : "/login";
+            router.replace(loginUrlPath);
           }
+        } catch (error) {
+          dispatch(onErrorModel({ onError: true, mess: `${error}` }));
         }
-      })();
-    } catch (error) {
-      dispatch(onLoadingAction(false));
-      dispatch(onErrorModel({ mess: `${error}`, onError: true }));
-    }
-  }, [dispatch, role, router]);
+      }
+    };
+    managerPageActive();
+    setAppMounted(true);
+  }, [role, dispatch, router]);
+  /**
+   * get ui api when start
+   */
+  useEffect(() => {
+    const getUI = async () => {
+      await dispatch(getUIThunk());
+    };
+    getUI();
+  }, [dispatch]);
 
   //don'nt render app if appMouted false
   if (!appMouted) {

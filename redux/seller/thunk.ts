@@ -1,9 +1,11 @@
-import { ProductList, SingleProduct } from "../../type/product.interface";
+import { ProductList, SingleProduct } from "@/type/product.interface";
 import {
+  getEditProductApi,
   getProducts,
   getSingleProductSellerService,
-} from "../../service/seller.service";
+} from "@/service/seller.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { EditProductApiResponse } from "@/type/seller.interface";
 
 export const getSingleProductThunk = createAsyncThunk<
   /**
@@ -81,3 +83,19 @@ export const getProductSellerThunk = createAsyncThunk<
     }
   }
 );
+
+/**
+ * get edit product api for edit or create product
+ */
+export const getEditProductApiThunk = createAsyncThunk<
+  EditProductApiResponse[],
+  string | undefined,
+  { rejectValue: string }
+>("get edit api", async (category, thunkAPI) => {
+  try {
+    const payload = await getEditProductApi(category);
+    return payload;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(`${error}`);
+  }
+});

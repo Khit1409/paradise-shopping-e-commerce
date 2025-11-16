@@ -3,6 +3,7 @@ import Dashboard from "@/components/seller/page/Dashboard";
 import Home from "@/components/user/page/Home";
 import { UserRole } from "@/type/auth.type";
 import React from "react";
+import PageNotFound from "../not-found";
 /**
  * type of params
  */
@@ -21,5 +22,5 @@ const ROLE_PAGE: Record<UserRole, React.ReactNode> = {
  * @returns
  */
 export default function RenderRolePage({ role }: PropTypes) {
-  return ROLE_PAGE[role];
+  return ROLE_PAGE[role] ?? <PageNotFound />;
 }

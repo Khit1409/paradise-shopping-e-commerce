@@ -16,7 +16,7 @@ export default function ProductImage(props: ComponentProps) {
    */
   const [imgPreview, setImgPreview] = useState<string>();
   return (
-    <div className="flex gap-3 w-1/2">
+    <div className="flex gap-3 lg:flex-row flex-col justify-center items-center lg:items-start">
       {/* main img */}
       <Image
         src={imgPreview ?? thumbnail}
@@ -24,10 +24,10 @@ export default function ProductImage(props: ComponentProps) {
         width={400}
         objectFit="cover"
         height={300}
-        className="border border-gray-200 h-[400px] flex-1"
+        className="border border-gray-200 h-[350px] flex-1 mt-1"
       />
       {/* img detail */}
-      <div className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2">
+      <div className="flex lg:flex-col gap-2 overflow-x-auto overflow-y-hidden lg:overflow-y-auto lg:overflow-x-hidden px-2 py-1">
         {images.map((img, index) => (
           <Image
             key={index}

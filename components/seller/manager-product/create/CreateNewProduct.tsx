@@ -1,12 +1,7 @@
-import React, { useState } from "react";
-import {
-  EXAMPLE_BRAND_JSON,
-  EXAMPLE_CATEGORY_JSON,
-  EXAMPLE_VARIANT_JSON,
-} from "../data";
+import React, { useEffect, useState } from "react";
 import { uploadImageToCloud } from "@/service/cloud.service";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   onErrorModel,
   onLoadingAction,
@@ -24,12 +19,14 @@ import {
 import { ProductDataRequest } from "@/type/seller.interface";
 import { createNewProduct } from "@/service/seller.service";
 import { createProductDescriptionHtmlElement } from "@/feature/open-api";
+import { getEditProductApiThunk } from "@/redux/seller/thunk";
 
 /**
  * --- COMPONENT START ---
  */
 export default function CreateNewProduct() {
   const dispatch = useDispatch<AppDispatch>();
+  const { editProduct } = useSelector((state: RootState) => state.seller);
 
   // --- STATE ---
   const [data, setData] = useState<ProductDataRequest>({
@@ -49,6 +46,15 @@ export default function CreateNewProduct() {
   const [wating, setWating] = useState<boolean>(false);
   const [modelCount, setModelCount] = useState<number>(0);
 
+  /**
+   * call create product api
+   */
+  useEffect(() => {
+    const getEditApi = async () => {
+      await dispatch(getEditProductApiThunk());
+    };
+    getEditApi();
+  }, [dispatch, data]);
   /**
    * --- HANDLER: Upload Thumbnail ---
    */
@@ -161,31 +167,27 @@ export default function CreateNewProduct() {
    * find brand list by selected category name
    * @param category
    */
-  const findBrands = (category: string) => {
-    const selectedCategory = EXAMPLE_CATEGORY_JSON.find(
-      (cate) => cate.name === category
+  const findBrands = () => {
+    if (!data.info.category) return [];
+    const selectedCategory = editProduct.find(
+      (edit) => edit.category === data.info.category
     );
-    if (!selectedCategory) return [];
-    const brandNeeded = EXAMPLE_BRAND_JSON.find(
-      (fBr) => fBr.category_id === selectedCategory.id
-    );
-    if (!brandNeeded) return [];
-    return brandNeeded.brands;
+    if (!selectedCategory) {
+      return [];
+    }
+    const brandNeeded = selectedCategory.brands;
+    return brandNeeded;
   };
   /**
    * find varitant product list by selected cate gory
    * @param category
    */
   const findVaritantAttributes = (category: string) => {
-    const selectedCategory = EXAMPLE_CATEGORY_JSON.find(
-      (cate) => cate.name === category
+    const selectedCategory = editProduct.find(
+      (cate) => cate.category === category
     );
     if (!selectedCategory) return [];
-    const varitantNeeded = EXAMPLE_VARIANT_JSON.find(
-      (fVrt) => fVrt.category_id === selectedCategory.id
-    );
-    if (!varitantNeeded) return [];
-    return varitantNeeded.attributes;
+    return selectedCategory.attributes;
   };
   /**
    * check is valid attribute by sku and name in data state
@@ -411,9 +413,9 @@ export default function CreateNewProduct() {
               }
             >
               <option value="">Chọn danh mục</option>
-              {EXAMPLE_CATEGORY_JSON.map((cate) => (
-                <option key={cate.id} value={cate.name}>
-                  {cate.name}
+              {editProduct.map((cate) => (
+                <option key={cate.id} value={cate.category}>
+                  {cate.category}
                 </option>
               ))}
             </select>
@@ -437,7 +439,7 @@ export default function CreateNewProduct() {
                   ? "Chọn hãng sản xuất"
                   : "Vui lòng chọn danh mục trước"}
               </option>
-              {findBrands(data.info.category).map((brand) => (
+              {findBrands().map((brand) => (
                 <option key={brand} value={brand}>
                   {brand}
                 </option>

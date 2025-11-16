@@ -30,7 +30,7 @@ export interface ProductDataRequest {
   varitants: VariantRequest[];
 }
 /**
- *
+ * product info update request
  */
 interface ProductInfoUpdateRequest {
   name: string;
@@ -39,19 +39,25 @@ interface ProductInfoUpdateRequest {
   description: string;
   brand?: string;
 }
-
+/**
+ * product varitant update request
+ */
 interface VariantAttributeUpdateRequest {
   name: string;
   value: string[];
   image?: string;
 }
-
+/**
+ * product varitant update request
+ */
 interface VariantUpdateRequest {
   sku: string;
   stoke: number;
   attributes: VariantAttributeUpdateRequest[];
 }
-
+/**
+ * final interface product update request
+ */
 export interface ProductDataUpdateRequest {
   info: ProductInfoUpdateRequest;
   original_price: number;
@@ -59,4 +65,17 @@ export interface ProductDataUpdateRequest {
   thumbnail: string;
   images: string[];
   varitants: VariantUpdateRequest[];
+}
+interface EditProductAttributeResponse {
+  name: string;
+  value: string[];
+}
+/**
+ * interface of edit product response
+ */
+export interface EditProductApiResponse {
+  id: string;
+  category: string;
+  brands: string[];
+  attributes: EditProductAttributeResponse[];
 }

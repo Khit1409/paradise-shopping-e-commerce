@@ -16,6 +16,14 @@
       "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
       "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
     ],
+    "[project]/client/app/login/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
+      "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
+    ],
+    "[project]/client/app/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
+      "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"
+    ],
     "[project]/client/app/seller-login/page": [
       "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2",
       "static/media/cf514f5d0007dafa-s.p.417aa1a2.woff2"

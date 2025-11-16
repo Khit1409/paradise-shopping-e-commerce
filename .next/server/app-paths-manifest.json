@@ -3,5 +3,7 @@
   "/[role]/[page]/page": "app/[role]/[page]/page.js",
   "/[role]/page": "app/[role]/page.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
   "/seller-login/page": "app/seller-login/page.js"
 }

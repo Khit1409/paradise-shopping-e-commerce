@@ -242,9 +242,9 @@ function ProductList(props) {
     const navigationToSingleProductPage = (id)=>{
         localStorage.setItem("selected_product_id", id);
         if (ofRole === "seller") {
-            router.replace("/seller/edit-product");
+            router.replace("/seller/edit/product");
         } else if (ofRole === "user") {
-            router.replace("/user/single-product");
+            router.replace("/user/single/product");
         }
     };
     /**
@@ -963,7 +963,7 @@ function Logo() {
             alt: "",
             height: 120,
             width: 50,
-            className: "w-[100px] h-[50px] object-cover"
+            className: "w-[100px] h-[50px] object-cover hidden lg:block"
         }, void 0, false, {
             fileName: "[project]/client/components/common/Logo.tsx",
             lineNumber: 7,

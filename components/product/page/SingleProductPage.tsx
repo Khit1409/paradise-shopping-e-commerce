@@ -12,7 +12,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getSingleProductThunk } from "@/redux/product/thunk";
 import { CartVaritantRequest } from "@/type/cart.interface";
@@ -28,9 +27,12 @@ import { onOpenOrderModal } from "@/redux/order/slice";
 export default function SingleProductPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.product);
+  /**
+   * get selected product id from local storage.
+   */
   const id = localStorage.getItem("selected_product_id") as string;
   /**
-   *
+   * call single product by id
    */
   useEffect(() => {
     (async () => {
@@ -38,15 +40,16 @@ export default function SingleProductPage() {
     })();
   }, [id, dispatch]);
   /**
-   * react hook
+   * component state
    */
-
   const [quantity, setQuantity] = useState<number>(0);
   const [selectedVaritant, setSelectedVaritant] =
     useState<CartVaritantRequest>();
 
+  /**
+   * hook created
+   */
   const hook = SingleProductHook();
-
   /**
    * return not found product before create function
    */
@@ -58,7 +61,7 @@ export default function SingleProductPage() {
     );
   }
   /**
-   * handle
+   * handle check validate before add to cart or order this products.
    * @returns
    */
   const handleCheckValidate = () => {
@@ -97,6 +100,11 @@ export default function SingleProductPage() {
     }
     return true;
   };
+  /**
+   * submit action add to cart
+   * @param param0
+   * @returns
+   */
   const submitAddCart = async () => {
     const handled = handleCheckValidate();
     if (!handled) {
@@ -136,15 +144,26 @@ export default function SingleProductPage() {
    * @returns
    */
   const calculatorTotalPirce = (): number => {
+    /**
+     * final price is original price minus for original price multiple with sale and divide for 100 and multiple to quantity.
+     */
     const { original_price, sale } = product!;
+    /**
+     * if sale is 0 => final price is original price.
+     */
     if (sale == 0) {
       return original_price;
     }
+    /**
+     * handle caculator
+     */
     const minusSale = original_price - (original_price * sale) / 100;
     const totalPrice = minusSale * quantity;
     return totalPrice;
   };
-  /** UI */
+  /**
+   * check validate order value before add order state.
+   */
   const handleOrderValue = (): OrderSliceState | null => {
     const check = handleCheckValidate();
     if (!check) {
@@ -162,6 +181,10 @@ export default function SingleProductPage() {
 
     return { ...item, varitants: { sku, attributes } };
   };
+  /**
+   * Submit add to order and open order modal for continue selected attribute of order
+   * @returns
+   */
   const submitOrder = async () => {
     const payload = handleOrderValue();
     if (!payload) {
@@ -172,13 +195,13 @@ export default function SingleProductPage() {
   /** UI */
   return (
     <section className="bg-gray-50 text-gray-700">
-      <div className="mx-auto p-5 bg-white">
+      <div className="p-5 bg-white">
         {/* Product Main Section */}
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-3">
           {/* Image Section */}
           <ProductImage images={product.images} thumbnail={product.thumbnail} />
           {/* Product Info */}
-          <div className="w-1/2">
+          <div className="flex flex-col gap-3 overflow-y-auto h-[70vh]">
             <ProductInfoTable
               selectedVaritant={selectedVaritant}
               setSelectedVaritant={setSelectedVaritant}

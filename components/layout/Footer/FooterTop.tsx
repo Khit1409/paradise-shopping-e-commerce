@@ -14,16 +14,26 @@ export default function FooterTop() {
     <section className="p-2 flex justify-center items-center gap-5 border-b border-gray-300">
       {isLoggedIn ? (
         nav.map((n) => (
-          <Link href={n.url} key={n._id} className="uppercase hover:underline">
+          <Link
+            href={n.url}
+            key={n._id}
+            className="uppercase hover:underline md:truncate sm:truncate w-max"
+          >
             {n.name}
           </Link>
         ))
       ) : (
         <div className="p-2 flex gap-3 pt-2 text-sm uppercase">
-          <Link className="hover:underline" href={`/`}>
+          <Link
+            className="hover:underline w-max sm:truncate md:truncate"
+            href={`/`}
+          >
             Trang chủ
           </Link>
-          <Link className="hover:underline" href={`/login`}>
+          <Link
+            className="hover:underline w-max sm:truncate md:truncate"
+            href={`/login`}
+          >
             Đăng nhập để truy cập.....
           </Link>
         </div>

@@ -10,4 +10,10 @@
   max-width: 500px;
 }
 
+.product-description-from-api img {
+  object-fit: cover;
+  max-height: 300px;
+  max-width: 300px;
+}
+
 /*# sourceMappingURL=client_app_product_css_bad6b30c._.single.css.map*/
