@@ -1,4 +1,5 @@
 "use client";
+import PageNotFound from "@/app/not-found";
 import CartPage from "@/components/cart/page/CartPage";
 import CheckoutPage from "@/components/checkout/page/CheckoutPage";
 import OrderPage from "@/components/order/page/OrderPage";
@@ -40,5 +41,5 @@ const PAGE: Record<UserRole, Record<string, React.ReactNode>> = {
  * @returns
  */
 export default function RenderPage({ role, page }: PropTypes) {
-  return PAGE[role][page];
+  return PAGE[role][page] ?? <PageNotFound />;
 }

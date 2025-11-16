@@ -2,6 +2,7 @@ import { apiAction } from "@/config/fetch-api.config";
 import { GeneralHandleResponse } from "@/type/general.type";
 import { ProductList, SingleProduct } from "@/type/product.interface";
 import {
+  EditProductApiResponse,
   ProductDataRequest,
   ProductDataUpdateRequest,
 } from "@/type/seller.interface";
@@ -93,5 +94,19 @@ export async function stopProductActive(
     return result;
   } catch (error) {
     return { message: `${error}`, error: error as string, success: false };
+  }
+}
+/**
+ * get edit product api service by category or all
+ * @param category
+ */
+export async function getEditProductApi(category?: string) {
+  try {
+    const res = await apiAction.get(`ui/edit/product/${category ?? "all"}`);
+    const result: EditProductApiResponse[] = res.data;
+    return result;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 }

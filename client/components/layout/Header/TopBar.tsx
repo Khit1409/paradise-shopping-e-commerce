@@ -84,7 +84,9 @@ export default function TopBar() {
         <div className="flex lg:flex-1 justify-center items-center">
           {/* logo */}
           <div>
-            <Logo />
+            <div className="hidden lg:block">
+              <Logo />
+            </div>
             {/* bar toggle */}
             <button
               className="block lg:hidden p-2 border rounded"

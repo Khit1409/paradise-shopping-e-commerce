@@ -1,5 +1,6 @@
 "use client";
 
+import PageNotFound from "@/app/not-found";
 import SingleProductPage from "@/components/product/page/SingleProductPage";
 import CreateNewProductPage from "@/components/seller/page/CreateNewProductPage";
 import EditProductPage from "@/components/seller/page/EditProductPage";
@@ -21,11 +22,17 @@ const CHILD_PAGE: Record<
   UserRole,
   Record<string, Record<string, React.ReactNode>>
 > = {
+  /**
+   * page of role user and child is single
+   */
   user: {
     single: {
       product: <SingleProductPage />,
     },
   },
+  /**
+   * page of role seller and child is edit, add or manager
+   */
   seller: {
     edit: {
       product: <EditProductPage />,
@@ -43,5 +50,5 @@ const CHILD_PAGE: Record<
  * @returns
  */
 export default function RenderChildPage({ child, page, role }: PropTypes) {
-  return CHILD_PAGE[role][page][child];
+  return CHILD_PAGE[role][page][child] ?? <PageNotFound />;
 }

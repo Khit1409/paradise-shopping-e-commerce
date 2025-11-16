@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/service/auth.service";
 import { openResponsiveMode } from "@/redux/app/slice";
 import { authenticationThunk } from "@/redux/auth/thunk";
+import Logo from "@/components/common/Logo";
 
 export default function NavBarMobile() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function NavBarMobile() {
     closeResponesive();
     const rs = await logout("user");
     if (rs.success) {
-      const check = await dispatch(authenticationThunk('user'));
+      const check = await dispatch(authenticationThunk("user"));
       if (authenticationThunk.rejected.match(check)) {
         router.replace("/");
       }
@@ -56,7 +57,7 @@ export default function NavBarMobile() {
     <section className="lg:hidden p-3 text-gray-700 bg-white fixed left-0 h-screen max-h-screen border-r border-gray-300 z-9999 overflow-y-auto overflow-x-hidden">
       {/* logo */}
       <div className="border-b py-2 border-gray-300 flex items-center justify-center">
-        <span className="font-semibold">Paradise Shopping</span>
+        <Logo />
       </div>
       <div className="flex gap-3 border-b py-2 border-gray-300">
         {/* toggle modal */}

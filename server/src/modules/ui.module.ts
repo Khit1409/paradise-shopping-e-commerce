@@ -1,4 +1,5 @@
 import { UIController } from '@/controller/ui.controller';
+import { EditProductSchema } from '@/infrastructure/database/mongoodb/edit-product.schema';
 import {
   CarouselSchema,
   NavigationSchema,
@@ -18,6 +19,7 @@ import { MongooseModule } from '@nestjs/mongoose';
         name: 'Carousel',
         schema: CarouselSchema,
       },
+      { name: 'EditProduct', schema: EditProductSchema },
     ]),
   ],
   controllers: [UIController],
