@@ -70,4 +70,10 @@ export interface IOrderRepository {
    * @returns
    */
   get: (user_id: string) => Promise<OrderResponseDto[]>;
+  /**
+   * get for seller
+   * @param seller_id
+   * @returns
+   */
+  getForSeller: (seller_id: string) => Promise<OrderResponseDto[]>;
 }

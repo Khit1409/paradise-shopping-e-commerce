@@ -25,7 +25,10 @@ import { PaymentService } from '@/services/payments.service';
 import { CreatePaymentLinkResponse } from '@payos/node';
 import { SendOrderMailDto } from '@/domain/dto/order/send-order-mail.dto';
 import { MailerService } from '@nestjs-modules/mailer';
-import { OrderResponseDto } from '../dto/order/order-response.dto';
+import {
+  OrderResponseDto,
+  OrderVaritantResponseDto,
+} from '../dto/order/order-response.dto';
 import { OrderMapper } from '@/modules/mapper/order.mapper';
 import { GeneralHandleResponse } from '@/interfaces/repositories/general.interface';
 import { StoreOrmEntity } from '@/infrastructure/database/sql-server/store.entity';
@@ -341,6 +344,70 @@ export class OrderSqlRepository implements IOrderRepository {
       );
 
       return OrderMapper.formatOrderResponse(api);
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  };
+  /**
+   * get order for seller manager page
+   */
+  getForSeller: (seller_id: string) => Promise<OrderResponseDto[]> = async (
+    seller_id,
+  ) => {
+    try {
+      const store = await this.storeOrmRepo.findOne({
+        where: { ownerId: seller_id },
+      });
+      const orders = await this.orderOrmRepo.find({
+        where: {
+          ofStoreId: store.storeId,
+        },
+      });
+      const data: OrderResponseDto[] = await Promise.all(
+        orders.map(async (order) => {
+          const [orderItems, orderContacts, varitants] = await Promise.all([
+            this.orderItemOrmRepo.findOne({
+              where: { ofOrderId: order.orderId },
+            }),
+            this.orderContactOrmRepo.findOne({
+              where: {
+                ofOrderId: order.orderId,
+              },
+            }),
+            this.varitantModel
+              .findOne({
+                order_id: order.orderId.toLowerCase(),
+              })
+              .lean<OrderVaritantResponseDto>(),
+          ]);
+          return {
+            id: order.orderId.toLowerCase(),
+            store_info: {
+              store_name: store.storeName,
+            },
+            items: {
+              img: orderItems.orderImg,
+              name: orderItems.orderName,
+              shipping_type: orderItems.orderKindOfShipping,
+              status: orderItems.orderStatus,
+              pay_type: orderItems.orderKindOfPay,
+              pay_state: orderItems.orderPayStatus,
+              quantity: orderItems.orderQuantity,
+              total_price: orderItems.orderTotalPrice,
+              product_id: orderItems.proId,
+            },
+            contacts: {
+              address: orderContacts.orderAddress,
+              email: orderContacts.orderEmail,
+              phone: orderContacts.orderPhone,
+              user_name: orderContacts.userOrder,
+            },
+            varitants,
+            created_at: store.createdAt,
+          };
+        }),
+      );
+      return data;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }
