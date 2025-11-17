@@ -65,7 +65,7 @@ export const SELLER_NAV = [
       {
         id: 401,
         name: "Đơn hàng của bạn",
-        url: "/seller/your-store-order",
+        url: "/seller/manager/order",
         icon: ["faCartShopping"],
       },
       {
