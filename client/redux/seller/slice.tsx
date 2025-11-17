@@ -2,14 +2,17 @@ import { ProductList, SingleProduct } from "../../type/product.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getEditProductApiThunk,
+  getOrderForSellerThunk,
   getProductSellerThunk,
   getSingleProductThunk,
 } from "./thunk";
 import { EditProductApiResponse } from "@/type/seller.interface";
+import { OrderResponseType } from "@/type/order.interface";
 
 // interface of sellerInitialState of seller slice
 interface SellerSliceInitialState {
   products: ProductList[];
+  orders: OrderResponseType[];
   product: SingleProduct | null;
   editProduct: EditProductApiResponse[];
   sellerOnloading: boolean;
@@ -21,6 +24,7 @@ interface SellerSliceInitialState {
 const sellerInitialState: SellerSliceInitialState = {
   editProduct: [],
   product: null,
+  orders: [],
   products: [],
   sellerOnloading: false,
   sellerErrMess: "",
@@ -69,6 +73,17 @@ const sellerSlice = createSlice({
         state.editProduct = action.payload;
       })
       .addCase(getEditProductApiThunk.rejected, (state, action) => {
+        state.sellerErrMess = action.payload as string;
+      })
+      //get order
+      .addCase(getOrderForSellerThunk.pending, (state) => {
+        state.sellerOnloading = true;
+      })
+      .addCase(getOrderForSellerThunk.fulfilled, (state, action) => {
+        state.orders = action.payload;
+        state.sellerOnloading = false;
+      })
+      .addCase(getOrderForSellerThunk.rejected, (state, action) => {
         state.sellerErrMess = action.payload as string;
       });
   },

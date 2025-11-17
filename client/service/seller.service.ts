@@ -1,5 +1,6 @@
 import { apiAction } from "@/config/fetch-api.config";
 import { GeneralHandleResponse } from "@/type/general.type";
+import { OrderResponseType } from "@/type/order.interface";
 import { ProductList, SingleProduct } from "@/type/product.interface";
 import {
   EditProductApiResponse,
@@ -109,4 +110,14 @@ export async function getEditProductApi(category?: string) {
     console.log(error);
     return [];
   }
+}
+/**
+ * get order of seller by seller id
+ * @param param0
+ * @returns
+ */
+export async function getOrderOfSeller(): Promise<OrderResponseType[]> {
+  const res = await apiAction.get("seller/orders");
+  const data: OrderResponseType[] = res.data;
+  return data;
 }

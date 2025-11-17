@@ -1,4 +1,9 @@
-# 26/10/2025
-1. Tiếp tục chuyển các file về đúng folder, cấu trúc lại dự án. yêu cầu tường minh dễ hiểu. 
-2. Tiếp tục viết hàm get user order by id. *
-3. xây dụng hệ thống quản lý web site, quản lý người dùng, quản lý seller. 
+# feature
+
+1. add product //
+2. add cart //
+3. add order
+4. checkout on off //
+5. edit product //
+6. send order mail !
+7. manager seller order

@@ -4,6 +4,7 @@ import PageNotFound from "@/app/not-found";
 import SingleProductPage from "@/components/product/page/SingleProductPage";
 import CreateNewProductPage from "@/components/seller/page/CreateNewProductPage";
 import EditProductPage from "@/components/seller/page/EditProductPage";
+import ManagerOrder from "@/components/seller/page/ManagerOrder";
 import SellerManagerStoreProduct from "@/components/seller/page/SellerManagerStoreProduct";
 import { UserRole } from "@/type/auth.type";
 import React from "react";
@@ -42,6 +43,7 @@ const CHILD_PAGE: Record<
     },
     manager: {
       store: <SellerManagerStoreProduct />,
+      order: <ManagerOrder />,
     },
   },
 };

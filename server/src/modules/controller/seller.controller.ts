@@ -18,10 +18,14 @@ import type {
   UpdateProductRequest,
 } from '@/types/product/product.type';
 import { ProductMapper } from '../mapper/product.mapper';
+import { OrderService } from '../services/order.service';
 
 @Controller('seller')
 export class SellerController {
-  constructor(private readonly producService: ProductService) {}
+  constructor(
+    private readonly producService: ProductService,
+    private readonly orderService: OrderService,
+  ) {}
   /**
    *  Get product list for seller dashboard or store manager product container
    * @param query
@@ -108,5 +112,14 @@ export class SellerController {
       id,
       body.active,
     );
+  }
+  /**
+   * seller get order for manager page
+   * @param req
+   */
+  @Get('orders')
+  async getOrders(@Req() req: JwtAuthGuardRequest) {
+    const { id } = req.user;
+    return await this.orderService.getForSeller(id);
   }
 }

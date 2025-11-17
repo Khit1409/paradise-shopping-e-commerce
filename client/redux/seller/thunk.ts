@@ -1,11 +1,13 @@
 import { ProductList, SingleProduct } from "@/type/product.interface";
 import {
   getEditProductApi,
+  getOrderOfSeller,
   getProducts,
   getSingleProductSellerService,
 } from "@/service/seller.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { EditProductApiResponse } from "@/type/seller.interface";
+import { OrderResponseType } from "@/type/order.interface";
 
 export const getSingleProductThunk = createAsyncThunk<
   /**
@@ -94,6 +96,21 @@ export const getEditProductApiThunk = createAsyncThunk<
 >("get edit api", async (category, thunkAPI) => {
   try {
     const payload = await getEditProductApi(category);
+    return payload;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(`${error}`);
+  }
+});
+/**
+ * get order of seller by seller id in cookie
+ */
+export const getOrderForSellerThunk = createAsyncThunk<
+  OrderResponseType[],
+  void,
+  { rejectValue: string }
+>("get order for seller", async (_, thunkAPI) => {
+  try {
+    const payload = await getOrderOfSeller();
     return payload;
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);
