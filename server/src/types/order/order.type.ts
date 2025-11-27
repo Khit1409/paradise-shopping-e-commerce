@@ -94,3 +94,13 @@ export type OrderRequest = {
   contacts: OrderContactRequest;
   varitants: OrderVaritantRequest;
 };
+/**
+ * get order for seller query
+ */
+export type GetOrderForSellerQuery = {
+  status?: 'PENDING' | 'ACCEPTED' | 'SHIPPING' | 'RECEIVED' | 'SHIPPINGFAILED'; //pending
+  pay_state?: 'PAID' | 'UNPAID'; //unpaid
+  pay_type?: 'COD' | 'ONLINE'; //online
+  ship_type?: 'COD' | 'FLASH'; //cod
+  sort?: 'date' | 'price'; //date
+};

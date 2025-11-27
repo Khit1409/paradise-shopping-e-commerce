@@ -4,11 +4,6 @@ import {
   ProductList,
 } from "@/type/product.interface";
 import { apiAction } from "@/config/fetch-api.config";
-/**
- * ================
- * PRODUCT SERVICES
- * ================
- */
 
 /**
  * Get products api by query

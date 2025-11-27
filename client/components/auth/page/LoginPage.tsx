@@ -8,7 +8,7 @@ import LoginForm from "../../form/user/LoginForm";
 import { onErrorModel, onLoadingAction } from "@/redux/app/slice";
 import { authenticationThunk } from "@/redux/auth/thunk";
 
-export default function Login() {
+export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
   /**
    * App state

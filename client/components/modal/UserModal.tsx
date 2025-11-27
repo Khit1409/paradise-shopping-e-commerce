@@ -35,7 +35,7 @@ export default function UserModal({ ...props }: ComponentProps) {
   /**
    * Redux State
    */
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user, isLoggedIn } = useSelector((state: RootState) => state.auth);
   /** Handle user logout and redirect to homepage if logout succeeds */
   const handleLogout = async () => {
     const rs = await logout("user");
@@ -92,11 +92,19 @@ export default function UserModal({ ...props }: ComponentProps) {
           icon={faUsers}
           label="Trở thành người bán hàng"
         />
-        <UserLink
-          href={"/seller-login"}
-          icon={faDashboard}
-          label="Đăng nhập trang người bán"
-        />
+        {isLoggedIn && user.role === "seller" ? (
+          <UserLink
+            href={"/seller"}
+            icon={faDashboard}
+            label="Chuyển trang người bán"
+          />
+        ) : (
+          <UserLink
+            href={"/seller-login"}
+            icon={faDashboard}
+            label="Đăng nhập trang người bán"
+          />
+        )}
       </div>
 
       <hr className="my-2 text-gray-300" />

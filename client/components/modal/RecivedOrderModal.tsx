@@ -1,7 +1,9 @@
 "use client";
-import { RootState } from "@/redux/store";
+import { getAddressThunk } from "@/redux/app/thunk";
+import { AppDispatch, RootState } from "@/redux/store";
+import { ProvinceApiType, WardApiType } from "@/type/app.interface";
 import React, { SetStateAction, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 type ComponentProps = {
   getContact: React.Dispatch<
@@ -21,46 +23,51 @@ type ComponentProps = {
   submitOrder: () => Promise<void>;
   onCloseModal: () => void;
 };
-
-// Example data
-const EXAMPLE_PROVINCE_API = [
-  { id: 1, name: "province1" },
-  { id: 2, name: "province2" },
-  { id: 3, name: "province3" },
-];
-const EXAMPLE_WARD_API = [
-  { id: 1, name: "ward1" },
-  { id: 2, name: "ward2" },
-  { id: 3, name: "ward3" },
-];
-
-const EXAMPLE_ADDRESS_API = {
-  ward: EXAMPLE_WARD_API,
-  province: EXAMPLE_PROVINCE_API,
-};
-
 export default function RecivedOrderModal(props: ComponentProps) {
-  const { getContact, submitOrder, onCloseModal, selectedContact } = props;
-
   // State
   const [tab, setTab] = useState<"ward" | "province">("province");
   const [wardName, setWardName] = useState<string>("");
-  const [proVinceName, setProvinceName] = useState<string>("");
+  const [provinceName, setProvinceName] = useState<string>("");
   const [specificAddress, setSpecificAddress] = useState<string>("");
   const [onSelect, setOnSelect] = useState<boolean>(false);
   const [unselect, setUnSelect] = useState<string>("");
+  const { getContact, submitOrder, onCloseModal, selectedContact } = props;
+  const [addressAPI, setAddressAPI] = useState<{
+    ward: WardApiType[];
+    province: ProvinceApiType[];
+  }>({
+    ward: [],
+    province: [],
+  });
 
   const { user } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    /**
+     * call address api
+     */
+    const getAddressApi = async () => {
+      const address = await dispatch(getAddressThunk());
+      if (getAddressThunk.fulfilled.match(address)) {
+        setAddressAPI({
+          ward: address.payload.ward,
+          province: address.payload.province,
+        });
+      }
+    };
+    getAddressApi();
+  }, [dispatch]);
 
   // Update parent address whenever input changes
   useEffect(() => {
-    if (specificAddress || proVinceName || wardName) {
+    if (specificAddress || provinceName || wardName) {
       getContact((prev) => ({
         ...prev,
-        address: `${specificAddress} ${wardName} ${proVinceName}`.trim(),
+        address: `${specificAddress} ${wardName} ${provinceName}`.trim(),
       }));
     }
-  }, [specificAddress, wardName, proVinceName, getContact]);
+  }, [specificAddress, wardName, provinceName, getContact]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -120,14 +127,14 @@ export default function RecivedOrderModal(props: ComponentProps) {
           type="text"
           readOnly
           value={
-            `${proVinceName} ${wardName} ${specificAddress}`.trim() ||
+            `${provinceName} ${wardName} ${specificAddress}`.trim() ||
             selectedContact.address
           }
           placeholder="Nhập Tỉnh/Thành phố, Quận/Huyện, Phường/Xã"
           className="border border-gray-300 p-2  w-full cursor-pointer outline-0"
           onClick={() => setOnSelect(true)}
         />
-        {unselect === "province" && !proVinceName && (
+        {unselect === "province" && !provinceName && (
           <p className="text-sm text-red-500">
             Vui lòng chọn Tỉnh/Thành Phố trước
           </p>
@@ -165,22 +172,39 @@ export default function RecivedOrderModal(props: ComponentProps) {
 
             {/* Options */}
             <div className="max-h-48 overflow-y-auto flex flex-col">
-              {EXAMPLE_ADDRESS_API[tab].map((data) => (
-                <button
-                  key={data.id}
-                  className="text-left px-3 py-2 hover:bg-orange-100"
-                  onClick={() => {
-                    if (tab === "province") {
-                      setProvinceName(data.name);
-                    } else {
-                      if (!proVinceName) return setUnSelect("province");
-                      setWardName(data.name);
-                    }
-                  }}
-                >
-                  {data.name}
-                </button>
-              ))}
+              {tab === "province"
+                ? addressAPI.province.map((data) => (
+                    <button
+                      key={data.code}
+                      className="text-left px-3 py-2 hover:bg-orange-100"
+                      onClick={() => {
+                        setProvinceName(data.name);
+                      }}
+                    >
+                      {data.name}
+                    </button>
+                  ))
+                : addressAPI.ward
+                    .filter((ft) =>
+                      provinceName
+                        ? ft.province_code ===
+                          addressAPI.province.find(
+                            (f) => f.name === provinceName
+                          )?.code
+                        : ft
+                    )
+                    .map((data) => (
+                      <button
+                        key={data.code}
+                        className="text-left px-3 py-2 hover:bg-orange-100"
+                        onClick={() => {
+                          if (!provinceName) return setUnSelect("province");
+                          setWardName(data.name);
+                        }}
+                      >
+                        {data.name}
+                      </button>
+                    ))}
             </div>
           </div>
         )}
@@ -196,7 +220,7 @@ export default function RecivedOrderModal(props: ComponentProps) {
           name="specific_address"
           className="border border-gray-300 p-2  outline-none outline-0"
           onChange={(e) => {
-            if (!proVinceName || !wardName) return setUnSelect("ward");
+            if (!provinceName || !wardName) return setUnSelect("ward");
             setSpecificAddress(e.target.value);
           }}
         />

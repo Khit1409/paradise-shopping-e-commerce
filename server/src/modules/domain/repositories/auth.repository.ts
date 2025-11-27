@@ -15,6 +15,7 @@ import { UserInformationDoc } from '@/infrastructure/database/mongoodb/user-info
 import { IAuthRepository } from '@/interfaces/repositories/auth.repo.interface';
 import { UserRegisterRequestDto } from '../dto/user/request-dto';
 import { GeneralHandleResponse } from '@/interfaces/repositories/general.interface';
+import { NotificationRepository } from './notification.repository';
 /**
  * original handle database from schema or entity. using by service and using (mongoose or sql server) document
  * for query and response formated data to controller response to client
@@ -22,9 +23,11 @@ import { GeneralHandleResponse } from '@/interfaces/repositories/general.interfa
 export class AuthRepository implements IAuthRepository {
   constructor(
     @InjectRepository(UserOrmEntity)
-    private userRepo: Repository<UserOrmEntity>,
+    private readonly userOrmRepo: Repository<UserOrmEntity>,
     @InjectModel('UserInformations')
     private readonly infoModal: Model<UserInformationDoc>,
+    //other service
+    private readonly notificateRepo: NotificationRepository,
   ) {}
   /**
    * Login responsitory
@@ -36,7 +39,7 @@ export class AuthRepository implements IAuthRepository {
       if (!dto.email || !dto.password) {
         throw new BadRequestException('email or password is isvalid value!');
       }
-      const user = await this.userRepo.findOne({
+      const user = await this.userOrmRepo.findOne({
         where: { emailAddress: dto.email },
       });
       if (!user) {
@@ -82,7 +85,7 @@ export class AuthRepository implements IAuthRepository {
   register: (dto: UserRegisterRequestDto) => Promise<GeneralHandleResponse> =
     async (dto) => {
       try {
-        const existing = await this.userRepo.findOne({
+        const existing = await this.userOrmRepo.findOne({
           where: { emailAddress: dto.email },
         });
         if (existing) {
@@ -101,12 +104,12 @@ export class AuthRepository implements IAuthRepository {
           phoneNumber: dto.phone,
           firtName: dto.firtname,
           lastName: dto.lastname,
-          fullName: `${dto.lastname} ${dto.firtname}`,
+          fullName: `${dto.firtname} ${dto.lastname} `,
           userRole: 'user' as 'user' | 'seller',
           passwordHashed: hashPass,
           avatarUrl: dto.avatar ?? null,
         };
-        const newUser = await this.userRepo.save(newAccount);
+        const newUser = await this.userOrmRepo.save(newAccount);
         if (!newUser) {
           return {
             message:
@@ -115,6 +118,11 @@ export class AuthRepository implements IAuthRepository {
             success: false,
           };
         }
+        await this.notificateRepo.create(
+          'Đăng ký tài khoản thành công!',
+          `Chúc mừng ${newUser.fullName} đã đăng ký tài khoản mới thành công`,
+          newUser.userId.toLowerCase(),
+        );
         return {
           message: 'Success register new account',
           error: null,

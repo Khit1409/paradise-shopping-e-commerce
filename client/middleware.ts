@@ -22,8 +22,6 @@ export function middleware(req: NextRequest) {
   ) {
     return NextResponse.next();
   }
-
-  // Các path còn lại => redirect sang slug
   // Ví dụ: /abc → /abc (nhưng route xử lý bởi [slug])
   return NextResponse.rewrite(new URL(`/${pathname.slice(1)}`, req.url));
 }

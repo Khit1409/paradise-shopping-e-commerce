@@ -1,6 +1,6 @@
 import React from "react";
-import Register from "../../components/auth/page/Register";
+import RegisterPage from "../../components/auth/page/RegisterPage";
 
 export default function page() {
-  return <Register />;
+  return <RegisterPage />;
 }

@@ -25,7 +25,7 @@ export class AuthController {
    */
   @Post('login')
   async login(
-    @Body() body: { role: 'user' | 'seller'; email: string; password: string },
+    @Body() body: { email: string; password: string },
     @Res() res: Response,
   ) {
     const token = await this.authService.login(body);
@@ -33,7 +33,7 @@ export class AuthController {
      * send token to cookie
      */
     return res
-      .cookie(`${body.role}_token`, token, {
+      .cookie(`auth_token`, token, {
         maxAge: 3600000 * 24,
         secure: false,
         sameSite: 'strict',
@@ -52,7 +52,7 @@ export class AuthController {
     @Param('role') role: 'seller' | 'user',
     @Req() req: JwtAuthGuardRequest,
   ) {
-    return req.user;
+    return this.authService.authentication(req, role);
   }
   /**
    * logout

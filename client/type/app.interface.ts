@@ -41,3 +41,13 @@ export interface WardApiType {
   codename: string;
   province_code: number;
 }
+/**
+ * User notification
+ */
+export interface NotificationData {
+  id: string;
+  name: string;
+  message: string;
+  seen: boolean;
+  created_at: Date;
+}

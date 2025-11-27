@@ -11,6 +11,7 @@ import { OrderResponseDto } from '@/modules/domain/dto/order/order-response.dto'
 import { OrderItemOrmEntity } from '@/infrastructure/database/sql-server/order-item.entity';
 import { OrderContactOrmEntity } from '@/infrastructure/database/sql-server/order-contact.entity';
 import { GeneralHandleResponse } from './general.interface';
+import { GetOrderForSellerQuery } from '@/types/order/order.type';
 
 /**
  * interface of order repository
@@ -75,5 +76,8 @@ export interface IOrderRepository {
    * @param seller_id
    * @returns
    */
-  getForSeller: (seller_id: string) => Promise<OrderResponseDto[]>;
+  getForSeller: (
+    seller_id: string,
+    dto: GetOrderForSellerQuery,
+  ) => Promise<OrderResponseDto[]>;
 }

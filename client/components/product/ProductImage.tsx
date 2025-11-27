@@ -23,8 +23,8 @@ export default function ProductImage(props: ComponentProps) {
         alt="thumbnail image"
         width={400}
         objectFit="cover"
-        height={300}
-        className="border border-gray-200 h-[350px] flex-1 mt-1"
+        height={450}
+        className="border border-gray-200 h-[450px] flex-1 mt-1"
       />
       {/* img detail */}
       <div className="flex lg:flex-col gap-2 overflow-x-auto overflow-y-hidden lg:overflow-y-auto lg:overflow-x-hidden px-2 py-1">

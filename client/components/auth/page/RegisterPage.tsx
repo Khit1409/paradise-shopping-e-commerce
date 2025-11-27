@@ -4,7 +4,7 @@ import React from "react";
 import RegisterForm from "@/components/form/user/Register";
 
 
-export default function Register() {
+export default function RegisterPage() {
   /**
    * return
    */

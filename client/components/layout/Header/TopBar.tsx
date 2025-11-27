@@ -22,6 +22,7 @@ import { getCartThunk } from "@/redux/cart/thunk";
 import { openResponsiveMode } from "@/redux/app/slice";
 import Logo from "@/components/common/Logo";
 import { getOrderThunk } from "@/redux/order/thunk";
+import { getUserNotificationThunk } from "@/redux/app/thunk";
 
 export default function TopBar() {
   /**
@@ -40,9 +41,14 @@ export default function TopBar() {
    */
   const { user, isLoggedIn } = useSelector((state: RootState) => state.auth);
   const { carts } = useSelector((state: RootState) => state.cart);
-  const { reRender } = useSelector((state: RootState) => state.app);
-
-  // const { openResponsive } = useSelector((state: RootState) => state.app);
+  const { reRender, notifications } = useSelector(
+    (state: RootState) => state.app
+  );
+  /**
+   * helper: get quantity of cart , notification and message
+   */
+  const cartQuantity = carts.length;
+  const notifiCationQuantity = notifications.filter((ft) => !ft.seen).length;
   /**
    * UseEffect
    */
@@ -72,8 +78,11 @@ export default function TopBar() {
   useEffect(() => {
     if (user) {
       (async () => {
-        await dispatch(getCartThunk());
-        await dispatch(getOrderThunk());
+        await Promise.all([
+          dispatch(getCartThunk()),
+          dispatch(getOrderThunk()),
+          dispatch(getUserNotificationThunk()),
+        ]);
       })();
     }
   }, [dispatch, user, reRender]);
@@ -123,7 +132,9 @@ export default function TopBar() {
             >
               <FontAwesomeIcon icon={faCartShopping} className="text-xl" />
               {isLoggedIn && (
-                <span className="text-red-500 text-sm">{carts.length}</span>
+                <span className="text-red-500 text-sm">
+                  {cartQuantity > 0 ? cartQuantity : null}
+                </span>
               )}
               {openCartModal && <CartModal ref={modalRef} />}
             </button>
@@ -140,7 +151,9 @@ export default function TopBar() {
               }}
             >
               <FontAwesomeIcon icon={faBell} />
-              <span className="text-red-500 text-sm">2</span>
+              <span className="text-red-500 text-sm">
+                {notifiCationQuantity > 0 ? notifiCationQuantity : null}
+              </span>
             </button>
             {openNotificate && <NotificateModal ref={modalRef} />}
           </div>

@@ -1,14 +1,15 @@
-"use client";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { onLoadingAction } from "@/redux/app/slice";
 import { getProductThunk } from "@/redux/product/thunk";
+import { AppDispatch } from "@/redux/store";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import Banner from "../layout/Header/Banner";
+import ProductFilter from "./ProductFilter";
+import ProductList from "./ProductList";
 
-export const ShopHook = () => {
+export default function Shop() {
   const dispatch = useDispatch<AppDispatch>();
-  const { products } = useSelector((state: RootState) => state.product);
   /**
    * App state
    */
@@ -61,5 +62,16 @@ export const ShopHook = () => {
     setCostFilter({});
   };
 
-  return { clearFilter, products, setCateSlug, setCostFilter, setLocation };
-};
+  return (
+    <>
+      <Banner />
+      <ProductFilter
+        clear={clearFilter}
+        setCateSlug={setCateSlug}
+        setCostFilter={setCostFilter}
+        setLocation={setLocation}
+      />
+      <ProductList ofRole="user" />
+    </>
+  );
+}

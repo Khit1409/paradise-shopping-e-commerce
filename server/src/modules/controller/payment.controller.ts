@@ -6,7 +6,6 @@ import type { Webhook } from '@payos/node';
 @Controller('payments')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
-
   /**
    * get webhook from payos request
    *  https://perspiry-promisingly-bethany.ngrok-free.dev/recive-payos-webhook
@@ -15,10 +14,14 @@ export class PaymentController {
   test(@Res() res: Response) {
     return res.redirect('http://localhost:3000');
   }
+  /**
+   * Get request from payos when success payment
+   * @param body
+   * @param res
+   */
   @Post('recive-payos-webhook')
-  recivePayOSWebhook(@Body() body: Webhook, @Res() res: Response) {
+  recivePayOSWebhook(@Body() body: Webhook) {
     this.paymentService.webHookOfPayos(body);
-    res.redirect('http://localhost:3000/user/');
   }
   /**
    * Delete cancel payment

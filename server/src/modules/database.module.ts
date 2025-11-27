@@ -21,6 +21,8 @@ import { PayOsProvider } from '@/config/payos/payos.config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { UserInformationSchema } from '@/infrastructure/database/mongoodb/user-info.schema';
 import { OpenAIModule } from './OpenAI.module';
+import { NotificationSchema } from '@/infrastructure/database/mongoodb/notification.schema';
+import { NotificationRepository } from './domain/repositories/notification.repository';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { OpenAIModule } from './OpenAI.module';
       { name: 'OrderVaritantModel', schema: OrderVaritantSchema },
       { name: 'CartModel', schema: CartSchema },
       { name: 'UserInformations', schema: UserInformationSchema },
+      { name: 'Notification', schema: NotificationSchema },
     ]),
     OpenAIModule,
   ],
@@ -54,12 +57,14 @@ import { OpenAIModule } from './OpenAI.module';
     OrderSqlRepository,
     OrderContactOrmEntity,
     PaymentService,
+    NotificationRepository,
   ],
   exports: [
     AuthRepository,
     ProductMongooRepository,
     CartMongooRepository,
     OrderSqlRepository,
+    NotificationRepository,
   ],
 })
 export class DatabaseModule {}

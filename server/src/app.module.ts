@@ -17,8 +17,9 @@ import { OrderModule } from '@/modules/order.module';
 import { DatabaseModule } from '@/modules/database.module';
 import { CloudinaryModule } from '@/modules/cloudinary.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { MailerModuleConfig } from '@/config/mailer/mailer.module.config';
+import { MailerForRootConfig } from '@/config/mailer/mailer.module.config';
 import { SellerModule } from './modules/seller.module';
+import { NotificationModule } from './modules/notification.module';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { SellerModule } from './modules/seller.module';
     MailerModule.forRootAsync({
       imports: [],
       inject: [],
-      useFactory: () => MailerModuleConfig(),
+      useFactory: () => MailerForRootConfig(),
     }),
     DatabaseModule,
     //other module
@@ -43,6 +44,7 @@ import { SellerModule } from './modules/seller.module';
     DatabaseModule,
     CloudinaryModule,
     SellerModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [
