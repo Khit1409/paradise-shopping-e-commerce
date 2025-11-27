@@ -32,6 +32,7 @@ import {
 import { OrderMapper } from '@/modules/mapper/order.mapper';
 import { GeneralHandleResponse } from '@/interfaces/repositories/general.interface';
 import { StoreOrmEntity } from '@/infrastructure/database/sql-server/store.entity';
+import { GetOrderForSellerQuery } from '@/types/order/order.type';
 /**
  * original handle database from schema or entity. using by service and using (mongoose or sql server) document
  * for query and response formated data to controller response to client
@@ -75,7 +76,6 @@ export class OrderSqlRepository implements IOrderRepository {
           price,
         },
       });
-      console.log('Da gui email cho user');
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);
     }
@@ -173,6 +173,9 @@ export class OrderSqlRepository implements IOrderRepository {
     GeneralHandleResponse & { payment: CreatePaymentLinkResponse | null }
   > = async (dto, user_id) => {
     try {
+      /**
+       * leak object from dto
+       */
       const { items, contacts, varitants } = dto;
       if (!user_id) {
         throw new UnauthorizedException(`user id is undifine!`);
@@ -212,6 +215,7 @@ export class OrderSqlRepository implements IOrderRepository {
           success: false,
         };
       }
+      //new order id (new created).
       const { orderId } = order;
       /**
        * create part of order (item, contact, attributes)
@@ -348,26 +352,31 @@ export class OrderSqlRepository implements IOrderRepository {
       throw new InternalServerErrorException(`${error}`);
     }
   };
+
   /**
    * get order for seller manager page
    */
-  getForSeller: (seller_id: string) => Promise<OrderResponseDto[]> = async (
-    seller_id,
-  ) => {
+  getForSeller: (
+    seller_id: string,
+    dto: GetOrderForSellerQuery,
+  ) => Promise<OrderResponseDto[]> = async (seller_id, dto) => {
     try {
       const store = await this.storeOrmRepo.findOne({
         where: { ownerId: seller_id },
+        order: dto.sort === 'date' ? { createdAt: 'DESC' } : {},
       });
       const orders = await this.orderOrmRepo.find({
         where: {
           ofStoreId: store.storeId,
         },
       });
-      const data: OrderResponseDto[] = await Promise.all(
+      let data: OrderResponseDto[] = await Promise.all(
         orders.map(async (order) => {
           const [orderItems, orderContacts, varitants] = await Promise.all([
             this.orderItemOrmRepo.findOne({
-              where: { ofOrderId: order.orderId },
+              where: {
+                ofOrderId: order.orderId,
+              },
             }),
             this.orderContactOrmRepo.findOne({
               where: {
@@ -376,8 +385,9 @@ export class OrderSqlRepository implements IOrderRepository {
             }),
             this.varitantModel
               .findOne({
-                order_id: order.orderId.toLowerCase(),
+                order_id: order.orderId,
               })
+              .select('-__v -_id -order_id')
               .lean<OrderVaritantResponseDto>(),
           ]);
           return {
@@ -403,10 +413,26 @@ export class OrderSqlRepository implements IOrderRepository {
               user_name: orderContacts.userOrder,
             },
             varitants,
-            created_at: store.createdAt,
+            created_at: new Date(store.createdAt),
           };
         }),
       );
+      const { sort, ship_type, status, pay_state, pay_type } = dto;
+      if (sort && sort === 'date') {
+        data = data.sort((a, b) => b.items.total_price - a.items.total_price);
+      }
+      if (ship_type) {
+        data = data.filter((db) => db.items.shipping_type === ship_type);
+      }
+      if (status) {
+        data = data.filter((db) => db.items.status === status);
+      }
+      if (pay_state) {
+        data = data.filter((db) => db.items.pay_state === pay_state);
+      }
+      if (pay_type) {
+        data = data.filter((db) => db.items.pay_type === pay_type);
+      }
       return data;
     } catch (error) {
       throw new InternalServerErrorException(`${error}`);

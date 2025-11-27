@@ -25,8 +25,7 @@ export interface JwtAuthGuardRequest {
   token?: string;
   path: string;
   cookies: {
-    seller_token?: string;
-    user_token?: string;
+    auth_token?: string;
   };
 }
 /**

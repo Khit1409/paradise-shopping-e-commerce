@@ -1,3 +1,5 @@
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+
 /**
  * token payload in login
  */
@@ -40,9 +42,12 @@ export class JwtVerifyDto {
  * Login dto
  */
 export class LoginDto {
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
+  @IsString()
+  @MinLength(6)
   password: string;
-  role: 'user' | 'seller';
   constructor(partial: Partial<LoginDto>) {
     Object.assign(this, partial);
   }

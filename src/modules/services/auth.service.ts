@@ -1,8 +1,9 @@
 import { AuthRepository } from '@/modules/domain/repositories/auth.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '../domain/dto/auth/authentication.dto';
 import { UserRegisterRequestDto } from '../domain/dto/user/request-dto';
+import { JwtAuthGuardRequest } from '@/types/auth/auth.type';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,20 @@ export class AuthService {
     private readonly jwt: JwtService,
   ) {}
 
+  /**
+   * Authentication user information and response to client
+   * @param req
+   * @param role_param
+   */
+  authentication(req: JwtAuthGuardRequest, role_param: 'user' | 'seller') {
+    try {
+      const { role } = req.user;
+      if (role_param === 'seller' && role === 'user') return null;
+      return req.user;
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
+  }
   /**
    * login service => using auth repository name is login.
    * Get result and create token => return for controller send to cookie
@@ -34,6 +49,7 @@ export class AuthService {
    * @returns
    */
   async register(dto: UserRegisterRequestDto) {
-    return await this.authRepo.register(dto);
+    const result = await this.authRepo.register(dto);
+    return result;
   }
 }

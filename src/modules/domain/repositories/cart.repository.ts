@@ -48,6 +48,7 @@ export class CartMongooRepository implements ICartRepository {
     try {
       const existingCart = await this.cartModel.findOne({
         'info.product_id': dto.info.product_id,
+        user_id,
       });
       const product = await this.productModel
         .findById(dto.info.product_id)

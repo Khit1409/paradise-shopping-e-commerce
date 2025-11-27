@@ -19,6 +19,7 @@ import type {
 } from '@/types/product/product.type';
 import { ProductMapper } from '../mapper/product.mapper';
 import { OrderService } from '../services/order.service';
+import type { GetOrderForSellerQuery } from '@/types/order/order.type';
 
 @Controller('seller')
 export class SellerController {
@@ -118,8 +119,11 @@ export class SellerController {
    * @param req
    */
   @Get('orders')
-  async getOrders(@Req() req: JwtAuthGuardRequest) {
+  async getOrders(
+    @Req() req: JwtAuthGuardRequest,
+    @Query() query: GetOrderForSellerQuery,
+  ) {
     const { id } = req.user;
-    return await this.orderService.getForSeller(id);
+    return await this.orderService.getForSeller(id, query);
   }
 }

@@ -11,6 +11,8 @@ import { PaymentModule } from './payment.module';
 import { ProductSchema } from '@/infrastructure/database/mongoodb/product.schema';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { DatabaseModule } from '../modules/database.module';
+import { NotificationModule } from './notification.module';
+import { NotificationSchema } from '@/infrastructure/database/mongoodb/notification.schema';
 
 @Module({
   imports: [
@@ -23,8 +25,10 @@ import { DatabaseModule } from '../modules/database.module';
     MongooseModule.forFeature([
       { name: 'OrderVaritantModel', schema: OrderVaritantSchema },
       { name: 'ProductModel', schema: ProductSchema },
+      { name: 'Notification', schema: NotificationSchema },
     ]),
     MailerModule,
+    NotificationModule,
     DatabaseModule,
   ],
   controllers: [OrderController],

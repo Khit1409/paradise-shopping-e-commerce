@@ -40,30 +40,25 @@ export class JwtAuthGuard implements CanActivate {
      */
     const path = request.path;
     const foundPublicUrl = publictPath.find((item) => path.startsWith(item));
+
     if (foundPublicUrl) {
       return true;
     }
     /**
      * true if is unneeded token router
      */
-    let token: string | null = null;
-    if (path.startsWith('/v1/seller') || path.startsWith('/v1/store')) {
-      token = request.cookies.seller_token;
-    } else {
-      token = request.cookies.user_token;
-    }
+    const auth_token = request.cookies.auth_token;
 
-    if (!token) {
+    if (!auth_token) {
       throw new UnauthorizedException('Missing auth token!');
     }
     try {
-      const payload: JwtVerifyDto = this.jwtService.verify(token, {
+      const payload: JwtVerifyDto = this.jwtService.verify(auth_token, {
         secret: this.configSerivice.get<string>('JWT_SECRET'),
       });
       /**
        * format user data payload
        */
-      console.log(payload);
       request.user = {
         id: payload.id.toLowerCase(),
         avatar: payload.avatar,
@@ -77,7 +72,12 @@ export class JwtAuthGuard implements CanActivate {
         address: payload.address,
         created_at: payload.created_at,
       };
-      request.token = token;
+      request.token = auth_token;
+      const auth_role = request.user.role;
+
+      if (path.startsWith('/v1/seller') && auth_role !== 'seller') {
+        return false;
+      }
       return true;
     } catch (error) {
       throw new UnauthorizedException(`${error}`);
