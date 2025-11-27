@@ -6,7 +6,10 @@ import {
   getSingleProductSellerService,
 } from "@/service/seller.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { EditProductApiResponse } from "@/type/seller.interface";
+import {
+  EditProductApiResponse,
+  GetOrderForSellerQuery,
+} from "@/type/seller.interface";
 import { OrderResponseType } from "@/type/order.interface";
 
 export const getSingleProductThunk = createAsyncThunk<
@@ -106,11 +109,11 @@ export const getEditProductApiThunk = createAsyncThunk<
  */
 export const getOrderForSellerThunk = createAsyncThunk<
   OrderResponseType[],
-  void,
+  GetOrderForSellerQuery,
   { rejectValue: string }
->("get order for seller", async (_, thunkAPI) => {
+>("get order for seller", async (query, thunkAPI) => {
   try {
-    const payload = await getOrderOfSeller();
+    const payload = await getOrderOfSeller(query);
     return payload;
   } catch (error) {
     return thunkAPI.rejectWithValue(`${error}`);

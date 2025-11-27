@@ -1,10 +1,11 @@
 import {
   CarouselApiDataType,
   NavigationDataType,
+  NotificationData,
   WardApiType,
 } from "../../type/app.interface";
 import { createSlice } from "@reduxjs/toolkit";
-import { getUIThunk } from "./thunk";
+import { getUIThunk, getUserNotificationThunk } from "./thunk";
 /**
  * Type of app slice initial state
  */
@@ -19,6 +20,7 @@ interface AppInitialState {
   carousel: CarouselApiDataType[];
   reRender: number;
   openAddressModal: boolean;
+  notifications: NotificationData[];
 }
 /**
  * appInitialState extends type of AppInitialState
@@ -34,6 +36,7 @@ const appInitialState: AppInitialState = {
   carousel: [],
   reRender: Date.now(),
   openAddressModal: false,
+  notifications: [],
 };
 /**
  * Slice config and functions
@@ -77,6 +80,7 @@ const appSlice = createSlice({
    */
   extraReducers: (builder) => {
     builder
+      //carousel and navigation
       .addCase(getUIThunk.pending, (state) => {
         state.onLoading = true;
       })
@@ -88,6 +92,18 @@ const appSlice = createSlice({
       .addCase(getUIThunk.rejected, (state, action) => {
         state.onLoading = false;
         state.message = action.payload ?? "error get navigation";
+      })
+      //get notification
+      .addCase(getUserNotificationThunk.pending, (state) => {
+        state.onLoading = true;
+      })
+      .addCase(getUserNotificationThunk.fulfilled, (state, action) => {
+        state.onLoading = false;
+        state.notifications = action.payload;
+      })
+      .addCase(getUserNotificationThunk.rejected, (state, action) => {
+        state.onLoading = false;
+        state.message = action.payload as string;
       });
   },
 });

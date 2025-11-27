@@ -1,9 +1,14 @@
 import {
+  NotificationData,
   ProvinceApiType,
   UIDataResponse,
   WardApiType,
-} from "../../type/app.interface";
-import { getAddressService, getUI } from "@/service/app.service";
+} from "@/type/app.interface";
+import {
+  getAddressService,
+  getUI,
+  getUserNotification,
+} from "@/service/app.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 /**
@@ -24,7 +29,6 @@ export const getUIThunk = createAsyncThunk<
 /**
  * get address
  */
-
 export const getAddressThunk = createAsyncThunk<
   { province: ProvinceApiType[]; ward: WardApiType[] },
   void,
@@ -37,3 +41,17 @@ export const getAddressThunk = createAsyncThunk<
     return thunkAPI.rejectWithValue(`${error}`);
   }
 });
+/**
+ * get notificate
+ */
+export const getUserNotificationThunk = createAsyncThunk<NotificationData[]>(
+  "user notificate",
+  async (_, thunkAPI) => {
+    try {
+      const payload = await getUserNotification();
+      return payload;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error as string);
+    }
+  }
+);

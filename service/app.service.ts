@@ -1,10 +1,12 @@
 import axios from "axios";
 import {
+  NotificationData,
   ProvinceApiType,
   UIDataResponse,
   WardApiType,
 } from "@/type/app.interface";
 import { apiAction } from "@/config/fetch-api.config";
+import { GeneralHandleResponse } from "@/type/general.type";
 
 /**
  * api configuration
@@ -39,4 +41,32 @@ export async function getAddressService(): Promise<{
   };
 
   return api;
+}
+
+/**
+ * get user notification by id from cookie
+ * @param param0
+ * @returns
+ */
+export async function getUserNotification(): Promise<NotificationData[]> {
+  try {
+    const res = await apiAction.get("notification");
+    const data: NotificationData[] = res.data;
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+/**
+ * seen notification
+ */
+export async function seenNotification(
+  id: string
+): Promise<GeneralHandleResponse> {
+  const res =
+    id === "all"
+      ? await apiAction.put(`notification/all`)
+      : await apiAction.patch(`notification/${id}`);
+  return res.data as GeneralHandleResponse;
 }

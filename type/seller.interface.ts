@@ -79,3 +79,13 @@ export interface EditProductApiResponse {
   brands: string[];
   attributes: EditProductAttributeResponse[];
 }
+/**
+ * interface of get order for seller query
+ */
+export interface GetOrderForSellerQuery {
+  sort?: string;
+  ship_type?: string;
+  pay_type?: string;
+  pay_state?: string;
+  status?: string;
+}

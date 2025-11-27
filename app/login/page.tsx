@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Login from "@/components/auth/page/Login";
+import LoginPage from "@/components/auth/page/LoginPage";
 
 export const metadata: Metadata = {
   title: "Đăng nhập Paradise Shopping",
@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return <Login />;
+  return <LoginPage />;
 }

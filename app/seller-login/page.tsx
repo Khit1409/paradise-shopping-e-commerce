@@ -1,5 +1,5 @@
 import React from "react";
-import SellerLoginPage from "@/components/seller/page/Login";
+import SellerLoginPage from "@/components/auth/page/SellerLogin";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

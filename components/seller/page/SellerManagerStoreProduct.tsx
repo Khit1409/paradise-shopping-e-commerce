@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import ProductList from "../../product/ProductList";
+import ProductList from "@/components/product/ProductList";
 
 /**
  * Component

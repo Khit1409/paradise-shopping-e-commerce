@@ -4,6 +4,7 @@ import { OrderResponseType } from "@/type/order.interface";
 import { ProductList, SingleProduct } from "@/type/product.interface";
 import {
   EditProductApiResponse,
+  GetOrderForSellerQuery,
   ProductDataRequest,
   ProductDataUpdateRequest,
 } from "@/type/seller.interface";
@@ -116,8 +117,18 @@ export async function getEditProductApi(category?: string) {
  * @param param0
  * @returns
  */
-export async function getOrderOfSeller(): Promise<OrderResponseType[]> {
-  const res = await apiAction.get("seller/orders");
+export async function getOrderOfSeller(
+  query: GetOrderForSellerQuery
+): Promise<OrderResponseType[]> {
+  const { pay_state, pay_type, ship_type, sort, status } = query;
+  const params = new URLSearchParams({
+    pay_state: String(pay_state ?? ""),
+    pay_type: String(pay_type ?? ""),
+    ship_type: String(ship_type ?? ""),
+    sort: String(sort ?? ""),
+    status: String(status ?? ""),
+  });
+  const res = await apiAction.get(`seller/orders?${params.toString()}`);
   const data: OrderResponseType[] = res.data;
   return data;
 }

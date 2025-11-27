@@ -14,13 +14,8 @@ export default function OrderList() {
   const { orders } = useSelector((state: RootState) => state.order);
 
   // format ngày dd/MM/yyyy
-  const formatDate = (dateString: string | Date) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(date);
+  const formatDate = (dateString: Date) => {
+    return new Date(dateString).toLocaleDateString("en-GB");
   };
 
   if (!orders || orders.length === 0) {

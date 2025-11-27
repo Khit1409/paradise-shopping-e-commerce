@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "./product.css";
-import "./animation.css";
-import "./checkout.css";
+import "../style/product.css";
+import "../style/animation.css";
+import "../style/checkout.css";
 import { Nunito, Open_Sans } from "next/font/google";
 import ReduxProvider from "./ReduxProvider";
 
-import NavBarMobile from "../components/layout/Navbar/NavbarMobile";
-import LoadingAnimation from "../components/modal/root/LoadingAnimation";
-import SuccessModal from "../components/modal/root/SuccessModal";
-import ErrorModal from "../components/modal/root/ErrorModal";
+import NavBarMobile from "@/components/layout/Navbar/NavbarMobile";
+import LoadingAnimation from "@/components/modal/root/LoadingAnimation";
+import SuccessModal from "@/components/modal/root/SuccessModal";
+import ErrorModal from "@/components/modal/root/ErrorModal";
 import SelectionOrder from "@/components/modal/SelectionOrder";
 /**
  * Meta data

@@ -23,7 +23,7 @@ export default function PageWrapper({
 
   //dispatch && app root state
   const dispatch = useDispatch<AppDispatch>();
-  const {} = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const {} = useSelector((state: RootState) => state.product);
   const {} = useSelector((state: RootState) => state.app);
   const {} = useSelector((state: RootState) => state.seller);
@@ -66,10 +66,7 @@ export default function PageWrapper({
    * get ui api when start
    */
   useEffect(() => {
-    const getUI = async () => {
-      await dispatch(getUIThunk());
-    };
-    getUI();
+    dispatch(getUIThunk());
   }, [dispatch]);
 
   //don'nt render app if appMouted false
@@ -77,23 +74,25 @@ export default function PageWrapper({
     return null;
   }
   //render follow roler
-  return role === "seller" ? (
-    <main className="w-full max-h-screen h-screen flex gap-1 overflow-hidden">
-      <SellerNavbar />
-      <div className="flex flex-1 flex-col gap-1">
-        <SellerHeader />
-        <section className="border border-gray-300 bg-white overflow-y-auto p-3 min-h-[530px]">
-          {children}
-        </section>
-      </div>
-    </main>
-  ) : (
-    <main>
-      {/* left */}
-      <UserHeader />
-      {/* <Banner /> */}
-      {children}
-      <Footer />
-    </main>
-  );
+  return user ? (
+    role === "seller" ? (
+      <main className="w-full max-h-screen h-screen flex gap-1 overflow-hidden">
+        <SellerNavbar />
+        <div className="flex flex-1 flex-col gap-1">
+          <SellerHeader />
+          <section className="border border-gray-300 bg-white overflow-y-auto p-3 min-h-[530px]">
+            {children}
+          </section>
+        </div>
+      </main>
+    ) : (
+      <main>
+        {/* left */}
+        <UserHeader />
+        {/* <Banner /> */}
+        {children}
+        <Footer />
+      </main>
+    )
+  ) : null;
 }
